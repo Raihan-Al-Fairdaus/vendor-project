@@ -6,18 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-// use Maatwebsite\Excel\Facades\Excel; // If we create a VendorExport class
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
+use App\Exports\VendorExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VendorManagementController extends Controller
 {
     public function index(Request $request)
-    
     {
         $query = Vendor::query();
 
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+
+            $query->where(function ($q) use ($search) {
                 $q->where('company_name', 'like', "%{$search}%")
                   ->orWhere('company_email', 'like', "%{$search}%")
                   ->orWhere('pic_name', 'like', "%{$search}%");
@@ -33,26 +36,34 @@ class VendorManagementController extends Controller
         }
 
         $vendors = $query->latest()->paginate(10);
+
         return view('admin.vendors.index', compact('vendors'));
     }
 
     public function show($id)
     {
         $vendor = Vendor::findOrFail($id);
+
         return view('admin.vendors.show', compact('vendor'));
     }
 
     public function approve($id)
     {
         $vendor = Vendor::findOrFail($id);
-        $vendor->update(['status' => 'approved']);
+        $vendor->update([
+            'status' => 'approved'
+        ]);
+
         return back()->with('success', 'Vendor approved successfully.');
     }
 
     public function reject($id)
     {
         $vendor = Vendor::findOrFail($id);
-        $vendor->update(['status' => 'rejected']);
+        $vendor->update([
+            'status' => 'rejected'
+        ]);
+
         return back()->with('success', 'Vendor rejected successfully.');
     }
 
@@ -60,39 +71,126 @@ class VendorManagementController extends Controller
     {
         $vendor = Vendor::findOrFail($id);
         $vendor->delete();
-        return redirect()->route('admin.vendors.index')->with('success', 'Vendor deleted successfully.');
+
+        return redirect()->route('admin.vendors.index')
+            ->with('success', 'Vendor deleted successfully.');
     }
 
     public function export($format)
     {
+        
         $vendors = Vendor::all();
 
-        if ($format === 'csv') {
-            $filename = "vendors_export.csv";
-            $handle = fopen($filename, 'w+');
-            fputcsv($handle, ['ID', 'Company Name', 'Category', 'Email', 'Phone', 'PIC', 'Status', 'Registered At']);
-            foreach($vendors as $row) {
-                fputcsv($handle, [$row->id, $row->company_name, $row->business_category, $row->company_email, $row->company_phone, $row->pic_name, $row->status, $row->created_at]);
-            }
-            fclose($handle);
-            return response()->download($filename)->deleteFileAfterSend(true);
-        } elseif ($format === 'pdf') {
-            $pdf = Pdf::loadView('admin.vendors.pdf', compact('vendors'));
-            return $pdf->download('vendors_export.pdf');
-        } elseif ($format === 'excel') {
-            // As a fallback without creating a separate Export class, we can return CSV labeled as XLS
-            // A true implementation would use: return Excel::download(new VendorExport, 'vendors.xlsx');
-            // For now, generating a CSV but with .xlsx might be problematic. Let's just output CSV style if class doesn't exist.
-            $filename = "vendors_export.csv";
-            $handle = fopen($filename, 'w+');
-            fputcsv($handle, ['ID', 'Company Name', 'Category', 'Email', 'Phone', 'PIC', 'Status', 'Registered At']);
-            foreach($vendors as $row) {
-                fputcsv($handle, [$row->id, $row->company_name, $row->business_category, $row->company_email, $row->company_phone, $row->pic_name, $row->status, $row->created_at]);
-            }
-            fclose($handle);
-            return response()->download($filename, 'vendors_export.csv')->deleteFileAfterSend(true);
+        // ==========================
+        // WORD
+        // ==========================
+     if ($format === 'word') {
+
+    $phpWord = new PhpWord();
+
+    $phpWord->setDefaultFontName('Calibri');
+    $phpWord->setDefaultFontSize(11);
+
+    $section = $phpWord->addSection([
+        'marginTop' => 700,
+        'marginBottom' => 700,
+        'marginLeft' => 700,
+        'marginRight' => 700,
+    ]);
+
+    // Judul
+    $section->addTitle('Vendor Report', 1);
+
+    $section->addText(
+        'Generated on : ' . now()->format('d F Y H:i'),
+        ['italic' => true, 'color' => '666666']
+    );
+
+    $section->addTextBreak();
+
+    $tableStyle = [
+        'borderSize' => 6,
+        'borderColor' => 'CCCCCC',
+        'cellMargin' => 80,
+    ];
+
+    $firstRowStyle = [
+        'bgColor' => '4472C4'
+    ];
+
+    $phpWord->addTableStyle(
+        'VendorTable',
+        $tableStyle,
+        $firstRowStyle
+    );
+
+    $table = $section->addTable('VendorTable');
+
+    $headerFont = [
+        'bold' => true,
+        'color' => 'FFFFFF'
+    ];
+
+    // HEADER
+    $table->addRow();
+
+    $table->addCell(3500)->addText('Company', $headerFont);
+    $table->addCell(2500)->addText('Category', $headerFont);
+    $table->addCell(4000)->addText('Email', $headerFont);
+    $table->addCell(2500)->addText('Phone', $headerFont);
+    $table->addCell(2500)->addText('PIC', $headerFont);
+    $table->addCell(1800)->addText('Status', $headerFont);
+
+    foreach ($vendors as $vendor) {
+
+        $table->addRow();
+
+        $table->addCell(3500)->addText($vendor->company_name);
+        $table->addCell(2500)->addText($vendor->business_category);
+        $table->addCell(4000)->addText($vendor->company_email);
+        $table->addCell(2500)->addText($vendor->company_phone);
+        $table->addCell(2500)->addText($vendor->pic_name);
+        $table->addCell(1800)->addText(ucfirst($vendor->status));
+    }
+
+    $section->addTextBreak();
+
+    $section->addText(
+        'Total Vendors : ' . $vendors->count(),
+        ['bold' => true]
+    );
+
+    $file = storage_path('app/vendors.docx');
+
+    $writer = IOFactory::createWriter($phpWord, 'Word2007');
+    $writer->save($file);
+
+    return response()->download($file)->deleteFileAfterSend(true);
+}
+        // ==========================
+        // PDF
+        // ==========================
+        elseif ($format === 'pdf') {
+
+            $pdf = Pdf::loadView(
+                'admin.vendors.pdf',
+                compact('vendors')
+            );
+
+            return $pdf->download('vendors.pdf');
         }
 
-        return back()->with('error', 'Invalid format');
+        // ==========================
+        // EXCEL
+        // ==========================
+        elseif ($format === 'excel') {
+
+            return Excel::download(
+                new VendorExport(),
+                'vendors.xlsx'
+            );
+        }
+
+        return back()->with('error', 'Invalid export format.');
     }
 }

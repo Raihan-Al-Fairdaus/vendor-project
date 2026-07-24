@@ -128,44 +128,10 @@ Route::middleware('auth')->group(function () {
     ->name('admin.vendors.index');
 
     // EXPORT DATA VENDOR (CSV DOWNLOAD)
-  Route::get('/admin/vendors/export/{type}', function ($type) {
-
-    $vendors = Vendor::all();
-
-    if ($type == 'excel') {
-
-        return Excel::download(
-            new VendorExport(),
-            'vendors.xlsx'
-        );
-
-    }
-
-    if ($type == 'csv') {
-
-        return Excel::download(
-            new VendorExport(),
-            'vendors.csv',
-            \Maatwebsite\Excel\Excel::CSV
-        );
-
-    }
-
-    if ($type == 'pdf') {
-
-        $pdf = Pdf::loadView(
-            'admin.vendors.pdf',
-            compact('vendors')
-        );
-
-        return $pdf->download('vendors.pdf');
-
-    }
-
-    abort(404);
-
-})->name('admin.vendors.export');
-
+ Route::get(
+    '/admin/vendors/export/{format}',
+    [VendorManagementController::class, 'export']
+)->name('admin.vendors.export');
     // Detail, Approve, Reject & Delete Vendor
     Route::get('/admin/vendors/{id}', function ($id) {
         $user   = Auth::user();
