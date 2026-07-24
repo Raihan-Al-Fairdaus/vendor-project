@@ -274,7 +274,7 @@
             Technology & Infrastructure
         </span>
         <h3 style="color: #ffffff; font-size: 1.35rem; font-weight: 700; margin-top: 0.85rem; letter-spacing: 0.02em;">
-            POWERED BY MODERN ADVERTISING & MEDIA TECH
+           TELAH DIPERCAYA OLEH BERBAGAI MITRA BISNIS
         </h3>
     </div>
 

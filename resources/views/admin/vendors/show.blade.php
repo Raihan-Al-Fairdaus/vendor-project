@@ -62,6 +62,10 @@
                 <div>
                     <div style="font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;">Registration Meta</div>
                     <p style="color: #fff; margin: 0; font-size: 0.9rem; line-height: 1.5;"><i class="fa-solid fa-calendar-days" style="color: #d4af37; margin-right: 0.4rem;"></i> Registered on {{ $vendor->created_at->format('M d, Y') }}</p>
+                    <p style="color: #fff; margin: 0.6rem 0 0; font-size: 0.9rem; line-height: 1.5;">
+    <i class="fa-solid fa-file-invoice" style="color: #d4af37; margin-right: 0.4rem;"></i>
+    NPWP: {{ $vendor->npwp }}
+</p>
                 </div>
             </div>
         </div>

@@ -209,6 +209,17 @@
                     <label class="form-label">Company Address</label>
                     <textarea name="company_address" class="form-control" rows="3" required>{{ old('company_address') }}</textarea>
                 </div>
+                <div class="form-group">
+    <label class="form-label">NPWP Number</label>
+    <input
+        type="text"
+        name="npwp"
+        class="form-control"
+        placeholder="00.000.000.0-000.000"
+        value="{{ old('npwp') }}"
+        required
+    >
+</div>
             </div>
 
             <div class="card mb-8 animate-on-scroll hoverable" style="transition-delay: 0.2s;">

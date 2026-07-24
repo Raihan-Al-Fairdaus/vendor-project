@@ -13,6 +13,7 @@ class Vendor extends Model
         'company_name',
         'business_category',
         'company_address',
+        'npwp',
         'company_email',
         'company_phone',
         'pic_name',

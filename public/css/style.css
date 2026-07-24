@@ -6,7 +6,7 @@
 
 /* ---- LIGHT THEME (Default) ---- */
 :root {
-    --primary: #FCD34D;
+    --primary: #2563EB;
     --primary-light: #3B82F6;
     --primary-hover: #1D4ED8;
     --primary-muted: #EFF6FF;
@@ -16,7 +16,7 @@
     --neutral-dark: #0F172A;
     --neutral-muted: #E5E7EB;
 
-    --tertiary: #A33500;
+    --tertiary: #DC2626;
     --tertiary-light: #FF7452;
     --tertiary-muted: #FFEBE6;
 
@@ -350,8 +350,20 @@ select.form-control { cursor: pointer; }
 }
 
 
-.brand span { color: #D4AF37 !important; }
+.brand > span {
+    color: #D4AF37;
+}
+.brand-dna{
+    color:#2563EB !important;
+}
 
+.brand-vendor{
+    color:#E11D48 !important;
+}
+
+.brand-portal{
+    color:#2563EB !important;
+}
 /* Theme Toggle Button */
 .theme-toggle {
     display: flex;

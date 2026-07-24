@@ -6,7 +6,6 @@ use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-
 class VendorController extends Controller
 {
     public function index()
@@ -26,25 +25,27 @@ class VendorController extends Controller
             'business_category'       => 'required|string|max:255',
             'business_category_other' => 'required_if:business_category,Other|nullable|string|max:255',
             'company_address'         => 'required|string',
+            'npwp'                    => 'required|string|max:30',
             'company_email'           => 'required|email|unique:vendors,company_email',
             'company_phone'           => 'required|string|max:50',
             'pic_name'                => 'required|string|max:255',
-            
-            // ID Card dinaikkan jadi 5MB (5120 KB)
+
+            // ID Card
             'id_card'                 => 'required|file|mimes:jpeg,png,jpg,pdf|max:5120',
-            
-            // Validasi Office Photos (Minimal 2 foto, per foto MAKSIMAL 10MB / 10240 KB)
+
+            // Office Photos
             'office_photos'           => 'required|array|min:2',
-            'office_photos.*'         => 'image|mimes:jpeg,png,jpg|max:10240', 
-            
+            'office_photos.*'         => 'image|mimes:jpeg,png,jpg|max:10240',
+
             'agreement'               => 'accepted',
         ]);
 
         // Simpan file KTP
         $idCardPath = $request->file('id_card')->store('vendors/id_cards', 'public');
-        
-        // Simpan banyak foto kantor (looping)
+
+        // Simpan foto kantor
         $officePhotosPaths = [];
+
         if ($request->hasFile('office_photos')) {
             foreach ($request->file('office_photos') as $photo) {
                 $officePhotosPaths[] = $photo->store('vendors/office_photos', 'public');
@@ -52,25 +53,23 @@ class VendorController extends Controller
         }
 
         $category = $request->business_category;
+
         if ($category === 'Other' && $request->filled('business_category_other')) {
             $category = $request->business_category_other;
         }
 
-     Vendor::create([
+        Vendor::create([
             'company_name'      => $request->company_name,
             'business_category' => $category,
             'company_address'   => $request->company_address,
+            'npwp'              => $request->npwp,
             'company_email'     => $request->company_email,
             'company_phone'     => $request->company_phone,
             'pic_name'          => $request->pic_name,
             'id_card_path'      => $idCardPath,
-            
-            // Menyimpan array path foto kantor dalam format JSON
-            'office_photos'     => json_encode($officePhotosPaths), 
-            
+            'office_photos'     => json_encode($officePhotosPaths),
             'status'            => 'pending',
         ]);
-
 
         return redirect()->route('vendor.success');
     }

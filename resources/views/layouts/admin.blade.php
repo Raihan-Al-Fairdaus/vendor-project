@@ -7,7 +7,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin Central - VendorConnect')</title>
+    <title>@yield('title', 'Admin Central - DNA Vendor Portal')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -35,7 +35,7 @@
             <div class="sidebar-header">
                 <div class="sidebar-brand">
                     <span class="brand-icon"><i class="fa-solid fa-bolt"></i></span>
-                    <span class="nav-text">VendorConnect</span>
+                    <span class="nav-text">DNA Portal</span>
                 </div>
                 <div class="sidebar-subtitle nav-text">Admin Control Panel</div>
             </div>

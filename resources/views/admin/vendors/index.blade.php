@@ -112,6 +112,7 @@
                 <tr>
                     <th>VENDOR NAME</th>
                     <th>CATEGORY</th>
+                    <th>NPWP</th>
                     <th>CONTACT</th>
                     <th>REGISTERED</th>
                     <th>STATUS</th>
@@ -136,6 +137,10 @@
                     </td>
 
                     <td>{{ $vendor->business_category }}</td>
+
+<td>
+    {{ $vendor->npwp ?? '-' }}
+</td>
 
                     <td>
                         <div>{{ $vendor->company_email }}</div>
@@ -211,7 +216,7 @@
                 @empty
 
                 <tr>
-                    <td colspan="6" class="text-center text-muted">
+                    <td colspan="7" class="text-center text-muted">
                         No vendors found matching criteria.
                     </td>
                 </tr>

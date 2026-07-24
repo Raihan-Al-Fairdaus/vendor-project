@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Admin Login - VendorConnect')
+@section('title', 'Admin Login - DNA Vendor Portal')
 
 @section('content')
 <style>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'VendorConnect')</title>
+    <title>@yield('title', 'DNA Vendor Portal')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -34,6 +34,7 @@
                 gap: 0.5rem !important;
             }
         }
+        
     </style>
 
     {{-- Apply theme immediately to avoid flash --}}
@@ -53,7 +54,11 @@
                 <!-- Logo kecil di sebelah kiri -->
                 <img src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 50px; height: 24px; object-fit: contain;">
                 
-                <span style="font-size: 1.25rem; font-weight: bold;">Vendor<span>Connect</span></span>
+                <span class="brand-text">
+    <span class="brand-dna">DNA</span>
+    <span class="brand-vendor">Vendor</span>
+    <span class="brand-portal">Portal</span>
+</span>
             </a>
             <div class="d-flex align-center gap-2">
                 <button class="theme-toggle" title="Toggle theme">🌙</button>
@@ -69,7 +74,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; {{ date('Y') }} VendorConnect Procurement Systems. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} DNA Advertising. All rights reserved.</p>
         </div>
     </footer>
 
