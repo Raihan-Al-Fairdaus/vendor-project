@@ -63,7 +63,7 @@
             <div class="d-flex align-center gap-2">
                 <button class="theme-toggle" title="Toggle theme">🌙</button>
                 <a href="/register" class="btn btn-primary btn-sm">Register Now</a>
-                <a href="/admin/login" class="btn btn-outline btn-sm">Login</a>
+               
             </div>
         </div>
     </nav>
