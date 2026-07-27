@@ -132,6 +132,7 @@ Route::middleware('auth')->group(function () {
     '/admin/vendors/export/{format}',
     [VendorManagementController::class, 'export']
 )->name('admin.vendors.export');
+
     // Detail, Approve, Reject & Delete Vendor
     Route::get('/admin/vendors/{id}', function ($id) {
         $user   = Auth::user();

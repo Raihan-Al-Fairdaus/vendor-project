@@ -94,23 +94,21 @@
     }
 
     .marquee-item {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-    }
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
 
-    .marquee-item img {
-        height: 36px;
-        width: auto;
-        object-fit: contain;
-        filter: brightness(0) invert(1) opacity(0.75);
-        transition: all 0.3s ease;
-    }
+.marquee-item img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
 
-    .marquee-item img:hover {
-        filter: brightness(0) invert(1) opacity(1);
-        transform: scale(1.2);
-    }
+.marquee-item img:hover {
+    transform: scale(1.2);
+}
 
     /* KEYFRAMES ANIMASI */
     @keyframes marquee-left {
@@ -283,36 +281,49 @@
         <div class="marquee-container">
             <div class="marquee-track track-left">
                 <!-- Group 1 -->
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobephotoshop.svg" alt="Photoshop"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobeillustrator.svg" alt="Illustrator"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobepremierepro.svg" alt="Premiere Pro"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/figma.svg" alt="Figma"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/canva.svg" alt="Canva"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/blender.svg" alt="Blender"></div>
-
+                 <div class="marquee-item"><img src="{{ asset('images/partners/adhi persada.png') }}" alt="Adhi Persada"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/dua kelinci.png') }}" alt="Dua Kelinci"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indofood.png') }}" alt="Indofood"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/unipin.png') }}" alt="UniPin"></div>
                 <!-- Group 2 -->
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobephotoshop.svg" alt="Photoshop"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobeillustrator.svg" alt="Illustrator"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobepremierepro.svg" alt="Premiere Pro"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/figma.svg" alt="Figma"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/canva.svg" alt="Canva"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/blender.svg" alt="Blender"></div>
-
+                <div class="marquee-item"><img src="{{ asset('images/partners/adhi persada.png') }}" alt="Adhi Persada"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/dua kelinci.png') }}" alt="Dua Kelinci"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indofood.png') }}" alt="Indofood"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/unipin.png') }}" alt="UniPin"></div>
                 <!-- Group 3 -->
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobephotoshop.svg" alt="Photoshop"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobeillustrator.svg" alt="Illustrator"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobepremierepro.svg" alt="Premiere Pro"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/figma.svg" alt="Figma"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/canva.svg" alt="Canva"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/blender.svg" alt="Blender"></div>
-
+                <div class="marquee-item"><img src="{{ asset('images/partners/adhi persada.png') }}" alt="Adhi Persada"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/dua kelinci.png') }}" alt="Dua Kelinci"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indofood.png') }}" alt="Indofood"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/unipin.png') }}" alt="UniPin"></div>
                 <!-- Group 4 -->
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobephotoshop.svg" alt="Photoshop"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobeillustrator.svg" alt="Illustrator"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobepremierepro.svg" alt="Premiere Pro"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/figma.svg" alt="Figma"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/canva.svg" alt="Canva"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/blender.svg" alt="Blender"></div>
+                 <div class="marquee-item"><img src="{{ asset('images/partners/adhi persada.png') }}" alt="Adhi Persada"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/dua kelinci.png') }}" alt="Dua Kelinci"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indofood.png') }}" alt="Indofood"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/unipin.png') }}" alt="UniPin"></div>
             </div>
         </div>
 
@@ -320,52 +331,65 @@
         <div class="marquee-container">
             <div class="marquee-track track-right">
                 <!-- Group 1 -->
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg" alt="Meta Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/googleads.svg" alt="Google Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/wordpress.svg" alt="WordPress"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mailchimp.svg" alt="Mailchimp"></div>
-
+                <div class="marquee-item"><img src="{{ asset('images/partners/dua kelinci.png') }}" alt="Dua Kelinci"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indofood.png') }}" alt="Indofood"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/unipin.png') }}" alt="UniPin"></div>
                 <!-- Group 2 -->
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg" alt="Meta Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/googleads.svg" alt="Google Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/wordpress.svg" alt="WordPress"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mailchimp.svg" alt="Mailchimp"></div>
-
+             <div class="marquee-item"><img src="{{ asset('images/partners/dua kelinci.png') }}" alt="Dua Kelinci"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indofood.png') }}" alt="Indofood"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/unipin.png') }}" alt="UniPin"></div>
                 <!-- Group 3 -->
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg" alt="Meta Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/googleads.svg" alt="Google Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/wordpress.svg" alt="WordPress"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mailchimp.svg" alt="Mailchimp"></div>
-
+               <div class="marquee-item"><img src="{{ asset('images/partners/dua kelinci.png') }}" alt="Dua Kelinci"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indofood.png') }}" alt="Indofood"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/unipin.png') }}" alt="UniPin"></div>
                 <!-- Group 4 -->
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg" alt="Meta Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/googleads.svg" alt="Google Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/wordpress.svg" alt="WordPress"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mailchimp.svg" alt="Mailchimp"></div>
-
+               <div class="marquee-item"><img src="{{ asset('images/partners/dua kelinci.png') }}" alt="Dua Kelinci"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indofood.png') }}" alt="Indofood"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/unipin.png') }}" alt="UniPin"></div>
                 <!-- Group 5 -->
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg" alt="Meta Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/googleads.svg" alt="Google Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/wordpress.svg" alt="WordPress"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mailchimp.svg" alt="Mailchimp"></div>
-
+               <div class="marquee-item"><img src="{{ asset('images/partners/dua kelinci.png') }}" alt="Dua Kelinci"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indofood.png') }}" alt="Indofood"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/unipin.png') }}" alt="UniPin"></div>
                 <!-- Group 6 -->
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg" alt="Meta Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/googleads.svg" alt="Google Ads"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/wordpress.svg" alt="WordPress"></div>
-                <div class="marquee-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mailchimp.svg" alt="Mailchimp"></div>
+               <div class="marquee-item"><img src="{{ asset('images/partners/dua kelinci.png') }}" alt="Dua Kelinci"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indofood.png') }}" alt="Indofood"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
+    <div class="marquee-item"><img src="{{ asset('images/partners/unipin.png') }}" alt="UniPin"></div>
             </div>
         </div>
     </div>

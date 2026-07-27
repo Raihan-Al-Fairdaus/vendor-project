@@ -885,14 +885,13 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
     height: 36px;
     width: auto;
     object-fit: contain;
-    filter: brightness(0) invert(1) opacity(0.75);
     transition: all 0.3s ease;
 }
 
 .marquee-item img:hover {
-    filter: brightness(0) invert(1) opacity(1);
     transform: scale(1.2);
 }
+
 
 @keyframes marquee-left {
     0% { transform: translateX(0); }
