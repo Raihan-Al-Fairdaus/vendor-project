@@ -78,95 +78,97 @@ class VendorManagementController extends Controller
 
     public function export($format)
     {
-        
         $vendors = Vendor::all();
 
         // ==========================
         // WORD
         // ==========================
-     if ($format === 'word') {
+        if ($format === 'word') {
 
-    $phpWord = new PhpWord();
+            $phpWord = new PhpWord();
 
-    $phpWord->setDefaultFontName('Calibri');
-    $phpWord->setDefaultFontSize(11);
+            $phpWord->setDefaultFontName('Calibri');
+            $phpWord->setDefaultFontSize(11);
 
-    $section = $phpWord->addSection([
-        'marginTop' => 700,
-        'marginBottom' => 700,
-        'marginLeft' => 700,
-        'marginRight' => 700,
-    ]);
+            $section = $phpWord->addSection([
+                'marginTop' => 700,
+                'marginBottom' => 700,
+                'marginLeft' => 700,
+                'marginRight' => 700,
+            ]);
 
-    // Judul
-    $section->addTitle('Vendor Report', 1);
+            // Judul
+            $section->addTitle('Vendor Report', 1);
 
-    $section->addText(
-        'Generated on : ' . now()->format('d F Y H:i'),
-        ['italic' => true, 'color' => '666666']
-    );
+            $section->addText(
+                'Generated on : ' . now()->format('d F Y H:i'),
+                ['italic' => true, 'color' => '666666']
+            );
 
-    $section->addTextBreak();
+            $section->addTextBreak();
 
-    $tableStyle = [
-        'borderSize' => 6,
-        'borderColor' => 'CCCCCC',
-        'cellMargin' => 80,
-    ];
+            $tableStyle = [
+                'borderSize' => 6,
+                'borderColor' => 'CCCCCC',
+                'cellMargin' => 80,
+            ];
 
-    $firstRowStyle = [
-        'bgColor' => '4472C4'
-    ];
+            $firstRowStyle = [
+                'bgColor' => '4472C4'
+            ];
 
-    $phpWord->addTableStyle(
-        'VendorTable',
-        $tableStyle,
-        $firstRowStyle
-    );
+            $phpWord->addTableStyle(
+                'VendorTable',
+                $tableStyle,
+                $firstRowStyle
+            );
 
-    $table = $section->addTable('VendorTable');
+            $table = $section->addTable('VendorTable');
 
-    $headerFont = [
-        'bold' => true,
-        'color' => 'FFFFFF'
-    ];
+            $headerFont = [
+                'bold' => true,
+                'color' => 'FFFFFF'
+            ];
 
-    // HEADER
-    $table->addRow();
+            // HEADER
+            $table->addRow();
 
-    $table->addCell(3500)->addText('Company', $headerFont);
-    $table->addCell(2500)->addText('Category', $headerFont);
-    $table->addCell(4000)->addText('Email', $headerFont);
-    $table->addCell(2500)->addText('Phone', $headerFont);
-    $table->addCell(2500)->addText('PIC', $headerFont);
-    $table->addCell(1800)->addText('Status', $headerFont);
+            $table->addCell(3500)->addText('Company', $headerFont);
+            $table->addCell(2500)->addText('Category', $headerFont);
+            $table->addCell(4000)->addText('Email', $headerFont);
+            $table->addCell(2500)->addText('Phone', $headerFont);
+            $table->addCell(2500)->addText('PIC', $headerFont);
+            $table->addCell(3000)->addText('NPWP', $headerFont);
+            $table->addCell(1800)->addText('Status', $headerFont);
 
-    foreach ($vendors as $vendor) {
+            foreach ($vendors as $vendor) {
 
-        $table->addRow();
+                $table->addRow();
 
-        $table->addCell(3500)->addText($vendor->company_name);
-        $table->addCell(2500)->addText($vendor->business_category);
-        $table->addCell(4000)->addText($vendor->company_email);
-        $table->addCell(2500)->addText($vendor->company_phone);
-        $table->addCell(2500)->addText($vendor->pic_name);
-        $table->addCell(1800)->addText(ucfirst($vendor->status));
-    }
+                $table->addCell(3500)->addText($vendor->company_name);
+                $table->addCell(2500)->addText($vendor->business_category);
+                $table->addCell(4000)->addText($vendor->company_email);
+                $table->addCell(2500)->addText($vendor->company_phone);
+                $table->addCell(2500)->addText($vendor->pic_name);
+                $table->addCell(3000)->addText($vendor->npwp ?? '-');
+                $table->addCell(1800)->addText(ucfirst($vendor->status));
+            }
 
-    $section->addTextBreak();
+            $section->addTextBreak();
 
-    $section->addText(
-        'Total Vendors : ' . $vendors->count(),
-        ['bold' => true]
-    );
+            $section->addText(
+                'Total Vendors : ' . $vendors->count(),
+                ['bold' => true]
+            );
 
-    $file = storage_path('app/vendors.docx');
+            $file = storage_path('app/vendors.docx');
 
-    $writer = IOFactory::createWriter($phpWord, 'Word2007');
-    $writer->save($file);
+            $writer = IOFactory::createWriter($phpWord, 'Word2007');
+            $writer->save($file);
 
-    return response()->download($file)->deleteFileAfterSend(true);
-}
+            return response()->download($file)->deleteFileAfterSend(true);
+        }
+
         // ==========================
         // PDF
         // ==========================
