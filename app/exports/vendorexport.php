@@ -26,6 +26,7 @@ class VendorExport implements
             'company_phone',
             'pic_name',
             'npwp',
+            'google_maps_link',
             'status',
             'created_at'
         )->get();
@@ -40,6 +41,7 @@ class VendorExport implements
             'Phone',
             'PIC',
             'NPWP',
+            'Google Maps',
             'Status',
             'Registered At',
         ];
@@ -48,7 +50,7 @@ class VendorExport implements
     public function styles(Worksheet $sheet)
     {
         // Header
-        $sheet->getStyle('A1:H1')->applyFromArray([
+        $sheet->getStyle('A1:I1')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 12,
@@ -71,7 +73,7 @@ class VendorExport implements
         // Border semua data
         $lastRow = $sheet->getHighestRow();
 
-        $sheet->getStyle("A1:H{$lastRow}")
+        $sheet->getStyle("A1:I{$lastRow}")
             ->getBorders()
             ->getAllBorders()
             ->setBorderStyle(Border::BORDER_THIN);

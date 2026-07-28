@@ -21,52 +21,71 @@ class VendorController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'company_name'            => 'required|string|max:255',
-            'business_category'       => 'required|string|max:255',
-            'business_category_other' => 'required_if:business_category,Other|nullable|string|max:255',
-            'company_address'         => 'required|string',
-            'npwp'                    => 'required|string|max:30',
-            'company_email'           => 'required|email|unique:vendors,company_email',
-            'company_phone'           => 'required|string|max:50',
-            'pic_name'                => 'required|string|max:255',
+            'company_name'      => 'required|string|max:255',
+            'business_category' => 'required|in:Badan,Perorangan',
+            'company_address'   => 'required|string',
+            'npwp'              => 'required|string|max:30',
+            'company_email'     => 'required|email|unique:vendors,company_email',
+            'company_phone'     => 'required|string|max:50',
+            'pic_name'          => 'required|string|max:255',
+
+            // Share Location Google Maps
+            'google_maps_link'  => 'nullable|url',
 
             // ID Card
-            'id_card'                 => 'required|file|mimes:jpeg,png,jpg,pdf|max:5120',
+            'id_card' => 'required|file|mimes:jpeg,png,jpg,pdf|max:5120',
+
+            // Buku Rekening
+            'bank_book' => 'required|file|mimes:jpeg,png,jpg,pdf|max:5120',
 
             // Office Photos
-            'office_photos'           => 'required|array|min:2',
-            'office_photos.*'         => 'image|mimes:jpeg,png,jpg|max:10240',
+            'office_photos'   => 'required|array|min:2',
+            'office_photos.*' => 'image|mimes:jpeg,png,jpg|max:10240',
 
-            'agreement'               => 'accepted',
+            'agreement' => 'accepted',
         ]);
 
-        // Simpan file KTP
-        $idCardPath = $request->file('id_card')->store('vendors/id_cards', 'public');
+        // Simpan KTP
+        $idCardPath = $request->file('id_card')->store(
+            'vendors/id_cards',
+            'public'
+        );
 
-        // Simpan foto kantor
+        // Simpan Buku Rekening
+        $bankBookPath = $request->file('bank_book')->store(
+            'vendors/bank_books',
+            'public'
+        );
+
+        // Simpan Foto Kantor
         $officePhotosPaths = [];
 
         if ($request->hasFile('office_photos')) {
+
             foreach ($request->file('office_photos') as $photo) {
-                $officePhotosPaths[] = $photo->store('vendors/office_photos', 'public');
+
+                $officePhotosPaths[] = $photo->store(
+                    'vendors/office_photos',
+                    'public'
+                );
+
             }
-        }
-
-        $category = $request->business_category;
-
-        if ($category === 'Other' && $request->filled('business_category_other')) {
-            $category = $request->business_category_other;
         }
 
         Vendor::create([
             'company_name'      => $request->company_name,
-            'business_category' => $category,
+            'business_category' => $request->business_category,
             'company_address'   => $request->company_address,
             'npwp'              => $request->npwp,
             'company_email'     => $request->company_email,
             'company_phone'     => $request->company_phone,
             'pic_name'          => $request->pic_name,
+
+            // Share Location
+            'google_maps_link'  => $request->google_maps_link,
+
             'id_card_path'      => $idCardPath,
+            'bank_book_path'    => $bankBookPath,
             'office_photos'     => json_encode($officePhotosPaths),
             'status'            => 'pending',
         ]);

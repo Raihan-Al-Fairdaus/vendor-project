@@ -156,7 +156,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/vendors/{id}', function ($id) {
         $vendor = Vendor::findOrFail($id);
         $vendor->delete();
-        return back()->with('success', 'Vendor berhasil dihapus.');
+        return redirect()
+    ->route('admin.vendors.index')
+    ->with('success', 'Vendor berhasil dihapus.');
+    
     })->name('admin.vendors.destroy');
 
   // --- MANAJEMEN DOKUMEN ---

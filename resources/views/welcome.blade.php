@@ -93,17 +93,21 @@
         animation-play-state: paused;
     }
 
-    .marquee-item {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
+   .marquee-item{
+    flex:0 0 auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:120px;
 }
 
-.marquee-item img {
-    height: 36px;
-    width: auto;
-    object-fit: contain;
-    transition: all 0.3s ease;
+.marquee-item img{
+    display:block;
+    width:auto !important;
+    height:36px !important;
+    max-width:100px !important;
+    max-height:36px !important;
+    object-fit:contain;
 }
 
 .marquee-item img:hover {
@@ -220,6 +224,71 @@
         font-size: 0.85rem;
         color: #555555 !important;
     }
+    /* ===========================
+   MOBILE RESPONSIVE
+=========================== */
+
+@@media (max-width:768px){
+
+    .marquee-track{
+        gap:16px;
+    }
+
+    .marquee-item{
+        width:80px;
+    }
+
+    .marquee-item img{
+        width:auto !important;
+        height:20px !important;
+        max-width:70px !important;
+        max-height:20px !important;
+    }
+
+}
+/* ===========================
+   MOBILE HERO
+=========================== */
+
+@media (max-width:768px){
+
+    .grid.grid-cols-2{
+        grid-template-columns:1fr !important;
+    }
+
+    .hero{
+        padding:40px 0 !important;
+    }
+
+    .hero .container{
+        display:flex !important;
+        flex-direction:column !important;
+    }
+
+    .hero .card{
+        height:220px !important;
+        margin-top:20px;
+    }
+
+    .hero img{
+        width:100% !important;
+        height:220px !important;
+        object-fit:cover !important;
+    }
+
+    .hero-title{
+        font-size:2rem !important;
+    }
+
+    .mobile-col{
+        flex-direction:column !important;
+    }
+
+    .mobile-col .btn{
+        width:100%;
+    }
+
+}
 </style>
 
 {{-- 2. BAGIAN HTML / TAMPILAN --}}

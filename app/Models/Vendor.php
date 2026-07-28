@@ -13,11 +13,13 @@ class Vendor extends Model
         'company_name',
         'business_category',
         'company_address',
+        'google_maps_link',
         'npwp',
         'company_email',
         'company_phone',
         'pic_name',
         'id_card_path',
+        'bank_book_path',
         'office_photos',
         'status',
     ];

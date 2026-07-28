@@ -55,18 +55,37 @@
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <div>
-                    <div style="font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;">Office Address</div>
-                    <p style="color: #fff; margin: 0; font-size: 0.95rem; line-height: 1.5;"><i class="fa-solid fa-location-dot" style="color: #d4af37; margin-right: 0.4rem;"></i> {{ $vendor->company_address ?? $vendor->address ?? '-' }}</p>
-                </div>
-                <div>
-                    <div style="font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;">Registration Meta</div>
-                    <p style="color: #fff; margin: 0; font-size: 0.9rem; line-height: 1.5;"><i class="fa-solid fa-calendar-days" style="color: #d4af37; margin-right: 0.4rem;"></i> Registered on {{ $vendor->created_at->format('M d, Y') }}</p>
-                    <p style="color: #fff; margin: 0.6rem 0 0; font-size: 0.9rem; line-height: 1.5;">
-    <i class="fa-solid fa-file-invoice" style="color: #d4af37; margin-right: 0.4rem;"></i>
-    NPWP: {{ $vendor->npwp }}
-</p>
-                </div>
+               <div>
+    <div style="font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;">
+        Office Address
+    </div>
+
+    <p style="color: #fff; margin: 0; font-size: 0.95rem; line-height: 1.5;">
+        <i class="fa-solid fa-location-dot" style="color: #d4af37; margin-right: 0.4rem;"></i>
+        {{ $vendor->company_address ?? '-' }}
+    </p>
+
+    @if($vendor->google_maps_link)
+        <a href="{{ $vendor->google_maps_link }}"
+           target="_blank"
+           style="
+                display:inline-flex;
+                align-items:center;
+                gap:.45rem;
+                margin-top:12px;
+                padding:.55rem .9rem;
+                background:#1b3a60;
+                border:1px solid #d4af37;
+                color:#fff;
+                border-radius:8px;
+                text-decoration:none;
+                font-size:.82rem;
+                font-weight:600;">
+            <i class="fa-solid fa-location-dot"></i>
+            Open Google Maps
+        </a>
+    @endif
+</div>
             </div>
         </div>
 
@@ -136,27 +155,105 @@
         @endif
 
         {{-- Card: Documents --}}
-        <div class="card" style="margin: 0; padding: 1.25rem;">
-            <h3 style="margin: 0 0 0.75rem 0; font-size: 0.9rem; color: #d4af37; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.4rem;">Documents</h3>
-            
-            <div>
-                <div style="font-size: 0.65rem; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 0.3rem;">Verification Document</div>
-                <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.25); padding: 0.7rem 0.85rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
-                    <div style="display: flex; align-items: center; gap: 0.6rem; overflow: hidden;">
-                        <span style="font-size: 1.3rem;">📄</span>
-                        <div style="overflow: hidden;">
-                            <div style="font-weight: 600; color: #fff; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Identity Card (KTP)</div>
-                            <div style="font-size: 0.7rem; color: #34d399;">Verified Secure File</div>
-                        </div>
-                    </div>
-                    @if($vendor->id_card_path)
-                        <a href="{{ Storage::url($vendor->id_card_path) }}" target="_blank" class="btn" style="background: #1b3a60; border: 1px solid #d4af37; color: #fff; padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.8rem; text-decoration: none; flex-shrink: 0;">View</a>
-                    @else
-                        <span style="font-size: 0.8rem; color: rgba(255,255,255,0.4);">N/A</span>
-                    @endif
-                </div>
-            </div>
+<div class="card" style="margin: 0; padding: 1.25rem;">
+
+    <h3 style="margin: 0 0 0.75rem 0; font-size: 0.9rem; color: #d4af37; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.4rem;">
+        Documents
+    </h3>
+
+    {{-- Identity Card --}}
+    <div style="margin-bottom:1rem;">
+
+        <div style="font-size:0.65rem;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:.3rem;">
+            Verification Document
         </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.25);padding:.7rem .85rem;border-radius:8px;border:1px solid rgba(255,255,255,.05);">
+
+            <div style="display:flex;align-items:center;gap:.6rem;overflow:hidden;">
+
+                <span style="font-size:1.3rem;">📄</span>
+
+                <div style="overflow:hidden;">
+                    <div style="font-weight:600;color:#fff;font-size:.85rem;">
+                        Identity Card (KTP)
+                    </div>
+
+                    <div style="font-size:.7rem;color:#34d399;">
+                        Verified Secure File
+                    </div>
+                </div>
+
+            </div>
+
+            @if($vendor->id_card_path)
+
+                <a href="{{ Storage::url($vendor->id_card_path) }}"
+                   target="_blank"
+                   class="btn"
+                   style="background:#1b3a60;border:1px solid #d4af37;color:#fff;padding:.3rem .7rem;border-radius:6px;font-size:.8rem;text-decoration:none;">
+                    View
+                </a>
+
+            @else
+
+                <span style="font-size:.8rem;color:rgba(255,255,255,.4);">
+                    Not Uploaded
+                </span>
+
+            @endif
+
+        </div>
+
+    </div>
+
+    {{-- Bank Account Book --}}
+    <div>
+
+        <div style="font-size:0.65rem;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:.3rem;">
+            Supporting Document
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.25);padding:.7rem .85rem;border-radius:8px;border:1px solid rgba(255,255,255,.05);">
+
+            <div style="display:flex;align-items:center;gap:.6rem;overflow:hidden;">
+
+                <span style="font-size:1.3rem;">🏦</span>
+
+                <div style="overflow:hidden;">
+                    <div style="font-weight:600;color:#fff;font-size:.85rem;">
+                        Bank Account Book
+                    </div>
+
+                    <div style="font-size:.7rem;color:#34d399;">
+                        Supporting Verification File
+                    </div>
+                </div>
+
+            </div>
+
+            @if($vendor->bank_book_path)
+
+                <a href="{{ Storage::url($vendor->bank_book_path) }}"
+                   target="_blank"
+                   class="btn"
+                   style="background:#1b3a60;border:1px solid #d4af37;color:#fff;padding:.3rem .7rem;border-radius:6px;font-size:.8rem;text-decoration:none;">
+                    View
+                </a>
+
+            @else
+
+                <span style="font-size:.8rem;color:rgba(255,255,255,.4);">
+                    Not Uploaded
+                </span>
+
+            @endif
+
+        </div>
+
+    </div>
+
+</div>
 
         {{-- Card: Danger Zone --}}
         <div class="card" style="margin: 0; padding: 1.1rem 1.25rem; border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.03);">

@@ -37,32 +37,17 @@
                 class="form-control"
                 onchange="document.getElementById('filterForm').submit()"
             >
-                <option value="">All Categories</option>
+                <option value="">All Vendor Types</option>
 
-                <option value="IT Services"
-                    {{ request('category')=='IT Services' ? 'selected' : '' }}>
-                    IT Services
-                </option>
+<option value="Badan"
+    {{ request('category') == 'Badan' ? 'selected' : '' }}>
+    Badan
+</option>
 
-                <option value="Logistics"
-                    {{ request('category')=='Logistics' ? 'selected' : '' }}>
-                    Logistics
-                </option>
-
-                <option value="Manufacturing"
-                    {{ request('category')=='Manufacturing' ? 'selected' : '' }}>
-                    Manufacturing
-                </option>
-
-                <option value="Consulting"
-                    {{ request('category')=='Consulting' ? 'selected' : '' }}>
-                    Consulting
-                </option>
-
-                <option value="Other"
-                    {{ request('category')=='Other' ? 'selected' : '' }}>
-                    Other
-                </option>
+<option value="Perorangan"
+    {{ request('category') == 'Perorangan' ? 'selected' : '' }}>
+    Perorangan
+</option>
             </select>
         </div>
 

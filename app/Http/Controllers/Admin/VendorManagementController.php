@@ -18,12 +18,18 @@ class VendorManagementController extends Controller
         $query = Vendor::query();
 
         if ($request->filled('search')) {
-            $search = $request->search;
+
+            $search = trim($request->search);
 
             $query->where(function ($q) use ($search) {
-                $q->where('company_name', 'like', "%{$search}%")
-                  ->orWhere('company_email', 'like', "%{$search}%")
-                  ->orWhere('pic_name', 'like', "%{$search}%");
+
+                $q->where('company_name', 'LIKE', "%{$search}%")
+                    ->orWhere('business_category', 'LIKE', "%{$search}%")
+                    ->orWhere('company_email', 'LIKE', "%{$search}%")
+                    ->orWhere('company_phone', 'LIKE', "%{$search}%")
+                    ->orWhere('pic_name', 'LIKE', "%{$search}%")
+                    ->orWhere('npwp', 'LIKE', "%{$search}%");
+
             });
         }
 
@@ -50,6 +56,7 @@ class VendorManagementController extends Controller
     public function approve($id)
     {
         $vendor = Vendor::findOrFail($id);
+
         $vendor->update([
             'status' => 'approved'
         ]);
@@ -60,6 +67,7 @@ class VendorManagementController extends Controller
     public function reject($id)
     {
         $vendor = Vendor::findOrFail($id);
+
         $vendor->update([
             'status' => 'rejected'
         ]);
@@ -70,9 +78,11 @@ class VendorManagementController extends Controller
     public function destroy($id)
     {
         $vendor = Vendor::findOrFail($id);
+
         $vendor->delete();
 
-        return redirect()->route('admin.vendors.index')
+        return redirect()
+            ->route('admin.vendors.index')
             ->with('success', 'Vendor deleted successfully.');
     }
 
@@ -80,9 +90,12 @@ class VendorManagementController extends Controller
     {
         $vendors = Vendor::all();
 
-        // ==========================
-        // WORD
-        // ==========================
+        /*
+        |--------------------------------------------------------------------------
+        | WORD
+        |--------------------------------------------------------------------------
+        */
+
         if ($format === 'word') {
 
             $phpWord = new PhpWord();
@@ -97,12 +110,14 @@ class VendorManagementController extends Controller
                 'marginRight' => 700,
             ]);
 
-            // Judul
             $section->addTitle('Vendor Report', 1);
 
             $section->addText(
                 'Generated on : ' . now()->format('d F Y H:i'),
-                ['italic' => true, 'color' => '666666']
+                [
+                    'italic' => true,
+                    'color' => '666666'
+                ]
             );
 
             $section->addTextBreak();
@@ -131,26 +146,29 @@ class VendorManagementController extends Controller
             ];
 
             // HEADER
+
             $table->addRow();
 
-            $table->addCell(3500)->addText('Company', $headerFont);
-            $table->addCell(2500)->addText('Category', $headerFont);
-            $table->addCell(4000)->addText('Email', $headerFont);
-            $table->addCell(2500)->addText('Phone', $headerFont);
-            $table->addCell(2500)->addText('PIC', $headerFont);
-            $table->addCell(3000)->addText('NPWP', $headerFont);
+            $table->addCell(3000)->addText('Company', $headerFont);
+            $table->addCell(2200)->addText('Category', $headerFont);
+            $table->addCell(3500)->addText('Email', $headerFont);
+            $table->addCell(2200)->addText('Phone', $headerFont);
+            $table->addCell(2200)->addText('PIC', $headerFont);
+            $table->addCell(2500)->addText('NPWP', $headerFont);
+            $table->addCell(5000)->addText('Google Maps', $headerFont);
             $table->addCell(1800)->addText('Status', $headerFont);
 
             foreach ($vendors as $vendor) {
 
                 $table->addRow();
 
-                $table->addCell(3500)->addText($vendor->company_name);
-                $table->addCell(2500)->addText($vendor->business_category);
-                $table->addCell(4000)->addText($vendor->company_email);
-                $table->addCell(2500)->addText($vendor->company_phone);
-                $table->addCell(2500)->addText($vendor->pic_name);
-                $table->addCell(3000)->addText($vendor->npwp ?? '-');
+                $table->addCell(3000)->addText($vendor->company_name);
+                $table->addCell(2200)->addText($vendor->business_category);
+                $table->addCell(3500)->addText($vendor->company_email);
+                $table->addCell(2200)->addText($vendor->company_phone);
+                $table->addCell(2200)->addText($vendor->pic_name);
+                $table->addCell(2500)->addText($vendor->npwp ?? '-');
+                $table->addCell(5000)->addText($vendor->google_maps_link ?? '-');
                 $table->addCell(1800)->addText(ucfirst($vendor->status));
             }
 
@@ -158,21 +176,32 @@ class VendorManagementController extends Controller
 
             $section->addText(
                 'Total Vendors : ' . $vendors->count(),
-                ['bold' => true]
+                [
+                    'bold' => true
+                ]
             );
 
             $file = storage_path('app/vendors.docx');
 
-            $writer = IOFactory::createWriter($phpWord, 'Word2007');
+            $writer = IOFactory::createWriter(
+                $phpWord,
+                'Word2007'
+            );
+
             $writer->save($file);
 
-            return response()->download($file)->deleteFileAfterSend(true);
+            return response()
+                ->download($file)
+                ->deleteFileAfterSend(true);
         }
 
-        // ==========================
-        // PDF
-        // ==========================
-        elseif ($format === 'pdf') {
+        /*
+        |--------------------------------------------------------------------------
+        | PDF
+        |--------------------------------------------------------------------------
+        */
+
+        if ($format === 'pdf') {
 
             $pdf = Pdf::loadView(
                 'admin.vendors.pdf',
@@ -182,10 +211,13 @@ class VendorManagementController extends Controller
             return $pdf->download('vendors.pdf');
         }
 
-        // ==========================
-        // EXCEL
-        // ==========================
-        elseif ($format === 'excel') {
+        /*
+        |--------------------------------------------------------------------------
+        | EXCEL
+        |--------------------------------------------------------------------------
+        */
+
+        if ($format === 'excel') {
 
             return Excel::download(
                 new VendorExport(),
@@ -193,6 +225,9 @@ class VendorManagementController extends Controller
             );
         }
 
-        return back()->with('error', 'Invalid export format.');
+        return back()->with(
+            'error',
+            'Invalid export format.'
+        );
     }
 }

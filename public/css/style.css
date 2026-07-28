@@ -879,19 +879,25 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
     flex-shrink: 0;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .marquee-item img {
     height: 36px;
     width: auto;
     object-fit: contain;
-    transition: all 0.3s ease;
+
+    /* Warna asli logo */
+    filter: none;
+    opacity: 0.85;
+
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .marquee-item img:hover {
-    transform: scale(1.2);
+    opacity: 1;
+    transform: scale(1.15);
 }
-
 
 @keyframes marquee-left {
     0% { transform: translateX(0); }
@@ -1409,4 +1415,209 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
         .main-content table td div[style*="font-size"] {
             color: #ffffff !important;
         }
-        
+        /* =======================================================
+   PREMIUM FOOTER
+======================================================= */
+
+.vc-footer{
+    margin-top:80px;
+    background:linear-gradient(135deg,#0f172a 0%,#13294B 100%);
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+}
+
+.vc-footer::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(circle at top right,rgba(59,130,246,.18),transparent 35%),
+        radial-gradient(circle at bottom left,rgba(245,158,11,.12),transparent 35%);
+    pointer-events:none;
+}
+
+.vc-footer .container{
+    position:relative;
+    z-index:2;
+    max-width:1200px;
+    margin:auto;
+    padding:70px 24px 30px;
+}
+
+.vc-footer-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1.3fr 1.5fr;
+    gap:50px;
+}
+
+.footer-logo{
+    width:140px;
+    margin-bottom:20px;
+}
+
+.vc-footer-company h3{
+    color:#fff;
+    margin-bottom:12px;
+    font-size:1.4rem;
+}
+
+.vc-footer-company p{
+    color:rgba(255,255,255,.72);
+    line-height:1.8;
+}
+
+.vc-footer-links h4,
+.vc-footer-contact h4,
+.vc-footer-help h4{
+    color:#fff;
+    margin-bottom:20px;
+    font-size:1.1rem;
+    position:relative;
+}
+
+.vc-footer-links h4::after,
+.vc-footer-contact h4::after,
+.vc-footer-help h4::after{
+    content:"";
+    display:block;
+    width:45px;
+    height:3px;
+    background:#f59e0b;
+    margin-top:8px;
+    border-radius:20px;
+}
+
+.vc-footer-links ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.vc-footer-links li{
+    margin-bottom:14px;
+}
+
+.vc-footer-links a{
+    color:rgba(255,255,255,.72);
+    text-decoration:none;
+    transition:.3s;
+}
+
+.vc-footer-links a:hover{
+    color:#fff;
+    padding-left:8px;
+}
+
+.vc-footer-contact p{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    color:rgba(255,255,255,.72);
+    margin-bottom:18px;
+    line-height:1.7;
+}
+
+.vc-footer-contact i{
+    color:#fbbf24;
+    width:18px;
+    margin-top:3px;
+}
+
+.vc-help-card{
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:20px;
+    padding:28px;
+    transition:.35s;
+}
+
+.vc-help-card:hover{
+    transform:translateY(-6px);
+    border-color:#f59e0b;
+    box-shadow:0 20px 45px rgba(0,0,0,.25);
+}
+
+.help-icon{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#f59e0b;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+    margin-bottom:18px;
+}
+
+.vc-help-card p{
+    color:rgba(255,255,255,.72);
+    line-height:1.8;
+    margin-bottom:25px;
+}
+
+.help-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px 22px;
+    border-radius:999px;
+    background:#2563eb;
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.help-btn:hover{
+    background:#1d4ed8;
+    transform:translateY(-2px);
+}
+
+.vc-footer-divider{
+    margin:55px 0 25px;
+    border:none;
+    height:1px;
+    background:rgba(255,255,255,.12);
+}
+
+.vc-footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    color:rgba(255,255,255,.55);
+    font-size:.92rem;
+}
+
+@media(max-width:1100px){
+
+    .vc-footer-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:768px){
+
+    .vc-footer .container{
+        padding:55px 20px 25px;
+    }
+
+    .vc-footer-grid{
+        grid-template-columns:1fr;
+        gap:35px;
+    }
+
+    .vc-footer-bottom{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .footer-logo{
+        width:120px;
+    }
+
+}

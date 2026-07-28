@@ -194,21 +194,53 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Business Category</label>
-                        <select name="business_category" id="businessCategorySelect" class="form-control" required>
-                            <option value="">Select a category</option>
-                            <option value="IT Services" {{ old('business_category') == 'IT Services' ? 'selected' : '' }}>IT Services</option>
-                            <option value="Logistics" {{ old('business_category') == 'Logistics' ? 'selected' : '' }}>Logistics</option>
-                            <option value="Manufacturing" {{ old('business_category') == 'Manufacturing' ? 'selected' : '' }}>Manufacturing</option>
-                            <option value="Consulting" {{ old('business_category') == 'Consulting' ? 'selected' : '' }}>Consulting</option>
-                            <option value="Other" {{ old('business_category') == 'Other' ? 'selected' : '' }}>Other</option>
-                        </select>
-                        <input type="text" name="business_category_other" id="businessCategoryOther" class="form-control mt-2" placeholder="Please specify your category" style="display: {{ old('business_category') == 'Other' ? 'block' : 'none' }};" value="{{ old('business_category_other') }}">
+                        <select name="business_category" class="form-control" required>
+
+    <option value="">Select Vendor Type</option>
+
+    <option value="Badan"
+        {{ old('business_category') == 'Badan' ? 'selected' : '' }}>
+        Badan
+    </option>
+
+    <option value="Perorangan"
+        {{ old('business_category') == 'Perorangan' ? 'selected' : '' }}>
+        Perorangan
+    </option>
+
+</select>
+                       
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Company Address</label>
                     <textarea name="company_address" class="form-control" rows="3" required>{{ old('company_address') }}</textarea>
                 </div>
+
+<div class="form-group mt-3">
+    <label class="form-label">
+        Share Location Google Maps
+        <span class="required">*</span>
+    </label>
+
+    <input
+        type="url"
+        name="google_maps_link"
+        class="form-control"
+        placeholder="https://maps.app.goo.gl/xxxxxxxx"
+        value="{{ old('google_maps_link') }}"
+        required>
+
+    <small style="
+        display:block;
+        margin-top:8px;
+        color:#b8c7dc;
+        font-size:13px;">
+        📍 Open Google Maps → pilih lokasi perusahaan → Share → Copy Link → Paste di sini.
+    </small>
+</div>
+         
+
                 <div class="form-group">
     <label class="form-label">NPWP Number</label>
     <input
@@ -252,6 +284,15 @@
                         <input type="file" name="id_card" id="idCardInput" accept=".jpg,.jpeg,.png,.pdf" required>
                     </div>
                 </div>
+                <div class="form-group mt-4">
+
+   
+
+    @error('bank_book')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+
+</div>
 
                 <!-- Office Photos Upload (Multiple Cards Grid) -->
                 <div class="form-group">
@@ -266,6 +307,43 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Bank Book -->
+<div class="form-group mt-4">
+    <label class="form-label">
+      <div class="form-group">
+
+    <label class="form-label">
+        Upload Bank Account Book <span class="required">*</span>
+    </label>
+
+    <div class="single-drop-area" id="bankBookDropArea">
+
+        <div class="drop-icon">🏦</div>
+
+        <p id="bankBookText"  style="color:#000;font-weight:600;">
+            Drag & drop your Bank Account Book here
+</p>
+
+        <span id="bankBookSubText" >
+            JPG, PNG, PDF (Max 5MB)
+        </span>
+
+        <input
+            type="file"
+            id="bankBookInput"
+            name="bank_book"
+            accept=".jpg,.jpeg,.png,.pdf"
+            required
+        >
+
+    </div>
+
+    @error('bank_book')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+
+</div>
 
             </div>
 
@@ -291,26 +369,16 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Business Category Toggle
-        const select = document.getElementById('businessCategorySelect');
-        const otherInput = document.getElementById('businessCategoryOther');
-        
-        if (select && otherInput) {
-            select.addEventListener('change', function() {
-                if (this.value === 'Other') {
-                    otherInput.style.display = 'block';
-                    otherInput.required = true;
-                } else {
-                    otherInput.style.display = 'none';
-                    otherInput.required = false;
-                    otherInput.value = '';
-                }
-            });
-        }
+       
 
         // Single ID Card Upload
         const idCardInput = document.getElementById('idCardInput');
         const idCardText = document.getElementById('idCardText');
         const idCardSubText = document.getElementById('idCardSubText');
+        const bankBookInput = document.getElementById('bankBookInput');
+        const bankBookText = document.getElementById('bankBookText');
+        const bankBookSubText = document.getElementById('bankBookSubText');
+
 
         if (idCardInput) {
             idCardInput.addEventListener('change', function() {
@@ -321,6 +389,17 @@
                 }
             });
         }
+
+      if (bankBookInput) {
+    bankBookInput.addEventListener('change', function () {
+        if (this.files && this.files.length > 0) {
+            bankBookText.style.color = '#0d9488';
+            bankBookText.textContent = '✓ ' + this.files[0].name;
+            bankBookSubText.textContent =
+                (this.files[0].size / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+    });
+}
 
         // Multiple Office Photos - Dynamic Grid System dengan Hapus Per Kotak
         const officePhotosInput = document.getElementById('officePhotosInput');
@@ -432,5 +511,137 @@
             initialTrigger.addEventListener('change', handleFileSelect);
         }
     });
+
+/* ===========================================
+   COMPANY LOCATION MAP
+=========================================== */
+
+window.addEventListener("load", function () {
+
+    const companyMap = L.map("companyMap");
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxZoom: 19
+    }).addTo(companyMap);
+
+    companyMap.setView([-6.2088, 106.8456], 5);
+
+    setTimeout(function () {
+        companyMap.invalidateSize();
+    }, 500);
+
+    let companyMarker = null;
+
+    const oldLat = document.getElementById("latitude").value;
+    const oldLng = document.getElementById("longitude").value;
+
+    if (oldLat && oldLng) {
+
+        const pos = [parseFloat(oldLat), parseFloat(oldLng)];
+
+        companyMarker = L.marker(pos).addTo(companyMap);
+
+        companyMap.setView(pos, 15);
+
+    }
+
+    companyMap.on("click", function (e) {
+
+        if (companyMarker) {
+            companyMap.removeLayer(companyMarker);
+        }
+
+        companyMarker = L.marker(e.latlng).addTo(companyMap);
+
+        latitude.value = e.latlng.lat;
+        longitude.value = e.latlng.lng;
+
+    });
+
+    document.getElementById("searchLocationBtn").addEventListener("click", async function () {
+
+        const keyword = locationSearch.value.trim();
+
+        if (!keyword) return;
+
+        const res = await fetch(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(keyword)}`
+        );
+
+        const data = await res.json();
+
+        if (!data.length) {
+            alert("Location not found");
+            return;
+        }
+
+        const lat = parseFloat(data[0].lat);
+        const lng = parseFloat(data[0].lon);
+
+        companyMap.setView([lat, lng], 16);
+
+        if (companyMarker) {
+            companyMap.removeLayer(companyMarker);
+        }
+
+        companyMarker = L.marker([lat, lng]).addTo(companyMap);
+
+        latitude.value = lat;
+        longitude.value = lng;
+
+    });
+
+});
+
+/* ===========================================
+   SEARCH COMPANY LOCATION
+=========================================== */
+
+document.getElementById("searchLocationBtn").addEventListener("click", async function () {
+
+    const keyword = document.getElementById("locationSearch").value.trim();
+
+    if (keyword === "") {
+        alert("Please enter a company location.");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(keyword)}`
+        );
+
+        const data = await response.json();
+
+       if (data.length === 0) {
+
+    alert("Alamat tidak ditemukan.\nSilakan klik lokasi perusahaan langsung pada peta.");
+
+    return;
+
+}
+        const lat = parseFloat(data[0].lat);
+        const lng = parseFloat(data[0].lon);
+
+        companyMap.setView([lat, lng], 16);
+
+        if (companyMarker) {
+            companyMap.removeLayer(companyMarker);
+        }
+
+        companyMarker = L.marker([lat, lng]).addTo(companyMap);
+
+        document.getElementById("latitude").value = lat;
+        document.getElementById("longitude").value = lng;
+
+    } catch (e) {
+        alert("Failed to search location.");
+        console.error(e);
+    }
+
+});
+
 </script>
 @endsection

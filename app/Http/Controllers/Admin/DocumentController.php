@@ -15,6 +15,8 @@ class DocumentController extends Controller
             'pic_name',
             'business_category',
             'id_card_path',
+            'bank_book_path',
+            'google_maps_link',
             'office_photos',
             'status',
             'created_at'
@@ -24,6 +26,9 @@ class DocumentController extends Controller
 
         // Total vendor upload KTP
         $withIdCard = $vendors->whereNotNull('id_card_path')->count();
+
+        // Total vendor upload Buku Rekening
+        $withBankBook = $vendors->whereNotNull('bank_book_path')->count();
 
         // Total seluruh office photos
         $withOfficePhotos = 0;
@@ -49,6 +54,7 @@ class DocumentController extends Controller
         return view('admin.documents.index', compact(
             'vendors',
             'withIdCard',
+            'withBankBook',
             'withOfficePhotos'
         ));
     }
