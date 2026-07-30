@@ -280,7 +280,7 @@
                     <label class="form-label">Identity Card (KTP)</label>
                     <div class="single-drop-area" id="idCardDropArea">
                         <p id="idCardText" style="margin-bottom: 4px; font-weight: 600; color: #1e293b;">Drag and drop or click to upload ID card</p>
-                        <span id="idCardSubText" style="color: #64748b; font-size: 0.85rem;">PNG, JPG, PDF up to 5MB</span>
+                        <span id="idCardSubText" style="color: #64748b; font-size: 0.85rem;">PNG, JPG, PDF up to 10MB</span>
                         <input type="file" name="id_card" id="idCardInput" accept=".jpg,.jpeg,.png,.pdf" required>
                     </div>
                 </div>
@@ -308,6 +308,41 @@
                     </div>
                 </div>
 
+                <!-- NPWP Document -->
+<div class="form-group mt-4">
+
+    <label class="form-label">
+        Upload NPWP Document <span class="required">*</span>
+    </label>
+
+    <div class="single-drop-area" id="npwpDropArea">
+
+        <div class="drop-icon">📄</div>
+
+        <p id="npwpText" style="color:#000;font-weight:600;">
+            Drag & drop your NPWP document here
+        </p>
+
+        <span id="npwpSubText">
+            JPG, PNG, PDF (Max 10MB)
+        </span>
+
+        <input
+            type="file"
+            id="npwpInput"
+            name="npwp_file"
+            accept=".jpg,.jpeg,.png,.pdf"
+            required
+        >
+
+    </div>
+
+    @error('npwp_file')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+
+</div>
+
                 <!-- Bank Book -->
 <div class="form-group mt-4">
     <label class="form-label">
@@ -326,7 +361,7 @@
 </p>
 
         <span id="bankBookSubText" >
-            JPG, PNG, PDF (Max 5MB)
+            JPG, PNG, PDF (Max 10MB)
         </span>
 
         <input
@@ -377,6 +412,7 @@
         const idCardSubText = document.getElementById('idCardSubText');
         const bankBookInput = document.getElementById('bankBookInput');
         const bankBookText = document.getElementById('bankBookText');
+        const npwpSubText = document.getElementById('npwpSubText');
         const bankBookSubText = document.getElementById('bankBookSubText');
 
 
@@ -389,6 +425,17 @@
                 }
             });
         }
+
+        if (npwpInput) {
+    npwpInput.addEventListener('change', function () {
+        if (this.files && this.files.length > 0) {
+            npwpText.style.color = '#0d9488';
+            npwpText.textContent = '✓ ' + this.files[0].name;
+            npwpSubText.textContent =
+                (this.files[0].size / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+    });
+}
 
       if (bankBookInput) {
     bankBookInput.addEventListener('change', function () {

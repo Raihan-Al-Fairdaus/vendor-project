@@ -15,6 +15,7 @@ class Vendor extends Model
         'company_address',
         'google_maps_link',
         'npwp',
+        'npwp_file_path',
         'company_email',
         'company_phone',
         'pic_name',

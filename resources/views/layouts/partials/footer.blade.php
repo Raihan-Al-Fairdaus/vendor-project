@@ -1,3 +1,99 @@
+<style>
+.vc-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(5px);
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+    padding:20px;
+}
+
+.vc-modal.show{
+    display:flex;
+}
+
+.vc-modal-box{
+    width:100%;
+    max-width:700px;
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    animation:modalShow .3s ease;
+    box-shadow:0 25px 60px rgba(0,0,0,.3);
+}
+
+@keyframes modalShow{
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(.95);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+.vc-modal-header{
+    background:#1b3a60;
+    color:#fff;
+    padding:20px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.vc-modal-header h3{
+    margin:0;
+    color:#fff;
+}
+
+.vc-modal-close{
+    font-size:30px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.vc-modal-body{
+    padding:24px;
+}
+
+.vc-benefit{
+    display:flex;
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.vc-benefit:last-child{
+    margin-bottom:0;
+}
+
+.vc-icon{
+    width:55px;
+    height:55px;
+    border-radius:12px;
+    background:#eef4fb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:26px;
+    flex-shrink:0;
+}
+
+.vc-benefit h4{
+    margin:0 0 6px;
+    color:#1b3a60;
+}
+
+.vc-benefit p{
+    margin:0;
+    color:#666;
+    line-height:1.6;
+}
+</style>
+
 <footer class="vc-footer">
 
     <div class="container">
@@ -36,19 +132,17 @@
                     </li>
 
                     <li>
-                        <a href="{{ route('vendor.register') }}">
+                        <a href="{{ route('faq') }}">
                             Register Vendor
                         </a>
                     </li>
 
                     <li>
-                        <a href="#benefits">
-                            Why Partner With Us
-                        </a>
+                        <a href="#" id="whyPartnerBtn">Why Partner With Us</a>
                     </li>
 
                     <li>
-                        <a href="#faq">
+                         <a href="{{ route('faq') }}">
                             FAQ
                         </a>
                     </li>
@@ -67,7 +161,7 @@
                     <i class="fa-solid fa-location-dot"></i>
 
                     <span>
-                        JL. Taman Dhika BL 6 No.5<br>
+                        JL. Taman Dhika BL 6 No. 3A<br>
                         Sono, Sidokerto<br>
                         Buduran, Sidoarjo
                     </span>
@@ -165,3 +259,152 @@
     </div>
 
 </footer>
+
+{{-- WHY PARTNER MODAL --}}
+<div id="whyPartnerModal" class="vc-modal">
+
+    <div class="vc-modal-box">
+
+        <div class="vc-modal-header">
+
+            <h3>Mengapa Bermitra Dengan DNA Advertising?</h3>
+
+            <span class="vc-modal-close">&times;</span>
+
+        </div>
+
+        <div class="vc-modal-body">
+
+            <div class="vc-benefit">
+
+                <div class="vc-icon">🤝</div>
+
+                <div>
+
+                    <h4>Kemitraan Profesional</h4>
+
+                    <p>
+                        Kami membangun hubungan kerja sama yang
+                        transparan, saling percaya, dan profesional
+                        untuk jangka panjang.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="vc-benefit">
+
+                <div class="vc-icon">🚀</div>
+
+                <div>
+
+                    <h4>Peluang Proyek Lebih Besar</h4>
+
+                    <p>
+                        Vendor yang lolos verifikasi berkesempatan
+                        mengikuti berbagai kebutuhan pengadaan dari
+                        DNA Advertising.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="vc-benefit">
+
+                <div class="vc-icon">🛡️</div>
+
+                <div>
+
+                    <h4>Proses Seleksi Transparan</h4>
+
+                    <p>
+                        Seluruh proses evaluasi dilakukan secara
+                        objektif berdasarkan kelengkapan dokumen
+                        dan kualitas perusahaan.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="vc-benefit">
+
+                <div class="vc-icon">⚡</div>
+
+                <div>
+
+                    <h4>Pendaftaran Mudah</h4>
+
+                    <p>
+                        Seluruh proses registrasi dilakukan secara
+                        online sehingga lebih cepat dan efisien.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="vc-benefit">
+
+                <div class="vc-icon">📈</div>
+
+                <div>
+
+                    <h4>Kesempatan Berkembang</h4>
+
+                    <p>
+                        Menjadi bagian dari jaringan vendor resmi
+                        membuka peluang kerja sama yang
+                        berkelanjutan.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const btn = document.getElementById("whyPartnerBtn");
+    const modal = document.getElementById("whyPartnerModal");
+    const closeBtn = document.querySelector(".vc-modal-close");
+
+    if (btn && modal && closeBtn) {
+
+        // Buka modal
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            modal.classList.add("show");
+        });
+
+        // Tutup modal saat klik X
+        closeBtn.addEventListener("click", function () {
+            modal.classList.remove("show");
+        });
+
+        // Tutup modal saat klik area luar
+        window.addEventListener("click", function (e) {
+            if (e.target === modal) {
+                modal.classList.remove("show");
+            }
+        });
+
+        // Tutup modal dengan tombol ESC
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+                modal.classList.remove("show");
+            }
+        });
+
+    }
+
+});
+</script>

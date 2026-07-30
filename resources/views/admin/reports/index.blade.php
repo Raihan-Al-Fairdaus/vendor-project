@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="stat-card animate-on-scroll hoverable" style="transition-delay:0.4s;">
-        <div class="stat-icon stat-icon-red">❌</div>
+        <div class="stat-icon stat-icon-red">📈</div>
         <div>
             <div class="stat-label">Approval Rate</div>
             <div class="stat-value" style="color:var(--primary);">{{ $approvalRate }}%</div>
@@ -47,7 +47,7 @@
             @php $maxVal = max(array_merge($monthValues, [1])); @endphp
             @foreach($monthValues as $i => $val)
             <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
-                <span style="font-size:0.65rem;color:var(--text-muted);font-weight:600;">{{ $val > 0 ? $val : '' }}</span>
+                <span style="font-size:0.65rem;color:#fffff;font-weight:600;">{{ $val > 0 ? $val : '' }}</span>
                 <div style="width:100%;background:var(--primary);border-radius:4px 4px 0 0;height:{{ $maxVal > 0 ? round(($val/$maxVal)*160) : 4 }}px;min-height:4px;transition:height 0.5s ease;opacity:{{ $val > 0 ? '1' : '0.15' }};"
                      title="{{ $months[$i] }}: {{ $val }} registrations"></div>
             </div>
@@ -55,7 +55,7 @@
         </div>
         <div style="display:flex;gap:6px;margin-top:0.5rem;overflow:hidden;">
             @foreach($months as $m)
-            <div style="flex:1;text-align:center;font-size:0.6rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+            <div style="flex:1;text-align:center;font-size:0.6rem;color:#fffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                 {{ \Carbon\Carbon::parse($m)->format('M') }}
             </div>
             @endforeach
@@ -94,7 +94,7 @@
         <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
             <div style="flex:1;">
                 <div style="display:flex;justify-content:space-between;margin-bottom:0.25rem;">
-                    <span style="font-size:0.8rem;font-weight:500;color:var(--text-body);">{{ $cat->business_category }}</span>
+                    <span style="font-size:0.8rem;font-weight:500;color:#fffff;">{{ $cat->business_category }}</span>
                     <span style="font-size:0.8rem;color:var(--text-muted);">{{ $cat->total }}</span>
                 </div>
                 <div style="height:6px;background:var(--border);border-radius:9999px;overflow:hidden;">

@@ -228,7 +228,7 @@
    MOBILE RESPONSIVE
 =========================== */
 
-@@media (max-width:768px){
+@media (max-width:768px){
 
     .marquee-track{
         gap:16px;

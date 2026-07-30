@@ -207,6 +207,54 @@
 
     </div>
 
+    {{-- NPWP Document --}}
+<div style="margin-bottom:1rem;">
+
+    <div style="font-size:0.65rem;color:rgba(255,255,255,.5);text-transform:uppercase;margin-bottom:.3rem;">
+        Tax Document
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.25);padding:.7rem .85rem;border-radius:8px;border:1px solid rgba(255,255,255,.05);">
+
+        <div style="display:flex;align-items:center;gap:.6rem;overflow:hidden;">
+
+            <span style="font-size:1.3rem;">🧾</span>
+
+            <div style="overflow:hidden;">
+
+                <div style="font-weight:600;color:#fff;font-size:.85rem;">
+                    NPWP Document
+                </div>
+
+                <div style="font-size:.7rem;color:#34d399;">
+                    Tax Identification File
+                </div>
+
+            </div>
+
+        </div>
+
+        @if($vendor->npwp_file_path)
+
+            <a href="{{ Storage::url($vendor->npwp_file_path) }}"
+               target="_blank"
+               class="btn"
+               style="background:#1b3a60;border:1px solid #d4af37;color:#fff;padding:.3rem .7rem;border-radius:6px;font-size:.8rem;text-decoration:none;">
+                View
+            </a>
+
+        @else
+
+            <span style="font-size:.8rem;color:rgba(255,255,255,.4);">
+                Not Uploaded
+            </span>
+
+        @endif
+
+    </div>
+
+</div>
+
     {{-- Bank Account Book --}}
     <div>
 

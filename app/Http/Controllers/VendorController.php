@@ -33,10 +33,14 @@ class VendorController extends Controller
             'google_maps_link'  => 'nullable|url',
 
             // ID Card
-            'id_card' => 'required|file|mimes:jpeg,png,jpg,pdf|max:5120',
+            'id_card' => 'required|file|mimes:jpeg,png,jpg,pdf|max:10240',
 
             // Buku Rekening
-            'bank_book' => 'required|file|mimes:jpeg,png,jpg,pdf|max:5120',
+            'bank_book' => 'required|file|mimes:jpeg,png,jpg,pdf|max:10240',
+
+            // file NPWP
+            'npwp_file' => 'required|file|mimes:jpeg,png,jpg,pdf|max:10240',
+
 
             // Office Photos
             'office_photos'   => 'required|array|min:2',
@@ -54,6 +58,12 @@ class VendorController extends Controller
         // Simpan Buku Rekening
         $bankBookPath = $request->file('bank_book')->store(
             'vendors/bank_books',
+            'public'
+        );
+
+        // simpan file NPWP
+        $npwpPath = $request->file('npwp_file')->store(
+            'vendors/npwp',
             'public'
         );
 
@@ -77,6 +87,7 @@ class VendorController extends Controller
             'business_category' => $request->business_category,
             'company_address'   => $request->company_address,
             'npwp'              => $request->npwp,
+            'npwp_file_path'    => $npwpPath,
             'company_email'     => $request->company_email,
             'company_phone'     => $request->company_phone,
             'pic_name'          => $request->pic_name,

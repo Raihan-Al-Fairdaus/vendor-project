@@ -58,14 +58,9 @@ href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
     </style>
 
     {{-- Theme --}}
-    <script>
-        (function () {
-            const saved = localStorage.getItem('vendorconnect-theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = saved || (prefersDark ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
-        })();
-    </script>
+   <script>
+document.documentElement.setAttribute('data-theme', 'light');
+</script>
 </head>
 
 <body>
@@ -116,7 +111,7 @@ href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
 
     <!-- ================= JS ================= -->
 
-    <script src="{{ asset('js/app.js') }}"></script>
+    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>

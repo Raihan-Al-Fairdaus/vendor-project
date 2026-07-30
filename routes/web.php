@@ -34,6 +34,7 @@ Route::get('/register', function () {
 Route::post('/vendor/register', [VendorController::class, 'store'])->name('vendor.store');
 Route::get('/vendor/success', [VendorController::class, 'success'])->name('vendor.success');
 
+Route::view('/faq', 'faq.faq')->name('faq');
 
 // ==========================================
 // 2. ROUTE LOGIN ADMIN

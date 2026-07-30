@@ -16,7 +16,7 @@
             </div>
             <div>
                 <h3 style="margin-bottom:0.2rem;">{{ $user->name }}</h3>
-                <span style="font-size:0.8rem;background:var(--primary-muted);color:var(--primary);padding:0.2rem 0.6rem;border-radius:9999px;font-weight:500;">Administrator</span>
+                <span style="font-size:0.8rem;background:var(--primary-muted);color:#080808;padding:0.2rem 0.6rem;border-radius:9999px;font-weight:500;">Administrator</span>
             </div>
         </div>
 
@@ -108,15 +108,15 @@
     <div class="grid grid-cols-3 gap-4">
         <div style="padding:1rem;background:var(--background);border-radius:var(--radius-md);border:1px solid var(--border);">
             <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.05em;">Application</div>
-            <div style="font-weight:600;color:var(--text-main);">VendorConnect v1.0</div>
+            <div style="font-weight:600;color:#FFFFFF;">VendorConnect v1.0</div>
         </div>
         <div style="padding:1rem;background:var(--background);border-radius:var(--radius-md);border:1px solid var(--border);">
             <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.05em;">Framework</div>
-            <div style="font-weight:600;color:var(--text-main);">Laravel {{ app()->version() }}</div>
+            <div style="font-weight:600;color:#FFFFFF;">Laravel {{ app()->version() }}</div>
         </div>
         <div style="padding:1rem;background:var(--background);border-radius:var(--radius-md);border:1px solid var(--border);">
             <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.05em;">PHP Version</div>
-            <div style="font-weight:600;color:var(--text-main);">{{ PHP_VERSION }}</div>
+            <div style="font-weight:600;color:#FFFFFF;">{{ PHP_VERSION }}</div>
         </div>
     </div>
 </div>
