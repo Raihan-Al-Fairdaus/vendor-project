@@ -160,30 +160,26 @@
                         @endphp
 
                         <span
-                            style="
-                                background:{{ $statusBg }};
-                                border:1px solid {{ $statusBorder }};
-                                color:{{ $statusColor }};
-                                padding:.3rem .75rem;
-                                border-radius:20px;
-                                font-size:.75rem;
-                                font-weight:600;
-                                display:inline-flex;
-                                align-items:center;
-                                gap:.4rem;
-                            "
-                        >
-                            <span
-                                style="
-                                    width:6px;
-                                    height:6px;
-                                    border-radius:50%;
-                                    background:{{ $statusColor }};
-                                "
-                            ></span>
+    style="
+        background:{{ $statusBg }};
+        border:1px solid {{ $statusBorder }};
+        color:{{ $statusColor }};
+        padding:.3rem .75rem;
+        border-radius:20px;
+        font-size:.75rem;
+        font-weight:600;
+        display:inline-flex;
+        align-items:center;
+        gap:.4rem;
+    "
+>
+   <span style="font-size:12px;color:{{ $statusColor }} !important;">
+    ●
+</span>
 
-                            {{ ucfirst($vendor->status) }}
-                        </span>
+<span style="color:{{ $statusColor }} !important;">
+    {{ ucfirst($vendor->status) }}
+</span>
 
                     </td>
 
@@ -214,9 +210,7 @@
 
     </div>
 
-    <div class="mt-4">
-        {{ $vendors->appends(request()->query())->links('pagination::bootstrap-4') }}
-    </div>
+    
 
 </div>
 

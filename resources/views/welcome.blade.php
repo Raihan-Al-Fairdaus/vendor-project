@@ -327,8 +327,8 @@
                 <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
                     <div style="background: rgba(255,255,255,0.15); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🤝</div>
                 </div>
-                <h3 style="font-size: 2.25rem; margin-bottom: 0.5rem; font-weight: 700; color: #ffffff !important;">5,000+</h3>
-                <p style="font-size: 0.95rem; opacity: 0.9; color: #ffffff !important;">Verified Partners Worldwide</p>
+                <h3 style="font-size: 2.25rem; margin-bottom: 0.5rem; font-weight: 700; color: #ffffff !important;">Trusted</h3>
+                <p style="font-size: 0.95rem; opacity: 0.9; color: #ffffff !important;">Business Network</p>
             </div>
         </div>
     </div>

@@ -73,8 +73,8 @@
         @endphp
         <div style="margin-bottom:1rem;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
-                <span style="font-size:0.8rem;font-weight:600;color:{{ $color }};text-transform:capitalize;">{{ $status }}</span>
-                <span style="font-size:0.8rem;color:var(--text-muted);">{{ $count }} ({{ $pct }}%)</span>
+                <span style="font-size:0.8rem;font-weight:600;color:#fffff;text-transform:capitalize;">{{ $status }}</span>
+                <span style="font-size:0.8rem;color::#ffffff;">{{ $count }} ({{ $pct }}%)</span>
             </div>
             <div style="height:8px;background:var(--border);border-radius:9999px;overflow:hidden;">
                 <div style="height:100%;width:{{ $pct }}%;background:{{ $color }};border-radius:9999px;transition:width 0.8s ease;"></div>
@@ -95,7 +95,7 @@
             <div style="flex:1;">
                 <div style="display:flex;justify-content:space-between;margin-bottom:0.25rem;">
                     <span style="font-size:0.8rem;font-weight:500;color:#fffff;">{{ $cat->business_category }}</span>
-                    <span style="font-size:0.8rem;color:var(--text-muted);">{{ $cat->total }}</span>
+                    <span style="font-size:0.8rem;color:#ffffff;">{{ $cat->total }}</span>
                 </div>
                 <div style="height:6px;background:var(--border);border-radius:9999px;overflow:hidden;">
                     <div style="height:100%;width:{{ $catPct }}%;background:var(--primary);border-radius:9999px;"></div>
@@ -147,7 +147,7 @@
 
             <div style="
                 font-size:0.75rem;
-                color:var(--text-muted);
+                color:#ffffff;
             ">
                 {{ $v->created_at->diffForHumans() }}
             </div>

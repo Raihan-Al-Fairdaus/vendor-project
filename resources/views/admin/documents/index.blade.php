@@ -45,9 +45,9 @@
 <div class="card animate-on-scroll" style="padding:0;overflow:hidden;transition-delay:0.5s;">
     <div style="padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
         <h3 style="font-size:1rem;">All Vendor Documents</h3>
-        <span class="badge" style="background:var(--primary-muted);color:var(--primary);">
-            {{ $vendors->count() }} vendors
-        </span>
+       <span class="badge" style="background:rgba(209,168,34,.15);color:#FFFFFF;">
+    {{ $vendors->count() }} vendors
+</span>
     </div>
 
     <div class="table-container" style="border:none;border-radius:0;">

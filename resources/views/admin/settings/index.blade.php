@@ -16,7 +16,7 @@
             </div>
             <div>
                 <h3 style="margin-bottom:0.2rem;">{{ $user->name }}</h3>
-                <span style="font-size:0.8rem;background:var(--primary-muted);color:#080808;padding:0.2rem 0.6rem;border-radius:9999px;font-weight:500;">Administrator</span>
+                <span style="font-size:0.8rem;/* background:var(--primary-muted); */color:#FFFFF;padding:0.2rem 0.6rem;border-radius:9999px;font-weight:500;">Administrator</span>
             </div>
         </div>
 

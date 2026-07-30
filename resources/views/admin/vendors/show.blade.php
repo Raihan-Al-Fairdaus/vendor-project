@@ -8,6 +8,7 @@
 @endsection
 
 @section('content')
+
 <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; align-items: start;" id="vendor-dashboard-layout">
     
     {{-- KOLOM KIRI (PERUSAHAAN DI ATAS, PIC DI BAWAHNYA) --}}

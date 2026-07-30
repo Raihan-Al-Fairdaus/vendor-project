@@ -516,9 +516,10 @@ tbody tr:hover td {
 /* ============================================
    HERO & LANDING
    ============================================ */
-.hero{
+.hero {
     position: relative;
     overflow: hidden;
+    padding-top: 3rem; /* Tambahkan baris ini untuk memberi jarak dari navbar */
 }
 
 .hero > .container{
@@ -616,6 +617,7 @@ tbody tr:hover td {
 .stat-icon-green  { background: var(--success-bg); }
 .stat-icon-orange { background: var(--warning-bg); }
 .stat-icon-red    { background: var(--error-bg); }
+.stat-icon-purple{background: var(--success-bg);color: #f8f8f8; }
 .stat-label {
     font-size: 0.75rem;
     font-weight: 700;
@@ -1204,7 +1206,7 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
         .main-content .stat-card *, 
         .main-content .table-container *,
         .main-content form:not([action]) * {
-            border-color: transparent !important;
+            border-color: #fcd34d !important;
         }
 
         
@@ -1248,7 +1250,6 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
         .main-content table td,
         .main-content table td *,
         .main-content table td a,
-        .main-content table td span,
         .main-content table td div {
             color: #ffffff !important;
             background: transparent !important;
@@ -1270,13 +1271,7 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
         }
 
         
-        .main-content p, 
-        .main-content span:not(.nav-text), 
-        .main-content small,
-        .main-content label,
-        .main-content li {
-           
-
+       
 
         .main-content input,
         .main-content select,
@@ -1302,7 +1297,7 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
         .main-content .badge-action,
         .main-content .actions a,
         .main-content .actions button {
-            color: #ffffff !important;
+            color: #fefcfc !important;
         }
 
        
@@ -1543,7 +1538,7 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
 
 }
 
-@media(max-width:768px){
+@media (max-width: 768px) {
 
     .vc-footer .container{
         padding:55px 20px 25px;
@@ -1562,19 +1557,29 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
     .footer-logo{
         width:120px;
     }
-/* Dashboard Stat Card Title */
+
+} /* <-- Penutup @media */
+
+
+/* =======================================================
+   Dashboard Stat Card Title
+======================================================= */
+
 .stat-card .stat-label,
 .stat-card h5,
 .stat-card h6,
 .stat-card .card-title,
-.stat-card .title {
-    color: #FFFFFF !important;
-    opacity: 1 !important;
-    font-weight: 600 !important;
+.stat-card .title{
+    color:#FFFFFF !important;
+    opacity:1 !important;
+    font-weight:600 !important;
 }
 
 
-}
+/* =======================================================
+   Document Link
+======================================================= */
+
 .doc-link{
     display:inline-flex;
     align-items:center;
@@ -1599,4 +1604,19 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
     color:#1B3A60 !important;
     transform:translateY(-2px);
     box-shadow:0 8px 20px rgba(212,175,55,.35);
+}
+
+
+/* =======================================================
+   Status Dot
+======================================================= */
+
+.status-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    display:inline-block;
+    flex-shrink:0;
+    margin-right:6px;
+    background:var(--dot-color) !important;
 }

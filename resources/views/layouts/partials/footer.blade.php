@@ -121,35 +121,35 @@
             </div>
 
             <!-- Quick Links -->
-            <div class="vc-footer-links">
+           <div class="vc-footer-links">
 
-                <h4>Quick Links</h4>
+    <h4>Quick Links</h4>
 
-                <ul>
+    <ul>
 
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
+        <li>
+            <a href="/">Home</a>
+        </li>
 
-                    <li>
-                        <a href="{{ route('faq') }}">
-                            Register Vendor
-                        </a>
-                    </li>
+        <li>
+            <a href="{{ route('vendor.register') }}">
+                Register Vendor
+            </a>
+        </li>
 
-                    <li>
-                        <a href="#" id="whyPartnerBtn">Why Partner With Us</a>
-                    </li>
+        <li>
+            <a href="#" id="whyPartnerBtn">Why Partner With Us</a>
+        </li>
 
-                    <li>
-                         <a href="{{ route('faq') }}">
-                            FAQ
-                        </a>
-                    </li>
+        <li>
+             <a href="{{ route('faq') }}">
+                FAQ
+            </a>
+        </li>
 
-                </ul>
+    </ul>
 
-            </div>
+</div>
 
             <!-- Contact -->
             <div class="vc-footer-contact">
@@ -207,27 +207,23 @@
                 <div class="vc-help-card">
 
                     <div class="help-icon">
-
                         <i class="fa-solid fa-headset"></i>
-
                     </div>
 
-                    <h4>Need Assistance?</h4>
+                    <h4>Need Help?</h4>
 
                     <p>
-
                         Having trouble while registering your company?
-
                         Feel free to contact our team during working hours.
                         We are ready to assist your registration process.
-
                     </p>
 
                     <a
-                        href="{{ route('vendor.register') }}"
+                        href="https://wa.me/6281228358630?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor."
+                        target="_blank"
                         class="help-btn"
                     >
-                        Register Now
+                        <i class="fa-solid fa-headset" style="margin-right: 6px;"></i> Contact Team
                     </a>
 
                 </div>

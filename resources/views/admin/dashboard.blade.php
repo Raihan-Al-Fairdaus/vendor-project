@@ -26,19 +26,11 @@
 </div>
 
 <div class="grid gap-4 mb-8" style="grid-template-columns: 2fr 1fr;">
-    <!-- Chart Placeholder -->
+    <!-- Chart Dinamis dengan Chart.js -->
     <div class="card animate-on-scroll" style="transition-delay: 0.5s;">
         <h3 class="mb-4">Monthly Registrations</h3>
-        <div style="height: 200px; display: flex; align-items: flex-end; justify-content: space-around; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
-            <!-- Mock bars -->
-            <div style="width: 30px; height: 30%; background: var(--primary); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 50%; background: var(--primary); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 40%; background: var(--primary); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 80%; background: var(--primary); border-radius: 4px 4px 0 0;"></div>
-            <div style="width: 30px; height: 60%; background: var(--primary); border-radius: 4px 4px 0 0;"></div>
-        </div>
-        <div class="d-flex justify-between mt-2 text-muted" style="font-size: 0.75rem;">
-            <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span>
+        <div style="position: relative; height: 220px; width: 100%;">
+            <canvas id="monthlyRegistrationsChart"></canvas>
         </div>
     </div>
 
@@ -47,8 +39,8 @@
         <div>
             @foreach($categories as $category)
             <div class="d-flex justify-between mb-2">
-                <span class="text-muted" style="font-size: 0.875rem;">{{ $category->business_category }}</span>
-                <span style="font-weight: 600;">{{ $category->total }}</span>
+                <span style="font-size:0.875rem;color:#ffffff;font-weight:500;">{{ $category->business_category }}</span>
+                <span style="font-weight:600;color:#ffffff;">{{ $category->total }}</span>
             </div>
             @endforeach
             @if($categories->isEmpty())
@@ -68,7 +60,7 @@
         font-weight:600;
         text-decoration:none;
    ">
-    View All →
+        View All →
 </a>
     </div>
     <div class="table-container">
@@ -108,4 +100,58 @@
         </table>
     </div>
 </div>
+
+{{-- Script Chart.js untuk Monthly Registrations --}}
+{{-- Script Chart.js untuk Monthly Registrations --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('monthlyRegistrationsChart').getContext('2d');
+    
+    // Menggunakan json_encode langsung dari PHP agar aman dari error sintaks Blade
+    const monthlyCounts = {!! json_encode($chartData ?? [0,0,0,0,0,0,0,0,0,0,0,0]) !!};
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'registrations',
+                data: monthlyCounts,
+                backgroundColor: '#3b82f6',
+                borderRadius: 6,
+                barThickness: 'flex',
+                maxBarThickness: 30,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.parsed.y + ' registrations';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 11 } }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                    ticks: { 
+                        color: 'rgba(255, 255, 255, 0.7)',
+                        stepSize: 1,
+                        font: { size: 11 }
+                    }
+                }
+            }
+        }
+    });
+</script>
 @endsection

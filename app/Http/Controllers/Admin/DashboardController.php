@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -25,6 +26,22 @@ class DashboardController extends Controller
         $approvedVendors = Vendor::where('status', 'approved')->count();
         $rejectedVendors = Vendor::where('status', 'rejected')->count();
 
+        // Mengambil data jumlah pendaftaran vendor per bulan pada tahun berjalan (2026)
+        $monthlyData = Vendor::select(
+                DB::raw('COUNT(id) as total'),
+                DB::raw('MONTH(created_at) as month')
+            )
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('month')
+            ->pluck('total', 'month')
+            ->toArray();
+
+        // Siapkan array untuk 12 bulan (Jan - Dec)
+        $chartData = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $chartData[] = $monthlyData[$i] ?? 0;
+        }
+
         // Optional: Get data for a simple chart (e.g. grouped by category)
         $categories = Vendor::selectRaw('business_category, count(*) as total')
                             ->groupBy('business_category')
@@ -38,7 +55,8 @@ class DashboardController extends Controller
             'approvedVendors',
             'rejectedVendors',
             'categories',
-            'recentVendors'
+            'recentVendors',
+            'chartData'
         ));
     }
 }
