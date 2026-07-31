@@ -258,16 +258,16 @@
                 <h3 class="mb-4 d-flex align-center gap-4"><span style="color: var(--primary); font-size: 1.5rem;">📞</span> Contact Information</h3>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="form-group">
-                        <label class="form-label">Company Email</label>
+                        <label class="form-label"> Email</label>
                         <input type="email" name="company_email" class="form-control" value="{{ old('company_email') }}" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Company Phone</label>
+                        <label class="form-label">Phone Number</label>
                         <input type="text" name="company_phone" class="form-control" value="{{ old('company_phone') }}" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Person in Charge (PIC) Name</label>
+                    <label class="form-label">Nama Penanggung jawab</label>
                     <input type="text" name="pic_name" class="form-control" value="{{ old('pic_name') }}" required>
                 </div>
             </div>
@@ -312,7 +312,7 @@
 <div class="form-group mt-4">
 
     <label class="form-label">
-        Upload NPWP Document <span class="required">*</span>
+        Upload NPWP Document <span class="required"></span>
     </label>
 
     <div class="single-drop-area" id="npwpDropArea">
@@ -349,7 +349,7 @@
       <div class="form-group">
 
     <label class="form-label">
-        Upload Bank Account Book <span class="required">*</span>
+        Upload Bank Account Book <span class="required"></span>
     </label>
 
     <div class="single-drop-area" id="bankBookDropArea">
@@ -559,87 +559,7 @@
         }
     });
 
-/* ===========================================
-   COMPANY LOCATION MAP
-=========================================== */
 
-window.addEventListener("load", function () {
-
-    const companyMap = L.map("companyMap");
-
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap contributors",
-        maxZoom: 19
-    }).addTo(companyMap);
-
-    companyMap.setView([-6.2088, 106.8456], 5);
-
-    setTimeout(function () {
-        companyMap.invalidateSize();
-    }, 500);
-
-    let companyMarker = null;
-
-    const oldLat = document.getElementById("latitude").value;
-    const oldLng = document.getElementById("longitude").value;
-
-    if (oldLat && oldLng) {
-
-        const pos = [parseFloat(oldLat), parseFloat(oldLng)];
-
-        companyMarker = L.marker(pos).addTo(companyMap);
-
-        companyMap.setView(pos, 15);
-
-    }
-
-    companyMap.on("click", function (e) {
-
-        if (companyMarker) {
-            companyMap.removeLayer(companyMarker);
-        }
-
-        companyMarker = L.marker(e.latlng).addTo(companyMap);
-
-        latitude.value = e.latlng.lat;
-        longitude.value = e.latlng.lng;
-
-    });
-
-    document.getElementById("searchLocationBtn").addEventListener("click", async function () {
-
-        const keyword = locationSearch.value.trim();
-
-        if (!keyword) return;
-
-        const res = await fetch(
-            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(keyword)}`
-        );
-
-        const data = await res.json();
-
-        if (!data.length) {
-            alert("Location not found");
-            return;
-        }
-
-        const lat = parseFloat(data[0].lat);
-        const lng = parseFloat(data[0].lon);
-
-        companyMap.setView([lat, lng], 16);
-
-        if (companyMarker) {
-            companyMap.removeLayer(companyMarker);
-        }
-
-        companyMarker = L.marker([lat, lng]).addTo(companyMap);
-
-        latitude.value = lat;
-        longitude.value = lng;
-
-    });
-
-});
 
 /* ===========================================
    SEARCH COMPANY LOCATION

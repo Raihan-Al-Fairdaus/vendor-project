@@ -151,7 +151,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/vendors/{id}/reject', function ($id) {
         $vendor = Vendor::findOrFail($id);
         $vendor->update(['status' => 'rejected']);
-        return back()->with('success', 'Vendor telah ditolak (Rejected).');
+        return back()->with('error', 'Vendor telah ditolak (Rejected).');
     })->name('admin.vendors.reject');
 
     Route::delete('/admin/vendors/{id}', function ($id) {

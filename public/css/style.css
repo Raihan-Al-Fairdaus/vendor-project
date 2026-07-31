@@ -1358,11 +1358,12 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
 ======================================================= */
 
 .vc-footer{
-    margin-top:80px;
-    background:linear-gradient(135deg,#0f172a 0%,#13294B 100%);
-    color:#fff;
+    width:100%;
+    display:block;
+    background:#12264a;
     position:relative;
-    overflow:hidden;
+    left:0;
+    right:0;
 }
 
 .vc-footer::before{
