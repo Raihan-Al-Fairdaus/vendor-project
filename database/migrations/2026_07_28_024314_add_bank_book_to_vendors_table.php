@@ -10,11 +10,13 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
+{
+    if (!Schema::hasColumn('vendors', 'bank_book_path')) {
         Schema::table('vendors', function (Blueprint $table) {
             $table->string('bank_book_path')->nullable()->after('id_card_path');
         });
     }
+}
 
     /**
      * Reverse the migrations.

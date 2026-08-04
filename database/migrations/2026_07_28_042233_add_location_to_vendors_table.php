@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     public function up(): void
-    {
+{
+    if (!Schema::hasColumn('vendors', 'google_maps_link')) {
         Schema::table('vendors', function (Blueprint $table) {
             $table->text('google_maps_link')->nullable()->after('company_address');
         });
     }
+}
 
     public function down(): void
     {
