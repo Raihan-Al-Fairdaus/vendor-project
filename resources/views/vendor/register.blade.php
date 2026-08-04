@@ -382,24 +382,228 @@
 
             </div>
 
-            <div class="mb-8 animate-on-scroll hoverable" style="background-color: var(--surface); padding: 2rem; border-radius: var(--radius-md); border: 1px solid var(--border); transition-delay: 0.4s;">
-                <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
-                    <input type="checkbox" id="agreement" name="agreement" value="1" required style="margin-top: 0.25rem;">
-                    <label for="agreement" style="font-size: 0.875rem; color: var(--text-main);">
-                        I hereby declare that all the information provided above is true and accurate. I understand that any false information may lead to the rejection or revocation of my vendor status.
-                        <br><br>
-                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a> regarding the processing of business data.
-                    </label>
-                </div>
-                
-                <div class="d-flex justify-between align-center mt-4 mobile-col">
-                    <a href="/" class="btn btn-outline" style="order: 2; border-color: #f87171 !important; color: #f87171 !important; background-color: rgba(248, 113, 113, 0.05);">Discard Draft</a>
-                    <button type="submit" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1rem; order: 1; background-color: #f59e0b; border-color: #f59e0b; color: #1e293b; font-weight: 600;">Submit Registration</button>
-                </div>
-            </div>
-        </form>
+          <!-- =======================================================
+    AGREEMENT SECTION
+======================================================= -->
+
+<div class="agreement-card">
+
+    <div class="agreement-header">
+
+        <div class="agreement-icon">
+            📄
+        </div>
+
+        <div class="agreement-info">
+            <h3>Vendor Partnership Agreement</h3>
+
+            <p>
+                Please read and understand the Vendor Partnership Agreement
+                before continuing your registration.
+            </p>
+        </div>
+
     </div>
+
+    <button
+        type="button"
+        id="openAgreement"
+        class="agreement-btn">
+
+        <span class="agreement-btn-icon">
+            📄
+        </span>
+
+        <span class="agreement-btn-text">
+            Read Vendor Partnership Agreement
+            <small>Required before registration</small>
+        </span>
+
+        <span class="agreement-btn-arrow">
+            →
+        </span>
+
+    </button>
+
+    <div
+        id="agreementStatus"
+        class="agreement-status">
+
+        You must read and accept the agreement before continuing.
+
+    </div>
+
 </div>
+
+
+<!-- =======================================================
+    AGREEMENT CHECKBOX
+======================================================= -->
+
+<div class="agreement-checkbox-wrapper">
+
+    <input
+        type="checkbox"
+        id="agreement"
+        name="agreement"
+        value="1"
+        disabled
+        required>
+
+    <label for="agreement">
+
+        I hereby declare that all information provided above is true and accurate.
+        I understand that any false information may lead to rejection or revocation
+        of my vendor registration.
+
+        <br><br>
+
+        I agree to the
+
+        <a href="#">
+            Terms of Service
+        </a>
+
+        and
+
+        <a href="#">
+            Privacy Policy
+        </a>
+
+        regarding the processing of business data.
+
+    </label>
+
+</div>
+
+
+<!-- =======================================================
+    ACTION BUTTONS
+======================================================= -->
+
+<div class="d-flex justify-between align-center mt-4 mobile-col">
+
+    <a
+        href="/"
+        class="btn btn-outline"
+        style="
+            order:2;
+            border-color:#f87171!important;
+            color:#f87171!important;
+            background:rgba(248,113,113,.05);
+        ">
+
+        Discard Draft
+
+    </a>
+
+    <button
+        type="submit"
+        id="submitBtn"
+        class="btn btn-primary"
+        disabled
+        style="
+            order:1;
+            padding:1rem 3rem;
+            font-size:1rem;
+        ">
+
+        Submit Registration
+
+    </button>
+
+</div>
+
+</form>
+
+</div>
+</div>
+
+
+
+<!-- =======================================================
+    AGREEMENT MODAL
+======================================================= -->
+
+<div
+    id="agreementModal"
+    class="agreement-modal">
+
+    <div class="agreement-modal-content">
+
+        <div class="agreement-modal-header">
+
+            <h2>
+                Vendor Partnership Agreement
+            </h2>
+
+            <button
+                type="button"
+                id="closeAgreement">
+
+                ✕
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="agreementScroll"
+            class="agreement-body">
+
+            <h3>
+                1. General Terms
+            </h3>
+
+            <p>
+                By registering as a vendor, you agree to comply with all
+                partnership regulations established by DNA Advertising.
+            </p>
+
+            <p>
+                Vendors must provide accurate company information.
+            </p>
+
+            <p>
+                Vendors shall maintain confidentiality.
+            </p>
+
+            <p>
+                Any fraudulent document will immediately terminate the partnership.
+            </p>
+
+            <p>
+                Additional agreement content...
+            </p>
+
+            <br><br><br><br><br><br><br><br><br><br>
+
+            <h3>
+                End of Agreement
+            </h3>
+
+        </div>
+
+
+        <div class="agreement-footer">
+
+            <button
+                type="button"
+                id="acceptAgreement"
+                class="agree-button"
+                disabled>
+
+                🔒 I Agree & Continue
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -565,50 +769,143 @@
    SEARCH COMPANY LOCATION
 =========================================== */
 
-document.getElementById("searchLocationBtn").addEventListener("click", async function () {
+const searchLocationBtn = document.getElementById("searchLocationBtn");
 
-    const keyword = document.getElementById("locationSearch").value.trim();
+if (searchLocationBtn) {
 
-    if (keyword === "") {
-        alert("Please enter a company location.");
+    searchLocationBtn.addEventListener("click", async function () {
+
+        const keyword = document.getElementById("locationSearch").value.trim();
+
+        if (keyword === "") {
+            alert("Please enter a company location.");
+            return;
+        }
+
+        try {
+
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(keyword)}`
+            );
+
+            const data = await response.json();
+
+            if (data.length === 0) {
+                alert("Alamat tidak ditemukan.\nSilakan klik lokasi perusahaan langsung pada peta.");
+                return;
+            }
+
+            const lat = parseFloat(data[0].lat);
+            const lng = parseFloat(data[0].lon);
+
+            companyMap.setView([lat, lng], 16);
+
+            if (companyMarker) {
+                companyMap.removeLayer(companyMarker);
+            }
+
+            companyMarker = L.marker([lat, lng]).addTo(companyMap);
+
+            document.getElementById("latitude").value = lat;
+            document.getElementById("longitude").value = lng;
+
+        } catch (e) {
+
+            alert("Failed to search location.");
+            console.error(e);
+
+        }
+
+    });
+
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const modal = document.getElementById("agreementModal");
+    const openBtn = document.getElementById("openAgreement");
+    const closeBtn = document.getElementById("closeAgreement");
+
+    const scrollArea = document.getElementById("agreementScroll");
+    const acceptBtn = document.getElementById("acceptAgreement");
+
+    const agreement = document.getElementById("agreement");
+    const submitBtn = document.getElementById("submitBtn");
+    const agreementStatus = document.getElementById("agreementStatus");
+
+    if (
+        !modal ||
+        !openBtn ||
+        !closeBtn ||
+        !scrollArea ||
+        !acceptBtn ||
+        !agreement ||
+        !submitBtn ||
+        !agreementStatus
+    ) {
+        console.error("Agreement modal element not found.");
         return;
     }
 
-    try {
+    // Open Modal
+    openBtn.addEventListener("click", function () {
 
-        const response = await fetch(
-            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(keyword)}`
-        );
+        modal.classList.add("show");
 
-        const data = await response.json();
+        scrollArea.scrollTop = 0;
 
-       if (data.length === 0) {
+        acceptBtn.disabled = true;
+        acceptBtn.classList.remove("enabled");
 
-    alert("Alamat tidak ditemukan.\nSilakan klik lokasi perusahaan langsung pada peta.");
+    });
 
-    return;
+    // Close Button
+    closeBtn.addEventListener("click", function () {
 
-}
-        const lat = parseFloat(data[0].lat);
-        const lng = parseFloat(data[0].lon);
+        modal.classList.remove("show");
 
-        companyMap.setView([lat, lng], 16);
+    });
 
-        if (companyMarker) {
-            companyMap.removeLayer(companyMarker);
+    // Click Backdrop
+    modal.addEventListener("click", function (e) {
+
+        if (e.target === modal) {
+            modal.classList.remove("show");
         }
 
-        companyMarker = L.marker([lat, lng]).addTo(companyMap);
+    });
 
-        document.getElementById("latitude").value = lat;
-        document.getElementById("longitude").value = lng;
+    // Enable Button After Scroll
+    scrollArea.addEventListener("scroll", function () {
 
-    } catch (e) {
-        alert("Failed to search location.");
-        console.error(e);
-    }
+        if (
+            scrollArea.scrollTop + scrollArea.clientHeight >=
+            scrollArea.scrollHeight - 10
+        ) {
+            acceptBtn.disabled = false;
+            acceptBtn.classList.add("enabled");
+        }
+
+    });
+
+    // Accept Agreement
+    acceptBtn.addEventListener("click", function () {
+
+        agreement.disabled = false;
+        agreement.checked = true;
+        agreement.disabled = false;
+
+        submitBtn.disabled = false;
+
+        agreementStatus.innerHTML =
+            "✅ Vendor Partnership Agreement accepted.";
+
+        agreementStatus.style.color = "#16a34a";
+
+        modal.classList.remove("show");
+
+    });
 
 });
-
 </script>
 @endsection

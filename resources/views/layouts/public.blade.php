@@ -9,7 +9,9 @@
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
@@ -18,58 +20,67 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    {{-- CSS khusus halaman login --}}
+    @if (Request::routeIs('admin.login'))
+        <link rel="stylesheet" href="{{ asset('css/admin-login.css') }}">
+    @endif
+
     <link rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-<link
-rel="stylesheet"
-href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
+    <link rel="stylesheet"
+        href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
 
-    {{-- CSS Mobile --}}
     <style>
         @media screen and (max-width:768px) {
             body {
-                overflow-x: hidden !important;
-                width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
+                overflow-x: hidden;
+                width: 100%;
+                margin: 0;
+                padding: 0;
             }
 
             .container {
-                width: 100% !important;
-                max-width: 100% !important;
-                padding-left: 1rem !important;
-                padding-right: 1rem !important;
-                box-sizing: border-box !important;
+                width: 100%;
+                max-width: 100%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                box-sizing: border-box;
             }
 
             img,
             video,
             canvas {
-                max-width: 100% !important;
-                height: auto !important;
+                max-width: 100%;
+                height: auto;
             }
 
             .navbar-inner {
-                flex-wrap: wrap !important;
-                gap: .5rem !important;
+                flex-wrap: wrap;
+                gap: .5rem;
             }
         }
     </style>
 
-    {{-- Theme --}}
-   <script>
-document.documentElement.setAttribute('data-theme', 'light');
-</script>
+    <script>
+        document.documentElement.setAttribute('data-theme', 'light');
+    </script>
+
+    @stack('styles')
+
 </head>
 
 <body>
 
-    <!-- ================= NAVBAR ================= -->
+    {{-- NAVBAR TIDAK DITAMPILKAN DI HALAMAN LOGIN --}}
+    @unless(Request::routeIs('admin.login'))
+
     <nav class="navbar">
+
         <div class="container navbar-inner">
 
-            <a href="/" class="brand"
+            <a href="{{ route('home') }}"
+                class="brand"
                 style="display:flex;align-items:center;gap:.5rem;text-decoration:none;">
 
                 <img src="{{ asset('images/logo.png') }}"
@@ -90,31 +101,32 @@ document.documentElement.setAttribute('data-theme', 'light');
                     🌙
                 </button>
 
-                <a href="/register" class="btn btn-primary btn-sm">
-                    Register Now
-                </a>
+                {{-- Tombol Register dihapus karena route register tidak ada --}}
 
             </div>
 
         </div>
+
     </nav>
 
-    <!-- ================= CONTENT ================= -->
+    @endunless
 
     <main>
 
         @yield('content')
 
-        @include('layouts.partials.footer')
+        @unless(Request::routeIs('admin.login'))
+            @include('layouts.partials.footer')
+        @endunless
 
     </main>
 
-    <!-- ================= JS ================= -->
-
-    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
-
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    @stack('scripts')
+
 </body>
 
 </html>

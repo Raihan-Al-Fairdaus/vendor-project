@@ -1,146 +1,328 @@
-@extends('layouts.public')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - DNA Advertising</title>
 
-@section('title', 'Admin Login - DNA Vendor Portal')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-@section('content')
-<style>
-    /* LATAR BELAKANG HALAMAN LOGIN */
-    body, 
-    .section-soft-blue,
-    .login-wrapper {
-        background: linear-gradient(135deg, #1b3a60 0%, #3a587d 50%, #899eb9 100%) !important;
-        background-attachment: fixed !important;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    .login-header-title {
-        color: #ffffff !important;
-        font-size: 1.75rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    .login-header-subtitle {
-        color: rgba(255, 255, 255, 0.85) !important;
-    }
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+</head>
 
-    .back-home-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.875rem;
-        color: rgba(255, 255, 255, 0.8) !important;
-        font-weight: 500;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
+<body>
 
-    .back-home-link:hover {
-        color: #f59e0b !important;
-        transform: translateX(-3px);
-    }
+<div class="login-page">
 
-    .login-footer-text {
-        color: rgba(255, 255, 255, 0.7) !important;
-        font-size: 0.8rem;
-    }
+    <!-- Background -->
+    <div class="bg-gradient"></div>
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+    <div class="bg-circle circle-3"></div>
 
-    /* PERBAIKAN WARNA TEKS KETIKAN & LABEL DI DALAM KOTAK LOGIN */
-    .card input.form-control,
-    .card input[type="email"],
-    .card input[type="password"],
-    .card input[type="text"] {
-        color: #1e293b !important; /* Warna teks ketikan menjadi hitam/biru tua gelap */
-        background-color: #ffffff !important; /* Memastikan background input tetap putih netral */
-        border: 1px solid #cbd5e1 !important;
-    }
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+    <div class="particle particle-5"></div>
+    <div class="particle particle-6"></div>
 
-    .card input.form-control:focus {
-        border-color: #1b3a60 !important;
-        box-shadow: 0 0 0 3px rgba(27, 58, 96, 0.15) !important;
-    }
+    <div class="login-container">
 
-    /* Warna label di atas input */
-    .card .form-label, 
-    .card label {
-        color: #334155 !important;
-        font-weight: 600;
-    }
-</style>
+        <!-- LEFT PANEL -->
+        <div class="login-left">
 
-<div class="section-soft-blue" style="min-height: calc(100vh - 73px); display: flex; align-items: center; justify-content: center; padding: 2rem 1rem;">
-    <div style="width: 100%; max-width: 420px;">
+            <div class="gold-line"></div>
 
-        {{-- Back to Home --}}
-        <div style="margin-bottom: 1.5rem;">
-            <a href="{{ route('home') }}" class="back-home-link">
-                ← Back to Homepage
-            </a>
-        </div>
+            <div class="brand">
 
-        {{-- Logo Header --}}
-        <div class="text-center mb-8 animate-on-scroll">
-            <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-xl); margin-bottom: 1.25rem; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 36px; height: 36px; object-fit: contain;">
+                <img
+                    src="{{ asset('images/logo.png') }}"
+                    class="logo"
+                    alt="DNA Advertising">
+
+                <h1>
+                    <span>DNA</span>
+                    Advertising
+                </h1>
+
+                <p>
+                    Secure Vendor Management Portal
+                </p>
+
             </div>
-            <h1 class="login-header-title">Welcome Back</h1>
-            <p class="login-header-subtitle">Sign in to access the Admin Control Panel</p>
-        </div>
 
-        {{-- Login Card --}}
-        <div class="card animate-on-scroll" style="transition-delay: 0.15s; border-radius: var(--radius-xl); padding: 2rem; background: #ffffff; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);">
-            @if ($errors->any())
-                <div style="background: var(--error-bg); border: 1px solid var(--error); border-radius: var(--radius-md); padding: 0.875rem 1rem; margin-bottom: 1.5rem; color: var(--error); font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;">
-                    ⚠️ {{ $errors->first() }}
-                </div>
-            @endif
+            <div class="mobile-login-title">
 
-            <form action="{{ route('admin.login.post') }}" method="POST">
-                @csrf
-                <div class="form-group mb-4">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" name="email" class="form-control"
-                           value="{{ old('email') }}" required autofocus>
-                </div>
+    <h2>Administrator Login</h2>
 
-                <div class="form-group mb-4">
-                    <label class="form-label d-flex justify-between">
-                        Password
-                        <a href="#" style="font-size: 0.8rem; font-weight: 500; color: #1b3a60;">Forgot Password?</a>
-                    </label>
-                    <div style="position: relative;">
-                        <input type="password" name="password" id="password" class="form-control"
-                               required style="padding-right: 45px;">
-                        <button type="button" id="togglePassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 0;">
-                            👁️
-                        </button>
+    <p>
+        Secure access to the DNA Advertising dashboard.
+    </p>
+
+</div>
+
+            <div class="welcome-text desktop-only">
+
+    <h2>
+        Welcome Back!
+    </h2>
+
+    <p>
+        Access the administrator dashboard to manage vendors,
+        monitor registrations and keep every partnership running
+        professionally.
+    </p>
+
+</div>
+
+            <div class="left-footer desktop-only">
+
+                <div class="feature">
+
+                    <div class="icon">
+                        ✓
                     </div>
+
+                    <div>
+
+                        <h4>Secure Login</h4>
+
+                        <span>
+                            Protected authentication system
+                        </span>
+
+                    </div>
+
                 </div>
 
-                <div class="form-group d-flex align-center gap-4 mb-4">
-                    <input type="checkbox" name="remember" id="remember" style="accent-color: #1b3a60; width:16px; height:16px; cursor:pointer;">
-                    <label for="remember" style="font-size: 0.875rem; color: #334155 !important; cursor:pointer;">Remember this device</label>
+                <div class="feature">
+
+                    <div class="icon">
+                        ★
+                    </div>
+
+                    <div>
+
+                        <h4>Premium Experience</h4>
+
+                        <span>
+                            Elegant & modern interface
+                        </span>
+
+                    </div>
+
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.875rem; font-size: 0.95rem; margin-top: 0.5rem; background-color: #f59e0b; border-color: #f59e0b; color: #1e293b; font-weight: 600;">
-                    Login to Dashboard →
-                </button>
-            </form>
+            </div>
+
         </div>
 
-        <p class="text-center login-footer-text mt-4" style="transition-delay: 0.3s;">
-            &copy; {{ date('Y') }} VendorConnect · Secure Admin Portal
-        </p>
+        <!-- RIGHT PANEL -->
+
+        <div class="login-right">
+
+            <div class="login-box">
+
+            <div class="mobile-brand">
+
+    <img
+        src="{{ asset('images/logo.png') }}"
+        class="mobile-logo"
+        alt="DNA Advertising">
+
+    <h1>
+        <span>DNA</span> Advertising
+    </h1>
+
+    <p>
+        Secure Vendor Management Portal
+    </p>
+
+</div>
+
+                <a
+                    href="{{ route('home') }}"
+                    class="back-home">
+
+                    ← Back to Homepage
+
+                </a>
+
+                <div class="heading">
+
+                    <h2>
+                        Login
+                    </h2>
+
+                    <p>
+                        Please login using your administrator account.
+                    </p>
+
+                </div>
+
+                @if ($errors->any())
+
+                    <div class="alert-error">
+
+                        {{ $errors->first() }}
+
+                    </div>
+
+                @endif
+
+                <form action="{{ route('admin.login.post') }}" method="POST">
+
+    @csrf
+
+    <div class="form-group">
+
+        <label>Email Address</label>
+
+        <div class="input-box">
+
+            <i class="fa-solid fa-envelope"></i>
+
+            <input
+                type="email"
+                name="email"
+                value="{{ old('email') }}"
+                placeholder="Enter your email"
+                required
+                autofocus>
+
+        </div>
+
     </div>
+
+    <div class="form-group">
+
+        <label>Password</label>
+
+        <div class="password-box">
+
+            <i class="fa-solid fa-lock"></i>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required>
+
+            <button
+                type="button"
+                id="togglePassword"
+                class="toggle-password">
+                <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+                <i class="fa-solid fa-eye"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    
+    <div class="remember-row">
+
+        <label class="remember">
+
+            <input
+                type="checkbox"
+                name="remember">
+
+            <span>
+                Remember this device
+
+            </span>
+
+        </label>
+
+    </div>
+
+    <button
+        type="submit"
+        class="login-btn">
+
+        Login to Dashboard
+
+    </button>
+
+</form>
+                <div class="copyright">
+
+                    © {{ date('Y') }}
+                    DNA Advertising.
+                    All Rights Reserved.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
 <script>
-    const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#password');
 
-    togglePassword.addEventListener('click', function () {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        this.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
-    });
+const togglePassword=document.getElementById("togglePassword");
+
+const password=document.getElementById("password");
+
+togglePassword.addEventListener("click",()=>{
+
+    const icon=togglePassword.querySelector("i");
+
+    if(password.type==="password"){
+
+        password.type="text";
+
+        icon.classList.remove("fa-eye");
+
+        icon.classList.add("fa-eye-slash");
+
+    }else{
+
+        password.type="password";
+
+        icon.classList.remove("fa-eye-slash");
+
+        icon.classList.add("fa-eye");
+
+    }
+
+});
+
+document.addEventListener("mousemove",(e)=>{
+
+    const card=document.querySelector(".login-container");
+
+    const x=(window.innerWidth/2-e.pageX)/40;
+
+    const y=(window.innerHeight/2-e.pageY)/40;
+
+    card.style.transform=
+    `rotateY(${x}deg) rotateX(${-y}deg)`;
+
+});
+
+document.addEventListener("mouseleave",()=>{
+
+    document.querySelector(".login-container")
+    .style.transform="rotateX(0) rotateY(0)";
+
+});
+
 </script>
-@endsection
+
+</body>
+
+</html>
