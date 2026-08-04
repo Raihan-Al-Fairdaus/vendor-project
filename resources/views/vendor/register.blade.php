@@ -179,8 +179,14 @@
             </div>
         @endif
 
-        <form action="{{ route('vendor.store') }}" method="POST" enctype="multipart/form-data" class="needs-validation">
+        <form action="{{ route('vendor.store') }}" method="POST" id="vendorForm" class="needs-validation">
             @csrf
+
+            {{-- Hidden inputs untuk menyimpan URL file setelah upload ke Supabase --}}
+            <input type="hidden" name="id_card_url" id="id_card_url">
+            <input type="hidden" name="bank_book_url" id="bank_book_url">
+            <input type="hidden" name="npwp_file_url" id="npwp_file_url">
+            <input type="hidden" name="office_photos_urls" id="office_photos_urls">
             
             {{-- Input File Tersembunyi Khusus Mengirimkan Seluruh File Foto Kantor ke Laravel --}}
             <input type="file" name="office_photos[]" id="officePhotosInput" accept=".jpg,.jpeg,.png" multiple style="display: none;">
@@ -617,6 +623,8 @@
         const idCardSubText = document.getElementById('idCardSubText');
         const bankBookInput = document.getElementById('bankBookInput');
         const bankBookText = document.getElementById('bankBookText');
+        const npwpInput = document.getElementById('npwpInput');
+        const npwpText = document.getElementById('npwpText');
         const npwpSubText = document.getElementById('npwpSubText');
         const bankBookSubText = document.getElementById('bankBookSubText');
 
@@ -907,6 +915,108 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
+});
+
+// ============================================================
+// PRESIGNED UPLOAD - Upload langsung ke Supabase dari browser
+// ============================================================
+document.getElementById('vendorForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const form = this;
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    // Cek semua file sudah dipilih
+    const idCardFile = document.getElementById('idCardInput').files[0];
+    const bankBookFile = document.getElementById('bankBookInput').files[0];
+    const npwpFile = document.getElementById('npwpInput').files[0];
+    const officePhotos = Array.from(document.getElementById('officePhotosInput').files);
+
+    if (!idCardFile || !bankBookFile || !npwpFile) {
+        alert('Mohon lengkapi semua file yang diperlukan.');
+        return;
+    }
+
+    if (officePhotos.length < 2) {
+        alert('Minimal 2 foto kantor diperlukan.');
+        return;
+    }
+
+    // Tampilkan loading
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '⏳ Mengupload file... Mohon tunggu';
+
+    try {
+        const csrfToken = document.querySelector('input[name="_token"]').value;
+
+        // Fungsi upload satu file
+        async function uploadFile(file, folder) {
+            // Minta presigned URL dari Laravel
+            const presignRes = await fetch('/upload/presign', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify({
+                    filename: file.name,
+                    folder: folder,
+                    type: file.type,
+                })
+            });
+
+            if (!presignRes.ok) throw new Error('Gagal mendapatkan URL upload');
+            const { upload_url, public_url } = await presignRes.json();
+
+            // Upload langsung ke Supabase (bypass Vercel!)
+            const uploadRes = await fetch(upload_url, {
+                method: 'PUT',
+                headers: { 'Content-Type': file.type },
+                body: file,
+            });
+
+            if (!uploadRes.ok) throw new Error('Gagal mengupload file: ' + file.name);
+            return public_url;
+        }
+
+        // Upload semua file secara bersamaan
+        submitBtn.innerHTML = '⏳ Mengupload KTP...';
+        const idCardUrl = await uploadFile(idCardFile, 'id_cards');
+        document.getElementById('id_card_url').value = idCardUrl;
+
+        submitBtn.innerHTML = '⏳ Mengupload Buku Rekening...';
+        const bankBookUrl = await uploadFile(bankBookFile, 'bank_books');
+        document.getElementById('bank_book_url').value = bankBookUrl;
+
+        submitBtn.innerHTML = '⏳ Mengupload NPWP...';
+        const npwpUrl = await uploadFile(npwpFile, 'npwp');
+        document.getElementById('npwp_file_url').value = npwpUrl;
+
+        submitBtn.innerHTML = '⏳ Mengupload Foto Kantor...';
+        const officePhotoUrls = [];
+        for (const photo of officePhotos) {
+            const url = await uploadFile(photo, 'office_photos');
+            officePhotoUrls.push(url);
+        }
+        document.getElementById('office_photos_urls').value = JSON.stringify(officePhotoUrls);
+
+        // Semua file berhasil diupload, bersihkan file inputs dulu baru submit
+        submitBtn.innerHTML = '⏳ Menyimpan data...';
+
+        // Hapus name dan disable semua file input supaya tidak ikut terkirim ke Vercel
+        form.querySelectorAll('input[type="file"]').forEach(input => {
+            input.removeAttribute('name');
+            input.disabled = true;
+        });
+
+        form.submit();
+
+    } catch (err) {
+        console.error(err);
+        alert('Terjadi kesalahan saat mengupload file: ' + err.message);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Submit Registration';
+    }
 });
 </script>
 @endsection

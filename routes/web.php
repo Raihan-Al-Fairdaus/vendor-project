@@ -34,6 +34,9 @@ Route::get('/register', function () {
 Route::post('/vendor/register', [VendorController::class, 'store'])->name('vendor.store');
 Route::get('/vendor/success', [VendorController::class, 'success'])->name('vendor.success');
 
+// Generate presigned URL untuk direct upload ke Supabase Storage
+Route::post('/upload/presign', [VendorController::class, 'generatePresignedUrl'])->name('upload.presign');
+
 Route::view('/faq', 'faq.faq')->name('faq');
 
 // ==========================================

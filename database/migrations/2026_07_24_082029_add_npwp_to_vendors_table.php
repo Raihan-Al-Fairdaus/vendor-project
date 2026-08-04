@@ -10,13 +10,13 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    if (!Schema::hasColumn('vendors', 'npwp')) {
-        Schema::table('vendors', function (Blueprint $table) {
-            $table->string('npwp')->after('company_address');
-        });
+    {
+        if (!Schema::hasColumn('vendors', 'npwp')) {
+            Schema::table('vendors', function (Blueprint $table) {
+                $table->string('npwp')->after('company_address');
+            });
+        }
     }
-}
 
     /**
      * Reverse the migrations.

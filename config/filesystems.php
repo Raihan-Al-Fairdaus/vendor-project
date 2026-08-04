@@ -60,6 +60,20 @@ return [
             'report' => false,
         ],
 
+        'supabase' => [
+            'driver' => 's3',
+            'key' => env('SUPABASE_ACCESS_KEY_ID'),
+            'secret' => env('SUPABASE_SECRET_ACCESS_KEY'),
+            'region' => 'ap-southeast-1',
+            'bucket' => 'vendors',
+            'endpoint' => 'https://kgwwmipiitbmhqroscqu.supabase.co/storage/v1/s3',
+            'use_path_style_endpoint' => true,
+            'url' => 'https://kgwwmipiitbmhqroscqu.supabase.co/storage/v1/object/public/vendors',
+            'visibility' => 'public',
+            'throw' => true,
+            'report' => false,
+        ],
+
     ],
 
     /*
