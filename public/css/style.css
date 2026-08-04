@@ -1710,6 +1710,72 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
 .agreement-btn:active{
     transform:translateY(-1px);
 }
+/* =========================================
+   AGREEMENT SECTION TITLE
+========================================= */
+
+.agreement-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    margin:38px 0 18px;
+
+}
+
+.agreement-title:first-child{
+
+    margin-top:0;
+
+}
+
+.agreement-number{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:linear-gradient(
+        135deg,
+        #D4AF37,
+        #F5D06F
+    );
+
+    color:#08172E;
+
+    font-size:18px;
+
+    font-weight:800;
+
+    flex-shrink:0;
+
+    box-shadow:
+        0 8px 20px rgba(212,175,55,.35);
+
+}
+
+.agreement-title h3{
+
+    margin:0;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:#123A63;
+
+}
 
 /* ===========================================================
    ICON

@@ -552,9 +552,10 @@
             id="agreementScroll"
             class="agreement-body">
 
-            <h3>
-                1. General Terms
-            </h3>
+            <div class="agreement-title">
+    <span class="agreement-number">1</span>
+    <h3>General Terms</h3>
+</div>
 
             <p>
                 By registering as a vendor, you agree to comply with all
