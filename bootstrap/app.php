@@ -12,6 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        
+        // TAMBAHKAN BARIS INI UNTUK VERCEL (Memaksa HTTPS)
+        $middleware->trustProxies(at: '*');
+        
         // Redirect unauthenticated users to admin login
         $middleware->redirectGuestsTo('/admin/login');
         // Redirect authenticated users (when hitting guest routes) to dashboard
