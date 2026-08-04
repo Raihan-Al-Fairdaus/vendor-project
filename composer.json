@@ -10,6 +10,7 @@
         "barryvdh/laravel-dompdf": "^3.0",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpword": "^1.4"
     },
