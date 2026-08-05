@@ -914,7 +914,7 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            color: #d4af37 !important;
+            color: #FFFFFF !important;
             font-size: 1.25rem !important;
         }
 
@@ -927,7 +927,7 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
     align-items: center !important;
     padding-left: 0.5rem !important;
 
-    color: #D4AF37 !important;
+    color: #FFFFFF !important;
     font-weight: 700 !important;
 }
         .sidebar-subtitle {

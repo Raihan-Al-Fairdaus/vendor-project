@@ -34,7 +34,7 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-brand">
-                    <span class="brand-icon"><i class="fa-solid fa-bolt"></i></span>
+                    <span class="brand-icon"><img src="{{ asset('images/logo.png') }}" alt="DNA" style="width:28px;height:28px;object-fit:contain;"></span>
                     <span class="nav-text">DNA Portal</span>
                 </div>
                 <div class="sidebar-subtitle nav-text">Admin Control Panel</div>
