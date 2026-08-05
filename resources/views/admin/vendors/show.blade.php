@@ -19,7 +19,7 @@
             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem;">
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     @if($vendor->company_logo_path)
-                        <img src="{{ Storage::url($vendor->company_logo_path) }}" alt="Logo" style="width: 55px; height: 55px; object-fit: contain; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; background: rgba(0,0,0,0.2);">
+                        <img src="{{ str_starts_with($vendor->company_logo_path, 'http') ? $vendor->company_logo_path : Storage::url($vendor->company_logo_path) }}" alt="Logo" style="width: 55px; height: 55px; object-fit: contain; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; background: rgba(0,0,0,0.2);">
                     @else
                         <div style="width: 55px; height: 55px; background: rgba(212,175,55,0.1); border: 1px solid #d4af37; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; border-radius: 10px; color: #d4af37; flex-shrink: 0;">🏢</div>
                     @endif
@@ -189,7 +189,7 @@
 
             @if($vendor->id_card_path)
 
-                <a href="{{ Storage::url($vendor->id_card_path) }}"
+                <a href="{{ str_starts_with($vendor->id_card_path, 'http') ? $vendor->id_card_path : Storage::url($vendor->id_card_path) }}"
                    target="_blank"
                    class="btn"
                    style="background:#1b3a60;border:1px solid #d4af37;color:#fff;padding:.3rem .7rem;border-radius:6px;font-size:.8rem;text-decoration:none;">
@@ -237,7 +237,7 @@
 
         @if($vendor->npwp_file_path)
 
-            <a href="{{ Storage::url($vendor->npwp_file_path) }}"
+            <a href="{{ str_starts_with($vendor->npwp_file_path, 'http') ? $vendor->npwp_file_path : Storage::url($vendor->npwp_file_path) }}"
                target="_blank"
                class="btn"
                style="background:#1b3a60;border:1px solid #d4af37;color:#fff;padding:.3rem .7rem;border-radius:6px;font-size:.8rem;text-decoration:none;">
@@ -283,7 +283,7 @@
 
             @if($vendor->bank_book_path)
 
-                <a href="{{ Storage::url($vendor->bank_book_path) }}"
+                <a href="{{ str_starts_with($vendor->bank_book_path, 'http') ? $vendor->bank_book_path : Storage::url($vendor->bank_book_path) }}"
                    target="_blank"
                    class="btn"
                    style="background:#1b3a60;border:1px solid #d4af37;color:#fff;padding:.3rem .7rem;border-radius:6px;font-size:.8rem;text-decoration:none;">

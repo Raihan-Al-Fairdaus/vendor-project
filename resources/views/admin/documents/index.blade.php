@@ -94,7 +94,7 @@
                     {{-- KTP --}}
                     <td>
                         @if($vendor->id_card_path)
-                            <a href="{{ Storage::url($vendor->id_card_path) }}"
+                            <a href="{{ str_starts_with($vendor->id_card_path, 'http') ? $vendor->id_card_path : Storage::url($vendor->id_card_path) }}"
                                target="_blank"
                                class="btn btn-outline btn-sm">
                                 👁️ View KTP
@@ -109,7 +109,7 @@
                     {{-- Bank Book --}}
                     <td>
                         @if($vendor->bank_book_path)
-                            <a href="{{ Storage::url($vendor->bank_book_path) }}"
+                            <a href="{{ str_starts_with($vendor->bank_book_path, 'http') ? $vendor->bank_book_path : Storage::url($vendor->bank_book_path) }}"
                                target="_blank"
                                class="btn btn-outline btn-sm">
                                 🏦 View Bank Book
@@ -149,9 +149,9 @@
 
                                 @foreach($photos as $photo)
 
-                                    <a href="{{ Storage::url($photo) }}" target="_blank">
+                                    <a href="{{ str_starts_with($photo, 'http') ? $photo : Storage::url($photo) }}" target="_blank">
                                         <img
-                                            src="{{ Storage::url($photo) }}"
+                                            src="{{ str_starts_with($photo, 'http') ? $photo : Storage::url($photo) }}"
                                             style="width:55px;height:55px;object-fit:cover;border-radius:8px;border:1px solid var(--border);">
                                     </a>
 
