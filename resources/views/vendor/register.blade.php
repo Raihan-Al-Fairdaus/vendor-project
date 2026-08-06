@@ -160,6 +160,213 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+/* ============================================================
+   MOBILE-ONLY STYLES & ANIMATIONS (max-width: 640px)
+   Desktop tidak tersentuh sama sekali
+   ============================================================ */
+@media (max-width: 640px) {
+
+    /* --- Animasi Keyframes --- */
+    @keyframes mob-slideUp {
+        from { opacity: 0; transform: translateY(32px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes mob-fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+    @keyframes mob-shimmer {
+        0%   { background-position: -400px 0; }
+        100% { background-position: 400px 0; }
+    }
+    @keyframes mob-pulse-border {
+        0%, 100% { border-color: #c5a059; box-shadow: 0 0 0 0 rgba(197,160,89,0); }
+        50%       { border-color: #e6b93a; box-shadow: 0 0 0 6px rgba(197,160,89,0.18); }
+    }
+    @keyframes mob-float {
+        0%, 100% { transform: translateY(0px); }
+        50%       { transform: translateY(-5px); }
+    }
+    @keyframes mob-spin-badge {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+    }
+
+    /* --- Hero Section --- */
+    .register-page-wrapper {
+        padding: 2rem 0.85rem 5rem !important;
+    }
+    .register-page-wrapper h1 {
+        font-size: 1.75rem !important;
+        line-height: 1.2 !important;
+        animation: mob-slideUp 0.5s ease both;
+    }
+    .register-page-wrapper > .container > p {
+        font-size: 0.92rem !important;
+        animation: mob-slideUp 0.6s ease both;
+        animation-delay: 0.1s;
+    }
+
+    /* --- Cards: Slide Up Staggered --- */
+    .card.animate-on-scroll {
+        border-radius: 20px !important;
+        padding: 1.25rem !important;
+        margin-bottom: 1.25rem !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.13) !important;
+        animation: mob-slideUp 0.55s ease both;
+        border: 1px solid rgba(255,255,255,0.08) !important;
+    }
+    .card.animate-on-scroll:nth-child(1) { animation-delay: 0.15s; }
+    .card.animate-on-scroll:nth-child(2) { animation-delay: 0.25s; }
+    .card.animate-on-scroll:nth-child(3) { animation-delay: 0.35s; }
+
+    /* --- Card Header --- */
+    .card h3.mb-4 {
+        font-size: 1.05rem !important;
+        margin-bottom: 1.1rem !important;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .card h3 span[style*="font-size: 1.5rem"] {
+        font-size: 1.6rem !important;
+        animation: mob-float 3s ease-in-out infinite;
+        display: inline-block;
+    }
+
+    /* --- Grid 2-kolom → 1-kolom --- */
+    .grid.grid-cols-2 {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+    }
+
+    /* --- Form Inputs: Lebih besar & mudah diketuk --- */
+    .form-label {
+        font-size: 0.78rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.04em !important;
+        text-transform: uppercase;
+        color: #475569 !important;
+        margin-bottom: 6px !important;
+    }
+    .form-control {
+        min-height: 52px !important;
+        font-size: 16px !important;   /* mencegah auto-zoom iOS */
+        border-radius: 14px !important;
+        padding: 0.85rem 1rem !important;
+        border: 1.5px solid #d1d5db !important;
+        transition: border-color 0.25s, box-shadow 0.25s !important;
+        background: #f8fafc !important;
+    }
+    .form-control:focus {
+        border-color: #1b3a60 !important;
+        box-shadow: 0 0 0 3px rgba(27,58,96,0.12) !important;
+        background: #fff !important;
+    }
+    select.form-control {
+        appearance: auto !important;
+    }
+    textarea.form-control {
+        min-height: 100px !important;
+    }
+
+    /* --- Upload Area: Pulse animasi & lebih compact --- */
+    .single-drop-area {
+        border-radius: 16px !important;
+        padding: 1.4rem 1rem !important;
+        min-height: 100px !important;
+        animation: mob-pulse-border 2.5s ease-in-out infinite !important;
+    }
+    .single-drop-area .drop-icon {
+        font-size: 2rem !important;
+        margin-bottom: 6px !important;
+        animation: mob-float 2.5s ease-in-out infinite;
+        display: block;
+    }
+    .single-drop-area p {
+        font-size: 0.9rem !important;
+        margin-bottom: 2px !important;
+    }
+    .single-drop-area span {
+        font-size: 0.78rem !important;
+    }
+
+    /* --- Office photo grid lebih kecil di mobile --- */
+    .office-photo-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)) !important;
+        gap: 8px !important;
+    }
+
+    /* --- Agreement card --- */
+    .agreement-card {
+        border-radius: 18px !important;
+        padding: 1.1rem !important;
+        animation: mob-slideUp 0.55s ease 0.4s both;
+    }
+    .agreement-btn {
+        border-radius: 14px !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* --- Checkbox area --- */
+    .agreement-checkbox-wrapper {
+        font-size: 0.88rem !important;
+        line-height: 1.6 !important;
+    }
+
+    /* --- Action Buttons: Submit besar & menonjol --- */
+    .mobile-col {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+    #submitBtn {
+        width: 100% !important;
+        order: 1 !important;
+        padding: 1.1rem !important;
+        font-size: 1.05rem !important;
+        border-radius: 16px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.03em !important;
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+        box-shadow: 0 6px 20px rgba(245,158,11,0.4) !important;
+        transition: transform 0.2s, box-shadow 0.2s !important;
+        position: relative;
+        overflow: hidden;
+    }
+    #submitBtn:not(:disabled):active {
+        transform: scale(0.97) !important;
+    }
+    /* Shimmer effect on submit button */
+    #submitBtn:not(:disabled)::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: linear-gradient(90deg,
+            rgba(255,255,255,0) 0%,
+            rgba(255,255,255,0.3) 50%,
+            rgba(255,255,255,0) 100%);
+        background-size: 400px 100%;
+        animation: mob-shimmer 2s infinite;
+    }
+    .btn.btn-outline[href="/"] {
+        width: 100% !important;
+        order: 2 !important;
+        text-align: center !important;
+        border-radius: 14px !important;
+        padding: 0.9rem !important;
+        font-size: 0.92rem !important;
+    }
+
+    /* --- Error messages --- */
+    .card[style*="error-bg"] {
+        border-radius: 14px !important;
+        font-size: 0.88rem !important;
+    }
+
+    /* --- Smooth scroll untuk mobile --- */
+    html { scroll-behavior: smooth; }
+}
 </style>
 
 <div class="register-page-wrapper">
