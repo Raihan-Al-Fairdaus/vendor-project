@@ -26,6 +26,23 @@
 <body>
     @if(Auth::check())
     <div class="admin-layout">
+        {{-- Mobile Top Bar --}}
+        <div class="mobile-top-bar">
+            <div class="mobile-top-brand">
+                <img src="{{ asset('images/logo.png') }}" alt="DNA" class="mobile-brand-logo">
+                <div class="mobile-brand-text">
+                    <span class="mobile-brand-name">DNA Portal</span>
+                    <span class="mobile-brand-desc">Admin Panel</span>
+                </div>
+            </div>
+            <div class="mobile-top-right">
+                <button class="theme-toggle mobile-theme-toggle" title="Toggle theme">🌙</button>
+                <div class="mobile-user-avatar" onclick="window.location.href='{{ route('admin.settings.index') }}'">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </div>
+            </div>
+        </div>
+
         {{-- Mobile Sidebar Overlay --}}
         <div id="sidebar-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:39;transition:opacity 0.3s;"
              onclick="document.querySelector('.sidebar').classList.remove('open');this.classList.remove('active');"></div>
@@ -116,8 +133,33 @@
                 </div>
             @endif
 
+
             @yield('content')
         </main>
+
+        {{-- Mobile Bottom Tab Navigation --}}
+        <div class="mobile-bottom-nav">
+            <a href="{{ route('admin.dashboard') }}" class="mobile-nav-tab {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <span class="mobile-nav-icon"><i class="fa-solid fa-chart-pie"></i></span>
+                <span class="mobile-nav-label">Beranda</span>
+            </a>
+            <a href="{{ route('admin.vendors.index') }}" class="mobile-nav-tab {{ request()->routeIs('admin.vendors.*') ? 'active' : '' }}">
+                <span class="mobile-nav-icon"><i class="fa-solid fa-users"></i></span>
+                <span class="mobile-nav-label">Vendors</span>
+            </a>
+            <a href="{{ route('admin.documents.index') }}" class="mobile-nav-tab {{ request()->routeIs('admin.documents.*') ? 'active' : '' }}">
+                <span class="mobile-nav-icon"><i class="fa-solid fa-file-lines"></i></span>
+                <span class="mobile-nav-label">Docs</span>
+            </a>
+            <a href="{{ route('admin.reports.index') }}" class="mobile-nav-tab {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
+                <span class="mobile-nav-icon"><i class="fa-solid fa-chart-line"></i></span>
+                <span class="mobile-nav-label">Reports</span>
+            </a>
+            <a href="{{ route('admin.settings.index') }}" class="mobile-nav-tab {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+                <span class="mobile-nav-icon"><i class="fa-solid fa-gear"></i></span>
+                <span class="mobile-nav-label">Settings</span>
+            </a>
+        </div>
     </div>
     @else
         @yield('content')

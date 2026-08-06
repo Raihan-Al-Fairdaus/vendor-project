@@ -6,22 +6,52 @@
 @endsection
 
 @section('content')
-<div class="grid grid-cols-4 gap-4 mb-8">
-    <div class="card text-center animate-on-scroll hoverable" style="padding: 1.5rem; transition-delay: 0.1s;">
-        <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">Total Vendors</div>
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--accent);">{{ $totalVendors }}</div>
+{{-- Greeting Banner on Mobile --}}
+<div class="mobile-greeting-banner">
+    <h2>Halo, {{ Auth::user()->name }}!</h2>
+    <p>Role: Administrator • {{ now()->translatedFormat('l, d F Y') }}</p>
+</div>
+
+<div class="grid grid-cols-4 gap-4 mb-8 stat-cards-grid">
+    <div class="card stat-card-new stat-total animate-on-scroll hoverable" style="transition-delay: 0.1s;">
+        <div class="stat-card-icon-wrapper">
+            <i class="fa-solid fa-users"></i>
+        </div>
+        <div class="stat-card-details">
+            <span class="stat-card-label">Total Vendors</span>
+            <span class="stat-card-value">{{ $totalVendors }}</span>
+            <span class="stat-card-desc">Registered</span>
+        </div>
     </div>
-    <div class="card text-center animate-on-scroll hoverable" style="padding: 1.5rem; transition-delay: 0.2s;">
-        <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">Pending</div>
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--warning);">{{ $pendingVendors }}</div>
+    <div class="card stat-card-new stat-pending animate-on-scroll hoverable" style="transition-delay: 0.2s;">
+        <div class="stat-card-icon-wrapper">
+            <i class="fa-solid fa-hourglass-half"></i>
+        </div>
+        <div class="stat-card-details">
+            <span class="stat-card-label">Pending</span>
+            <span class="stat-card-value">{{ $pendingVendors }}</span>
+            <span class="stat-card-desc">Awaiting review</span>
+        </div>
     </div>
-    <div class="card text-center animate-on-scroll hoverable" style="padding: 1.5rem; transition-delay: 0.3s;">
-        <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">Approved</div>
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--success);">{{ $approvedVendors }}</div>
+    <div class="card stat-card-new stat-approved animate-on-scroll hoverable" style="transition-delay: 0.3s;">
+        <div class="stat-card-icon-wrapper">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div class="stat-card-details">
+            <span class="stat-card-label">Approved</span>
+            <span class="stat-card-value">{{ $approvedVendors }}</span>
+            <span class="stat-card-desc">Active partners</span>
+        </div>
     </div>
-    <div class="card text-center animate-on-scroll hoverable" style="padding: 1.5rem; transition-delay: 0.4s;">
-        <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">Rejected</div>
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--error);">{{ $rejectedVendors }}</div>
+    <div class="card stat-card-new stat-rejected animate-on-scroll hoverable" style="transition-delay: 0.4s;">
+        <div class="stat-card-icon-wrapper">
+            <i class="fa-solid fa-circle-xmark"></i>
+        </div>
+        <div class="stat-card-details">
+            <span class="stat-card-label">Rejected</span>
+            <span class="stat-card-value">{{ $rejectedVendors }}</span>
+            <span class="stat-card-desc">Ineligible</span>
+        </div>
     </div>
 </div>
 
