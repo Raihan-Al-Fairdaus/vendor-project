@@ -2316,6 +2316,7 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
         justify-content: space-between;
         align-items: center;
         height: 60px;
+        width: 100%;
         padding: 0 1.25rem;
         background: #0f172a !important;
         position: sticky;
@@ -2323,6 +2324,7 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
         z-index: 1000;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
     }
     .mobile-top-brand {
         display: flex;
@@ -2434,10 +2436,16 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
     .main-content > .d-flex.align-center {
         display: none !important; /* Hide old desktop header */
     }
-    
+
+    /* ===== CRITICAL: override global admin layout for mobile ===== */
+    .admin-layout {
+        display: block !important;   /* remove flex-row so sidebar doesn't push content */
+    }
     .main-content {
-        padding: 1.25rem 0.85rem 80px !important;
+        margin-left: 0 !important;   /* override the 76px global margin */
         width: 100% !important;
+        padding: 1.25rem 0.85rem 80px !important;
+        box-sizing: border-box !important;
     }
     
     /* Mobile Greeting Banner */
