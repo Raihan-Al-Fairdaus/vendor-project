@@ -1270,6 +1270,22 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
             color: rgba(255, 255, 255, 0.85) !important;
         }
 
+        .main-content .form-label {
+            color: #ffffff !important;
+        }
+
+        .main-content .text-muted,
+        .main-content p.text-muted,
+        .main-content .form-group p.text-muted {
+            color: rgba(255, 255, 255, 0.75) !important;
+        }
+
+        .main-content input:disabled,
+        .main-content input[disabled] {
+            color: rgba(255, 255, 255, 0.65) !important;
+            opacity: 0.85 !important;
+        }
+
         
        
 

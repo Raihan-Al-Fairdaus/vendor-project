@@ -42,7 +42,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">Account Created</label>
-                <input type="text" class="form-control" value="{{ $user->created_at->format('d M Y, H:i') }}" disabled style="background:var(--background);cursor:not-allowed;color:var(--text-muted);">
+                <input type="text" class="form-control" value="{{ $user->created_at->format('d M Y, H:i') }}" disabled style="background:var(--background);cursor:not-allowed;">
             </div>
             <button type="submit" class="btn btn-primary" style="width:100%;">Save Profile Changes</button>
         </form>
