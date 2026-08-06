@@ -23,6 +23,9 @@
     overflow:hidden;
     animation:modalShow .3s ease;
     box-shadow:0 25px 60px rgba(0,0,0,.3);
+    max-height:90vh;
+    display:flex;
+    flex-direction:column;
 }
 
 @keyframes modalShow{
@@ -54,10 +57,25 @@
     font-size:30px;
     cursor:pointer;
     font-weight:bold;
+    line-height:1;
+    min-width:36px;
+    min-height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    border-radius:50%;
+    transition:background .2s;
+    padding:4px;
+}
+.vc-modal-close:hover{
+    background:rgba(255,255,255,0.2);
 }
 
 .vc-modal-body{
     padding:24px;
+    overflow-y:auto;
+    flex:1;
 }
 
 .vc-benefit{
@@ -91,6 +109,40 @@
     margin:0;
     color:#666;
     line-height:1.6;
+}
+.vc-modal-footer{
+    padding:16px 24px;
+    border-top:1px solid #eee;
+    display:none;
+    justify-content:center;
+}
+.vc-modal-close-btn{
+    background:#1b3a60;
+    color:#fff;
+    border:none;
+    padding:12px 40px;
+    border-radius:50px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    width:100%;
+}
+@media (max-width: 640px){
+    .vc-modal{
+        padding:12px;
+        align-items:flex-end;
+    }
+    .vc-modal-box{
+        border-bottom-left-radius:0;
+        border-bottom-right-radius:0;
+        max-height:85vh;
+    }
+    .vc-modal-footer{
+        display:flex;
+    }
+    .vc-modal-header h3{
+        font-size:1rem;
+    }
 }
 </style>
 
@@ -362,6 +414,11 @@
 
         </div>
 
+        {{-- Tombol tutup di bawah (untuk mobile) --}}
+        <div class="vc-modal-footer">
+            <button class="vc-modal-close-btn">✕ Tutup</button>
+        </div>
+
     </div>
 
 </div>
@@ -372,8 +429,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const btn = document.getElementById("whyPartnerBtn");
     const modal = document.getElementById("whyPartnerModal");
     const closeBtn = document.querySelector(".vc-modal-close");
+    const closeBtnBottom = document.querySelector(".vc-modal-close-btn");
 
-    if (btn && modal && closeBtn) {
+    function closeModal() {
+        modal.classList.remove("show");
+    }
+
+    if (btn && modal) {
 
         // Buka modal
         btn.addEventListener("click", function (e) {
@@ -381,22 +443,27 @@ document.addEventListener("DOMContentLoaded", function () {
             modal.classList.add("show");
         });
 
-        // Tutup modal saat klik X
-        closeBtn.addEventListener("click", function () {
-            modal.classList.remove("show");
-        });
+        // Tutup modal saat klik X (header)
+        if (closeBtn) {
+            closeBtn.addEventListener("click", closeModal);
+        }
+
+        // Tutup modal saat klik tombol Tutup bawah (mobile)
+        if (closeBtnBottom) {
+            closeBtnBottom.addEventListener("click", closeModal);
+        }
 
         // Tutup modal saat klik area luar
         window.addEventListener("click", function (e) {
             if (e.target === modal) {
-                modal.classList.remove("show");
+                closeModal();
             }
         });
 
         // Tutup modal dengan tombol ESC
         document.addEventListener("keydown", function (e) {
             if (e.key === "Escape") {
-                modal.classList.remove("show");
+                closeModal();
             }
         });
 
