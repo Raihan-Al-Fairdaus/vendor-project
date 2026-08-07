@@ -138,12 +138,13 @@
     const ctx = document.getElementById('monthlyRegistrationsChart').getContext('2d');
     
     // Menggunakan json_encode langsung dari PHP agar aman dari error sintaks Blade
-    const monthlyCounts = {!! json_encode($chartData ?? [0,0,0,0,0,0,0,0,0,0,0,0]) !!};
+    const monthlyCounts = {!! json_encode($monthValues ?? [0,0,0,0,0,0,0,0,0,0,0,0]) !!};
+    const monthlyLabels = {!! json_encode($monthLabels ?? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']) !!};
 
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: monthlyLabels,
             datasets: [{
                 label: 'registrations',
                 data: monthlyCounts,
