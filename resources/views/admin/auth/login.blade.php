@@ -125,14 +125,26 @@
 
         <!-- RIGHT PANEL -->
 
-        <div class="mobile-header-text">
-            <div class="wave-icon">👋</div>
-            <p>Masuk dengan Email dan password yang diberikan administrator</p>
-        </div>
-
         <div class="login-right">
 
             <div class="login-box">
+
+            <div class="mobile-brand">
+
+    <img
+        src="{{ asset('images/logo.png') }}"
+        class="mobile-logo"
+        alt="DNA Advertising">
+
+    <h1>
+        <span>DNA</span> Advertising
+    </h1>
+
+    <p>
+        Secure Vendor Management Portal
+    </p>
+
+</div>
 
 
                 <a
@@ -254,19 +266,6 @@
 
             </div>
 
-        </div>
-
-        <div class="mobile-info-box">
-            <div class="info-card">
-                <div class="info-icon">ℹ️</div>
-                <div class="info-text">
-                    <strong>Info:</strong> Username = Email kamu.<br>
-                    Belum bisa masuk? Hubungi administrator.
-                </div>
-            </div>
-            <div class="help-text">
-                Hubungi administrator jika mengalami kendala masuk
-            </div>
         </div>
 
     </div>

@@ -1086,13 +1086,6 @@ body{
 }
 
 /* =========================================
-   MOBILE ONLY ELEMENTS (Hidden on Desktop)
-========================================= */
-.mobile-header-text, .mobile-info-box {
-    display: none;
-}
-
-/* =========================================
    MOBILE
 ========================================= */
 
@@ -1113,25 +1106,18 @@ body{
         height: 100vh;
         overflow: hidden !important;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
     }
 
-    .bg-gradient, .bg-circle, .particle {
-        display: none !important;
-    }
-
     .login-container {
-        width: calc(100% - 32px);
+        width: calc(100% - 28px);
         max-width: 420px;
-        display: flex;
-        flex-direction: column;
+        display: block;
         min-height: auto;
-        max-height: calc(100dvh - 20px);
-        background: transparent !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
+        max-height: calc(100dvh - 40px);
+        max-height: calc(100vh - 40px);
+        border-radius: 24px;
         overflow: hidden;
     }
 
@@ -1139,71 +1125,28 @@ body{
         display: none;
     }
 
-    /* Mobile Header Text */
-    .mobile-header-text {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    .mobile-header-text .wave-icon {
-        font-size: 40px;
-        margin-bottom: 10px;
-    }
-    .mobile-header-text p {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 14px;
-        line-height: 1.5;
-        max-width: 280px;
+    .mobile-brand {
+        display: block;
     }
 
     .login-right {
         width: 100%;
-        padding: 24px 20px 20px;
-        background: #fff;
-        border-radius: 20px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        margin-bottom: 16px;
+        padding: 22px 22px 18px;
+        overflow: hidden;
     }
 
-    /* Mobile Info Box */
-    .mobile-info-box {
-        display: flex;
-        flex-direction: column;
-    }
-    .info-card {
-        background: #EBF1FF;
-        border-radius: 12px;
-        padding: 12px 14px;
-        display: flex;
-        gap: 12px;
-        margin-bottom: 16px;
-    }
-    .info-card .info-icon {
-        font-size: 18px;
-        margin-top: 2px;
-    }
-    .info-card .info-text {
-        font-size: 12px;
-        line-height: 1.5;
-        color: #1e3a8a;
-    }
-    .mobile-info-box .help-text {
-        text-align: center;
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 12px;
+    .login-box {
+        max-width: none;
     }
 
-    /* Hide redundant elements */
-    .mobile-brand {
-        display: none;
-    }
     .back-home {
-        display: none;
+        margin-bottom: 12px;
+        font-size: 0.82rem;
     }
+
     .heading {
-        display: none;
+        text-align: center;
+        margin-bottom: 10px;
     }
 
     .heading h2 {
