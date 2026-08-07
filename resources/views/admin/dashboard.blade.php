@@ -55,7 +55,7 @@
     </div>
 </div>
 
-<div class="grid gap-4 mb-8" style="grid-template-columns: 2fr 1fr;">
+<div class="grid gap-4 mb-8 chart-grid">
     <!-- Chart Dinamis dengan Chart.js -->
     <div class="card animate-on-scroll" style="transition-delay: 0.5s;">
         <h3 class="mb-4">Monthly Registrations</h3>
@@ -107,14 +107,14 @@
             <tbody>
                 @foreach($recentVendors as $vendor)
                 <tr>
-                    <td>
+                    <td data-label="VENDOR NAME">
                         <a href="{{ route('admin.vendors.show', $vendor->id) }}" style="font-weight: 500; color: var(--primary);">{{ $vendor->company_name }}</a>
                         <div style="font-size: 0.75rem; color: var(--text-muted);">{{ $vendor->pic_name }}</div>
                     </td>
-                    <td>{{ $vendor->business_category }}</td>
-                    <td>{{ $vendor->company_email }}</td>
-                    <td>{{ $vendor->created_at->format('M d, Y') }}</td>
-                    <td>
+                    <td data-label="CATEGORY">{{ $vendor->business_category }}</td>
+                    <td data-label="CONTACT EMAIL">{{ $vendor->company_email }}</td>
+                    <td data-label="REGISTERED">{{ $vendor->created_at->format('M d, Y') }}</td>
+                    <td data-label="STATUS">
                         <span class="badge badge-{{ $vendor->status }}">
                             {{ ucfirst($vendor->status) }}
                         </span>

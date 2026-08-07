@@ -657,6 +657,7 @@ tbody tr:hover td {
 .grid          { display: grid; }
 .grid-cols-2   { grid-template-columns: repeat(2, 1fr); }
 .grid-cols-3   { grid-template-columns: repeat(3, 1fr); }
+.chart-grid    { grid-template-columns: 2fr 1fr; }
 .grid-cols-4   { grid-template-columns: repeat(4, 1fr); }
 
 /* ============================================
@@ -2544,5 +2545,50 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
         font-size: 0.65rem !important;
         color: #94a3b8 !important;
         margin-top: 1px !important;
+    }
+
+    /* Responsive Table for Mobile */
+    .table-container {
+        overflow-x: hidden !important;
+    }
+    .table-container table, 
+    .table-container thead, 
+    .table-container tbody, 
+    .table-container th, 
+    .table-container td, 
+    .table-container tr {
+        display: block !important;
+        width: 100% !important;
+    }
+    .table-container thead tr {
+        display: none !important;
+    }
+    .table-container tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding: 0.5rem 0 !important;
+        margin-bottom: 0.25rem !important;
+    }
+    .table-container td {
+        border: none !important;
+        position: relative !important;
+        padding: 0.35rem 0 0.35rem 40% !important;
+        text-align: left !important;
+        white-space: normal !important;
+        min-height: 2.2rem;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+    }
+    .table-container td:before {
+        position: absolute !important;
+        top: 0.35rem !important;
+        left: 0 !important;
+        width: 35% !important;
+        padding-right: 10px !important;
+        white-space: nowrap !important;
+        content: attr(data-label) !important;
+        font-weight: 600 !important;
+        color: #94a3b8 !important;
+        font-size: 0.7rem !important;
     }
 }
