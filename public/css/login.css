@@ -1091,104 +1091,123 @@ body{
 
 @media (max-width:768px){
 
-    html,
-    body{
-
-        overflow-y:auto;
-
+    /* ===== LOCK: no scroll, full screen ===== */
+    html, body {
+        overflow: hidden !important;
+        height: 100dvh !important;
+        height: 100vh !important;   /* fallback */
     }
 
-    .login-page{
-
-        padding:20px 15px;
-
-        min-height:100dvh;
-
+    .login-page {
+        padding: 0;
+        min-height: 100dvh;
+        min-height: 100vh;
+        height: 100dvh;
+        height: 100vh;
+        overflow: hidden !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .login-container{
-
-        width:100%;
-
-        max-width:430px;
-
-        display:block;
-
-        min-height:auto;
-
-        max-height:none;
-
-        border-radius:24px;
-
+    .login-container {
+        width: calc(100% - 28px);
+        max-width: 420px;
+        display: block;
+        min-height: auto;
+        max-height: calc(100dvh - 40px);
+        max-height: calc(100vh - 40px);
+        border-radius: 24px;
+        overflow: hidden;
     }
 
-    .login-left{
-
-        display:none;
-
+    .login-left {
+        display: none;
     }
 
-    .mobile-brand{
-
-        display:block;
-
+    .mobile-brand {
+        display: block;
     }
 
-    .login-right{
-
-        width:100%;
-
-        padding:34px 26px;
-
+    .login-right {
+        width: 100%;
+        padding: 22px 22px 18px;
+        overflow: hidden;
     }
 
-    .login-box{
-
-        max-width:none;
-
+    .login-box {
+        max-width: none;
     }
 
-    .back-home{
-
-        margin-bottom:22px;
-
+    .back-home {
+        margin-bottom: 12px;
+        font-size: 0.82rem;
     }
 
-    .heading{
-
-        text-align:center;
-
+    .heading {
+        text-align: center;
+        margin-bottom: 10px;
     }
 
-    .heading h2{
-
-        font-size:34px;
-
+    .heading h2 {
+        font-size: 26px;
+        margin-bottom: 4px;
     }
 
-    .heading p{
-
-        font-size:15px;
-
+    .heading p {
+        font-size: 13px;
+        line-height: 1.4;
     }
 
-    .form-group{
+    .form-group {
+        margin-bottom: 10px;
+    }
 
-        margin-bottom:18px;
-
+    .form-group label {
+        font-size: 0.8rem;
+        margin-bottom: 5px;
+        display: block;
     }
 
     .input-box,
-    .password-box{
-
-        height:54px;
-
+    .password-box {
+        height: 46px;
     }
 
-    .login-btn{
+    .remember-row {
+        margin-bottom: 10px;
+    }
 
-        height:54px;
+    .login-btn {
+        height: 48px;
+        font-size: 0.95rem;
+        margin-top: 0;
+    }
 
+    .copyright {
+        font-size: 11px;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    /* Compact mobile-brand logo & title */
+    .mobile-brand {
+        margin-bottom: 8px;
+        text-align: center;
+    }
+
+    .mobile-logo {
+        width: 44px;
+        height: 44px;
+    }
+
+    .mobile-brand h1 {
+        font-size: 1.3rem;
+        margin: 4px 0 2px;
+    }
+
+    .mobile-brand p {
+        font-size: 0.75rem;
     }
 
 }
@@ -1199,55 +1218,35 @@ body{
 
 @media (max-width:420px){
 
-    .login-page{
-
-        padding:15px;
-
+    .login-right {
+        padding: 18px 18px 14px;
     }
 
-    .login-right{
-
-        padding:28px 20px;
-
+    .mobile-logo {
+        width: 38px;
+        height: 38px;
     }
 
-    .mobile-logo{
-
-        width:60px;
-
+    .mobile-brand h1 {
+        font-size: 1.15rem;
     }
 
-    .mobile-brand h1{
-
-        font-size:28px;
-
+    .heading h2 {
+        font-size: 22px;
     }
 
-    .heading h2{
-
-        font-size:30px;
-
-    }
-
-    .heading p{
-
-        font-size:14px;
-
+    .heading p {
+        font-size: 12px;
     }
 
     .input-box,
-    .password-box{
-
-        height:50px;
-
+    .password-box {
+        height: 42px;
     }
 
-    .login-btn{
-
-        height:50px;
-
-        font-size:15px;
-
+    .login-btn {
+        height: 44px;
+        font-size: 0.9rem;
     }
 
 }
