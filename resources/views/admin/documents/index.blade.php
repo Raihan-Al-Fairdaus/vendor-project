@@ -69,7 +69,7 @@
                 @forelse($vendors as $vendor)
                 <tr>
 
-                    <td>
+                    <td data-label="VENDOR">
                         <div style="font-weight:600;color:var(--primary);">
                             {{ $vendor->company_name }}
                         </div>
@@ -79,20 +79,20 @@
                         </div>
                     </td>
 
-                    <td>
+                    <td data-label="CATEGORY">
                         <span style="font-size:0.8rem;background:var(--primary-muted);color:var(--primary);padding:0.2rem 0.6rem;border-radius:9999px;font-weight:500;">
                             {{ $vendor->business_category }}
                         </span>
                     </td>
 
-                    <td>
+                    <td data-label="STATUS">
                         <span class="badge badge-{{ $vendor->status }}">
                             {{ ucfirst($vendor->status) }}
                         </span>
                     </td>
 
                     {{-- KTP --}}
-                    <td>
+                    <td data-label="IDENTITY CARD (KTP)">
                         @if($vendor->id_card_path)
                             <a href="{{ str_starts_with($vendor->id_card_path, 'http') ? $vendor->id_card_path : Storage::url($vendor->id_card_path) }}"
                                target="_blank"
@@ -107,7 +107,7 @@
                     </td>
 
                     {{-- Bank Book --}}
-                    <td>
+                    <td data-label="BANK ACCOUNT BOOK">
                         @if($vendor->bank_book_path)
                             <a href="{{ str_starts_with($vendor->bank_book_path, 'http') ? $vendor->bank_book_path : Storage::url($vendor->bank_book_path) }}"
                                target="_blank"
@@ -122,7 +122,7 @@
                     </td>
 
                     {{-- Share Location --}}
-                    <td>
+                    <td data-label="SHARE LOCATION">
                         @if($vendor->google_maps_link)
                             <a href="{{ $vendor->google_maps_link }}"
                                target="_blank"
@@ -137,7 +137,7 @@
                     </td>
 
                     {{-- Office Photos --}}
-                    <td>
+                    <td data-label="OFFICE PHOTOS">
 
                         @php
                             $photos = json_decode($vendor->office_photos, true);
@@ -169,7 +169,7 @@
 
                     </td>
 
-                    <td style="color:var(--text-muted);font-size:0.8rem;">
+                    <td style="color:var(--text-muted);font-size:0.8rem;" data-label="UPLOADED">
                         {{ $vendor->created_at->format('d M Y') }}
                     </td>
 

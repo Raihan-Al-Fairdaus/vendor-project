@@ -9,7 +9,7 @@
 
 @section('content')
 
-<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; align-items: start;" id="vendor-dashboard-layout">
+<div class="grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; align-items: start;" id="vendor-dashboard-layout">
     
     {{-- KOLOM KIRI (PERUSAHAAN DI ATAS, PIC DI BAWAHNYA) --}}
     <div style="display: flex; flex-direction: column; gap: 1.25rem;">
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                <div>
     <div style="font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;">
         Office Address
@@ -99,7 +99,7 @@
                 <h3 style="margin: 0; color: #d4af37; font-size: 1.05rem; font-weight: 700;">Person in Charge (PIC) Information</h3>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; align-items: center;">
+            <div class="grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; align-items: center;">
                 <div style="display: flex; align-items: center; gap: 0.75rem; background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
                     <div style="width: 38px; height: 38px; background: #d4af37; color: #1b3a60; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; border-radius: 50%; font-weight: 700; flex-shrink: 0;">
                         {{ substr($vendor->pic_name ?? $vendor->name ?? 'A', 0, 1) }}

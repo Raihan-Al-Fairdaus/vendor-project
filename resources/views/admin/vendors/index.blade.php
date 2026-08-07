@@ -111,7 +111,7 @@
 
                 <tr>
 
-                    <td>
+                    <td data-label="VENDOR NAME">
                         <div style="font-weight:600;color:var(--primary);">
                             {{ $vendor->company_name }}
                         </div>
@@ -121,13 +121,13 @@
                         </div>
                     </td>
 
-                    <td>{{ $vendor->business_category }}</td>
+                    <td data-label="CATEGORY">{{ $vendor->business_category }}</td>
 
-<td>
+<td data-label="NPWP">
     {{ $vendor->npwp ?? '-' }}
 </td>
 
-                    <td>
+                    <td data-label="CONTACT">
                         <div>{{ $vendor->company_email }}</div>
 
                         <div style="font-size:.75rem;color:var(--text-muted);">
@@ -135,9 +135,9 @@
                         </div>
                     </td>
 
-                    <td>{{ $vendor->created_at->format('M d, Y') }}</td>
+                    <td data-label="REGISTERED">{{ $vendor->created_at->format('M d, Y') }}</td>
 
-                    <td>
+                    <td data-label="STATUS">
 
                         @php
                             $statusBg = match($vendor->status){
@@ -183,7 +183,7 @@
 
                     </td>
 
-                    <td>
+                    <td data-label="ACTIONS">
                         <a
                             href="{{ route('admin.vendors.show',$vendor->id) }}"
                             class="btn btn-outline btn-sm"
