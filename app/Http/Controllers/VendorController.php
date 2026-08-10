@@ -31,6 +31,17 @@ class VendorController extends Controller
             'type'     => 'required|string',
         ]);
 
+        $allowedMimeTypes = [
+            'id_cards'      => ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'],
+            'bank_books'    => ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'],
+            'npwp'          => ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'],
+            'office_photos' => ['image/jpeg', 'image/png', 'image/webp'],
+        ];
+
+        if (!in_array($request->type, $allowedMimeTypes[$request->folder], true)) {
+            return response()->json(['message' => 'Format file tidak diizinkan.'], 422);
+        }
+
         $extension = pathinfo($request->filename, PATHINFO_EXTENSION);
         $uniqueName = uniqid() . '_' . time() . '.' . $extension;
         $key = $request->folder . '/' . $uniqueName;
@@ -90,8 +101,8 @@ class VendorController extends Controller
 
         $officePhotoUrls = json_decode($request->office_photos_urls, true);
 
-        if (!is_array($officePhotoUrls) || count($officePhotoUrls) < 2) {
-            return back()->withErrors(['office_photos_urls' => 'Minimal 2 foto kantor diperlukan.']);
+        if (!is_array($officePhotoUrls) || count($officePhotoUrls) < 2 || count($officePhotoUrls) > 3) {
+            return back()->withErrors(['office_photos_urls' => 'Foto kantor harus berjumlah 2 sampai 3 foto.']);
         }
 
         Vendor::create([

@@ -493,7 +493,7 @@
                     <label class="form-label">Identity Card (KTP)</label>
                     <div class="single-drop-area" id="idCardDropArea">
                         <p id="idCardText" style="margin-bottom: 4px; font-weight: 600; color: #1e293b;">Drag and drop or click to upload ID card</p>
-                        <span id="idCardSubText" style="color: #64748b; font-size: 0.85rem;">PNG, JPG, PDF up to 10MB</span>
+                        <span id="idCardSubText" style="color: #64748b; font-size: 0.85rem;">PNG, JPG, PDF up to 10MB. Foto dikompres otomatis.</span>
                         <input type="file" name="id_card" id="idCardInput" accept=".jpg,.jpeg,.png,.pdf" required>
                     </div>
                 </div>
@@ -509,13 +509,13 @@
 
                 <!-- Office Photos Upload (Multiple Cards Grid) -->
                 <div class="form-group">
-                    <label class="form-label">Office Photos (Min. 2 Photos)</label>
+                    <label class="form-label">Office Photos (Min. 2, Max. 3 Photos)</label>
                     
                     <div class="office-photo-grid" id="officePhotosGrid">
                         <!-- Kotak Upload Utama Bawaan -->
                         <div class="photo-upload-card" id="mainUploadCard" style="grid-column: 1 / -1; aspect-ratio: auto; min-height: 120px;">
                             <p style="margin: 0; color: #1e293b; font-weight: 600;">Drag and drop or click to upload office photos</p>
-                            <span style="color: #64748b; font-size: 0.8rem;">PNG, JPG up to 10MB each (Select 2 or more)</span>
+                            <span style="color: #64748b; font-size: 0.8rem;">PNG, JPG hingga 10MB per foto. Dikompres otomatis (pilih 2–3 foto).</span>
                             <input type="file" accept=".jpg,.jpeg,.png" multiple id="initialOfficePhotosTrigger">
                         </div>
                     </div>
@@ -537,7 +537,7 @@
         </p>
 
         <span id="npwpSubText">
-            JPG, PNG, PDF (Max 10MB)
+            JPG, PNG, PDF (Maks. 10MB, foto dikompres otomatis)
         </span>
 
         <input
@@ -574,7 +574,7 @@
 </p>
 
         <span id="bankBookSubText" >
-            JPG, PNG, PDF (Max 10MB)
+            JPG, PNG, PDF (Maks. 10MB, foto dikompres otomatis)
         </span>
 
         <input
@@ -836,6 +836,77 @@
         const npwpSubText = document.getElementById('npwpSubText');
         const bankBookSubText = document.getElementById('bankBookSubText');
 
+        const maxUploadBytes = 10 * 1024 * 1024;
+
+        function formatFileSize(bytes) {
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        function compressImage(file, maxDimension, quality) {
+            return new Promise((resolve) => {
+                const image = new Image();
+                const sourceUrl = URL.createObjectURL(file);
+
+                image.onload = () => {
+                    let { width, height } = image;
+                    const scale = Math.min(1, maxDimension / Math.max(width, height));
+                    width = Math.max(1, Math.round(width * scale));
+                    height = Math.max(1, Math.round(height * scale));
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+                    URL.revokeObjectURL(sourceUrl);
+
+                    canvas.toBlob((blob) => {
+                        if (!blob || blob.size >= file.size) {
+                            resolve(file);
+                            return;
+                        }
+
+                        const filename = file.name.replace(/\.[^.]+$/, '') + '.webp';
+                        resolve(new File([blob], filename, {
+                            type: 'image/webp',
+                            lastModified: file.lastModified,
+                        }));
+                    }, 'image/webp', quality);
+                };
+
+                image.onerror = () => {
+                    URL.revokeObjectURL(sourceUrl);
+                    resolve(file);
+                };
+                image.src = sourceUrl;
+            });
+        }
+
+        async function prepareDocumentInput(input, textElement, subTextElement) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+
+            if (file.size > maxUploadBytes) {
+                alert(`Ukuran file "${file.name}" terlalu besar. Maksimal 10MB.`);
+                input.value = '';
+                return;
+            }
+
+            let uploadFile = file;
+            if (file.type.startsWith('image/')) {
+                subTextElement.textContent = 'Mengompres foto...';
+                uploadFile = await compressImage(file, 2200, 0.9);
+                const files = new DataTransfer();
+                files.items.add(uploadFile);
+                input.files = files.files;
+            }
+
+            textElement.style.color = '#0d9488';
+            textElement.textContent = '✓ ' + uploadFile.name;
+            subTextElement.textContent = file.type.startsWith('image/')
+                ? `Dikompres otomatis: ${formatFileSize(file.size)} → ${formatFileSize(uploadFile.size)}`
+                : formatFileSize(uploadFile.size);
+        }
+
 
         if (idCardInput) {
             idCardInput.addEventListener('change', function() {
@@ -869,6 +940,17 @@
     });
 }
 
+        // Ganti file gambar dokumen dengan versi yang lebih ringan sebelum diunggah.
+        if (idCardInput) {
+            idCardInput.addEventListener('change', () => prepareDocumentInput(idCardInput, idCardText, idCardSubText));
+        }
+        if (npwpInput) {
+            npwpInput.addEventListener('change', () => prepareDocumentInput(npwpInput, npwpText, npwpSubText));
+        }
+        if (bankBookInput) {
+            bankBookInput.addEventListener('change', () => prepareDocumentInput(bankBookInput, bankBookText, bankBookSubText));
+        }
+
         // Multiple Office Photos - Dynamic Grid System dengan Hapus Per Kotak
         const officePhotosInput = document.getElementById('officePhotosInput');
         const officePhotosGrid = document.getElementById('officePhotosGrid');
@@ -893,7 +975,7 @@
                 mainBox.style.minHeight = '120px';
                 mainBox.innerHTML = `
                     <p style="margin: 0; color: #1e293b; font-weight: 600;">Drag and drop or click to upload office photos</p>
-                    <span style="color: #64748b; font-size: 0.8rem;">PNG, JPG up to 10MB each (Select 2 or more)</span>
+                    <span style="color: #64748b; font-size: 0.8rem;">PNG, JPG hingga 10MB per foto. Dikompres otomatis (pilih 2–3 foto).</span>
                     <input type="file" accept=".jpg,.jpeg,.png" multiple>
                 `;
                 
@@ -941,24 +1023,36 @@
             syncInputFiles();
         }
 
-        function handleFileSelect(event) {
-            if (event.target.files && event.target.files.length > 0) {
-                const maxSizeBytes = 10 * 1024 * 1024; // 10MB
-                
-                Array.from(event.target.files).forEach(file => {
-                    if (!file.type.startsWith('image/')) {
-                        alert(`File "${file.name}" bukan format gambar yang valid!`);
-                        return;
-                    }
-                    if (file.size > maxSizeBytes) {
-                        alert(`Ukuran file "${file.name}" terlalu besar! Maksimal 10MB per foto.`);
-                        return;
-                    }
-                    selectedFiles.items.add(file);
-                });
+        async function handleFileSelect(event) {
+            const files = event.target.files ? Array.from(event.target.files) : [];
+            if (files.length === 0) return;
 
-                renderPhotosGrid();
+            const availableSlots = 3 - selectedFiles.files.length;
+            if (availableSlots <= 0) {
+                alert('Maksimal 3 foto kantor. Hapus salah satu foto untuk menggantinya.');
+                return;
             }
+
+            if (files.length > availableSlots) {
+                alert(`Hanya ${availableSlots} foto lagi yang dapat ditambahkan. Maksimal 3 foto kantor.`);
+            }
+
+            for (const file of files.slice(0, availableSlots)) {
+                if (!file.type.startsWith('image/')) {
+                    alert(`File "${file.name}" bukan format gambar yang valid!`);
+                    continue;
+                }
+                if (file.size > maxUploadBytes) {
+                    alert(`Ukuran file "${file.name}" terlalu besar! Maksimal 10MB per foto.`);
+                    continue;
+                }
+
+                // Foto kantor diperkecil sebelum upload: sisi terpanjang 1920px, WebP kualitas 80%.
+                const compressedFile = await compressImage(file, 1920, 0.8);
+                selectedFiles.items.add(compressedFile);
+            }
+
+            renderPhotosGrid();
         }
 
         function removeFile(index) {
