@@ -853,7 +853,14 @@
             <p>MOU ini berlaku sebagai ketentuan umum kerja sama vendor sejak persetujuan dilakukan melalui sistem/website PT. DNA JAYA GROUP.</p>
 
             <div style="margin-top:1.5rem;padding:1rem;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:8px;">
-                <p style="font-weight:600;color:#d4af37;margin-bottom:0;">☑ Saya telah membaca, memahami, dan menyetujui seluruh isi MOU Kerja Sama Vendor serta bersedia menjadi Vendor PT. DNA JAYA GROUP</p>
+                <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
+                    <input
+                        type="checkbox"
+                        id="mouConfirm"
+                        style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:#d4af37;cursor:pointer;"
+                    >
+                    <span style="font-weight:600;color:#d4af37;font-size:0.88rem;line-height:1.5;">Saya telah membaca, memahami, dan menyetujui seluruh isi MOU Kerja Sama Vendor serta bersedia menjadi Vendor PT. DNA JAYA GROUP</span>
+                </label>
             </div>
 
         </div>
@@ -1150,17 +1157,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    // Enable Button After Scroll
+    // Enable Agree Button only when MOU confirm checkbox is checked
+    const mouConfirm = document.getElementById("mouConfirm");
+
+    if (mouConfirm) {
+        mouConfirm.addEventListener("change", function () {
+            if (this.checked) {
+                acceptBtn.disabled = false;
+                acceptBtn.classList.add("enabled");
+            } else {
+                acceptBtn.disabled = true;
+                acceptBtn.classList.remove("enabled");
+            }
+        });
+    }
+
+    // Disable scroll-based auto-enable (now requires checkbox)
     scrollArea.addEventListener("scroll", function () {
-
-        if (
-            scrollArea.scrollTop + scrollArea.clientHeight >=
-            scrollArea.scrollHeight - 10
-        ) {
-            acceptBtn.disabled = false;
-            acceptBtn.classList.add("enabled");
-        }
-
+        // scroll tracking removed - button enabled by checkbox only
     });
 
     // Accept Agreement
@@ -1173,7 +1187,7 @@ document.addEventListener("DOMContentLoaded", function () {
         submitBtn.disabled = false;
 
         agreementStatus.innerHTML =
-            "✅ Vendor Partnership Agreement accepted.";
+            "✅ MOU Perjanjian Kerjasama Vendor telah disetujui.";
 
         agreementStatus.style.color = "#16a34a";
 
