@@ -2297,11 +2297,11 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
     }
 
     .agreement-modal-header{
-        padding:22px;
+        padding:16px 20px;
     }
 
     .agreement-modal-header h2{
-        font-size:1.25rem;
+        font-size:0.95rem;
     }
 
     .agreement-body{
