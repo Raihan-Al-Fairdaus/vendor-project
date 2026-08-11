@@ -493,7 +493,7 @@
                     <label class="form-label">Identity Card (KTP)</label>
                     <div class="single-drop-area" id="idCardDropArea">
                         <p id="idCardText" style="margin-bottom: 4px; font-weight: 600; color: #1e293b;">Drag and drop or click to upload ID card</p>
-                        <span id="idCardSubText" style="color: #64748b; font-size: 0.85rem;">PNG, JPG, PDF up to 10MB. Foto dikompres otomatis.</span>
+                        <span id="idCardSubText" style="color: #64748b; font-size: 0.85rem;">PNG, JPG, PDF up to 10MB</span>
                         <input type="file" name="id_card" id="idCardInput" accept=".jpg,.jpeg,.png,.pdf" required>
                     </div>
                 </div>
@@ -509,13 +509,13 @@
 
                 <!-- Office Photos Upload (Multiple Cards Grid) -->
                 <div class="form-group">
-                    <label class="form-label">Office Photos (Min. 2, Max. 3 Photos)</label>
+                    <label class="form-label">Office Photos (Min. 2 Photos)</label>
                     
                     <div class="office-photo-grid" id="officePhotosGrid">
                         <!-- Kotak Upload Utama Bawaan -->
                         <div class="photo-upload-card" id="mainUploadCard" style="grid-column: 1 / -1; aspect-ratio: auto; min-height: 120px;">
                             <p style="margin: 0; color: #1e293b; font-weight: 600;">Drag and drop or click to upload office photos</p>
-                            <span style="color: #64748b; font-size: 0.8rem;">PNG, JPG hingga 10MB per foto. Dikompres otomatis (pilih 2–3 foto).</span>
+                            <span style="color: #64748b; font-size: 0.8rem;">PNG, JPG up to 10MB each (Select 2 or more)</span>
                             <input type="file" accept=".jpg,.jpeg,.png" multiple id="initialOfficePhotosTrigger">
                         </div>
                     </div>
@@ -537,7 +537,7 @@
         </p>
 
         <span id="npwpSubText">
-            JPG, PNG, PDF (Maks. 10MB, foto dikompres otomatis)
+            JPG, PNG, PDF (Max 10MB)
         </span>
 
         <input
@@ -574,7 +574,7 @@
 </p>
 
         <span id="bankBookSubText" >
-            JPG, PNG, PDF (Maks. 10MB, foto dikompres otomatis)
+            JPG, PNG, PDF (Max 10MB)
         </span>
 
         <input
@@ -664,27 +664,9 @@
         required>
 
     <label for="agreement">
-
-        I hereby declare that all information provided above is true and accurate.
-        I understand that any false information may lead to rejection or revocation
-        of my vendor registration.
-
-        <br><br>
-
-        I agree to the
-
-        <a href="#">
-            Terms of Service
-        </a>
-
-        and
-
-        <a href="#">
-            Privacy Policy
-        </a>
-
-        regarding the processing of business data.
-
+        Saya telah membaca, memahami, dan menyetujui seluruh isi
+        <strong>MOU Perjanjian Kerjasama Penunjukan Vendor PT. DNA JAYA GROUP</strong>
+        serta bersedia menjadi Vendor dan mematuhi seluruh ketentuan yang tercantum di dalamnya.
     </label>
 
 </div>
@@ -747,9 +729,7 @@
 
         <div class="agreement-modal-header">
 
-            <h2>
-                Vendor Partnership Agreement
-            </h2>
+            <h2>MEMORANDUM OF UNDERSTANDING<br><small style="font-size:0.75rem;font-weight:400;opacity:0.85;">Perjanjian Kerjasama Penunjukan Vendor</small></h2>
 
             <button
                 type="button"
@@ -766,37 +746,115 @@
             id="agreementScroll"
             class="agreement-body">
 
+            <div style="text-align:center;margin-bottom:1.5rem;">
+                <p style="font-size:0.85rem;opacity:0.7;">Harap baca dan pahami seluruh isi MOU ini sebelum melakukan persetujuan.</p>
+            </div>
+
             <div class="agreement-title">
-    <span class="agreement-number">1</span>
-    <h3>General Terms</h3>
-</div>
+                <span class="agreement-number">1</span>
+                <h3>PASAL 1 — KETENTUAN UMUM</h3>
+            </div>
+            <p>Memorandum Of Understanding (MOU) ini merupakan dasar dan ketentuan umum kerja sama antara <strong>PT. DNA JAYA GROUP</strong>, selanjutnya disebut <strong>PIHAK PERTAMA</strong>, dengan pihak vendor yang mendaftarkan dan menyatakan kesediannya untuk menjadi rekanan/vendor, selanjutnya disebut <strong>PIHAK KEDUA</strong>.</p>
+            <p>MOU ini dibuat sebagai bentuk kesepahaman mengenai hak, kewajiban, tanggung jawab, serta ketentuan yang harus dipatuhi oleh PIHAK KEDUA selama menjalankan kerja sama dengan PIHAK PERTAMA.</p>
 
-            <p>
-                By registering as a vendor, you agree to comply with all
-                partnership regulations established by DNA Advertising.
-            </p>
+            <div class="agreement-title" style="margin-top:1.25rem;">
+                <span class="agreement-number">2</span>
+                <h3>PASAL 2 — RUANG LINGKUP PEKERJAAN</h3>
+            </div>
+            <p>(1) PIHAK PERTAMA memberikan pekerjaan terkait Advertising dan periklanan sesuai dengan spesifikasi dan lokasi yang sesuai dengan Surat Perintah Kerja yang turun kepada PIHAK KEDUA dan PIHAK KEDUA menyatakan telah sepakat untuk menerima dan akan melaksanakan pekerjaan tersebut.</p>
+            <p>(2) Apabila PIHAK KEDUA merasa keberatan atau tidak mampu untuk mengerjakan Surat Perintah Yang turun dari PIHAK PERTAMA, maka PIHAK KEDUA diberikan waktu <strong>1 x 24 Jam</strong> Masa Sanggah untuk membatalkan atau melakukan revisi atas Surat Perintah Kerja tersebut.</p>
+            <p>(3) PIHAK KEDUA dengan ini menyatakan sanggup untuk menyediakan bahan baku dan jasa pemasangan sebagaimana dimaksud ketentuan Pasal 1 ayat (1) di perjanjian ini.</p>
+            <p>(4) Pekerjaan-pekerjaan lainnya yang tidak dapat dirinci satu persatu namun menurut sifatnya menjadi tanggung jawab PIHAK KEDUA, sehingga hasil pekerjaan dapat diserahkan menurut kuantitas dan kualitas serta dalam jangka waktu yang ditetapkan dalam Perjanjian ini.</p>
 
-            <p>
-                Vendors must provide accurate company information.
-            </p>
+            <div class="agreement-title" style="margin-top:1.25rem;">
+                <span class="agreement-number">3</span>
+                <h3>PASAL 3 — KESELAMATAN DAN KESEHATAN KERJA (K3)</h3>
+            </div>
+            <p>(1) PIHAK KEDUA berkewajiban untuk melaksanakan pekerjaan dengan mengutamakan aturan Keselamatan dan Kesehatan Kerja (K3).</p>
+            <p>(2) PIHAK KEDUA wajib menugaskan tenaga kerja ahli yang sesuai dengan pekerjaan yang diberikan oleh PIHAK PERTAMA.</p>
+            <p>(3) Jika PIHAK KEDUA mengalami Kecelakaan Kerja yang terjadi karena tidak dipatuhinya Aturan Kesehatan dan Keselamatan Kerja, maka PIHAK PERTAMA tidak bertanggung jawab atas Kerugian PIHAK KEDUA yang timbul akibat dari kecelakaan kerja tersebut.</p>
+            <p>(4) Di lokasi pekerjaan harus ada wakil PIHAK KEDUA yang ditunjuk sebagai Pimpinan pelaksana yang mempunyai wewenang penuh untuk mewakili PIHAK KEDUA yang dapat menerima/memberikan/memutuskan segala urusan pekerjaan lapangan tidak terkecuali terhadap penanganan resiko kecelakaan kerja.</p>
+            <p>(5) Semua yang berkaitan dengan persoalan dan tuntutan tenaga kerja yang menjadi beban dan tanggung jawab PIHAK KEDUA, baik di dalam maupun di luar pengadilan.</p>
 
-            <p>
-                Vendors shall maintain confidentiality.
-            </p>
+            <div class="agreement-title" style="margin-top:1.25rem;">
+                <span class="agreement-number">4</span>
+                <h3>PASAL 4 — KEWAJIBAN &amp; TANGGUNG JAWAB</h3>
+            </div>
+            <p>(1) PIHAK KEDUA berkewajiban melaksanakan pekerjaan berdasarkan Perjanjian ini dengan penuh tanggung jawab tetapi tidak terbatas pada tanggung jawab atas teknis pekerjaan saja, namun juga memperhatikan ketentuan hukum yang berlaku dan kelestarian lingkungan hidup.</p>
+            <p>(2) Setiap pekerja PIHAK KEDUA wajib didaftarkan menjadi peserta BPJS Ketenagakerjaan oleh PIHAK KEDUA.</p>
+            <p>(3) PIHAK KEDUA wajib memenuhi standar keamanan dan keselamatan kerja untuk keperluan pekerjaan yang beresiko tinggi bagi pekerjanya, meliputi: Sepatu, Body Harness, Helm, Sarung Tangan. PIHAK KEDUA wajib memprioritaskan keamanan dan keselamatan pekerja serta tidak merusak konstruksi Reklame itu sendiri kecuali dalam keadaan Darurat.</p>
+            <p>(4) Apabila PIHAK KEDUA tidak dapat menyediakan alat keamanan keselamatan kerja di atas, maka PIHAK KEDUA dapat meminjam kepada PIHAK PERTAMA dan wajib mengembalikan sesuai kondisi semula.</p>
+            <p>(5) Setiap Pekerja PIHAK KEDUA berkewajiban menggunakan alat-alat keselamatan kerja serta melaksanakan syarat-syarat keselamatan dan perlindungan pekerja.</p>
+            <p>(6) Dalam melakukan Pekerjaan dari Pihak Pertama, PIHAK KEDUA wajib mematuhi waktu kerja yaitu dimulai dari Jam <strong>07.00</strong> dan selambat-lambatnya harus selesai Jam <strong>17.00</strong> Waktu Setempat.</p>
+            <p>(7) PIHAK KEDUA bertanggung jawab terhadap barang yang ada di Lokasi pekerjaan.</p>
+            <p>(8) Dalam melakukan pekerjaan terjadi hujan, angin kencang, masalah kabel Listrik PLN atau hal-hal yang berpotensi menimbulkan resiko tinggi, maka PIHAK KEDUA wajib melaporkan kepada PIHAK PERTAMA terkait kendala yang terjadi.</p>
+            <p>(9) Segala resiko yang timbul yang menimpa PIHAK KEDUA berupa kecelakaan kerja, pekerja PIHAK KEDUA maupun pihak ketiga sehubungan dengan pelaksanaan Pekerjaan berdasarkan Perjanjian ini menjadi beban dan tanggung jawab PIHAK KEDUA sepenuhnya, namun PIHAK PERTAMA akan tetap memberikan bantuan berupa santunan kepada PIHAK KEDUA sesuai dengan kebijakan Perusahaan.</p>
+            <p>(10) PIHAK KEDUA akan memberikan garansi kepada PIHAK PERTAMA atas konstruksi pekerjaan yang telah selesai:</p>
+            <ul style="margin-left:1.5rem;margin-bottom:0.75rem;line-height:1.8;">
+                <li>Pekerjaan <strong>Permanen</strong>: masa garansi konstruksi <strong>1 Tahun</strong> sejak Pengiriman Foto kepada Pihak Pertama.</li>
+                <li>Pekerjaan <strong>Insidentil</strong>: masa garansi konstruksi <strong>7 Hari</strong> sejak Pengiriman Foto kepada Pihak Pertama, kecuali diambil/disita oleh dinas terkait atau terjadi Force Majeur.</li>
+            </ul>
 
-            <p>
-                Any fraudulent document will immediately terminate the partnership.
-            </p>
+            <div class="agreement-title" style="margin-top:1.25rem;">
+                <span class="agreement-number">5</span>
+                <h3>PASAL 5 — CARA PEMBAYARAN</h3>
+            </div>
+            <p>(1) Pembayaran harga pekerjaan dilaksanakan oleh PIHAK PERTAMA kepada PIHAK KEDUA dengan cara pembayaran sesuai dengan kesepakatan kedua belah Pihak sesuai dengan Surat Perintah Kerja.</p>
+            <p>(2) PIHAK PERTAMA berhak untuk memotong pembayaran PPH (Pajak Penghasilan) sesuai dengan peraturan perundang-undangan yang berlaku.</p>
+            <p>(3) Pembayaran harga pekerjaan dapat dilakukan secara transfer melalui Rekening PIHAK KEDUA yang telah dicantumkan.</p>
 
-            <p>
-                Additional agreement content...
-            </p>
+            <div class="agreement-title" style="margin-top:1.25rem;">
+                <span class="agreement-number">6</span>
+                <h3>PASAL 6 — JANGKA WAKTU PERJANJIAN</h3>
+            </div>
+            <p>(1) Jangka waktu perjanjian Kerjasama ini yakni sejak tanggal disetujui oleh PARA PIHAK dan tidak ditentukan jangka waktu berakhirnya.</p>
+            <p>(2) Perjanjian ini akan tetap berlaku sepanjang PARA PIHAK masih melaksanakan kerja sama.</p>
+            <p>(3) Dalam hal kerja sama tidak lagi digunakan, maka PIHAK PERTAMA dapat mengakhiri perjanjian ini dengan menyampaikan surat pemberitahuan penghentian kerja sama secara tertulis kepada PIHAK KEDUA.</p>
+            <p>(4) Dalam hal PARA PIHAK sepakat untuk mengakhiri kerja sama yang akan dituangkan secara tertulis di dalam suatu dokumen yang disepakati oleh PARA PIHAK secara tersendiri.</p>
 
-            <br><br><br><br><br><br><br><br><br><br>
+            <div class="agreement-title" style="margin-top:1.25rem;">
+                <span class="agreement-number">7</span>
+                <h3>PASAL 7 — FORCE MAJEURE</h3>
+            </div>
+            <p>(1) Dalam hal terjadi keadaan memaksa (Force Majeure) yang berada di luar kekuasaan PARA PIHAK, termasuk namun tidak terbatas kepada bencana alam, peperangan, revolusi, huru-hara, dan pemogokan massal, maka pihak yang terkena dampak harus memberitahukan kepada pihak lainnya secara tertulis selambat-lambatnya <strong>3 (tiga) hari kalender</strong> setelah keadaan memaksa itu terjadi.</p>
+            <p>(2) Apabila pihak yang terkena dampak tidak atau lalai memberitahukan kejadian tersebut dalam jangka waktu 3 (tiga) hari kalender tersebut, maka keadaan memaksa dianggap tidak pernah terjadi dan pihak yang mengalami keadaan memaksa tersebut tetap harus melaksanakan kewajibannya sebagaimana termaktub dalam Perjanjian ini.</p>
+            <p>(3) Apabila pemberitahuan diberikan dalam batas waktu yang ditentukan, maka PARA PIHAK akan merundingkan kembali pelaksanaan Perjanjian ini berdasarkan musyawarah untuk mufakat.</p>
 
-            <h3>
-                End of Agreement
-            </h3>
+            <div class="agreement-title" style="margin-top:1.25rem;">
+                <span class="agreement-number">8</span>
+                <h3>PASAL 8 — PENYELESAIAN PERSELISIHAN</h3>
+            </div>
+            <p>(1) Segala perselisihan atau perbedaan pendapat yang timbul atas pelaksanaan dari Perjanjian ini terlebih dahulu akan dibicarakan dan diselesaikan oleh kedua belah pihak secara musyawarah untuk mufakat.</p>
+            <p>(2) Apabila penyelesaian secara musyawarah tidak tercapai antara kedua belah pihak, maka PIHAK PERTAMA dan PIHAK KEDUA sepakat untuk memilih domisili hukum di <strong>Pengadilan Negeri Sidoarjo</strong>.</p>
+
+            <div class="agreement-title" style="margin-top:1.25rem;">
+                <span class="agreement-number">9</span>
+                <h3>PASAL 9 — KETENTUAN LAIN-LAIN</h3>
+            </div>
+            <p>(1) Apabila terjadi perbedaan materi dan penafsiran antara Perjanjian ini dengan dokumen lampirannya, maka yang diberlakukan adalah ketentuan dalam Perjanjian ini.</p>
+            <p>(2) Segala sesuatu mengenai jenis pekerjaan dalam Perjanjian ini, oleh PARA PIHAK akan diatur dalam perjanjian tersendiri yang merupakan satu kesatuan yang mengikat dan bagian yang tidak terpisahkan dari Perjanjian ini.</p>
+            <p>(3) Apabila terdapat perbedaan isi antara Perjanjian ini dengan lampirannya, maka yang diberlakukan adalah yang tertuang dalam Perjanjian ini.</p>
+
+            <div class="agreement-title" style="margin-top:1.25rem;">
+                <span class="agreement-number">10</span>
+                <h3>PASAL 10 — PERSETUJUAN MELALUI WEBSITE</h3>
+            </div>
+            <p>(1) PIHAK KEDUA menyatakan telah membaca dan memahami seluruh isi MOU ini sebelum melakukan persetujuan.</p>
+            <p>(2) Dengan mencetang kolom persetujuan dan menekan tombol Submit/Kirim pada website, PIHAK KEDUA menyatakan bersedia menjadi Vendor PT. DNA JAYA GROUP.</p>
+            <p>(3) Persetujuan melalui sistem/website merupakan bentuk pernyataan kesediaan PIHAK KEDUA untuk mematuhi dan menjalankan ketentuan yang tercantum dalam MOU ini.</p>
+            <p>(4) Data dan informasi yang diberikan oleh PIHAK KEDUA melalui formulir pendaftaran vendor merupakan bagian dari proses administrasi kerja sama Vendor.</p>
+            <p>(5) PIHAK KEDUA bertanggung jawab atas kebenaran data dan informasi yang disampaikan melalui sistem.</p>
+
+            <div class="agreement-title" style="margin-top:1.25rem;">
+                <span class="agreement-number">11</span>
+                <h3>PASAL 11 — PENUTUP</h3>
+            </div>
+            <p>MOU ini dibuat sebagai dasar dan pedoman dalam pelaksanaan kerja sama <strong>PT. DNA JAYA GROUP</strong> dengan vendor. Dengan melakukan persetujuan melalui website, PIHAK KEDUA menyatakan telah membaca, memahami, menyetujui dan bersedia mematuhi seluruh ketentuan dalam MOU ini.</p>
+            <p>MOU ini berlaku sebagai ketentuan umum kerja sama vendor sejak persetujuan dilakukan melalui sistem/website PT. DNA JAYA GROUP.</p>
+
+            <div style="margin-top:1.5rem;padding:1rem;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:8px;">
+                <p style="font-weight:600;color:#d4af37;margin-bottom:0;">☑ Saya telah membaca, memahami, dan menyetujui seluruh isi MOU Kerja Sama Vendor serta bersedia menjadi Vendor PT. DNA JAYA GROUP</p>
+            </div>
 
         </div>
 
@@ -836,77 +894,6 @@
         const npwpSubText = document.getElementById('npwpSubText');
         const bankBookSubText = document.getElementById('bankBookSubText');
 
-        const maxUploadBytes = 10 * 1024 * 1024;
-
-        function formatFileSize(bytes) {
-            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
-        }
-
-        function compressImage(file, maxDimension, quality) {
-            return new Promise((resolve) => {
-                const image = new Image();
-                const sourceUrl = URL.createObjectURL(file);
-
-                image.onload = () => {
-                    let { width, height } = image;
-                    const scale = Math.min(1, maxDimension / Math.max(width, height));
-                    width = Math.max(1, Math.round(width * scale));
-                    height = Math.max(1, Math.round(height * scale));
-
-                    const canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    canvas.getContext('2d').drawImage(image, 0, 0, width, height);
-                    URL.revokeObjectURL(sourceUrl);
-
-                    canvas.toBlob((blob) => {
-                        if (!blob || blob.size >= file.size) {
-                            resolve(file);
-                            return;
-                        }
-
-                        const filename = file.name.replace(/\.[^.]+$/, '') + '.webp';
-                        resolve(new File([blob], filename, {
-                            type: 'image/webp',
-                            lastModified: file.lastModified,
-                        }));
-                    }, 'image/webp', quality);
-                };
-
-                image.onerror = () => {
-                    URL.revokeObjectURL(sourceUrl);
-                    resolve(file);
-                };
-                image.src = sourceUrl;
-            });
-        }
-
-        async function prepareDocumentInput(input, textElement, subTextElement) {
-            const file = input.files && input.files[0];
-            if (!file) return;
-
-            if (file.size > maxUploadBytes) {
-                alert(`Ukuran file "${file.name}" terlalu besar. Maksimal 10MB.`);
-                input.value = '';
-                return;
-            }
-
-            let uploadFile = file;
-            if (file.type.startsWith('image/')) {
-                subTextElement.textContent = 'Mengompres foto...';
-                uploadFile = await compressImage(file, 2200, 0.9);
-                const files = new DataTransfer();
-                files.items.add(uploadFile);
-                input.files = files.files;
-            }
-
-            textElement.style.color = '#0d9488';
-            textElement.textContent = '✓ ' + uploadFile.name;
-            subTextElement.textContent = file.type.startsWith('image/')
-                ? `Dikompres otomatis: ${formatFileSize(file.size)} → ${formatFileSize(uploadFile.size)}`
-                : formatFileSize(uploadFile.size);
-        }
-
 
         if (idCardInput) {
             idCardInput.addEventListener('change', function() {
@@ -940,17 +927,6 @@
     });
 }
 
-        // Ganti file gambar dokumen dengan versi yang lebih ringan sebelum diunggah.
-        if (idCardInput) {
-            idCardInput.addEventListener('change', () => prepareDocumentInput(idCardInput, idCardText, idCardSubText));
-        }
-        if (npwpInput) {
-            npwpInput.addEventListener('change', () => prepareDocumentInput(npwpInput, npwpText, npwpSubText));
-        }
-        if (bankBookInput) {
-            bankBookInput.addEventListener('change', () => prepareDocumentInput(bankBookInput, bankBookText, bankBookSubText));
-        }
-
         // Multiple Office Photos - Dynamic Grid System dengan Hapus Per Kotak
         const officePhotosInput = document.getElementById('officePhotosInput');
         const officePhotosGrid = document.getElementById('officePhotosGrid');
@@ -975,7 +951,7 @@
                 mainBox.style.minHeight = '120px';
                 mainBox.innerHTML = `
                     <p style="margin: 0; color: #1e293b; font-weight: 600;">Drag and drop or click to upload office photos</p>
-                    <span style="color: #64748b; font-size: 0.8rem;">PNG, JPG hingga 10MB per foto. Dikompres otomatis (pilih 2–3 foto).</span>
+                    <span style="color: #64748b; font-size: 0.8rem;">PNG, JPG up to 10MB each (Select 2 or more)</span>
                     <input type="file" accept=".jpg,.jpeg,.png" multiple>
                 `;
                 
@@ -1023,36 +999,24 @@
             syncInputFiles();
         }
 
-        async function handleFileSelect(event) {
-            const files = event.target.files ? Array.from(event.target.files) : [];
-            if (files.length === 0) return;
+        function handleFileSelect(event) {
+            if (event.target.files && event.target.files.length > 0) {
+                const maxSizeBytes = 10 * 1024 * 1024; // 10MB
+                
+                Array.from(event.target.files).forEach(file => {
+                    if (!file.type.startsWith('image/')) {
+                        alert(`File "${file.name}" bukan format gambar yang valid!`);
+                        return;
+                    }
+                    if (file.size > maxSizeBytes) {
+                        alert(`Ukuran file "${file.name}" terlalu besar! Maksimal 10MB per foto.`);
+                        return;
+                    }
+                    selectedFiles.items.add(file);
+                });
 
-            const availableSlots = 3 - selectedFiles.files.length;
-            if (availableSlots <= 0) {
-                alert('Maksimal 3 foto kantor. Hapus salah satu foto untuk menggantinya.');
-                return;
+                renderPhotosGrid();
             }
-
-            if (files.length > availableSlots) {
-                alert(`Hanya ${availableSlots} foto lagi yang dapat ditambahkan. Maksimal 3 foto kantor.`);
-            }
-
-            for (const file of files.slice(0, availableSlots)) {
-                if (!file.type.startsWith('image/')) {
-                    alert(`File "${file.name}" bukan format gambar yang valid!`);
-                    continue;
-                }
-                if (file.size > maxUploadBytes) {
-                    alert(`Ukuran file "${file.name}" terlalu besar! Maksimal 10MB per foto.`);
-                    continue;
-                }
-
-                // Foto kantor diperkecil sebelum upload: sisi terpanjang 1920px, WebP kualitas 80%.
-                const compressedFile = await compressImage(file, 1920, 0.8);
-                selectedFiles.items.add(compressedFile);
-            }
-
-            renderPhotosGrid();
         }
 
         function removeFile(index) {
