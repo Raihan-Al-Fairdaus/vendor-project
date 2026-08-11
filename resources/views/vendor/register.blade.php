@@ -608,11 +608,10 @@
         </div>
 
         <div class="agreement-info">
-            <h3>Vendor Partnership Agreement</h3>
+            <h3>Memorandum Of Understanding (MOU)</h3>
 
             <p>
-                Please read and understand the Vendor Partnership Agreement
-                before continuing your registration.
+                Harap baca dan pahami seluruh isi MOU ini sebelum melanjutkan registrasi.
             </p>
         </div>
 
@@ -628,8 +627,8 @@
         </span>
 
         <span class="agreement-btn-text">
-            Read Vendor Partnership Agreement
-            <small>Required before registration</small>
+            Baca Memorandum Of Understanding
+            <small>Wajib dibaca sebelum registrasi</small>
         </span>
 
         <span class="agreement-btn-arrow">
@@ -642,7 +641,7 @@
         id="agreementStatus"
         class="agreement-status">
 
-        You must read and accept the agreement before continuing.
+        Anda harus membaca dan menyetujui MOU sebelum melanjutkan.
 
     </div>
 
