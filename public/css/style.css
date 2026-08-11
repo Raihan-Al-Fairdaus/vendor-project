@@ -1980,59 +1980,21 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
 
 .agreement-modal-header{
 
-    position:relative;
-
     display:flex;
     align-items:center;
     justify-content:space-between;
 
-    padding:18px 28px;
+    padding:20px 24px;
 
     color:#fff;
-
-    background:
-        linear-gradient(
-            135deg,
-            #13294b 0%,
-            #1d4677 60%,
-            #d4a017 135%
-        );
-
-    overflow:hidden;
-}
-
-.agreement-modal-header::before{
-
-    content:"";
-
-    position:absolute;
-    inset:0;
-
-    background:
-        linear-gradient(
-            120deg,
-            transparent 20%,
-            rgba(255,255,255,.12) 50%,
-            transparent 80%
-        );
-
-    transform:translateX(-120%);
-    animation:headerGlow 7s linear infinite;
+    background:#1b3a60;
 }
 
 .agreement-modal-header h2{
-
-    position:relative;
-    z-index:2;
-
     margin:0;
-
     color:#fff;
-
-    font-size:1.05rem;
-    font-weight:700;
-    letter-spacing:.2px;
-    line-height:1.4;
+    font-size:1rem;
+    font-weight:bold;
 }
 
 /* ==========================
@@ -2297,11 +2259,11 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
     }
 
     .agreement-modal-header{
-        padding:16px 20px;
+        padding:20px 24px;
     }
 
     .agreement-modal-header h2{
-        font-size:0.95rem;
+        font-size:1rem;
     }
 
     .agreement-body{

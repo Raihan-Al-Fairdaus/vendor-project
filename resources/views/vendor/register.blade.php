@@ -729,7 +729,7 @@
 
         <div class="agreement-modal-header">
 
-            <h2>MEMORANDUM OF UNDERSTANDING<br><small style="font-size:0.75rem;font-weight:400;opacity:0.85;">Perjanjian Kerjasama Penunjukan Vendor</small></h2>
+            <h2 style="margin:0;font-size:1rem;font-weight:bold;">MEMORANDUM OF UNDERSTANDING</h2>
 
             <button
                 type="button"
