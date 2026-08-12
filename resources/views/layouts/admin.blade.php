@@ -18,6 +18,18 @@
 
     {{-- Main CSS --}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    {{-- NProgress: loading bar tipis di atas halaman --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" crossorigin="anonymous">
+    <style>
+        /* Override warna NProgress agar sesuai brand */
+        #nprogress .bar { background: #d4a017 !important; height: 3px !important; }
+        #nprogress .peg { box-shadow: 0 0 10px #d4a017, 0 0 5px #d4a017 !important; }
+        #nprogress .spinner-icon {
+            border-top-color: #d4a017 !important;
+            border-left-color: #d4a017 !important;
+        }
+    </style>
     
     <!-- TAMBAHKAN SCRIPT INI DI SINI -->
     <script>
@@ -172,6 +184,70 @@
 
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-   
+    {{-- NProgress & prefetch script --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js" crossorigin="anonymous"></script>
+    <script>
+    (function () {
+        // Konfigurasi NProgress
+        NProgress.configure({
+            showSpinner: false,
+            speed: 300,
+            minimum: 0.1,
+            easing: 'ease',
+        });
+
+        // Mulai progress bar saat klik link navigasi
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest('a[href]');
+            if (!link) return;
+            const href = link.getAttribute('href');
+            // Hanya untuk link internal (bukan anchor, bukan external, bukan target blank)
+            if (
+                href &&
+                !href.startsWith('#') &&
+                !href.startsWith('javascript') &&
+                !href.startsWith('mailto') &&
+                !href.startsWith('http') &&
+                link.target !== '_blank' &&
+                !e.ctrlKey && !e.metaKey && !e.shiftKey
+            ) {
+                NProgress.start();
+            }
+        });
+
+        // Form submit juga tampilkan progress
+        document.addEventListener('submit', function () {
+            NProgress.start();
+        });
+
+        // Stop progress bar saat halaman selesai load
+        window.addEventListener('pageshow', function () {
+            NProgress.done();
+        });
+
+        // Prefetch halaman saat hover link navigasi
+        // (browser mulai download sebelum diklik)
+        const prefetched = new Set();
+        document.addEventListener('mouseover', function (e) {
+            const link = e.target.closest('a[href]');
+            if (!link) return;
+            const href = link.getAttribute('href');
+            if (
+                href &&
+                !href.startsWith('#') &&
+                !href.startsWith('javascript') &&
+                !href.startsWith('http') &&
+                !prefetched.has(href)
+            ) {
+                prefetched.add(href);
+                const el = document.createElement('link');
+                el.rel = 'prefetch';
+                el.href = href;
+                document.head.appendChild(el);
+            }
+        });
+    })();
+    </script>
+
 </body>
 </html>
