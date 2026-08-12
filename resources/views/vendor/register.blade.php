@@ -208,25 +208,27 @@
         animation-delay: 0.1s;
     }
 
-    /* --- Cards: Slide Up Staggered --- */
+    /* --- Cards: Transparent background on mobile --- */
     .card.animate-on-scroll {
         border-radius: 20px !important;
         padding: 1.25rem !important;
         margin-bottom: 1.25rem !important;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.13) !important;
+        box-shadow: none !important;
         animation: mob-slideUp 0.55s ease both;
-        border: 1px solid rgba(255,255,255,0.08) !important;
+        background: transparent !important;
+        border: none !important;
     }
     .card.animate-on-scroll:nth-child(1) { animation-delay: 0.15s; }
     .card.animate-on-scroll:nth-child(2) { animation-delay: 0.25s; }
     .card.animate-on-scroll:nth-child(3) { animation-delay: 0.35s; }
 
-    /* --- Card Header --- */
+    /* --- Card Header (putih agar terlihat di background biru) --- */
     .card h3.mb-4 {
         font-size: 1.05rem !important;
         margin-bottom: 1.1rem !important;
         padding-bottom: 0.75rem;
-        border-bottom: 1px solid rgba(0,0,0,0.07);
+        border-bottom: 1px solid rgba(255,255,255,0.2) !important;
+        color: #fff !important;
     }
     .card h3 span[style*="font-size: 1.5rem"] {
         font-size: 1.6rem !important;
@@ -246,7 +248,7 @@
         font-weight: 600 !important;
         letter-spacing: 0.04em !important;
         text-transform: uppercase;
-        color: #475569 !important;
+        color: rgba(255,255,255,0.85) !important;
         margin-bottom: 6px !important;
     }
     .form-control {
@@ -382,6 +384,79 @@
     .card[style*="error-bg"] {
         border-radius: 14px !important;
         font-size: 0.88rem !important;
+    }
+
+    /* --- Teks & elemen lain di atas background biru --- */
+
+    /* Subtitle / helper text di form */
+    .text-muted, small, .text-register-subtitle {
+        color: rgba(255,255,255,0.75) !important;
+    }
+
+    /* Teks helper maps */
+    [style*="color:#b8c7dc"] {
+        color: rgba(255,255,255,0.7) !important;
+    }
+
+    /* Teks di dalam upload area drag-drop */
+    .single-drop-area {
+        background-color: rgba(255,255,255,0.10) !important;
+        border-color: rgba(255,255,255,0.35) !important;
+    }
+    .single-drop-area p,
+    #idCardText, #npwpText, #bankBookText {
+        color: #fff !important;
+    }
+    .single-drop-area span,
+    #idCardSubText, #npwpSubText, #bankBookSubText {
+        color: rgba(255,255,255,0.75) !important;
+    }
+
+    /* Teks di upload foto office */
+    .photo-upload-card {
+        background-color: rgba(255,255,255,0.10) !important;
+        border-color: rgba(255,255,255,0.35) !important;
+    }
+    .photo-upload-card p {
+        color: #fff !important;
+    }
+    .photo-upload-card span {
+        color: rgba(255,255,255,0.75) !important;
+    }
+
+    /* Agreement card */
+    .agreement-card {
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+    .agreement-info h3 {
+        color: #fff !important;
+    }
+    .agreement-info p {
+        color: rgba(255,255,255,0.8) !important;
+    }
+    .agreement-status {
+        color: #fca5a5 !important; /* merah terang agar terlihat di background biru */
+    }
+
+    /* Agreement checkbox label */
+    .agreement-checkbox-wrapper {
+        font-size: 0.88rem !important;
+        line-height: 1.6 !important;
+        color: rgba(255,255,255,0.9) !important;
+    }
+    .agreement-checkbox-wrapper label,
+    .agreement-checkbox-wrapper span,
+    .agreement-checkbox-wrapper strong {
+        color: rgba(255,255,255,0.9) !important;
+    }
+
+    /* Discard draft button: tetap terlihat */
+    .btn.btn-outline[href="/"] {
+        border-color: rgba(248,113,113,0.8) !important;
+        color: #fca5a5 !important;
+        background: rgba(248,113,113,0.1) !important;
     }
 
     /* --- Smooth scroll untuk mobile --- */
