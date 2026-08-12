@@ -821,9 +821,7 @@
 
     <div class="agreement-modal-content">
 
-        <div class="agreement-modal-header">
-
-            <h2 style="margin:0;font-size:1.5rem;font-weight:bold;text-align:center;color:var(--primary);width:100%;">MEMORANDUM OF UNDERSTANDING</h2>
+        <div class="agreement-modal-header" style="justify-content: flex-end;">
 
             <button
                 type="button"
@@ -840,6 +838,8 @@
             id="agreementScroll"
             class="agreement-body"
             style="text-align: justify;">
+
+            <h2 style="margin:0 0 1.5rem 0;font-size:1.5rem;font-weight:bold;text-align:center;color:#1e293b;width:100%;">MEMORANDUM OF UNDERSTANDING</h2>
 
             <div class="agreement-title">
                 <span class="agreement-number">1</span>
