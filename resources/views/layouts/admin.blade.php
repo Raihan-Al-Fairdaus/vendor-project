@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Central - DNA Vendor Portal')</title>
+
+    {{-- Preconnect ke external resources biar load font/icon lebih cepat --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    {{-- Font: hanya yang dipakai, dengan display=swap supaya teks langsung muncul --}}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    {{-- Font Awesome via CDN dengan crossorigin untuk cache lebih baik --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    {{-- Main CSS --}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     
     <!-- TAMBAHKAN SCRIPT INI DI SINI -->
@@ -165,7 +170,7 @@
         @yield('content')
     @endif
 
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
    
 </body>
