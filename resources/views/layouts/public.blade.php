@@ -27,12 +27,13 @@
     @if (Request::routeIs('admin.login'))
         <link rel="stylesheet" href="{{ asset('css/admin-login.css') }}">
     @endif
-
-    <link rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
-    <link rel="stylesheet"
-        href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
+    {{-- Library peta hanya dimuat pada formulir pendaftaran vendor. --}}
+    @if (Request::routeIs('vendor.register'))
+        <link rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+        <link rel="stylesheet"
+            href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
+    @endif
 
     <style>
         @media screen and (max-width:768px) {
@@ -123,10 +124,10 @@
         @endunless
 
     </main>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    @if (Request::routeIs('vendor.register'))
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    @endif
 
     @stack('scripts')
 

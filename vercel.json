@@ -19,5 +19,16 @@
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
+  ],
+  "headers": [
+    {
+      "source": "/(build|assets|css|js|images|fonts)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    }
   ]
 }
