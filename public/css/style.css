@@ -2259,19 +2259,48 @@ input:focus, select:focus, textarea:focus, .form-control:focus {
     }
 
     .agreement-modal-header{
-        padding:20px 24px;
+        padding:16px 20px;
     }
 
     .agreement-modal-header h2{
-        font-size:1rem;
+        font-size:0.95rem;
     }
 
     .agreement-body{
-        padding:22px;
+        padding:16px 20px;
+        line-height:1.6;
+        font-size:0.88rem;
     }
 
     .agreement-footer{
-        padding:20px;
+        padding:16px 20px;
+        justify-content:center;
+    }
+
+    .agree-button{
+        width:100%;
+        padding:12px 20px;
+        font-size:14px;
+        text-align:center;
+    }
+
+    .agreement-title{
+        margin:20px 0 10px;
+        gap:10px;
+        align-items:flex-start;
+    }
+
+    .agreement-number{
+        width:30px;
+        height:30px;
+        font-size:13px;
+        box-shadow:0 4px 10px rgba(212,175,55,.2);
+    }
+
+    .agreement-title h3{
+        font-size:0.95rem;
+        line-height:1.4;
+        padding-top:4px;
     }
 
     /* Mobile Top Bar Styles */

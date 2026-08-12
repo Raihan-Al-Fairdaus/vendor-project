@@ -306,6 +306,26 @@
     .agreement-btn {
         border-radius: 14px !important;
         font-size: 0.9rem !important;
+        padding: 12px 16px !important;
+        gap: 12px !important;
+    }
+    .agreement-btn-icon {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 18px !important;
+        border-radius: 10px !important;
+    }
+    .agreement-btn-text {
+        font-size: 0.85rem !important;
+    }
+    .agreement-btn-text small {
+        font-size: 0.72rem !important;
+        margin-top: 2px !important;
+    }
+    .agreement-btn-arrow {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 14px !important;
     }
 
     /* --- Checkbox area --- */
