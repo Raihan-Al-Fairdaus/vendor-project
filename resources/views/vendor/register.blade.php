@@ -823,7 +823,7 @@
 
         <div class="agreement-modal-header">
 
-            <h2 style="margin:0;font-size:1rem;font-weight:bold;">MEMORANDUM OF UNDERSTANDING</h2>
+            <h2 style="margin:0;font-size:1.5rem;font-weight:bold;text-align:center;color:var(--primary);width:100%;">MEMORANDUM OF UNDERSTANDING</h2>
 
             <button
                 type="button"
@@ -838,11 +838,8 @@
 
         <div
             id="agreementScroll"
-            class="agreement-body">
-
-            <div style="text-align:center;margin-bottom:1.5rem;">
-                <p style="font-size:0.85rem;opacity:0.7;">Harap baca dan pahami seluruh isi MOU ini sebelum melakukan persetujuan.</p>
-            </div>
+            class="agreement-body"
+            style="text-align: justify;">
 
             <div class="agreement-title">
                 <span class="agreement-number">1</span>
