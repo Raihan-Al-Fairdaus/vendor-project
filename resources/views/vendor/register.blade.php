@@ -662,7 +662,7 @@
       <div class="form-group">
 
     <label class="form-label">
-        Upload Bank Account Book <span class="required"></span>
+       Upload Buku Tabungan  <span class="required"></span>
     </label>
 
     <div class="single-drop-area" id="bankBookDropArea">
@@ -670,7 +670,7 @@
         <div class="drop-icon">🏦</div>
 
         <p id="bankBookText"  style="color:#000;font-weight:600;">
-            Drag & drop your Bank Account Book here
+            Drag & drop your Buku Tabungan here
 </p>
 
         <span id="bankBookSubText" >
