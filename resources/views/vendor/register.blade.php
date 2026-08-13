@@ -18,6 +18,11 @@
         opacity: 1 !important;
     }
 
+    /* Hapus celah putih di atas footer */
+    .vc-footer {
+        margin-top: 0 !important;
+    }
+
     /* PERBAIKAN WARNA TEKS KETIKAN DI DALAM INPUT */
     input.form-control, 
     select.form-control, 
