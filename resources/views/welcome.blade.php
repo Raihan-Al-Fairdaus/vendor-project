@@ -532,17 +532,20 @@
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Lock background scroll
             });
 
             // Tutup modal saat tombol silang (X) diklik
             closeBtn.addEventListener('click', function() {
                 modal.classList.remove('active');
+                document.body.style.overflow = ''; // Unlock background scroll
             });
 
             // Tutup modal saat area luar kotak diklik
             window.addEventListener('click', function(e) {
                 if (e.target === modal) {
                     modal.classList.remove('active');
+                    document.body.style.overflow = ''; // Unlock background scroll
                 }
             });
         }

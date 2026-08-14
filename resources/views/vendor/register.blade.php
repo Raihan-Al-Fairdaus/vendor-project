@@ -1231,6 +1231,7 @@ document.addEventListener("DOMContentLoaded", function () {
     openBtn.addEventListener("click", function () {
 
         modal.classList.add("show");
+        document.body.style.overflow = "hidden"; // Lock background scroll
 
         scrollArea.scrollTop = 0;
 
@@ -1243,6 +1244,7 @@ document.addEventListener("DOMContentLoaded", function () {
     closeBtn.addEventListener("click", function () {
 
         modal.classList.remove("show");
+        document.body.style.overflow = ""; // Unlock background scroll
 
     });
 
@@ -1251,6 +1253,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (e.target === modal) {
             modal.classList.remove("show");
+            document.body.style.overflow = ""; // Unlock background scroll
         }
 
     });
@@ -1290,6 +1293,7 @@ document.addEventListener("DOMContentLoaded", function () {
         agreementStatus.style.color = "#16a34a";
 
         modal.classList.remove("show");
+        document.body.style.overflow = ""; // Unlock background scroll
 
     });
 
