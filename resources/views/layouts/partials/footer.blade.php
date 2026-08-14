@@ -433,6 +433,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function closeModal() {
         modal.classList.remove("show");
+        document.body.style.overflow = ""; // Unlock background scroll
     }
 
     if (btn && modal) {
@@ -441,6 +442,7 @@ document.addEventListener("DOMContentLoaded", function () {
         btn.addEventListener("click", function (e) {
             e.preventDefault();
             modal.classList.add("show");
+            document.body.style.overflow = "hidden"; // Lock background scroll
         });
 
         // Tutup modal saat klik X (header)
