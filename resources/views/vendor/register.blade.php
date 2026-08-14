@@ -824,9 +824,11 @@
     id="agreementModal"
     class="agreement-modal">
 
-    <div class="agreement-modal-content">
+    <div class="agreement-modal-content" style="position: relative;">
+        <!-- Watermark Logo DNA (Tetap Diam Saat Scroll) -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background-image: url('{{ asset('images/logo.png') }}'); background-repeat: no-repeat; background-position: center; background-size: contain; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
 
-        <div class="agreement-modal-header" style="justify-content: flex-end;">
+        <div class="agreement-modal-header" style="justify-content: flex-end; position: relative; z-index: 2;">
 
             <button
                 type="button"
@@ -842,7 +844,7 @@
         <div
             id="agreementScroll"
             class="agreement-body"
-            style="text-align: justify;">
+            style="text-align: justify; position: relative; z-index: 1; background: transparent !important;">
 
             <h2 style="margin:0 0 1.5rem 0;font-size:1.5rem;font-weight:bold;text-align:center;color:#1e293b;width:100%;">MEMORANDUM OF UNDERSTANDING</h2>
 
@@ -962,7 +964,7 @@
         </div>
 
 
-        <div class="agreement-footer">
+        <div class="agreement-footer" style="position: relative; z-index: 2;">
 
             <button
                 type="button"
