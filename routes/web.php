@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\VendorManagementController;
 // 1. ROUTE PUBLIC & VENDOR
 // ==========================================
 Route::get('/', [VendorController::class, 'index'])->name('home');
+Route::get('/bilboard', [App\Http\Controllers\BillboardController::class, 'index'])->name('bilboard.index');
 
 Route::get('/run-migrations', function () {
     try {
@@ -331,11 +332,6 @@ Route::get('/admin/documents', [DocumentController::class, 'index'])
         $request->session()->regenerateToken();
         return redirect()->route('admin.login');
     })->name('admin.logout');
-
-    // ------------------------------------------
-    // Billboards (public)
-    // ------------------------------------------
-    Route::get('/bilboard', [App\Http\Controllers\BillboardController::class, 'index'])->name('bilboard.index');
 
     // ------------------------------------------
     // Billboards Admin Management
