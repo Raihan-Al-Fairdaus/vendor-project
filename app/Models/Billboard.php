@@ -13,8 +13,7 @@ class Billboard extends Model
         'city',
         'name',
         'address',
-        'latitude',
-        'longitude',
+        'map_link',
         'status',
     ];
 
@@ -22,14 +21,11 @@ class Billboard extends Model
     const STATUS_TERISI = 'terisi';
 
     /**
-     * Accessor for Google Maps URL based on coordinates.
+     * Accessor for map link.
      */
     public function getGoogleMapsUrlAttribute(): ?string
     {
-        if ($this->latitude && $this->longitude) {
-            return "https://www.google.com/maps/search/?api=1&query={$this->latitude},{$this->longitude}";
-        }
-        return null;
+        return $this->map_link;
     }
 
     /**

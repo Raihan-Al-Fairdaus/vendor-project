@@ -29,8 +29,8 @@ Route::get('/bilboard', [App\Http\Controllers\BillboardController::class, 'index
 
 Route::get('/run-migrations', function () {
     try {
-        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-        return response("Migrations run successfully!\n" . \Illuminate\Support\Facades\Artisan::output(), 200)
+        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--force' => true]);
+        return response("Database migrated fresh successfully!\n" . \Illuminate\Support\Facades\Artisan::output(), 200)
             ->header('Content-Type', 'text/plain');
     } catch (\Exception $e) {
         return response("Error: " . $e->getMessage(), 500)

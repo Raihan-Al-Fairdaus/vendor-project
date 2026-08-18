@@ -15,8 +15,7 @@ return new class extends Migration {
             $table->string('city');
             $table->string('name')->unique();
             $table->text('address');
-            $table->decimal('latitude', 10, 8)->nullable();
-            $table->decimal('longitude', 11, 8)->nullable();
+            $table->text('map_link')->nullable();
             $table->enum('status', ['tersedia', 'terisi'])->default('tersedia');
             $table->timestamps();
         });

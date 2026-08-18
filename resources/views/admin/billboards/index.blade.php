@@ -17,7 +17,7 @@
         <div style="flex:1;">
             <input type="file" name="file" class="form-control" accept=".csv" required>
             <small style="color:var(--text-muted); display:block; margin-top:0.25rem;">
-                Format CSV harus memiliki kolom header: <code>city,name,address,latitude,longitude,status</code>
+                Format CSV harus memiliki kolom header: <code>city,name,address,map_link,status</code>
             </small>
         </div>
         <button type="submit" class="btn btn-primary">Upload & Import</button>
@@ -32,7 +32,7 @@
                     <th>KOTA</th>
                     <th>NAMA / ID</th>
                     <th>ALAMAT</th>
-                    <th>KOORDINAT</th>
+                    <th>LINK PETA</th>
                     <th>STATUS</th>
                     <th>AKSI</th>
                 </tr>
@@ -43,10 +43,10 @@
                         <td data-label="KOTA" style="font-weight:600;">{{ $board->city }}</td>
                         <td data-label="NAMA / ID">{{ $board->name }}</td>
                         <td data-label="ALAMAT">{{ $board->address }}</td>
-                        <td data-label="KOORDINAT">
-                            @if($board->latitude && $board->longitude)
-                                <a href="{{ $board->google_maps_url }}" target="_blank" style="color:var(--primary); font-size:0.85rem;">
-                                    📍 {{ $board->latitude }}, {{ $board->longitude }}
+                        <td data-label="LINK PETA">
+                            @if($board->map_link)
+                                <a href="{{ $board->map_link }}" target="_blank" style="color:var(--primary); font-size:0.85rem; font-weight:600;">
+                                    🔗 Buka Link Peta
                                 </a>
                             @else
                                 <span class="text-muted" style="font-size:0.85rem;">-</span>

@@ -32,12 +32,11 @@ class BillboardController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'city'      => 'required|string|max:255',
-            'name'      => 'required|string|max:255|unique:billboards,name',
-            'address'   => 'required|string',
-            'latitude'  => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
-            'status'    => 'required|in:tersedia,terisi',
+            'city'     => 'required|string|max:255',
+            'name'     => 'required|string|max:255|unique:billboards,name',
+            'address'  => 'required|string',
+            'map_link' => 'nullable|string',
+            'status'   => 'required|in:tersedia,terisi',
         ]);
         Billboard::create($data);
         return Redirect::route('admin.billboards.index')->with('success', 'Billboard berhasil ditambahkan.');
@@ -57,12 +56,11 @@ class BillboardController extends Controller
     public function update(Request $request, Billboard $billboard)
     {
         $data = $request->validate([
-            'city'      => 'required|string|max:255',
-            'name'      => 'required|string|max:255|unique:billboards,name,' . $billboard->id,
-            'address'   => 'required|string',
-            'latitude'  => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
-            'status'    => 'required|in:tersedia,terisi',
+            'city'     => 'required|string|max:255',
+            'name'     => 'required|string|max:255|unique:billboards,name,' . $billboard->id,
+            'address'  => 'required|string',
+            'map_link' => 'nullable|string',
+            'status'   => 'required|in:tersedia,terisi',
         ]);
         $billboard->update($data);
         return Redirect::route('admin.billboards.index')->with('success', 'Billboard berhasil diupdate.');
@@ -79,7 +77,7 @@ class BillboardController extends Controller
 
     /**
      * Import billboards from CSV/Excel.
-     * Expected columns: city,name,address,latitude,longitude,status
+     * Expected columns: city,name,address,map_link,status
      */
     public function import(Request $request)
     {
@@ -100,11 +98,10 @@ class BillboardController extends Controller
                     Billboard::updateOrCreate(
                         ['name' => $data['name']],
                         [
-                            'city'      => $data['city'] ?? '',
-                            'address'   => $data['address'] ?? '',
-                            'latitude'  => $data['latitude'] ?? null,
-                            'longitude' => $data['longitude'] ?? null,
-                            'status'    => $data['status'] ?? Billboard::STATUS_TERSEDIA,
+                            'city'     => $data['city'] ?? '',
+                            'address'  => $data['address'] ?? '',
+                            'map_link' => $data['map_link'] ?? null,
+                            'status'   => $data['status'] ?? Billboard::STATUS_TERSEDIA,
                         ]
                     );
                     $imported++;

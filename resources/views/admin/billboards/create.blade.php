@@ -27,17 +27,10 @@
             @error('address') <span class="text-danger" style="font-size:0.8rem; color:var(--error);">{{ $message }}</span> @enderror
         </div>
 
-        <div class="d-flex gap-4 mb-4">
-            <div style="flex:1;">
-                <label class="form-label" style="display:block; margin-bottom:0.5rem; font-weight:600;">Latitude (Opsional)</label>
-                <input type="text" name="latitude" class="form-control" value="{{ old('latitude') }}" placeholder="Contoh: -7.4475">
-                @error('latitude') <span class="text-danger" style="font-size:0.8rem; color:var(--error);">{{ $message }}</span> @enderror
-            </div>
-            <div style="flex:1;">
-                <label class="form-label" style="display:block; margin-bottom:0.5rem; font-weight:600;">Longitude (Opsional)</label>
-                <input type="text" name="longitude" class="form-control" value="{{ old('longitude') }}" placeholder="Contoh: 112.7180">
-                @error('longitude') <span class="text-danger" style="font-size:0.8rem; color:var(--error);">{{ $message }}</span> @enderror
-            </div>
+        <div class="mb-4">
+            <label class="form-label" style="display:block; margin-bottom:0.5rem; font-weight:600;">Link Peta (Opsional)</label>
+            <input type="text" name="map_link" class="form-control" value="{{ old('map_link') }}" placeholder="Contoh: https://maps.app.goo.gl/xxxx">
+            @error('map_link') <span class="text-danger" style="font-size:0.8rem; color:var(--error);">{{ $message }}</span> @enderror
         </div>
 
         <div class="mb-6">
