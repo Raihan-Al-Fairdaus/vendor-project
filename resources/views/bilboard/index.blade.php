@@ -336,7 +336,7 @@
                     <div>
                         @if($board->google_maps_url)
                             <a href="{{ $board->google_maps_url }}" target="_blank" class="btn-maps">
-                                📍 Lihat lokasi di Google Maps
+                                📍 Open Link
                             </a>
                         @else
                             <div class="no-coordinates">
