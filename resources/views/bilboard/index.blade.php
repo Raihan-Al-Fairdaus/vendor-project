@@ -49,7 +49,46 @@
 </style>
 
 <div class="container mx-auto py-12 px-4" style="min-height: 60vh;">
-    <h1 class="text-3xl font-bold mb-8 text-center billboard-title">Billboards Tersedia</h1>
+    <h1 class="text-3xl font-bold mb-8 text-center billboard-title pt-10 md:pt-14">LIST BILBOARD</h1>
+
+    {{-- Search and Filter Form --}}
+    <div class="max-w-4xl mx-auto mb-10 px-2">
+        <form action="{{ route('bilboard.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 shadow-md">
+            <div class="flex-1">
+                <input 
+                    type="text" 
+                    name="search" 
+                    placeholder="Cari nama atau alamat billboard..." 
+                    value="{{ request('search') }}" 
+                    class="w-full px-4 py-3 rounded-lg bg-white text-gray-800 placeholder-gray-500 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                >
+            </div>
+            <div class="w-full md:w-64">
+                <select 
+                    name="city" 
+                    onchange="this.form.submit()"
+                    class="w-full px-4 py-3 rounded-lg bg-white text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                >
+                    <option value="">Semua Kota</option>
+                    @foreach($cities as $city)
+                        <option value="{{ $city }}" {{ request('city') === $city ? 'selected' : '' }}>
+                            {{ $city }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="flex gap-2">
+                <button type="submit" class="flex-1 md:flex-none px-6 py-3 bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold rounded-lg transition" style="background-color: #f59e0b; color: #1e293b;">
+                    Cari
+                </button>
+                @if(request()->filled('search') || request()->filled('city'))
+                    <a href="{{ route('bilboard.index') }}" class="px-4 py-3 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg text-center transition flex items-center justify-center">
+                        Reset
+                    </a>
+                @endif
+            </div>
+        </form>
+    </div>
 
     @if($billboards->count())
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
