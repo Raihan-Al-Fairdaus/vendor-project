@@ -42,7 +42,7 @@
             @error('status') <span class="text-danger" style="font-size:0.8rem; color:var(--error);">{{ $message }}</span> @enderror
         </div>
 
-        <div class="d-flex gap-3">
+        <div class="d-flex gap-3" style="margin-top: 2rem;">
             <button type="submit" class="btn btn-primary">Simpan Billboard</button>
             <a href="{{ route('admin.billboards.index') }}" class="btn btn-outline">Batal</a>
         </div>
