@@ -321,4 +321,21 @@ Route::get('/admin/documents', [DocumentController::class, 'index'])
         return redirect()->route('admin.login');
     })->name('admin.logout');
 
+    // ------------------------------------------
+    // Billboards (public)
+    // ------------------------------------------
+    Route::get('/bilboard', [App\Http\Controllers\BillboardController::class, 'index'])->name('bilboard.index');
+
+    // ------------------------------------------
+    // Billboards Admin Management
+    // ------------------------------------------
+        // Billboards Admin Management
+        Route::get('admin/billboards', [App\Http\Controllers\Admin\BillboardController::class, 'index'])->name('admin.billboards.index');
+        Route::get('admin/billboards/create', [App\Http\Controllers\Admin\BillboardController::class, 'create'])->name('admin.billboards.create');
+        Route::post('admin/billboards', [App\Http\Controllers\Admin\BillboardController::class, 'store'])->name('admin.billboards.store');
+        Route::get('admin/billboards/{billboard}/edit', [App\Http\Controllers\Admin\BillboardController::class, 'edit'])->name('admin.billboards.edit');
+        Route::put('admin/billboards/{billboard}', [App\Http\Controllers\Admin\BillboardController::class, 'update'])->name('admin.billboards.update');
+        Route::delete('admin/billboards/{billboard}', [App\Http\Controllers\Admin\BillboardController::class, 'destroy'])->name('admin.billboards.destroy');
+        Route::post('admin/billboards/import', [App\Http\Controllers\Admin\BillboardController::class, 'import'])->name('admin.billboards.import');
+
 });

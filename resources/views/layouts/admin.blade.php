@@ -87,6 +87,11 @@
                     <span class="nav-text">Vendors</span>
                 </a>
                 
+                <a href="{{ route('admin.billboards.index') }}" class="nav-item {{ request()->routeIs('admin.billboards.*') ? 'active' : '' }}" title="Billboards">
+                    <span class="nav-item-icon"><i class="fa-solid fa-map-pin"></i></span> 
+                    <span class="nav-text">Billboards</span>
+                </a>
+                
                 <div class="nav-section-label nav-text">Tools</div>
                 
                 <a href="{{ route('admin.documents.index') }}" class="nav-item {{ request()->routeIs('admin.documents.*') ? 'active' : '' }}" title="Documents">
