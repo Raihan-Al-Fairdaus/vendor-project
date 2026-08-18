@@ -284,7 +284,7 @@
 </style>
 
 <div class="billboard-section">
-    <h1 class="billboard-title">LIST BILBOARD</h1>
+    <h1 class="billboard-title">List Billboard</h1>
 
     {{-- Search and Filter Form --}}
     <div class="search-filter-card">
