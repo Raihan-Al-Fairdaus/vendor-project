@@ -29,9 +29,33 @@ Route::get('/bilboard', [App\Http\Controllers\BillboardController::class, 'index
 
 Route::get('/run-migrations', function () {
     try {
-        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--force' => true]);
-        return response("Database migrated fresh successfully!\n" . \Illuminate\Support\Facades\Artisan::output(), 200)
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return response("Migrations run successfully!\n" . \Illuminate\Support\Facades\Artisan::output(), 200)
             ->header('Content-Type', 'text/plain');
+    } catch (\Exception $e) {
+        return response("Error: " . $e->getMessage(), 500)
+            ->header('Content-Type', 'text/plain');
+    }
+});
+
+Route::get('/seed-admin', function () {
+    try {
+        $email    = 'admin@vendorconnect.com';
+        $password = 'password123';
+        $user = \App\Models\User::where('email', $email)->first();
+        if ($user) {
+            $user->update(['password' => \Illuminate\Support\Facades\Hash::make($password)]);
+            return response("Admin password reset!\nEmail: {$email}\nPassword: {$password}", 200)
+                ->header('Content-Type', 'text/plain');
+        } else {
+            \App\Models\User::create([
+                'name'     => 'Admin DNA',
+                'email'    => $email,
+                'password' => \Illuminate\Support\Facades\Hash::make($password),
+            ]);
+            return response("Admin user created!\nEmail: {$email}\nPassword: {$password}", 200)
+                ->header('Content-Type', 'text/plain');
+        }
     } catch (\Exception $e) {
         return response("Error: " . $e->getMessage(), 500)
             ->header('Content-Type', 'text/plain');
