@@ -25,6 +25,17 @@ use App\Http\Controllers\Admin\VendorManagementController;
 // ==========================================
 Route::get('/', [VendorController::class, 'index'])->name('home');
 
+Route::get('/run-migrations', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return response("Migrations run successfully!\n" . \Illuminate\Support\Facades\Artisan::output(), 200)
+            ->header('Content-Type', 'text/plain');
+    } catch (\Exception $e) {
+        return response("Error: " . $e->getMessage(), 500)
+            ->header('Content-Type', 'text/plain');
+    }
+});
+
 // Direct & Alias Registrasi Vendor
 Route::get('/vendor/register', [VendorController::class, 'create'])->name('vendor.register');
 Route::get('/register', function () {
