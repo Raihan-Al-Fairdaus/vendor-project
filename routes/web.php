@@ -1,4 +1,5 @@
 <?php
+// Force redeploy trigger: 2026-08-18
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
