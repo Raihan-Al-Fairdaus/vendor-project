@@ -11,16 +11,16 @@
 
 {{-- Import Box --}}
 <div class="card mb-4" style="padding: 1.5rem 2rem;">
-    <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.1rem; color:var(--primary);">Import Billboard dari CSV</h3>
+    <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.1rem; color:var(--primary);">Import Billboard dari Excel</h3>
     <form action="{{ route('admin.billboards.import') }}" method="POST" enctype="multipart/form-data" class="d-flex align-center gap-4">
         @csrf
         <div style="flex:1;">
-            <input type="file" name="file" class="form-control" accept=".csv" required>
+            <input type="file" name="file" class="form-control" accept=".xlsx,.xls,.csv" required>
             <small style="color:var(--text-muted); display:block; margin-top:0.25rem;">
-                Format CSV harus memiliki kolom header: <code>city,name,address,map_link,status</code>
+                File Excel (.xlsx / .xls) harus memiliki kolom header: <code>city</code>, <code>name</code>, <code>address</code>, <code>map_link</code>, <code>status</code>
             </small>
         </div>
-        <button type="submit" class="btn btn-primary">Upload & Import</button>
+        <button type="submit" class="btn btn-primary">Upload &amp; Import</button>
     </form>
 </div>
 

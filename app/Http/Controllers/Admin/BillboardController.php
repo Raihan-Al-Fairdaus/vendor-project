@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Billboard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class BillboardController extends Controller
 {
@@ -76,40 +77,66 @@ class BillboardController extends Controller
     }
 
     /**
-     * Import billboards from CSV/Excel.
-     * Expected columns: city,name,address,map_link,status
+     * Import billboards dari file Excel (.xlsx / .xls).
+     * Kolom header yang diperlukan: city | name | address | map_link | status
      */
     public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:csv,txt',
+            'file' => 'required|file|mimes:xlsx,xls,csv',
         ]);
-        $path = $request->file('file')->getRealPath();
-        $header = null;
-        $imported = 0;
-        if (($handle = fopen($path, 'r')) !== false) {
-            while (($row = fgetcsv($handle, 1000, ',')) !== false) {
-                if (!$header) {
-                    $header = $row;
-                    continue;
-                }
-                $data = array_combine($header, $row);
-                if ($data) {
-                    Billboard::updateOrCreate(
-                        ['name' => $data['name']],
-                        [
-                            'city'     => $data['city'] ?? '',
-                            'address'  => $data['address'] ?? '',
-                            'map_link' => $data['map_link'] ?? null,
-                            'status'   => $data['status'] ?? Billboard::STATUS_TERSEDIA,
-                        ]
-                    );
-                    $imported++;
-                }
-            }
-            fclose($handle);
+
+        $file        = $request->file('file');
+        $spreadsheet = IOFactory::load($file->getRealPath());
+        $sheet       = $spreadsheet->getActiveSheet();
+        $rows        = $sheet->toArray(null, true, true, false);
+
+        if (empty($rows)) {
+            return Redirect::route('admin.billboards.index')
+                ->with('error', 'File Excel kosong atau tidak valid.');
         }
-        return Redirect::route('admin.billboards.index')->with('success', "$imported billboards diimport.");
+
+        // Baris pertama = header, jadikan lowercase & trim
+        $header   = array_map('trim', array_map('strtolower', $rows[0]));
+        $imported = 0;
+        $errors   = 0;
+
+        foreach (array_slice($rows, 1) as $row) {
+            // Lewati baris yang semua kolomnya kosong
+            if (!array_filter($row, fn($v) => $v !== null && $v !== '')) {
+                continue;
+            }
+
+            $data = array_combine($header, array_slice($row, 0, count($header)));
+
+            if (!$data || empty(trim($data['name'] ?? ''))) {
+                $errors++;
+                continue;
+            }
+
+            try {
+                Billboard::updateOrCreate(
+                    ['name' => trim($data['name'])],
+                    [
+                        'city'     => trim($data['city']     ?? ''),
+                        'address'  => trim($data['address']  ?? ''),
+                        'map_link' => trim($data['map_link'] ?? '') ?: null,
+                        'status'   => in_array(trim($data['status'] ?? ''), ['tersedia', 'terisi'])
+                                        ? trim($data['status'])
+                                        : 'tersedia',
+                    ]
+                );
+                $imported++;
+            } catch (\Exception $e) {
+                $errors++;
+            }
+        }
+
+        $msg = "$imported billboard berhasil diimport.";
+        if ($errors > 0) {
+            $msg .= " $errors baris dilewati (duplikat/tidak valid).";
+        }
+
+        return Redirect::route('admin.billboards.index')->with('success', $msg);
     }
 }
-?>
