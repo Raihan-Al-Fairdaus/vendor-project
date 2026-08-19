@@ -202,59 +202,67 @@
         left: 1.1rem;
         top: 50%;
         transform: translateY(-50%);
-        color: rgba(255,255,255,0.35);
+        color: rgba(100,120,150,0.7);
         font-size: 1rem;
         pointer-events: none;
+        z-index: 1;
     }
 
     .bb-input {
-        width: 100%;
-        padding: 0.95rem 1rem 0.95rem 3rem;
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255,255,255,0.15);
-        border-radius: 12px;
-        color: #ffffff;
-        font-size: 0.95rem;
-        outline: none;
+        width: 100% !important;
+        padding: 0.95rem 1rem 0.95rem 3rem !important;
+        background: rgba(255,255,255,0.92) !important;
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        border-radius: 12px !important;
+        color: #1e293b !important;
+        font-size: 0.95rem !important;
+        outline: none !important;
         transition: all 0.3s;
         box-sizing: border-box;
     }
 
-    .bb-input::placeholder { color: rgba(255,255,255,0.35); }
+    .bb-input::placeholder {
+        color: #94a3b8 !important;
+        opacity: 1 !important;
+    }
 
     .bb-input:focus {
-        background: rgba(255,255,255,0.12);
-        border-color: rgba(245,158,11,0.6);
-        box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
+        background: #ffffff !important;
+        border-color: #f59e0b !important;
+        box-shadow: 0 0 0 3px rgba(245,158,11,0.25) !important;
     }
 
     .bb-select-box { flex: 1; }
 
     .bb-select {
-        width: 100%;
-        height: 100%;
-        padding: 0.95rem 1rem;
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255,255,255,0.15);
-        border-radius: 12px;
-        color: #ffffff;
-        font-size: 0.95rem;
-        outline: none;
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0.95rem 2.5rem 0.95rem 1rem !important;
+        background: rgba(255,255,255,0.92) !important;
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        border-radius: 12px !important;
+        color: #1e293b !important;
+        font-size: 0.95rem !important;
+        outline: none !important;
         cursor: pointer;
         transition: all 0.3s;
-        appearance: none;
+        appearance: none !important;
+        -webkit-appearance: none !important;
         box-sizing: border-box;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 1rem center;
-        padding-right: 2.5rem;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 1rem center !important;
     }
 
-    .bb-select option { background: #0e1e38; color: #ffffff; }
+    .bb-select option {
+        background: #ffffff;
+        color: #1e293b;
+    }
 
     .bb-select:focus {
-        border-color: rgba(245,158,11,0.6);
-        box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
+        background: #ffffff !important;
+        border-color: #f59e0b !important;
+        box-shadow: 0 0 0 3px rgba(245,158,11,0.25) !important;
     }
 
     .bb-btn-search {
