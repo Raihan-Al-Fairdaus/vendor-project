@@ -86,32 +86,62 @@ class BillboardController extends Controller
             'file' => 'required|file|mimes:xlsx,xls,csv',
         ]);
 
-        $file        = $request->file('file');
-        $spreadsheet = IOFactory::load($file->getRealPath());
-        $sheet       = $spreadsheet->getActiveSheet();
-        $rows        = $sheet->toArray(null, true, true, false);
+        $file = $request->file('file');
+        $path = $file->getRealPath();
 
-        if (empty($rows)) {
+        try {
+            // Gunakan reader spesifik & setReadDataOnly(true) agar loading super cepat
+            $reader = IOFactory::createReaderForFile($path);
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($path);
+            $sheet       = $spreadsheet->getActiveSheet();
+            
+            $highestRow         = $sheet->getHighestRow();
+            $highestColumn      = $sheet->getHighestColumn();
+            $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn);
+        } catch (\Exception $e) {
             return Redirect::route('admin.billboards.index')
-                ->with('error', 'File Excel kosong atau tidak valid.');
+                ->with('error', 'Gagal membaca file: ' . $e->getMessage());
         }
 
-        // Baris pertama = header, jadikan lowercase & trim
-        $header   = array_map('trim', array_map('strtolower', $rows[0]));
+        if ($highestRow < 1) {
+            return Redirect::route('admin.billboards.index')
+                ->with('error', 'File Excel kosong.');
+        }
+
+        // Ambil header dari baris 1
+        $header = [];
+        for ($col = 1; $col <= $highestColumnIndex; $col++) {
+            $value = $sheet->getCell([$col, 1])->getValue();
+            $header[] = trim(strtolower($value ?? ''));
+        }
+
         $imported = 0;
         $errors   = 0;
 
-        foreach (array_slice($rows, 1) as $row) {
-            // Lewati baris yang semua kolomnya kosong
-            if (!array_filter($row, fn($v) => $v !== null && $v !== '')) {
+        // Loop baris 2 sampai baris terakhir yang berisi data
+        for ($row = 2; $row <= $highestRow; $row++) {
+            $rowData = [];
+            $hasData = false;
+
+            for ($col = 1; $col <= $highestColumnIndex; $col++) {
+                $val = $sheet->getCell([$col, $row])->getValue();
+                if ($val !== null && trim($val) !== '') {
+                    $hasData = true;
+                }
+                $rowData[] = $val;
+            }
+
+            // Lewati jika baris kosong
+            if (!$hasData) {
                 continue;
             }
 
-            // Map baris secara aman berdasarkan index header
+            // Map data
             $data = [];
             foreach ($header as $index => $key) {
-                if (isset($row[$index])) {
-                    $data[$key] = $row[$index];
+                if ($key !== '' && isset($rowData[$index])) {
+                    $data[$key] = $rowData[$index];
                 }
             }
 
@@ -140,7 +170,7 @@ class BillboardController extends Controller
 
         $msg = "$imported billboard berhasil diimport.";
         if ($errors > 0) {
-            $msg .= " $errors baris dilewati (duplikat/tidak valid).";
+            $msg .= " $errors baris dilewati (tidak valid/error).";
         }
 
         return Redirect::route('admin.billboards.index')->with('success', $msg);
