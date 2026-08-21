@@ -107,9 +107,15 @@ class BillboardController extends Controller
                 continue;
             }
 
-            $data = array_combine($header, array_slice($row, 0, count($header)));
+            // Map baris secara aman berdasarkan index header
+            $data = [];
+            foreach ($header as $index => $key) {
+                if (isset($row[$index])) {
+                    $data[$key] = $row[$index];
+                }
+            }
 
-            if (!$data || empty(trim($data['name'] ?? ''))) {
+            if (empty(trim($data['name'] ?? ''))) {
                 $errors++;
                 continue;
             }
@@ -121,7 +127,7 @@ class BillboardController extends Controller
                         'city'     => trim($data['city']     ?? ''),
                         'address'  => trim($data['address']  ?? ''),
                         'map_link' => trim($data['map_link'] ?? '') ?: null,
-                        'status'   => in_array(trim($data['status'] ?? ''), ['tersedia', 'terisi'])
+                        'status'   => isset($data['status']) && in_array(trim($data['status']), ['tersedia', 'terisi'])
                                         ? trim($data['status'])
                                         : 'tersedia',
                     ]
