@@ -20,9 +20,6 @@
                 File Excel (.xlsx / .xls) harus memiliki kolom header: <code>city</code>, <code>name</code>, <code>address</code>, <code>map_link</code>. 
                 (Kolom <code>status</code> bersifat opsional dan otomatis diisi <strong>tersedia</strong> jika kosong).
             </small>
-            <small style="display:block; margin-top:0.25rem;">
-                👉 <a href="/sample-billboard.xlsx" download style="color:var(--primary); font-weight:600; text-decoration:underline;">Download Contoh File Excel</a>
-            </small>
         </div>
         <button type="submit" class="btn btn-primary">Upload &amp; Import</button>
     </form>
