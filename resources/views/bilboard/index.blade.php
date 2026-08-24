@@ -95,17 +95,29 @@
     }
 
     /* ============================================================
-       HEADER SECTION (TRANSPARENT TO SHOW FLOWING BG)
+       HEADER SECTION — full-bleed billboard background
     ============================================================ */
     .bb-header {
-        padding: 95px 16px 40px;
+        padding: 95px 16px 80px;
         position: relative;
         color: #ffffff;
+        background-image:
+            linear-gradient(to right,
+                #162d4e 0%,
+                #1b3a60 30%,
+                rgba(27, 58, 96, 0.80) 52%,
+                rgba(27, 58, 96, 0.25) 72%,
+                rgba(27, 58, 96, 0.05) 100%
+            ),
+            url('/images/billboard-header.jpg');
+        background-size: cover;
+        background-position: right center;
+        background-repeat: no-repeat;
     }
 
     @media (min-width: 992px) {
         .bb-header {
-            padding: 130px 24px 60px;
+            padding: 130px 24px 100px;
         }
     }
 
@@ -129,35 +141,7 @@
         flex: 1;
     }
 
-    /* Right-side Billboard Image — seamlessly blended into background */
-    .bb-header-image-container {
-        position: relative;
-        width: 100%;
-        max-width: 480px;
-        height: 300px;
-        flex-shrink: 0;
-        display: none;
-    }
 
-    @media (min-width: 992px) {
-        .bb-header-image-container {
-            display: block;
-        }
-    }
-
-    .bb-header-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        /* Mask: fade from transparent on the left/bottom to fully visible on the right */
-        -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 20%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,1) 100%),
-                            linear-gradient(to top, transparent 0%, rgba(0,0,0,1) 18%);
-        -webkit-mask-composite: source-in;
-        mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 20%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,1) 100%),
-                    linear-gradient(to top, transparent 0%, rgba(0,0,0,1) 18%);
-        mask-composite: intersect;
-        border-radius: 0;
-    }
 
     .bb-eyebrow {
         color: #f59e0b;
@@ -739,14 +723,9 @@
                     </div>
                 </div>
                 @endif
-            </div>
-
-            {{-- Right-side Billboard Image — blended into background --}}
-            <div class="bb-header-image-container">
-                <img src="{{ asset('images/billboard-header.jpg') }}" alt="Billboard" class="bb-header-img">
-            </div>
         </div>
     </div>
+
 
     {{-- =========================================================
          SEARCH & FILTER CARD (OVERLAPPING)
