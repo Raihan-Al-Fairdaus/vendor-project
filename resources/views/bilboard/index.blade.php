@@ -129,14 +129,13 @@
         flex: 1;
     }
 
-    /* Right-side Real Billboard Image matching mockup description */
+    /* Right-side Billboard Image — seamlessly blended into background */
     .bb-header-image-container {
+        position: relative;
         width: 100%;
-        max-width: 440px;
-        height: 240px;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        max-width: 480px;
+        height: 300px;
+        flex-shrink: 0;
         display: none;
     }
 
@@ -150,6 +149,14 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        /* Mask: fade from transparent on the left/bottom to fully visible on the right */
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 20%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,1) 100%),
+                            linear-gradient(to top, transparent 0%, rgba(0,0,0,1) 18%);
+        -webkit-mask-composite: source-in;
+        mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 20%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,1) 100%),
+                    linear-gradient(to top, transparent 0%, rgba(0,0,0,1) 18%);
+        mask-composite: intersect;
+        border-radius: 0;
     }
 
     .bb-eyebrow {
@@ -734,9 +741,9 @@
                 @endif
             </div>
 
-            {{-- Right-side Real Billboard Image matching mockup --}}
+            {{-- Right-side Billboard Image — blended into background --}}
             <div class="bb-header-image-container">
-                <img src="https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?auto=format&fit=crop&w=600&q=80" alt="Billboard" class="bb-header-img">
+                <img src="{{ asset('images/billboard-header.jpg') }}" alt="Billboard" class="bb-header-img">
             </div>
         </div>
     </div>
