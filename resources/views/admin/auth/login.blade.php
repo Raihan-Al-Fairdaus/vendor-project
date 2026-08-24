@@ -20,261 +20,147 @@
 
 <div class="login-page">
 
-    <!-- Background -->
+    <!-- Background Pattern -->
     <div class="bg-gradient"></div>
     <div class="bg-circle circle-1"></div>
     <div class="bg-circle circle-2"></div>
-    <div class="bg-circle circle-3"></div>
 
     <div class="login-container">
 
         <!-- LEFT PANEL -->
         <div class="login-left">
-
-            <div class="gold-line"></div>
-
-            <div class="brand">
-
-                <img
-                    src="{{ asset('images/logo.png') }}"
-                    class="logo"
-                    alt="DNA Advertising">
-
-                <h1>
-                    <span>DNA</span>
-                    Advertising
-                </h1>
-
-                <p>
-                    Secure Vendor Management Portal
-                </p>
-
+            <div class="left-illustration"></div>
+            
+            <div class="left-header-wrap">
+                <div class="brand">
+                    <img src="{{ asset('images/logo.png') }}" class="logo" alt="DNA Advertising">
+                    <h1><span>DNA</span> Advertising</h1>
+                    <p>Secure Vendor Management Portal</p>
+                </div>
+                <div class="gold-accent-line"></div>
             </div>
 
-
-            <div class="left-footer desktop-only">
-
-                <div class="feature">
-
-                    <div class="icon">
+            <div class="left-features-wrap desktop-only">
+                <div class="feature-item">
+                    <div class="feature-icon">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
-
-                    <div>
-
+                    <div class="feature-text">
                         <h4>Secure Login</h4>
-
-                        <span>
-                            Protected authentication system
-                        </span>
-
+                        <p>Protected authentication system for administrator access.</p>
                     </div>
-
                 </div>
 
-                <div class="feature">
-
-                    <div class="icon">
+                <div class="feature-item">
+                    <div class="feature-icon">
                         <i class="fa-solid fa-award"></i>
                     </div>
-
-                    <div>
-
+                    <div class="feature-text">
                         <h4>Premium Experience</h4>
-
-                        <span>
-                            Elegant & modern interface
-                        </span>
-
+                        <p>Elegant & modern interface for better productivity.</p>
                     </div>
-
                 </div>
-
             </div>
 
+            <div class="left-copyright">
+                © {{ date('Y') }} DNA Advertising. All Rights Reserved.
+            </div>
         </div>
 
         <!-- RIGHT PANEL -->
-
         <div class="login-right">
-
             <div class="login-box">
-
-            <div class="mobile-brand">
-
-    <img
-        src="{{ asset('images/logo.png') }}"
-        class="mobile-logo"
-        alt="DNA Advertising">
-
-    <h1>
-        <span>DNA</span> Advertising
-    </h1>
-
-    <p>
-        Secure Vendor Management Portal
-    </p>
-
-</div>
-
-
-                <a
-                    href="{{ route('home') }}"
-                    class="back-home">
-
-                    ← Back to Homepage
-
+                
+                <a href="{{ route('home') }}" class="back-home-link">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                    Back to Homepage
                 </a>
 
-                <div class="heading">
-
-                    <h2>
-                        Login
-                    </h2>
-
-                    <p>
-                        Please login using your administrator account.
-                    </p>
-
+                <div class="form-heading">
+                    <h2>Login</h2>
+                    <p>Please login using your administrator account.</p>
                 </div>
 
                 @if ($errors->any())
-
-                    <div class="alert-error">
-
+                    <div class="alert-box-error">
                         {{ $errors->first() }}
-
                     </div>
-
                 @endif
 
                 <form action="{{ route('admin.login.post') }}" method="POST">
+                    @csrf
 
-    @csrf
+                    <div class="input-form-group">
+                        <label>Email Address</label>
+                        <div class="input-container-box">
+                            <span class="field-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            </span>
+                            <input
+                                type="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                placeholder="Enter your email"
+                                required
+                                autofocus
+                            >
+                        </div>
+                    </div>
 
-    <div class="form-group">
+                    <div class="input-form-group">
+                        <label>Password</label>
+                        <div class="input-container-box">
+                            <span class="field-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            </span>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                required
+                            >
+                            <button type="button" id="togglePassword" class="eye-toggle-btn">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
 
-        <label>Email Address</label>
+                    <div class="remember-device-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="remember">
+                            <span>Remember this device</span>
+                        </label>
+                    </div>
 
-        <div class="input-box">
-
-            <i class="fa-solid fa-envelope"></i>
-
-            <input
-                type="email"
-                name="email"
-                value="{{ old('email') }}"
-                placeholder="Enter your email"
-                required
-                autofocus>
-
-        </div>
-
-    </div>
-
-    <div class="form-group">
-
-        <label>Password</label>
-
-        <div class="password-box">
-
-            <i class="fa-solid fa-lock"></i>
-
-            <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                required>
-
-            <button
-                type="button"
-                id="togglePassword"
-                class="toggle-password">
-                <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-                <i class="fa-solid fa-eye"></i>
-
-            </button>
-
-        </div>
-
-    </div>
-
-    
-    <div class="remember-row">
-
-        <label class="remember">
-
-            <input
-                type="checkbox"
-                name="remember">
-
-            <span>
-                Remember this device
-
-            </span>
-
-        </label>
-
-    </div>
-
-    <button
-        type="submit"
-        class="login-btn">
-
-        Login to Dashboard
-
-    </button>
-
-</form>
-                <div class="copyright">
-
-                    © {{ date('Y') }}
-                    DNA Advertising.
-                    All Rights Reserved.
-
-                </div>
-
+                    <button type="submit" class="submit-login-btn">
+                        Login to Dashboard
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </button>
+                </form>
             </div>
-
         </div>
 
     </div>
-
 </div>
 
 <script>
+const togglePassword = document.getElementById("togglePassword");
+const password = document.getElementById("password");
 
-const togglePassword=document.getElementById("togglePassword");
-
-const password=document.getElementById("password");
-
-togglePassword.addEventListener("click",()=>{
-
-    const icon=togglePassword.querySelector("i");
-
-    if(password.type==="password"){
-
-        password.type="text";
-
+togglePassword.addEventListener("click", () => {
+    const icon = togglePassword.querySelector("i");
+    if (password.type === "password") {
+        password.type = "text";
         icon.classList.remove("fa-eye");
-
         icon.classList.add("fa-eye-slash");
-
-    }else{
-
-        password.type="password";
-
+    } else {
+        password.type = "password";
         icon.classList.remove("fa-eye-slash");
-
         icon.classList.add("fa-eye");
-
     }
-
 });
-
 </script>
 
 </body>
-
 </html>
