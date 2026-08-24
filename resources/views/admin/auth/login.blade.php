@@ -51,29 +51,6 @@
 
             </div>
 
-            <div class="mobile-login-title">
-
-                <h2>Administrator Login</h2>
-
-                <p>
-                    Secure access to the DNA Advertising dashboard.
-                </p>
-
-            </div>
-
-            <div class="welcome-text desktop-only">
-
-                <h2>
-                    Welcome Back!
-                </h2>
-
-                <p>
-                    Access the administrator dashboard to manage vendors,
-                    monitor registrations and keep every partnership running
-                    professionally.
-                </p>
-
-            </div>
 
             <div class="left-footer desktop-only">
 
