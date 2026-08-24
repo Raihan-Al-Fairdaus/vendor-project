@@ -26,20 +26,24 @@ body, html {
     height: 100%;
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-page);
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 /* ============================================================
    PAGE LAYOUT & BACKGROUND
 ============================================================ */
 .login-page {
-    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 24px;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     background-color: var(--bg-page);
+    overflow: hidden;
 }
 
 /* Subtle dot pattern — biar tidak polos */
