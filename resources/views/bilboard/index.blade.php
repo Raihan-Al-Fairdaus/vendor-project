@@ -158,6 +158,7 @@
         font-weight: 800;
         line-height: 1.2;
         margin: 0 0 1rem;
+        color: #ffffff !important;
     }
 
     .bb-title span {
@@ -723,8 +724,9 @@
                     </div>
                 </div>
                 @endif
-        </div>
-    </div>
+            </div>{{-- /.bb-header-text --}}
+        </div>{{-- /.bb-header-content --}}
+    </div>{{-- /.bb-header --}}
 
 
     {{-- =========================================================
