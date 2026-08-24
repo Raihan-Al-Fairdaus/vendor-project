@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 </head>
@@ -24,13 +25,6 @@
     <div class="bg-circle circle-1"></div>
     <div class="bg-circle circle-2"></div>
     <div class="bg-circle circle-3"></div>
-
-    <div class="particle particle-1"></div>
-    <div class="particle particle-2"></div>
-    <div class="particle particle-3"></div>
-    <div class="particle particle-4"></div>
-    <div class="particle particle-5"></div>
-    <div class="particle particle-6"></div>
 
     <div class="login-container">
 
@@ -59,34 +53,34 @@
 
             <div class="mobile-login-title">
 
-    <h2>Administrator Login</h2>
+                <h2>Administrator Login</h2>
 
-    <p>
-        Secure access to the DNA Advertising dashboard.
-    </p>
+                <p>
+                    Secure access to the DNA Advertising dashboard.
+                </p>
 
-</div>
+            </div>
 
             <div class="welcome-text desktop-only">
 
-    <h2>
-        Welcome Back!
-    </h2>
+                <h2>
+                    Welcome Back!
+                </h2>
 
-    <p>
-        Access the administrator dashboard to manage vendors,
-        monitor registrations and keep every partnership running
-        professionally.
-    </p>
+                <p>
+                    Access the administrator dashboard to manage vendors,
+                    monitor registrations and keep every partnership running
+                    professionally.
+                </p>
 
-</div>
+            </div>
 
             <div class="left-footer desktop-only">
 
                 <div class="feature">
 
                     <div class="icon">
-                        ✓
+                        <i class="fa-solid fa-shield-halved"></i>
                     </div>
 
                     <div>
@@ -104,7 +98,7 @@
                 <div class="feature">
 
                     <div class="icon">
-                        ★
+                        <i class="fa-solid fa-award"></i>
                     </div>
 
                     <div>
@@ -299,26 +293,6 @@ togglePassword.addEventListener("click",()=>{
         icon.classList.add("fa-eye");
 
     }
-
-});
-
-document.addEventListener("mousemove",(e)=>{
-
-    const card=document.querySelector(".login-container");
-
-    const x=(window.innerWidth/2-e.pageX)/40;
-
-    const y=(window.innerHeight/2-e.pageY)/40;
-
-    card.style.transform=
-    `rotateY(${x}deg) rotateX(${-y}deg)`;
-
-});
-
-document.addEventListener("mouseleave",()=>{
-
-    document.querySelector(".login-container")
-    .style.transform="rotateX(0) rotateY(0)";
 
 });
 

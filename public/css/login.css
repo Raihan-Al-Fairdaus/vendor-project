@@ -249,8 +249,6 @@ body{
 
     border:2px solid rgba(212,175,55,.15);
 
-    animation:rotateRing 22s linear infinite;
-
 }
 
 .gold-line::before{
@@ -284,12 +282,6 @@ body{
     width:72px;
 
     margin-bottom:18px;
-
-    animation:
-
-        floatLogo 5s ease-in-out infinite,
-
-        pulseGlow 4s ease infinite;
 
 }
 
@@ -635,15 +627,30 @@ body{
 
     outline:none;
 
-    background:transparent;
+    background:transparent !important;
 
     font-size:15px;
 
-    color:#111827;
+    color:#1e293b !important;
 
     padding-right:12px;
 
 }
+
+/* Fix browser autofill blue background */
+.input-box input:-webkit-autofill,
+.password-box input:-webkit-autofill,
+.input-box input:-webkit-autofill:hover,
+.password-box input:-webkit-autofill:hover,
+.input-box input:-webkit-autofill:focus,
+.password-box input:-webkit-autofill:focus,
+.input-box input:-webkit-autofill:active,
+.password-box input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+    -webkit-text-fill-color: #1e293b !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
 
 .input-box input::placeholder,
 .password-box input::placeholder{
