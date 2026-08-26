@@ -7,9 +7,16 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- Preconnect: koneksi awal ke CDN sebelum browser butuh resource --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
+    {{-- Preload: muat CSS login & foto billboard lebih awal --}}
+    <link rel="preload" href="{{ asset('css/login.css') }}?v=2.1" as="style">
+    <link rel="preload" href="{{ asset('images/billboard-header.jpg') }}" as="image">
+
+    {{-- Fonts & Icons --}}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
