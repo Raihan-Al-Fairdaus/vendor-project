@@ -13,10 +13,36 @@ class BillboardController extends Controller
     /**
      * List all billboards (admin).
      */
-    public function index()
+    public function index(Request $request)
     {
-        $billboards = Billboard::orderBy('city')->paginate(15);
-        return view('admin.billboards.index', compact('billboards'));
+        $query = Billboard::query();
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('code', 'like', '%' . $search . '%')
+                  ->orWhere('name', 'like', '%' . $search . '%')
+                  ->orWhere('city', 'like', '%' . $search . '%')
+                  ->orWhere('address', 'like', '%' . $search . '%');
+            });
+        }
+
+        // City filter
+        if ($request->filled('city')) {
+            $query->where('city', $request->input('city'));
+        }
+
+        // Jenis filter
+        if ($request->filled('jenis')) {
+            $query->where('jenis', $request->input('jenis'));
+        }
+
+        $billboards = $query->orderBy('city')->paginate(15)->appends($request->all());
+        $cities     = Billboard::distinct()->pluck('city');
+        $types      = Billboard::distinct()->pluck('jenis');
+
+        return view('admin.billboards.index', compact('billboards', 'cities', 'types'));
     }
 
     /**

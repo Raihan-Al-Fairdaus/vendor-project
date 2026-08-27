@@ -25,6 +25,35 @@
     </form>
 </div>
 
+{{-- Search & Filter Box --}}
+<div class="card mb-4" style="padding: 1.5rem 2rem;">
+    <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.1rem; color:var(--primary);">Cari & Filter Billboard</h3>
+    <form action="{{ route('admin.billboards.index') }}" method="GET" class="d-flex align-center gap-3" style="flex-wrap: wrap;">
+        <div style="flex:1; min-width: 250px;">
+            <input type="text" name="search" class="form-control" placeholder="Cari kode, nama, atau alamat..." value="{{ request('search') }}">
+        </div>
+        <div style="width: 200px;">
+            <select name="city" class="form-control">
+                <option value="">Semua Kota</option>
+                @foreach($cities as $c)
+                    <option value="{{ $c }}" {{ request('city') === $c ? 'selected' : '' }}>{{ $c }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div style="width: 200px;">
+            <select name="jenis" class="form-control">
+                <option value="">Semua Jenis</option>
+                <option value="billboard" {{ request('jenis') === 'billboard' ? 'selected' : '' }}>Billboard</option>
+                <option value="midiboard" {{ request('jenis') === 'midiboard' ? 'selected' : '' }}>Midiboard</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+        @if(request()->filled('search') || request()->filled('city') || request()->filled('jenis'))
+            <a href="{{ route('admin.billboards.index') }}" class="btn btn-outline">Reset</a>
+        @endif
+    </form>
+</div>
+
 <div class="card animate-on-scroll" style="padding:0; overflow:hidden;">
     <div class="table-container">
         <table>
@@ -93,8 +122,48 @@
     </div>
 </div>
 
-<div class="mt-4">
-    {{ $billboards->links() }}
+<div class="mt-4 admin-pagination">
+    <style>
+        .admin-pagination nav svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+        .admin-pagination nav .flex {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .admin-pagination nav .flex.justify-between.flex-1.sm\:hidden {
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+        .admin-pagination nav p {
+            margin: 0;
+            color: var(--text-muted, #9ca3af);
+            font-size: 0.875rem;
+        }
+        .admin-pagination nav a, 
+        .admin-pagination nav span[aria-current],
+        .admin-pagination nav span.relative.inline-flex {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
+            text-decoration: none;
+            color: inherit;
+            background: rgba(255,255,255,0.05);
+            font-size: 0.875rem;
+        }
+        .admin-pagination nav span[aria-current] {
+            background: var(--primary, #3b82f6);
+            color: #fff;
+            border-color: var(--primary, #3b82f6);
+        }
+        .admin-pagination nav a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+    </style>
+    {{ $billboards->appends(request()->query())->links() }}
 </div>
 
 @endsection
