@@ -38,6 +38,11 @@ class BillboardController extends Controller
             $query->where('jenis', $request->input('jenis'));
         }
 
+        // Status filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
         $billboards = $query->orderBy('city')->paginate(15)->appends($request->all());
         $cities     = Billboard::distinct()->pluck('city');
         $types      = Billboard::distinct()->pluck('jenis');

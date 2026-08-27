@@ -142,10 +142,19 @@
                 <option value="midiboard" {{ request('jenis') === 'midiboard' ? 'selected' : '' }}>Midiboard</option>
             </select>
         </div>
+
+        <div class="asf-group">
+            <span class="asf-icon">🚦</span>
+            <select name="status" class="asf-select" onchange="this.form.submit()">
+                <option value="">Semua Status</option>
+                <option value="tersedia" {{ request('status') === 'tersedia' ? 'selected' : '' }}>🟢 Tersedia</option>
+                <option value="terisi" {{ request('status') === 'terisi' ? 'selected' : '' }}>🔴 Terisi</option>
+            </select>
+        </div>
         
         <button type="submit" class="asf-btn-search">Cari</button>
         
-        @if(request()->filled('search') || request()->filled('city') || request()->filled('jenis'))
+        @if(request()->filled('search') || request()->filled('city') || request()->filled('jenis') || request()->filled('status'))
             <a href="{{ route('admin.billboards.index') }}" class="asf-btn-reset">✕ Reset</a>
         @endif
     </form>
