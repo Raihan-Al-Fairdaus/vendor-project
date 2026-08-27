@@ -59,7 +59,7 @@
         .asf-input, .asf-select {
             width: 100%;
             height: 48px;
-            padding: 0 1rem 0 2.8rem;
+            padding: 0 1rem 0 2.8rem !important;
             border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: 8px;
             background: #ffffff;
@@ -221,48 +221,68 @@
     </div>
 </div>
 
-<div class="mt-4 admin-pagination">
+<div class="mt-5 mb-4 d-flex justify-content-center">
     <style>
-        .admin-pagination nav svg {
-            width: 1.25rem;
-            height: 1.25rem;
+        .custom-pagination-container {
+            background: #ffffff;
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            display: inline-flex;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .admin-pagination nav .flex {
+        .custom-pagination {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .admin-pagination nav .flex.justify-between.flex-1.sm\:hidden {
-            margin-bottom: 1rem;
-            width: 100%;
-        }
-        .admin-pagination nav p {
+            gap: 1rem;
+            list-style: none;
             margin: 0;
-            color: var(--text-muted, #9ca3af);
-            font-size: 0.875rem;
+            padding: 0;
         }
-        .admin-pagination nav a, 
-        .admin-pagination nav span[aria-current],
-        .admin-pagination nav span.relative.inline-flex {
-            padding: 0.5rem 0.75rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 4px;
+        .custom-pagination .page-item {
+            margin: 0;
+        }
+        .custom-pagination .page-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #4b5563; /* Dark gray for text */
+            font-weight: 600;
             text-decoration: none;
-            color: inherit;
-            background: rgba(255,255,255,0.05);
-            font-size: 0.875rem;
+            border: none;
+            background: transparent;
+            min-width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            transition: all 0.2s;
+            font-size: 0.95rem;
         }
-        .admin-pagination nav span[aria-current] {
-            background: var(--primary, #3b82f6);
-            color: #fff;
-            border-color: var(--primary, #3b82f6);
+        .custom-pagination .page-link:hover {
+            color: var(--primary, #3b82f6);
+            background: rgba(59, 130, 246, 0.1);
         }
-        .admin-pagination nav a:hover {
-            background: rgba(255,255,255,0.1);
+        .custom-pagination .page-item.active .page-link {
+            background: var(--primary, #3b82f6); /* Use their primary color */
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+        }
+        .custom-pagination .page-item.disabled .page-link {
+            color: #9ca3af;
+            cursor: not-allowed;
+            background: transparent;
+        }
+        .custom-pagination li:first-child .page-link,
+        .custom-pagination li:last-child .page-link {
+            border-radius: 20px;
+            padding: 0 0.75rem;
+            width: auto;
+            color: var(--primary, #3b82f6);
+        }
+        .custom-pagination li:first-child.disabled .page-link,
+        .custom-pagination li:last-child.disabled .page-link {
+            color: #9ca3af;
         }
     </style>
-    {{ $billboards->appends(request()->query())->links() }}
+    {{ $billboards->appends(request()->query())->links('admin.billboards.pagination') }}
 </div>
 
 @endsection
