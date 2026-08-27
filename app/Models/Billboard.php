@@ -137,7 +137,7 @@ class Billboard extends Model
      * Generate billboard code.
      * Format: #003-SDA-I
      *   00  = billboard (01 = midiboard)
-     *   3   = sequential number
+     *   3   = urutan global (billboard ke berapa yang di-input)
      *   SDA = city abbreviation
      *   I   = side (roman numeral)
      */
@@ -147,21 +147,10 @@ class Billboard extends Model
         $cityAbbr   = static::getCityAbbreviation($city);
         $sideRoman  = $sisi == 2 ? 'II' : 'I';
 
-        // Find the next sequence number for this type
-        $maxSeq = 0;
-        $existing = static::where('jenis', $jenis)->pluck('code');
+        // Urutan global: hitung SEMUA billboard + midiboard yang pernah di-input
+        $seq = static::count() + 1;
 
-        foreach ($existing as $code) {
-            // Extract the number between type prefix and first dash
-            // e.g., "#003-SDA-I" → after "#00" → "3-SDA-I" → number = 3
-            if ($code && preg_match('/^#' . $typePrefix . '(\d+)-/', $code, $matches)) {
-                $maxSeq = max($maxSeq, (int) $matches[1]);
-            }
-        }
-
-        $seq = $maxSeq + 1;
-
-        // Generate code and ensure uniqueness
+        // Generate code dan pastikan unik
         $code = "#{$typePrefix}{$seq}-{$cityAbbr}-{$sideRoman}";
 
         while (static::where('code', $code)->exists()) {

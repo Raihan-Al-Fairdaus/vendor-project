@@ -136,8 +136,9 @@ function updateCodePreview() {
     const prefix = jenis === 'midiboard' ? '01' : '00';
     const abbr = getAbbr(city);
     const side = sisi === '2' ? 'II' : 'I';
+    const seq = '{{ $nextSeq ?? "?" }}';
 
-    document.getElementById('code-text').textContent = `#${prefix}?-${abbr}-${side}`;
+    document.getElementById('code-text').textContent = `#${prefix}${seq}-${abbr}-${side}`;
 }
 
 document.getElementById('jenis').addEventListener('change', updateCodePreview);

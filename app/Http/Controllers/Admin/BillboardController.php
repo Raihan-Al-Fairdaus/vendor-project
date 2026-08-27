@@ -24,7 +24,8 @@ class BillboardController extends Controller
      */
     public function create()
     {
-        return view('admin.billboards.create');
+        $nextSeq = Billboard::count() + 1;
+        return view('admin.billboards.create', compact('nextSeq'));
     }
 
     /**
