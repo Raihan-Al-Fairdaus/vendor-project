@@ -65,7 +65,6 @@ class BillboardController extends Controller
             'sisi'         => 'required|integer|in:1,2',
             'ukuran'       => 'nullable|string|max:255',
             'orientasi'    => 'required|in:portrait,landscape',
-            'kepemilikan'  => 'nullable|string|max:255',
             'address'      => 'required|string',
             'map_link'     => 'nullable|string',
             'status'       => 'required|in:tersedia,terisi',
@@ -76,10 +75,8 @@ class BillboardController extends Controller
         $data['code'] = $code;
         $data['name'] = $code; // Keep name in sync for backward compat
 
-        // Default kepemilikan jika kosong
-        if (empty($data['kepemilikan'])) {
-            $data['kepemilikan'] = 'DNA Advertising';
-        }
+        // Hilangkan format kepemilikan
+        $data['kepemilikan'] = 'DNA Advertising';
 
         Billboard::create($data);
 
@@ -106,7 +103,6 @@ class BillboardController extends Controller
             'sisi'         => 'required|integer|in:1,2',
             'ukuran'       => 'nullable|string|max:255',
             'orientasi'    => 'required|in:portrait,landscape',
-            'kepemilikan'  => 'nullable|string|max:255',
             'address'      => 'required|string',
             'map_link'     => 'nullable|string',
             'status'       => 'required|in:tersedia,terisi',
@@ -123,9 +119,8 @@ class BillboardController extends Controller
             $data['name'] = $code;
         }
 
-        if (empty($data['kepemilikan'])) {
-            $data['kepemilikan'] = 'DNA Advertising';
-        }
+        // Hilangkan format kepemilikan
+        $data['kepemilikan'] = 'DNA Advertising';
 
         $billboard->update($data);
 
@@ -183,8 +178,6 @@ class BillboardController extends Controller
                 $headerMap[$colLetter] = 'address';
             } elseif (str_contains($val, 'link') || str_contains($val, 'peta') || str_contains($val, 'map')) {
                 $headerMap[$colLetter] = 'map_link';
-            } elseif (str_contains($val, 'milik') || str_contains($val, 'owner')) {
-                $headerMap[$colLetter] = 'kepemilikan';
             } elseif (str_contains($val, 'ukuran')) {
                 $headerMap[$colLetter] = 'ukuran';
             } elseif (str_contains($val, 'sisi')) {
@@ -201,7 +194,6 @@ class BillboardController extends Controller
         $imported = 0;
         $errors   = 0;
 
-        $lastKepemilikan = 'DNA Advertising';
         $lastMapLink = null;
         $lastAddress = 'Tidak Diketahui';
         $lastCity = 'Tidak Diketahui';
@@ -247,9 +239,8 @@ class BillboardController extends Controller
             }
             $lastMapLink = $mapLink;
 
-            // 3. Kepemilikan
-            $kepemilikan = !empty($data['kepemilikan']) ? $data['kepemilikan'] : $lastKepemilikan;
-            $lastKepemilikan = $kepemilikan;
+            // 3. Kepemilikan (Dihilangkan, selalu default)
+            $kepemilikan = 'DNA Advertising';
 
             // 4. Status
             $rawStatus = strtolower($data['status'] ?? '');

@@ -70,12 +70,6 @@
             </div>
         </div>
 
-        {{-- Kepemilikan --}}
-        <div class="mb-4">
-            <label class="form-label" style="display:block; margin-bottom:0.5rem; font-weight:600;">Kepemilikan</label>
-            <input type="text" name="kepemilikan" class="form-control" value="{{ old('kepemilikan', 'DNA Advertising') }}" placeholder="Contoh: DNA Advertising">
-            @error('kepemilikan') <span class="text-danger" style="font-size:0.8rem; color:var(--error);">{{ $message }}</span> @enderror
-        </div>
 
         {{-- Alamat --}}
         <div class="mb-4">
