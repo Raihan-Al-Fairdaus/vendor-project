@@ -29,12 +29,13 @@
 <div class="admin-search-outer mb-4">
     <style>
         .admin-search-outer {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            padding: 1rem;
+            padding: 1.25rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
         .admin-search-form {
             display: flex;
@@ -52,65 +53,62 @@
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: #6b7280;
-            font-size: 1rem;
+            font-size: 1.1rem;
             pointer-events: none;
+            z-index: 10;
         }
         .asf-input, .asf-select {
             width: 100%;
             height: 48px;
-            padding: 0 1rem 0 2.8rem !important;
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 0 1rem 0 3rem !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px;
-            background: #ffffff;
-            color: #1f2937;
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
             font-size: 0.95rem;
-            font-weight: 500;
             outline: none;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .asf-input::placeholder {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+        .asf-select option {
+            background: #1e293b; /* Dark bg for dropdown options */
+            color: #ffffff;
         }
         .asf-input:focus, .asf-select:focus {
-            border-color: #f59e0b;
-            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+            border-color: rgba(255, 255, 255, 0.5) !important;
+            background: rgba(255, 255, 255, 0.15) !important;
         }
         .asf-btn-search {
             height: 48px;
             padding: 0 1.5rem;
-            background: #f59e0b;
-            color: white;
+            background: #f59e0b !important;
+            color: white !important;
             border: none;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 1rem;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 6px rgba(245, 158, 11, 0.3);
-            white-space: nowrap;
         }
         .asf-btn-search:hover {
-            background: #d97706;
-            transform: translateY(-1px);
+            background: #d97706 !important;
         }
         .asf-btn-reset {
             height: 48px;
             padding: 0 1.5rem;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
             display: flex;
             align-items: center;
-            white-space: nowrap;
+            text-decoration: none;
+            transition: all 0.2s;
         }
         .asf-btn-reset:hover {
-            background: rgba(255, 255, 255, 0.3);
-            color: white;
+            background: rgba(255, 255, 255, 0.2) !important;
         }
     </style>
     
@@ -238,10 +236,10 @@
             margin: 0;
             padding: 0;
         }
-        .custom-pagination .page-item {
+        .custom-pagination .mypill-item {
             margin: 0;
         }
-        .custom-pagination .page-link {
+        .custom-pagination .mypill-link {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -256,29 +254,29 @@
             transition: all 0.2s;
             font-size: 0.95rem;
         }
-        .custom-pagination .page-link:hover {
+        .custom-pagination .mypill-link:hover {
             color: var(--primary, #3b82f6);
             background: rgba(59, 130, 246, 0.1);
         }
-        .custom-pagination .page-item.active .page-link {
+        .custom-pagination .mypill-item.active .mypill-link {
             background: var(--primary, #3b82f6); /* Use their primary color */
             color: #ffffff;
             box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
         }
-        .custom-pagination .page-item.disabled .page-link {
+        .custom-pagination .mypill-item.disabled .mypill-link {
             color: #9ca3af;
             cursor: not-allowed;
             background: transparent;
         }
-        .custom-pagination li:first-child .page-link,
-        .custom-pagination li:last-child .page-link {
+        .custom-pagination li:first-child .mypill-link,
+        .custom-pagination li:last-child .mypill-link {
             border-radius: 20px;
             padding: 0 0.75rem;
             width: auto;
             color: var(--primary, #3b82f6);
         }
-        .custom-pagination li:first-child.disabled .page-link,
-        .custom-pagination li:last-child.disabled .page-link {
+        .custom-pagination li:first-child.disabled .mypill-link,
+        .custom-pagination li:last-child.disabled .mypill-link {
             color: #9ca3af;
         }
     </style>
