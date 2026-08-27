@@ -130,61 +130,70 @@ class BillboardController extends Controller
             $reader->setReadDataOnly(true);
             $spreadsheet = $reader->load($path);
             $sheet       = $spreadsheet->getActiveSheet();
-
-            $highestRow         = $sheet->getHighestRow();
-            $highestColumn      = $sheet->getHighestColumn();
-            $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn);
+            
+            // Baca seluruh data ke array sekaligus (Jauh lebih cepat dari getCell di dalam loop)
+            $rows = $sheet->toArray(null, true, true, true); 
         } catch (\Exception $e) {
             return Redirect::route('admin.billboards.index')
                 ->with('error', 'Gagal membaca file: ' . $e->getMessage());
         }
 
-        if ($highestRow < 1) {
+        if (empty($rows) || count($rows) < 2) {
             return Redirect::route('admin.billboards.index')
-                ->with('error', 'File Excel kosong.');
+                ->with('error', 'File Excel kosong atau tidak ada data.');
         }
 
-        // Mapping Header Fleksibel
+        // Ambil header dari baris 1
+        $headerRow = $rows[1];
         $headerMap = [];
-        for ($col = 1; $col <= $highestColumnIndex; $col++) {
-            $val = strtolower(trim($sheet->getCell([$col, 1])->getValue() ?? ''));
-            // Kita cari pola nama kolom
+        
+        foreach ($headerRow as $colLetter => $val) {
+            $val = strtolower(trim($val ?? ''));
+            if (empty($val)) continue;
+            
             if (str_contains($val, 'kota') || str_contains($val, 'city')) {
-                $headerMap[$col] = 'city';
+                $headerMap[$colLetter] = 'city';
             } elseif (str_contains($val, 'alamat') || str_contains($val, 'lokasi') || str_contains($val, 'address')) {
-                $headerMap[$col] = 'address';
+                $headerMap[$colLetter] = 'address';
             } elseif (str_contains($val, 'link') || str_contains($val, 'peta') || str_contains($val, 'map')) {
-                $headerMap[$col] = 'map_link';
+                $headerMap[$colLetter] = 'map_link';
             } elseif (str_contains($val, 'milik') || str_contains($val, 'owner')) {
-                $headerMap[$col] = 'kepemilikan';
+                $headerMap[$colLetter] = 'kepemilikan';
             } elseif (str_contains($val, 'ukuran')) {
-                $headerMap[$col] = 'ukuran';
+                $headerMap[$colLetter] = 'ukuran';
             } elseif (str_contains($val, 'sisi')) {
-                $headerMap[$col] = 'sisi';
+                $headerMap[$colLetter] = 'sisi';
             } elseif (str_contains($val, 'orientasi')) {
-                $headerMap[$col] = 'orientasi';
+                $headerMap[$colLetter] = 'orientasi';
             } elseif (str_contains($val, 'jenis')) {
-                $headerMap[$col] = 'jenis';
+                $headerMap[$colLetter] = 'jenis';
             } elseif (str_contains($val, 'status')) {
-                $headerMap[$col] = 'status';
+                $headerMap[$colLetter] = 'status';
             }
         }
 
         $imported = 0;
         $errors   = 0;
 
-        // Variabel untuk menyimpan data dari baris sebelumnya (jika baris sekarang kosong)
         $lastKepemilikan = 'DNA Advertising';
         $lastMapLink = null;
         $lastAddress = 'Tidak Diketahui';
         $lastCity = 'Tidak Diketahui';
 
-        for ($row = 2; $row <= $highestRow; $row++) {
+        // Hitung urutan awal HANYA SEKALI untuk menghindari query berulang
+        $currentSeq = Billboard::count();
+        $insertData = [];
+        $now = now();
+
+        // Mulai dari baris 2
+        $rowKeys = array_keys($rows);
+        for ($i = 1; $i < count($rowKeys); $i++) {
+            $row = $rows[$rowKeys[$i]];
             $data = [];
             $hasData = false;
 
-            foreach ($headerMap as $colIndex => $key) {
-                $val = $sheet->getCell([$colIndex, $row])->getValue();
+            foreach ($headerMap as $colLetter => $key) {
+                $val = $row[$colLetter] ?? '';
                 if ($val !== null && trim($val) !== '') {
                     $hasData = true;
                 }
@@ -195,7 +204,7 @@ class BillboardController extends Controller
                 continue;
             }
 
-            // 1. Kota & Alamat (Toleransi data "tidak diketahui")
+            // 1. Kota & Alamat
             $city = !empty($data['city']) ? $data['city'] : $lastCity;
             if (strtolower($city) === 'tidak diketahui' || strtolower($city) === 'unknown') {
                 $city = 'Tidak Diketahui';
@@ -205,25 +214,22 @@ class BillboardController extends Controller
             $address = !empty($data['address']) ? $data['address'] : $lastAddress;
             $lastAddress = $address;
 
-            // 2. Map Link (Toleransi billboard sisi 2 yg gak punya link, ngikut sisi 1)
+            // 2. Map Link
             $mapLink = !empty($data['map_link']) ? $data['map_link'] : null;
             if (empty($mapLink) && $address === $lastAddress) {
-                $mapLink = $lastMapLink; // pinjam dari row atasnya yg alamatnya sama
+                $mapLink = $lastMapLink;
             }
             $lastMapLink = $mapLink;
 
-            // 3. Kepemilikan (Kalau kosong ngikut atasnya)
+            // 3. Kepemilikan
             $kepemilikan = !empty($data['kepemilikan']) ? $data['kepemilikan'] : $lastKepemilikan;
             $lastKepemilikan = $kepemilikan;
 
-            // 4. Status (Bisa baca centang/silang)
+            // 4. Status
             $rawStatus = strtolower($data['status'] ?? '');
             $status = 'tersedia';
-            if (
-                str_contains($rawStatus, 'terisi') || 
-                str_contains($rawStatus, 'centang') || 
-                $rawStatus === 'v' || $rawStatus === '✓' || $rawStatus === '✔' || $rawStatus === '1'
-            ) {
+            if (str_contains($rawStatus, 'terisi') || str_contains($rawStatus, 'centang') || 
+                $rawStatus === 'v' || $rawStatus === '✓' || $rawStatus === '✔' || $rawStatus === '1') {
                 $status = 'terisi';
             }
 
@@ -239,27 +245,41 @@ class BillboardController extends Controller
 
             $ukuran = $data['ukuran'] ?? null;
 
+            // 6. Generate kode manual berdasarkan currentSeq (Sangat Cepat, tanpa query DB)
+            $currentSeq++;
+            $typePrefix = $jenis === Billboard::JENIS_MIDIBOARD ? '01' : '00';
+            $cityAbbr   = Billboard::getCityAbbreviation($city);
+            $sideRoman  = $sisi == 2 ? 'II' : 'I';
+            $code       = "#{$typePrefix}{$currentSeq}-{$cityAbbr}-{$sideRoman}";
+
+            $insertData[] = [
+                'code'         => $code,
+                'name'         => $code,
+                'jenis'        => $jenis,
+                'city'         => $city,
+                'sisi'         => $sisi,
+                'ukuran'       => $ukuran,
+                'orientasi'    => $orientasi,
+                'kepemilikan'  => $kepemilikan,
+                'address'      => $address,
+                'map_link'     => $mapLink,
+                'status'       => $status,
+                'created_at'   => $now,
+                'updated_at'   => $now,
+            ];
+            $imported++;
+        }
+
+        // Batch Insert ke database sekaligus! (Sangat cepat, hitungan milidetik)
+        if (!empty($insertData)) {
             try {
-                // 6. Generate kode urut (Kode BB di excel diabaikan)
-                $code = Billboard::generateCode($jenis, $city, $sisi);
-
-                Billboard::create([
-                    'code'         => $code,
-                    'name'         => $code,
-                    'jenis'        => $jenis,
-                    'city'         => $city,
-                    'sisi'         => $sisi,
-                    'ukuran'       => $ukuran,
-                    'orientasi'    => $orientasi,
-                    'kepemilikan'  => $kepemilikan,
-                    'address'      => $address,
-                    'map_link'     => $mapLink,
-                    'status'       => $status,
-                ]);
-
-                $imported++;
+                // Gunakan chunk jika data sangat besar (misal 500 per insert)
+                foreach (array_chunk($insertData, 500) as $chunk) {
+                    Billboard::insert($chunk);
+                }
             } catch (\Exception $e) {
-                $errors++;
+                return Redirect::route('admin.billboards.index')
+                    ->with('error', 'Terjadi kesalahan saat menyimpan ke database: ' . $e->getMessage());
             }
         }
 
