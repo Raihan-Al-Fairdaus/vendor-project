@@ -17,8 +17,8 @@
         <div style="flex:1;">
             <input type="file" name="file" class="form-control" accept=".xlsx,.xls,.csv" required>
             <small style="color:var(--text-muted); display:block; margin-top:0.25rem;">
-                File Excel (.xlsx / .xls) harus memiliki kolom header: <code>city</code>, <code>name</code>, <code>address</code>, <code>map_link</code>. 
-                (Kolom <code>status</code> bersifat opsional dan otomatis diisi <strong>tersedia</strong> jika kosong).
+                File Excel (.xlsx / .xls) harus memiliki kolom header: <code>jenis</code>, <code>city</code>, <code>sisi</code>, <code>address</code>, <code>ukuran</code>, <code>orientasi</code>, <code>kepemilikan</code>, <code>map_link</code>.
+                Kode billboard akan di-generate otomatis.
             </small>
         </div>
         <button type="submit" class="btn btn-primary">Upload &amp; Import</button>
@@ -30,10 +30,12 @@
         <table>
             <thead>
                 <tr>
+                    <th>KODE</th>
+                    <th>JENIS</th>
                     <th>KOTA</th>
-                    <th>NAMA / ID</th>
                     <th>ALAMAT</th>
-                    <th>LINK PETA</th>
+                    <th>UKURAN</th>
+                    <th>SISI</th>
                     <th>STATUS</th>
                     <th>AKSI</th>
                 </tr>
@@ -41,18 +43,21 @@
             <tbody>
                 @forelse($billboards as $board)
                     <tr>
-                        <td data-label="KOTA" style="font-weight:600;">{{ $board->city }}</td>
-                        <td data-label="NAMA / ID">{{ $board->name }}</td>
-                        <td data-label="ALAMAT">{{ $board->address }}</td>
-                        <td data-label="LINK PETA">
-                            @if($board->map_link)
-                                <a href="{{ $board->map_link }}" target="_blank" style="color:var(--primary); font-size:0.85rem; font-weight:600;">
-                                    🔗 Buka Link Peta
-                                </a>
-                            @else
-                                <span class="text-muted" style="font-size:0.85rem;">-</span>
-                            @endif
+                        <td data-label="KODE" style="font-weight:700; font-family:monospace; letter-spacing:0.5px;">{{ $board->code ?? '-' }}</td>
+                        <td data-label="JENIS">
+                            <span style="
+                                background: {{ $board->jenis === 'midiboard' ? 'rgba(245,158,11,0.15)' : 'rgba(59,130,246,0.15)' }};
+                                color: {{ $board->jenis === 'midiboard' ? '#d97706' : '#3b82f6' }};
+                                padding: .25rem .6rem;
+                                border-radius: 6px;
+                                font-size: .75rem;
+                                font-weight: 600;
+                            ">{{ ucfirst($board->jenis ?? 'billboard') }}</span>
                         </td>
+                        <td data-label="KOTA" style="font-weight:600;">{{ $board->city }}</td>
+                        <td data-label="ALAMAT">{{ $board->address }}</td>
+                        <td data-label="UKURAN">{{ $board->ukuran ?? '-' }}</td>
+                        <td data-label="SISI">{{ $board->sisi ?? 1 }}</td>
                         <td data-label="STATUS">
                             @php
                                 $isTersedia = $board->status === 'tersedia';
@@ -78,7 +83,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center text-muted" style="padding: 2rem;">
+                        <td colspan="8" class="text-center text-muted" style="padding: 2rem;">
                             Belum ada data billboard.
                         </td>
                     </tr>

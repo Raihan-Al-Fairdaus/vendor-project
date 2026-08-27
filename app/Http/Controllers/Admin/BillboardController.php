@@ -33,14 +33,31 @@ class BillboardController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'city'     => 'required|string|max:255',
-            'name'     => 'required|string|max:255|unique:billboards,name',
-            'address'  => 'required|string',
-            'map_link' => 'nullable|string',
-            'status'   => 'required|in:tersedia,terisi',
+            'jenis'        => 'required|in:billboard,midiboard',
+            'city'         => 'required|string|max:255',
+            'sisi'         => 'required|integer|in:1,2',
+            'ukuran'       => 'nullable|string|max:255',
+            'orientasi'    => 'required|in:portrait,landscape',
+            'kepemilikan'  => 'nullable|string|max:255',
+            'address'      => 'required|string',
+            'map_link'     => 'nullable|string',
+            'status'       => 'required|in:tersedia,terisi',
         ]);
+
+        // Auto-generate code
+        $code = Billboard::generateCode($data['jenis'], $data['city'], (int) $data['sisi']);
+        $data['code'] = $code;
+        $data['name'] = $code; // Keep name in sync for backward compat
+
+        // Default kepemilikan jika kosong
+        if (empty($data['kepemilikan'])) {
+            $data['kepemilikan'] = 'DNA Advertising';
+        }
+
         Billboard::create($data);
-        return Redirect::route('admin.billboards.index')->with('success', 'Billboard berhasil ditambahkan.');
+
+        return Redirect::route('admin.billboards.index')
+            ->with('success', "Billboard {$code} berhasil ditambahkan.");
     }
 
     /**
@@ -57,14 +74,36 @@ class BillboardController extends Controller
     public function update(Request $request, Billboard $billboard)
     {
         $data = $request->validate([
-            'city'     => 'required|string|max:255',
-            'name'     => 'required|string|max:255|unique:billboards,name,' . $billboard->id,
-            'address'  => 'required|string',
-            'map_link' => 'nullable|string',
-            'status'   => 'required|in:tersedia,terisi',
+            'jenis'        => 'required|in:billboard,midiboard',
+            'city'         => 'required|string|max:255',
+            'sisi'         => 'required|integer|in:1,2',
+            'ukuran'       => 'nullable|string|max:255',
+            'orientasi'    => 'required|in:portrait,landscape',
+            'kepemilikan'  => 'nullable|string|max:255',
+            'address'      => 'required|string',
+            'map_link'     => 'nullable|string',
+            'status'       => 'required|in:tersedia,terisi',
         ]);
+
+        // Re-generate code jika jenis, kota, atau sisi berubah
+        $needsNewCode = $billboard->jenis !== $data['jenis']
+            || strtolower(trim($billboard->city)) !== strtolower(trim($data['city']))
+            || $billboard->sisi != $data['sisi'];
+
+        if ($needsNewCode) {
+            $code = Billboard::generateCode($data['jenis'], $data['city'], (int) $data['sisi']);
+            $data['code'] = $code;
+            $data['name'] = $code;
+        }
+
+        if (empty($data['kepemilikan'])) {
+            $data['kepemilikan'] = 'DNA Advertising';
+        }
+
         $billboard->update($data);
-        return Redirect::route('admin.billboards.index')->with('success', 'Billboard berhasil diupdate.');
+
+        return Redirect::route('admin.billboards.index')
+            ->with('success', 'Billboard berhasil diupdate.');
     }
 
     /**
@@ -77,8 +116,8 @@ class BillboardController extends Controller
     }
 
     /**
-     * Import billboards dari file Excel (.xlsx / .xls).
-     * Kolom header yang diperlukan: city | name | address | map_link | status
+     * Import billboards dari file Excel (.xlsx / .xls / .csv).
+     * Kolom header: jenis | city | sisi | ukuran | orientasi | kepemilikan | address | map_link | status
      */
     public function import(Request $request)
     {
@@ -90,12 +129,11 @@ class BillboardController extends Controller
         $path = $file->getRealPath();
 
         try {
-            // Gunakan reader spesifik & setReadDataOnly(true) agar loading super cepat
             $reader = IOFactory::createReaderForFile($path);
             $reader->setReadDataOnly(true);
             $spreadsheet = $reader->load($path);
             $sheet       = $spreadsheet->getActiveSheet();
-            
+
             $highestRow         = $sheet->getHighestRow();
             $highestColumn      = $sheet->getHighestColumn();
             $highestColumnIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($highestColumn);
@@ -109,7 +147,7 @@ class BillboardController extends Controller
                 ->with('error', 'File Excel kosong.');
         }
 
-        // Ambil header dari baris 1
+        // Header dari baris 1
         $header = [];
         for ($col = 1; $col <= $highestColumnIndex; $col++) {
             $value = $sheet->getCell([$col, 1])->getValue();
@@ -119,7 +157,6 @@ class BillboardController extends Controller
         $imported = 0;
         $errors   = 0;
 
-        // Loop baris 2 sampai baris terakhir yang berisi data
         for ($row = 2; $row <= $highestRow; $row++) {
             $rowData = [];
             $hasData = false;
@@ -132,12 +169,10 @@ class BillboardController extends Controller
                 $rowData[] = $val;
             }
 
-            // Lewati jika baris kosong
             if (!$hasData) {
                 continue;
             }
 
-            // Map data
             $data = [];
             foreach ($header as $index => $key) {
                 if ($key !== '' && isset($rowData[$index])) {
@@ -145,23 +180,45 @@ class BillboardController extends Controller
                 }
             }
 
-            if (empty(trim($data['name'] ?? ''))) {
+            // City is required
+            if (empty(trim($data['city'] ?? ''))) {
                 $errors++;
                 continue;
             }
 
             try {
-                Billboard::updateOrCreate(
-                    ['name' => trim($data['name'])],
-                    [
-                        'city'     => trim($data['city']     ?? ''),
-                        'address'  => trim($data['address']  ?? ''),
-                        'map_link' => trim($data['map_link'] ?? '') ?: null,
-                        'status'   => isset($data['status']) && in_array(trim($data['status']), ['tersedia', 'terisi'])
-                                        ? trim($data['status'])
-                                        : 'tersedia',
-                    ]
-                );
+                $jenis = isset($data['jenis']) && in_array(trim(strtolower($data['jenis'])), ['billboard', 'midiboard'])
+                    ? trim(strtolower($data['jenis']))
+                    : 'billboard';
+
+                $sisi = isset($data['sisi']) && in_array((int) $data['sisi'], [1, 2])
+                    ? (int) $data['sisi']
+                    : 1;
+
+                $orientasi = isset($data['orientasi']) && in_array(trim(strtolower($data['orientasi'])), ['portrait', 'landscape'])
+                    ? trim(strtolower($data['orientasi']))
+                    : 'landscape';
+
+                $status = isset($data['status']) && in_array(trim($data['status']), ['tersedia', 'terisi'])
+                    ? trim($data['status'])
+                    : 'tersedia';
+
+                $code = Billboard::generateCode($jenis, trim($data['city']), $sisi);
+
+                Billboard::create([
+                    'code'         => $code,
+                    'name'         => $code,
+                    'jenis'        => $jenis,
+                    'city'         => trim($data['city']),
+                    'sisi'         => $sisi,
+                    'ukuran'       => trim($data['ukuran'] ?? '') ?: null,
+                    'orientasi'    => $orientasi,
+                    'kepemilikan'  => trim($data['kepemilikan'] ?? '') ?: 'DNA Advertising',
+                    'address'      => trim($data['address'] ?? ''),
+                    'map_link'     => trim($data['map_link'] ?? '') ?: null,
+                    'status'       => $status,
+                ]);
+
                 $imported++;
             } catch (\Exception $e) {
                 $errors++;

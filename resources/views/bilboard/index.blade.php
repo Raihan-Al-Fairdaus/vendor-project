@@ -740,7 +740,7 @@
                     <input
                         type="text"
                         name="search"
-                        placeholder="Cari nama atau alamat billboard..."
+                        placeholder="Cari kode, alamat billboard..."
                         value="{{ request('search') }}"
                         class="bb-input"
                     >
@@ -756,9 +756,17 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="bb-select-box">
+                    <span class="bb-select-icon">📋</span>
+                    <select name="jenis" onchange="this.form.submit()" class="bb-select">
+                        <option value="">Semua Jenis</option>
+                        <option value="billboard" {{ request('jenis') === 'billboard' ? 'selected' : '' }}>Billboard</option>
+                        <option value="midiboard" {{ request('jenis') === 'midiboard' ? 'selected' : '' }}>Midiboard</option>
+                    </select>
+                </div>
                 <div class="bb-action-group">
                     <button type="submit" class="bb-btn-search">Cari</button>
-                    @if(request()->filled('search') || request()->filled('city'))
+                    @if(request()->filled('search') || request()->filled('city') || request()->filled('jenis'))
                         <a href="{{ route('bilboard.index') }}" class="bb-btn-reset">✕ Reset</a>
                     @endif
                 </div>
@@ -786,25 +794,42 @@
                     <div class="bb-item-card">
                         <div class="bb-card-strip"></div>
                         <div class="bb-card-body">
-                            {{-- Badges row at the top --}}
+                            {{-- Badges row --}}
                             <div class="bb-badge-row">
                                 <span class="bb-available-badge">
                                     <span class="bb-available-dot"></span>
                                     Tersedia
                                 </span>
                                 <span class="bb-city-tag">🗺️ {{ $board->city }}</span>
+                                <span class="bb-city-tag" style="background: rgba(245,158,11,0.15); color: #d97706;">
+                                    {{ ucfirst($board->jenis ?? 'billboard') }}
+                                </span>
                             </div>
 
-                            {{-- Title takes full width --}}
-                            <h3 class="bb-card-name">{{ $board->name }}</h3>
-                            
+                            {{-- Title: code as main identifier --}}
+                            <h3 class="bb-card-name">{{ ucfirst($board->jenis ?? 'Billboard') }} {{ $board->code }}</h3>
+
                             <div class="bb-card-divider"></div>
 
-                            {{-- Address details --}}
+                            {{-- Detail info --}}
+                            @if($board->ukuran)
+                            <div class="bb-info-line">
+                                <span class="bb-info-line-icon">📐</span>
+                                <span class="bb-info-line-text">{{ $board->ukuran }} · {{ ucfirst($board->orientasi ?? 'landscape') }}</span>
+                            </div>
+                            @endif
+
                             <div class="bb-info-line">
                                 <span class="bb-info-line-icon">📍</span>
                                 <span class="bb-info-line-text">{{ $board->address }}</span>
                             </div>
+
+                            @if($board->kepemilikan)
+                            <div class="bb-info-line">
+                                <span class="bb-info-line-icon">🏢</span>
+                                <span class="bb-info-line-text">{{ $board->kepemilikan }} · Sisi {{ $board->sisi ?? 1 }}</span>
+                            </div>
+                            @endif
                         </div>
 
                         {{-- Footer CTA button --}}

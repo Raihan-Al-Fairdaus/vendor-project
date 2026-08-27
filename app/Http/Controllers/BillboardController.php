@@ -7,32 +7,35 @@ use Illuminate\Http\Request;
 
 class BillboardController extends Controller
 {
-    /**
-     * Show list of available billboards.
-     */
     public function index(Request $request)
     {
         $query = Billboard::available();
 
+        // Search filter
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
+                $q->where('code', 'like', '%' . $search . '%')
+                  ->orWhere('name', 'like', '%' . $search . '%')
                   ->orWhere('city', 'like', '%' . $search . '%')
                   ->orWhere('address', 'like', '%' . $search . '%');
             });
         }
 
+        // City filter
         if ($request->filled('city')) {
             $query->where('city', $request->input('city'));
         }
 
-        $billboards = $query->orderBy('city')->paginate(12);
-        
-        // Fetch all unique cities that have available billboards
-        $cities = Billboard::available()->distinct()->pluck('city');
+        // Jenis filter (billboard / midiboard)
+        if ($request->filled('jenis')) {
+            $query->where('jenis', $request->input('jenis'));
+        }
 
-        return view('bilboard.index', compact('billboards', 'cities'));
+        $billboards = $query->orderBy('city')->paginate(12);
+        $cities     = Billboard::available()->distinct()->pluck('city');
+        $types      = Billboard::available()->distinct()->pluck('jenis');
+
+        return view('bilboard.index', compact('billboards', 'cities', 'types'));
     }
 }
-?>
