@@ -848,7 +848,69 @@
             </div>
 
             <div class="bb-pagination-wrap">
-                {{ $billboards->links() }}
+                <style>
+                    .custom-pagination-container {
+                        background: rgba(255, 255, 255, 0.95);
+                        border-radius: 50px;
+                        padding: 0.5rem 1.5rem;
+                        display: inline-flex;
+                        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                        margin-top: 2rem;
+                    }
+                    .custom-pagination {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        list-style: none;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .custom-pagination .mypill-item {
+                        margin: 0;
+                    }
+                    .custom-pagination .mypill-link {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #1f2937;
+                        font-weight: 600;
+                        text-decoration: none;
+                        border: none;
+                        background: transparent;
+                        min-width: 35px;
+                        height: 35px;
+                        border-radius: 50%;
+                        transition: all 0.2s;
+                        font-size: 0.95rem;
+                        cursor: pointer;
+                    }
+                    .custom-pagination .mypill-link:hover {
+                        color: #f59e0b;
+                        background: rgba(245, 158, 11, 0.1);
+                    }
+                    .custom-pagination .mypill-item.active .mypill-link {
+                        background: #f59e0b;
+                        color: #ffffff;
+                        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+                    }
+                    .custom-pagination .mypill-item.disabled .mypill-link {
+                        color: #9ca3af;
+                        cursor: not-allowed;
+                        background: transparent;
+                    }
+                    .custom-pagination li:first-child .mypill-link,
+                    .custom-pagination li:last-child .mypill-link {
+                        border-radius: 20px;
+                        padding: 0 0.75rem;
+                        width: auto;
+                        color: #f59e0b;
+                    }
+                    .custom-pagination li:first-child.disabled .mypill-link,
+                    .custom-pagination li:last-child.disabled .mypill-link {
+                        color: #9ca3af;
+                    }
+                </style>
+                {{ $billboards->appends(request()->query())->links('admin.billboards.pagination') }}
             </div>
         @else
             <div class="bb-empty-box">

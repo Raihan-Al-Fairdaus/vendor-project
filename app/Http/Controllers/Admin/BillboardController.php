@@ -177,22 +177,24 @@ class BillboardController extends Controller
             $val = strtolower(trim($val ?? ''));
             if (empty($val)) continue;
             
-            if (str_contains($val, 'kota') || str_contains($val, 'city')) {
-                $headerMap[$colLetter] = 'city';
-            } elseif (str_contains($val, 'alamat') || str_contains($val, 'lokasi') || str_contains($val, 'address')) {
-                $headerMap[$colLetter] = 'address';
-            } elseif (str_contains($val, 'link') || str_contains($val, 'peta') || str_contains($val, 'map')) {
-                $headerMap[$colLetter] = 'map_link';
-            } elseif (str_contains($val, 'ukuran')) {
-                $headerMap[$colLetter] = 'ukuran';
-            } elseif (str_contains($val, 'sisi')) {
-                $headerMap[$colLetter] = 'sisi';
-            } elseif (str_contains($val, 'orientasi')) {
-                $headerMap[$colLetter] = 'orientasi';
-            } elseif (str_contains($val, 'jenis')) {
-                $headerMap[$colLetter] = 'jenis';
-            } elseif (str_contains($val, 'status')) {
-                $headerMap[$colLetter] = 'status';
+            if (!isset($headerMap[$colLetter])) {
+                if (!in_array('city', $headerMap) && (str_contains($val, 'kota') || str_contains($val, 'city'))) {
+                    $headerMap[$colLetter] = 'city';
+                } elseif (!in_array('address', $headerMap) && (str_contains($val, 'alamat') || str_contains($val, 'lokasi') || str_contains($val, 'address'))) {
+                    $headerMap[$colLetter] = 'address';
+                } elseif (!in_array('map_link', $headerMap) && (str_contains($val, 'link') || str_contains($val, 'peta') || str_contains($val, 'map'))) {
+                    $headerMap[$colLetter] = 'map_link';
+                } elseif (!in_array('ukuran', $headerMap) && str_contains($val, 'ukuran')) {
+                    $headerMap[$colLetter] = 'ukuran';
+                } elseif (!in_array('sisi', $headerMap) && str_contains($val, 'sisi')) {
+                    $headerMap[$colLetter] = 'sisi';
+                } elseif (!in_array('orientasi', $headerMap) && str_contains($val, 'orientasi')) {
+                    $headerMap[$colLetter] = 'orientasi';
+                } elseif (!in_array('jenis', $headerMap) && str_contains($val, 'jenis')) {
+                    $headerMap[$colLetter] = 'jenis';
+                } elseif (!in_array('status', $headerMap) && str_contains($val, 'status')) {
+                    $headerMap[$colLetter] = 'status';
+                }
             }
         }
 
@@ -227,14 +229,35 @@ class BillboardController extends Controller
                 continue;
             }
 
-            // 1. Kota & Alamat
-            $city = !empty($data['city']) ? $data['city'] : $lastCity;
-            if (strtolower($city) === 'tidak diketahui' || strtolower($city) === 'unknown') {
+            // 1. Kota
+            $city = trim($data['city'] ?? '');
+            $address = trim($data['address'] ?? '');
+
+            // Jika kota kosong, coba cari dari alamat menggunakan city map
+            if (empty($city) && !empty($address)) {
+                foreach (\App\Models\Billboard::getCityMapForJs() as $knownCity => $abbr) {
+                    if (stripos($address, $knownCity) !== false) {
+                        $city = $knownCity;
+                        break;
+                    }
+                }
+            }
+            
+            // Jika masih kosong, coba mewarisi dari baris sebelumnya (hanya jika masuk akal)
+            if (empty($city)) {
+                $city = $lastCity;
+            }
+
+            // Validasi fallback
+            if (empty($city) || strtolower($city) === 'unknown' || strtolower($city) === 'tidak diketahui') {
                 $city = 'Tidak Diketahui';
             }
             $lastCity = $city;
 
-            $address = !empty($data['address']) ? $data['address'] : $lastAddress;
+            // 1b. Alamat
+            if (empty($address)) {
+                $address = $lastAddress;
+            }
             $lastAddress = $address;
 
             // 2. Map Link
