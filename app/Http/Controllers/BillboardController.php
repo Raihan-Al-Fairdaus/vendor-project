@@ -33,9 +33,15 @@ class BillboardController extends Controller
         }
 
         $billboards = $query->orderBy('city')->paginate(12);
-        $cities     = Billboard::available()->distinct()->pluck('city');
-        $types      = Billboard::available()->distinct()->pluck('jenis');
+        
+        $cityCounts = Billboard::available()
+            ->select('city', \Illuminate\Support\Facades\DB::raw('count(*) as count'))
+            ->groupBy('city')
+            ->orderBy('city')
+            ->get();
+            
+        $types = Billboard::available()->distinct()->pluck('jenis');
 
-        return view('bilboard.index', compact('billboards', 'cities', 'types'));
+        return view('bilboard.index', compact('billboards', 'cityCounts', 'types'));
     }
 }
