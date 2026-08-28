@@ -700,8 +700,17 @@
                             <i class="fa-solid fa-desktop"></i>
                         </div>
                         <div class="bb-stat-info">
-                            <span class="bb-stat-value">{{ $billboards->total() }}</span>
+                            <span class="bb-stat-value">{{ $billboardCount }}</span>
                             <span class="bb-stat-label">Billboard</span>
+                        </div>
+                    </div>
+                    <div class="bb-stat-card">
+                        <div class="bb-stat-icon" style="background: rgba(245,158,11,0.15); color: #f59e0b;">
+                            <i class="fa-solid fa-tv"></i>
+                        </div>
+                        <div class="bb-stat-info">
+                            <span class="bb-stat-value">{{ $midiboardCount }}</span>
+                            <span class="bb-stat-label">Midiboard</span>
                         </div>
                     </div>
                     <div class="bb-stat-card">

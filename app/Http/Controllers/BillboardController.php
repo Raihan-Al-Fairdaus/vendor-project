@@ -42,6 +42,10 @@ class BillboardController extends Controller
             
         $types = Billboard::available()->distinct()->pluck('jenis');
 
-        return view('bilboard.index', compact('billboards', 'cityCounts', 'types'));
+        // Hitung terpisah billboard vs midiboard
+        $billboardCount  = Billboard::available()->where('jenis', 'billboard')->count();
+        $midiboardCount  = Billboard::available()->where('jenis', 'midiboard')->count();
+
+        return view('bilboard.index', compact('billboards', 'cityCounts', 'types', 'billboardCount', 'midiboardCount'));
     }
 }
