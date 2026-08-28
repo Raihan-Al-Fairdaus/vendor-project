@@ -12,13 +12,22 @@
 {{-- Import Box --}}
 <div class="card mb-4" style="padding: 1.5rem 2rem;">
     <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.1rem; color:var(--primary);">Import Billboard dari Excel</h3>
-    <form action="{{ route('admin.billboards.import') }}" method="POST" enctype="multipart/form-data" class="d-flex align-center gap-4">
+    <form action="{{ route('admin.billboards.import') }}" method="POST" enctype="multipart/form-data" class="d-flex align-center gap-4" style="flex-wrap: wrap;">
         @csrf
-        <div style="flex:1;">
+        <div style="flex:1; min-width: 250px;">
             <input type="file" name="file" class="form-control" accept=".xlsx,.xls,.csv" required>
             <small style="color:var(--text-muted); display:block; margin-top:0.25rem;">
-                File Excel (.xlsx / .xls) harus memiliki kolom header: <code>jenis</code>, <code>city</code>, <code>sisi</code>, <code>address</code>, <code>ukuran</code>, <code>orientasi</code>, <code>kepemilikan</code>, <code>map_link</code>.
-                Kode billboard akan di-generate otomatis.
+                File Excel (.xlsx / .xls). Kode billboard akan di-generate otomatis.
+            </small>
+        </div>
+        <div style="min-width: 180px;">
+            <select name="jenis_import" class="form-control" style="height: 42px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px;">
+                <option value="billboard" style="background:#1e293b;">📋 Billboard</option>
+                <option value="midiboard" style="background:#1e293b;">📺 Midiboard</option>
+                <option value="auto" style="background:#1e293b;">🔄 Auto (dari kolom jenis)</option>
+            </select>
+            <small style="color:var(--text-muted); display:block; margin-top:0.25rem;">
+                Pilih jenis yang diimport
             </small>
         </div>
         <button type="submit" class="btn btn-primary">Upload &amp; Import</button>

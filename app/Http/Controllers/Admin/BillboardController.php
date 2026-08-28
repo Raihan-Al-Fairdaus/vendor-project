@@ -279,8 +279,15 @@ class BillboardController extends Controller
             }
 
             // 5. Jenis & Sisi & Orientasi
-            $rawJenis = strtolower($data['jenis'] ?? '');
-            $jenis = str_contains($rawJenis, 'midi') ? 'midiboard' : 'billboard';
+            $jenisImport = $request->input('jenis_import', 'auto');
+            if ($jenisImport === 'auto') {
+                // Auto-detect dari kolom jenis di Excel
+                $rawJenis = strtolower($data['jenis'] ?? '');
+                $jenis = str_contains($rawJenis, 'midi') ? 'midiboard' : 'billboard';
+            } else {
+                // Pakai pilihan user dari dropdown
+                $jenis = $jenisImport;
+            }
 
             $rawSisi = strtolower($data['sisi'] ?? '');
             $sisi = (str_contains($rawSisi, '2') || str_contains($rawSisi, 'ii')) ? 2 : 1;
