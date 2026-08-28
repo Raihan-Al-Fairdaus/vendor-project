@@ -44,10 +44,23 @@ class BillboardController extends Controller
         }
 
         $billboards = $query->orderBy('city')->paginate(15)->appends($request->all());
-        $cities     = Billboard::distinct()->pluck('city');
-        $types      = Billboard::distinct()->pluck('jenis');
+        
+        // Hitung per kota: berapa billboard, berapa midiboard
+        $cityData = Billboard::select('city', 'jenis', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+            ->groupBy('city', 'jenis')
+            ->orderBy('city')
+            ->get();
 
-        return view('admin.billboards.index', compact('billboards', 'cities', 'types'));
+        // Kelompokkan jadi: ['BANDUNG' => ['billboard' => 15, 'midiboard' => 30], ...]
+        $cityCounts = [];
+        foreach ($cityData as $row) {
+            $cityCounts[$row->city][$row->jenis] = $row->total;
+        }
+        ksort($cityCounts); // Urutkan A-Z
+
+        $types = Billboard::distinct()->pluck('jenis');
+
+        return view('admin.billboards.index', compact('billboards', 'cityCounts', 'types'));
     }
 
     /**

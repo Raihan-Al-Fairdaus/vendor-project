@@ -34,11 +34,18 @@ class BillboardController extends Controller
 
         $billboards = $query->orderBy('city')->paginate(12);
         
-        $cityCounts = Billboard::available()
-            ->select('city', \Illuminate\Support\Facades\DB::raw('count(*) as count'))
-            ->groupBy('city')
+        // Hitung per kota: berapa billboard, berapa midiboard (hanya yang tersedia)
+        $cityData = Billboard::available()
+            ->select('city', 'jenis', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+            ->groupBy('city', 'jenis')
             ->orderBy('city')
             ->get();
+
+        $cityCounts = [];
+        foreach ($cityData as $row) {
+            $cityCounts[$row->city][$row->jenis] = $row->total;
+        }
+        ksort($cityCounts);
             
         $types = Billboard::available()->distinct()->pluck('jenis');
 

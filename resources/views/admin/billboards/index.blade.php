@@ -131,13 +131,17 @@
             <span class="asf-icon">📍</span>
             <select name="city" class="asf-select" onchange="this.form.submit()">
                 <option value="">Semua Kota</option>
-                @foreach($cities as $c)
-                    <option value="{{ $c }}" {{ request('city') === $c ? 'selected' : '' }}>
-                        {{ strtoupper($c) }}
-                        @php
-                            $count = \App\Models\Billboard::where('city', $c)->count();
-                        @endphp
-                        ({{ $count }})
+                @foreach($cityCounts as $cityName => $counts)
+                    @php
+                        $bb = $counts['billboard'] ?? 0;
+                        $mb = $counts['midiboard'] ?? 0;
+                        $parts = [];
+                        if ($bb > 0) $parts[] = $bb . ' BB';
+                        if ($mb > 0) $parts[] = $mb . ' MB';
+                        $label = strtoupper($cityName) . ' (' . implode(' · ', $parts) . ')';
+                    @endphp
+                    <option value="{{ $cityName }}" {{ request('city') === $cityName ? 'selected' : '' }}>
+                        {{ $label }}
                     </option>
                 @endforeach
             </select>

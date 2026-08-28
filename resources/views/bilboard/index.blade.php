@@ -718,7 +718,7 @@
                             <i class="fa-solid fa-location-dot"></i>
                         </div>
                         <div class="bb-stat-info">
-                            <span class="bb-stat-value">{{ $cityCounts->count() }}</span>
+                            <span class="bb-stat-value">{{ count($cityCounts) }}</span>
                             <span class="bb-stat-label">Lokasi</span>
                         </div>
                     </div>
@@ -758,9 +758,17 @@
                     <span class="bb-select-icon">📍</span>
                     <select name="city" onchange="this.form.submit()" class="bb-select">
                         <option value="">Semua Kota</option>
-                        @foreach($cityCounts as $c)
-                            <option value="{{ $c->city }}" {{ request('city') === $c->city ? 'selected' : '' }}>
-                                {{ $c->city }} ({{ $c->count }})
+                        @foreach($cityCounts as $cityName => $counts)
+                            @php
+                                $bb = $counts['billboard'] ?? 0;
+                                $mb = $counts['midiboard'] ?? 0;
+                                $parts = [];
+                                if ($bb > 0) $parts[] = $bb . ' BB';
+                                if ($mb > 0) $parts[] = $mb . ' MB';
+                                $label = strtoupper($cityName) . ' (' . implode(' · ', $parts) . ')';
+                            @endphp
+                            <option value="{{ $cityName }}" {{ request('city') === $cityName ? 'selected' : '' }}>
+                                {{ $label }}
                             </option>
                         @endforeach
                     </select>
