@@ -98,11 +98,7 @@
                     <span class="nav-item-icon"><i class="fa-solid fa-file-lines"></i></span> 
                     <span class="nav-text">Documents</span>
                 </a>
-                
-                <a href="{{ route('admin.reports.index') }}" class="nav-item {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" title="Reports">
-                    <span class="nav-item-icon"><i class="fa-solid fa-chart-line"></i></span> 
-                    <span class="nav-text">Reports</span>
-                </a>
+
                 
                 <a href="{{ route('admin.settings.index') }}" class="nav-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" title="Settings">
                     <span class="nav-item-icon"><i class="fa-solid fa-gear"></i></span> 
@@ -173,10 +169,7 @@
                 <span class="mobile-nav-icon"><i class="fa-solid fa-file-lines"></i></span>
                 <span class="mobile-nav-label">Docs</span>
             </a>
-            <a href="{{ route('admin.reports.index') }}" class="mobile-nav-tab {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
-                <span class="mobile-nav-icon"><i class="fa-solid fa-chart-line"></i></span>
-                <span class="mobile-nav-label">Reports</span>
-            </a>
+
             <a href="{{ route('admin.settings.index') }}" class="mobile-nav-tab {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                 <span class="mobile-nav-icon"><i class="fa-solid fa-gear"></i></span>
                 <span class="mobile-nav-label">Settings</span>

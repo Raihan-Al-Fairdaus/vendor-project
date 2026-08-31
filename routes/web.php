@@ -209,66 +209,7 @@ Route::middleware('auth')->group(function () {
   // --- MANAJEMEN DOKUMEN ---
 Route::get('/admin/documents', [DocumentController::class, 'index'])
     ->name('admin.documents.index');
-    // --- LAPORAN ---
-    Route::get('/admin/reports', function () {
-        $user = Auth::user();
 
-        // Single query untuk semua stats
-        $statusCounts = Vendor::select('status', DB::raw('count(*) as total'))
-            ->groupBy('status')
-            ->pluck('total', 'status');
-
-        $pendingVendors  = $statusCounts->get('pending', 0);
-        $approvedVendors = $statusCounts->get('approved', 0);
-        $rejectedVendors = $statusCounts->get('rejected', 0);
-        $totalVendors    = $pendingVendors + $approvedVendors + $rejectedVendors;
-        $approvalRate    = $totalVendors > 0 ? round(($approvedVendors / $totalVendors) * 100, 1) : 0;
-
-        $statusData = [
-            'pending'  => $pendingVendors,
-            'approved' => $approvedVendors,
-            'rejected' => $rejectedVendors,
-        ];
-
-        // Single query untuk kategori
-        $categories     = Vendor::select('business_category', DB::raw('count(*) as total'))
-            ->groupBy('business_category')->get();
-        $categoryLabels = $categories->pluck('business_category')->toArray();
-        $categoryValues = $categories->pluck('total')->toArray();
-
-        // Single query untuk chart 12 bulan
-        $startDate = \Carbon\Carbon::now()->subMonths(11)->startOfMonth();
-        $monthlyRaw = Vendor::selectRaw(
-                "to_char(created_at, 'Mon YYYY') as month_label,
-                 date_trunc('month', created_at) as month_start,
-                 count(*) as total"
-            )
-            ->where('created_at', '>=', $startDate)
-            ->groupByRaw("date_trunc('month', created_at), to_char(created_at, 'Mon YYYY')")
-            ->orderByRaw("date_trunc('month', created_at)")
-            ->pluck('total', 'month_label');
-
-        $monthLabels = [];
-        $monthValues = [];
-        $months      = [];
-        for ($i = 11; $i >= 0; $i--) {
-            $date          = \Carbon\Carbon::now()->subMonths($i);
-            $label         = $date->format('M Y');
-            $months[]      = $label;
-            $monthLabels[] = $label;
-            $monthValues[] = (int) ($monthlyRaw->get($label) ?? 0);
-        }
-
-        $recentVendors = Vendor::latest()->take(5)->get();
-        $vendors       = Vendor::latest()->paginate(10);
-
-        return view('admin.reports.index', compact(
-            'user', 'vendors', 'totalVendors', 'pendingVendors',
-            'approvedVendors', 'rejectedVendors', 'approvalRate',
-            'statusData', 'categories', 'categoryLabels', 'categoryValues',
-            'recentVendors', 'months', 'monthLabels', 'monthValues'
-        ));
-    })->name('admin.reports.index');
 
     // --- SETTINGS (VIEW & PROCESS) ---
     Route::get('/admin/settings', function () {
