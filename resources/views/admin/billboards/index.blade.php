@@ -38,9 +38,9 @@
     <form action="{{ route('admin.billboards.import') }}" method="POST" enctype="multipart/form-data" class="d-flex align-center gap-4" style="flex-wrap: wrap;" id="importForm" onsubmit="return confirmImport()">
         @csrf
         <div style="flex:1; min-width: 250px;">
-            <input type="file" name="file" class="form-control" accept=".xlsx,.xls,.csv" required>
+            <input type="file" name="files[]" class="form-control" accept=".xlsx,.xls,.csv" multiple required>
             <small style="color:var(--text-muted); display:block; margin-top:0.25rem;">
-                File Excel (.xlsx / .xls). Kode akan di-generate otomatis.
+                Bisa pilih banyak file sekaligus (Blok semua file di dalam folder). Kode otomatis.
             </small>
         </div>
         <div style="min-width: 200px;">

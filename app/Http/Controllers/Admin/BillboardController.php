@@ -158,62 +158,71 @@ class BillboardController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:xlsx,xls,csv',
+            'files' => 'required|array',
+            'files.*' => 'required|file|mimes:xlsx,xls,csv',
             'jenis_import' => 'required|in:billboard,midiboard',
         ]);
 
-        $file = $request->file('file');
-        $path = $file->getRealPath();
-
-        try {
-            $reader = IOFactory::createReaderForFile($path);
-            $reader->setReadDataOnly(true);
-            $spreadsheet = $reader->load($path);
-            $sheet       = $spreadsheet->getActiveSheet();
-            
-            // Baca seluruh data ke array sekaligus (Jauh lebih cepat dari getCell di dalam loop)
-            $rows = $sheet->toArray(null, true, true, true); 
-        } catch (\Exception $e) {
-            return Redirect::route('admin.billboards.index')
-                ->with('error', 'Gagal membaca file: ' . $e->getMessage());
-        }
-
-        if (empty($rows) || count($rows) < 2) {
-            return Redirect::route('admin.billboards.index')
-                ->with('error', 'File Excel kosong atau tidak ada data.');
-        }
-
-        // Ambil header dari baris 1
-        $headerRow = $rows[1];
-        $headerMap = [];
-        
-        foreach ($headerRow as $colLetter => $val) {
-            $val = strtolower(trim($val ?? ''));
-            if (empty($val)) continue;
-            
-            if (!isset($headerMap[$colLetter])) {
-                if (!in_array('city', $headerMap) && (str_contains($val, 'kota') || str_contains($val, 'city'))) {
-                    $headerMap[$colLetter] = 'city';
-                } elseif (!in_array('address', $headerMap) && (str_contains($val, 'alamat') || str_contains($val, 'lokasi') || str_contains($val, 'address'))) {
-                    $headerMap[$colLetter] = 'address';
-                } elseif (!in_array('map_link', $headerMap) && (str_contains($val, 'link') || str_contains($val, 'peta') || str_contains($val, 'map'))) {
-                    $headerMap[$colLetter] = 'map_link';
-                } elseif (!in_array('ukuran', $headerMap) && str_contains($val, 'ukuran')) {
-                    $headerMap[$colLetter] = 'ukuran';
-                } elseif (!in_array('sisi', $headerMap) && str_contains($val, 'sisi')) {
-                    $headerMap[$colLetter] = 'sisi';
-                } elseif (!in_array('orientasi', $headerMap) && (str_contains($val, 'orientasi') || str_contains($val, 'posisi') || str_contains($val, 'bentuk') || str_contains($val, 'tampilan') || str_contains($val, 'potrait') || str_contains($val, 'landscape'))) {
-                    $headerMap[$colLetter] = 'orientasi';
-                } elseif (!in_array('jenis', $headerMap) && str_contains($val, 'jenis')) {
-                    $headerMap[$colLetter] = 'jenis';
-                } elseif (!in_array('status', $headerMap) && str_contains($val, 'status')) {
-                    $headerMap[$colLetter] = 'status';
-                }
-            }
-        }
-
+        $files = $request->file('files');
         $imported = 0;
         $errors   = 0;
+        
+        // Hitung urutan awal HANYA SEKALI untuk menghindari query berulang
+        $currentSeq = Billboard::count();
+        $insertData = [];
+        $now = now();
+        $jenisLabel = $request->input('jenis_import', 'auto') === 'midiboard' ? 'MIDIBOARD' : 'BILLBOARD';
+
+        foreach ($files as $file) {
+            $path = $file->getRealPath();
+
+            try {
+                $reader = IOFactory::createReaderForFile($path);
+                $reader->setReadDataOnly(true);
+                $spreadsheet = $reader->load($path);
+                $sheet       = $spreadsheet->getActiveSheet();
+                
+                // Baca seluruh data ke array sekaligus (Jauh lebih cepat dari getCell di dalam loop)
+                $rows = $sheet->toArray(null, true, true, true); 
+            } catch (\Exception $e) {
+                // Lewati file ini jika error baca
+                $errors++;
+                continue;
+            }
+
+            if (empty($rows) || count($rows) < 2) {
+                // File Excel kosong
+                continue;
+            }
+
+            // Ambil header dari baris 1
+            $headerRow = $rows[1];
+            $headerMap = [];
+            
+            foreach ($headerRow as $colLetter => $val) {
+                $val = strtolower(trim($val ?? ''));
+                if (empty($val)) continue;
+                
+                if (!isset($headerMap[$colLetter])) {
+                    if (!in_array('city', $headerMap) && (str_contains($val, 'kota') || str_contains($val, 'city'))) {
+                        $headerMap[$colLetter] = 'city';
+                    } elseif (!in_array('address', $headerMap) && (str_contains($val, 'alamat') || str_contains($val, 'lokasi') || str_contains($val, 'address'))) {
+                        $headerMap[$colLetter] = 'address';
+                    } elseif (!in_array('map_link', $headerMap) && (str_contains($val, 'link') || str_contains($val, 'peta') || str_contains($val, 'map'))) {
+                        $headerMap[$colLetter] = 'map_link';
+                    } elseif (!in_array('ukuran', $headerMap) && str_contains($val, 'ukuran')) {
+                        $headerMap[$colLetter] = 'ukuran';
+                    } elseif (!in_array('sisi', $headerMap) && str_contains($val, 'sisi')) {
+                        $headerMap[$colLetter] = 'sisi';
+                    } elseif (!in_array('orientasi', $headerMap) && (str_contains($val, 'orientasi') || str_contains($val, 'posisi') || str_contains($val, 'bentuk') || str_contains($val, 'tampilan') || str_contains($val, 'potrait') || str_contains($val, 'landscape'))) {
+                        $headerMap[$colLetter] = 'orientasi';
+                    } elseif (!in_array('jenis', $headerMap) && str_contains($val, 'jenis')) {
+                        $headerMap[$colLetter] = 'jenis';
+                    } elseif (!in_array('status', $headerMap) && str_contains($val, 'status')) {
+                        $headerMap[$colLetter] = 'status';
+                    }
+                }
+            }
 
         $lastMapLink = null;
         $lastAddress = 'Tidak Diketahui';
@@ -352,6 +361,7 @@ class BillboardController extends Controller
             ];
             $imported++;
         }
+        } // end foreach ($files as $file)
 
         // Batch Insert ke database sekaligus! (Sangat cepat, hitungan milidetik)
         if (!empty($insertData)) {
