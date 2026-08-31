@@ -181,18 +181,16 @@ class VendorManagementController extends Controller
                 ]
             );
 
-            $file = storage_path('app/vendors.docx');
-
             $writer = IOFactory::createWriter(
                 $phpWord,
                 'Word2007'
             );
 
-            $writer->save($file);
-
-            return response()
-                ->download($file)
-                ->deleteFileAfterSend(true);
+            return response()->streamDownload(function () use ($writer) {
+                $writer->save('php://output');
+            }, 'vendors.docx', [
+                'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            ]);
         }
 
         /*
