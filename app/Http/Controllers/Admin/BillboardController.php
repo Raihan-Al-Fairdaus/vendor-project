@@ -228,11 +228,6 @@ class BillboardController extends Controller
         $lastAddress = 'Tidak Diketahui';
         $lastCity = 'Tidak Diketahui';
 
-        // Hitung urutan awal HANYA SEKALI untuk menghindari query berulang
-        $currentSeq = Billboard::count();
-        $insertData = [];
-        $now = now();
-
         // Mulai dari baris 2
         $rowKeys = array_keys($rows);
         for ($i = 1; $i < count($rowKeys); $i++) {
