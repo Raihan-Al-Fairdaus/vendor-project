@@ -202,7 +202,7 @@ class BillboardController extends Controller
                     $headerMap[$colLetter] = 'ukuran';
                 } elseif (!in_array('sisi', $headerMap) && str_contains($val, 'sisi')) {
                     $headerMap[$colLetter] = 'sisi';
-                } elseif (!in_array('orientasi', $headerMap) && str_contains($val, 'orientasi')) {
+                } elseif (!in_array('orientasi', $headerMap) && (str_contains($val, 'orientasi') || str_contains($val, 'posisi') || str_contains($val, 'bentuk') || str_contains($val, 'tampilan') || str_contains($val, 'potrait') || str_contains($val, 'landscape'))) {
                     $headerMap[$colLetter] = 'orientasi';
                 } elseif (!in_array('jenis', $headerMap) && str_contains($val, 'jenis')) {
                     $headerMap[$colLetter] = 'jenis';
@@ -306,10 +306,27 @@ class BillboardController extends Controller
             $rawSisi = strtolower($data['sisi'] ?? '');
             $sisi = (str_contains($rawSisi, '2') || str_contains($rawSisi, 'ii')) ? 2 : 1;
 
-            $rawOrientasi = strtolower($data['orientasi'] ?? '');
-            $orientasi = str_contains($rawOrientasi, 'port') ? 'portrait' : 'landscape';
+            $ukuran = trim($data['ukuran'] ?? null);
 
-            $ukuran = $data['ukuran'] ?? null;
+            $rawOrientasi = strtolower($data['orientasi'] ?? '');
+            if (str_contains($rawOrientasi, 'port')) {
+                $orientasi = 'portrait';
+            } elseif (str_contains($rawOrientasi, 'land')) {
+                $orientasi = 'landscape';
+            } else {
+                // Auto-detect dari ukuran (misal "4x8", "4 x 8", "5×10", "5m x 10m")
+                $orientasi = 'landscape'; // default
+                if (!empty($ukuran)) {
+                    // Cari angka sebelum dan sesudah x / X / * / ×, bisa diapit spasi atau huruf (seperti 'm')
+                    if (preg_match('/(\d+(?:\.\d+)?)[a-zA-Z\s]*[xX\*×][a-zA-Z\s]*(\d+(?:\.\d+)?)/u', $ukuran, $matches)) {
+                        $width = (float) $matches[1];
+                        $height = (float) $matches[2];
+                        if ($height > $width) {
+                            $orientasi = 'portrait';
+                        }
+                    }
+                }
+            }
 
             // 6. Generate kode manual berdasarkan currentSeq (Sangat Cepat, tanpa query DB)
             $currentSeq++;
