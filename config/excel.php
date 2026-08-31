@@ -326,7 +326,7 @@ return [
         | and the create file (file).
         |
         */
-        'local_path'          => env('Vercel') ? sys_get_temp_dir() : storage_path('framework/cache/laravel-excel'),
+        'local_path'          => sys_get_temp_dir(),
 
         /*
         |--------------------------------------------------------------------------
