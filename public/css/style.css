@@ -491,7 +491,7 @@ tbody tr:hover td {
     background-color: var(--background);
 }
 .sidebar-footer {
-    padding: 1.25rem;
+    padding: 1.25rem 0;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 [data-theme="dark"] .sidebar-footer { border-top-color: var(--border); }
