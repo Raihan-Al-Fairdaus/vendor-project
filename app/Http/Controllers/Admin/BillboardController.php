@@ -348,7 +348,8 @@ class BillboardController extends Controller
             }
         }
 
-        $msg = "$imported billboard berhasil diimport dengan kode urut otomatis.";
+        $jenisLabel = $request->input('jenis_import', 'auto') === 'midiboard' ? 'MIDIBOARD' : 'BILLBOARD';
+        $msg = "✅ $imported {$jenisLabel} berhasil diimport dengan kode urut otomatis.";
         if ($errors > 0) {
             $msg .= " $errors baris gagal diproses.";
         }
