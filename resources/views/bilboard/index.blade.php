@@ -781,9 +781,17 @@
                         <option value="midiboard" {{ request('jenis') === 'midiboard' ? 'selected' : '' }}>Midiboard</option>
                     </select>
                 </div>
+                <div class="bb-select-box">
+                    <span class="bb-select-icon">📐</span>
+                    <select name="orientasi" onchange="this.form.submit()" class="bb-select">
+                        <option value="">Semua Orientasi</option>
+                        <option value="portrait" {{ request('orientasi') === 'portrait' ? 'selected' : '' }}>Portrait</option>
+                        <option value="landscape" {{ request('orientasi') === 'landscape' ? 'selected' : '' }}>Landscape</option>
+                    </select>
+                </div>
                 <div class="bb-action-group">
                     <button type="submit" class="bb-btn-search">Cari</button>
-                    @if(request()->filled('search') || request()->filled('city') || request()->filled('jenis'))
+                    @if(request()->filled('search') || request()->filled('city') || request()->filled('jenis') || request()->filled('orientasi'))
                         <a href="{{ route('bilboard.index') }}" class="bb-btn-reset">✕ Reset</a>
                     @endif
                 </div>

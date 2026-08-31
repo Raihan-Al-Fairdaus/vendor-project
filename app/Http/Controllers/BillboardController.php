@@ -32,6 +32,11 @@ class BillboardController extends Controller
             $query->where('jenis', $request->input('jenis'));
         }
 
+        // Orientasi filter (portrait / landscape)
+        if ($request->filled('orientasi')) {
+            $query->where('orientasi', $request->input('orientasi'));
+        }
+
         $billboards = $query->orderBy('city')->paginate(12);
         
         // Hitung per kota: berapa billboard, berapa midiboard (hanya yang tersedia)
