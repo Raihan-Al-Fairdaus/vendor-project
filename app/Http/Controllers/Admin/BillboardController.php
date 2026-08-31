@@ -355,6 +355,37 @@ class BillboardController extends Controller
             $msg .= " $errors baris gagal diproses.";
         }
 
-        return Redirect::route('admin.billboards.index')->with('success', $msg);
+        return Redirect::route('admin.billboards.index')
+            ->with('success', $msg)
+            ->with('last_import_count', $imported)
+            ->with('last_import_jenis', $jenisLabel);
+    }
+
+    /**
+     * Undo last import: hapus N data terakhir berdasarkan ID terbesar.
+     */
+    public function undoImport(Request $request)
+    {
+        $count = (int) $request->input('count', 0);
+
+        if ($count <= 0 || $count > 500) {
+            return Redirect::route('admin.billboards.index')
+                ->with('error', 'Jumlah data yang akan dihapus tidak valid.');
+        }
+
+        // Ambil ID terakhir sebanyak $count
+        $ids = Billboard::orderBy('id', 'desc')
+            ->limit($count)
+            ->pluck('id');
+
+        if ($ids->isEmpty()) {
+            return Redirect::route('admin.billboards.index')
+                ->with('error', 'Tidak ada data untuk dihapus.');
+        }
+
+        $deleted = Billboard::whereIn('id', $ids)->delete();
+
+        return Redirect::route('admin.billboards.index')
+            ->with('success', "🗑️ $deleted data terakhir berhasil dihapus (undo import).");
     }
 }

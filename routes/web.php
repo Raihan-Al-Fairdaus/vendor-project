@@ -369,5 +369,6 @@ Route::get('/admin/documents', [DocumentController::class, 'index'])
         Route::put('admin/billboards/{billboard}', [App\Http\Controllers\Admin\BillboardController::class, 'update'])->name('admin.billboards.update');
         Route::delete('admin/billboards/{billboard}', [App\Http\Controllers\Admin\BillboardController::class, 'destroy'])->name('admin.billboards.destroy');
         Route::post('admin/billboards/import', [App\Http\Controllers\Admin\BillboardController::class, 'import'])->name('admin.billboards.import');
+        Route::post('admin/billboards/undo-import', [App\Http\Controllers\Admin\BillboardController::class, 'undoImport'])->name('admin.billboards.undoImport');
 
 });

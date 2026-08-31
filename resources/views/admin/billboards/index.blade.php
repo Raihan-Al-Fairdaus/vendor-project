@@ -9,6 +9,29 @@
 
 @section('content')
 
+{{-- Undo Last Import Button --}}
+@if(session('last_import_count'))
+<div class="card mb-3" style="padding: 1rem 1.5rem; border: 2px solid #ef4444; background: rgba(239, 68, 68, 0.08);">
+    <div class="d-flex align-center gap-4" style="flex-wrap: wrap; justify-content: space-between;">
+        <div>
+            <span style="font-size: 1rem; color: #f87171; font-weight: 600;">
+                📦 Baru saja import {{ session('last_import_count') }} {{ session('last_import_jenis', 'data') }}
+            </span>
+            <small style="display: block; color: var(--text-muted); margin-top: 0.25rem;">
+                Salah import? Klik tombol di samping untuk membatalkan dan menghapus {{ session('last_import_count') }} data terakhir.
+            </small>
+        </div>
+        <form action="{{ route('admin.billboards.undoImport') }}" method="POST" onsubmit="return confirm('⚠️ YAKIN ingin menghapus {{ session('last_import_count') }} data terakhir?\n\nAksi ini TIDAK BISA dibatalkan!');">
+            @csrf
+            <input type="hidden" name="count" value="{{ session('last_import_count') }}">
+            <button type="submit" class="btn btn-sm" style="background: #ef4444; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                🗑️ Undo Import (Hapus {{ session('last_import_count') }} data)
+            </button>
+        </form>
+    </div>
+</div>
+@endif
+
 {{-- Import Box --}}
 <div class="card mb-4" style="padding: 1.5rem 2rem;">
     <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.1rem; color:var(--primary);">Import Billboard dari Excel</h3>
