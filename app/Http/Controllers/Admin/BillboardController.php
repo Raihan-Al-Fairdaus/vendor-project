@@ -159,6 +159,7 @@ class BillboardController extends Controller
     {
         $request->validate([
             'file' => 'required|file|mimes:xlsx,xls,csv',
+            'jenis_import' => 'required|in:billboard,midiboard',
         ]);
 
         $file = $request->file('file');
