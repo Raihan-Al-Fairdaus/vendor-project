@@ -6,14 +6,16 @@
 
 {{-- 1. BAGIAN CSS (Di dalam tag <style>) --}}
 <style>
-    html, body {
-        background-color: #0a1628 !important;
-        min-height: 100vh;
-    }
+    /* Latar Belakang Gradasi */
+    body, 
     .hero, 
     .section-white, 
     .section-gray {
-        background: transparent !important;
+        background: linear-gradient(135deg, #1b3a60 0%, #3a587d 50%, #899eb9 100%) !important;
+        background-attachment: fixed !important;
+    }
+    html {
+        background-color: #899eb9; /* Mencegah warna putih saat scroll (menyesuaikan ujung bawah gradasi) */
     }
 
     /* Warna Teks */
