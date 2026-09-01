@@ -23,8 +23,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 100;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
@@ -99,12 +98,13 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 .logos-section { background: #fff; padding: 4rem 5%; text-align: center; }
 .section-eyebrow { color: #3b82f6; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
 .section-title { color: var(--navy); font-size: 2rem; font-weight: 700; margin-bottom: 3rem; }
-.logos-grid { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; align-items: center; max-width: 1000px; margin: 0 auto; }
-.logo-box { padding: 1rem 1.5rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: center; height: 80px; width: 140px; }
+.logos-slider-wrap { display: flex; align-items: center; gap: 1rem; max-width: 1100px; margin: 0 auto; position: relative; }
+.slider-btn { width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 1px solid #e2e8f0; color: var(--navy); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: 0.2s; flex-shrink: 0; z-index: 10; }
+.slider-btn:hover { background: var(--navy); color: #fff; }
+.logos-grid { display: flex; gap: 2rem; overflow-x: auto; scroll-behavior: smooth; padding: 1rem 0; -ms-overflow-style: none; scrollbar-width: none; flex: 1; align-items: center; }
+.logos-grid::-webkit-scrollbar { display: none; }
+.logo-box { padding: 1rem 1.5rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: center; height: 80px; width: 140px; flex-shrink: 0; }
 .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-.logos-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem; }
-.dot { width: 10px; height: 10px; border-radius: 50%; background: #e2e8f0; }
-.dot.active { background: #3b82f6; width: 24px; border-radius: 5px; }
 
 /* WHY PARTNER SECTION */
 .why-section { background: #f8fafc; padding: 4rem 5% 6rem; text-align: center; }
@@ -254,18 +254,19 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 <section class="logos-section">
     <span class="section-eyebrow">TECHNOLOGY & INFRASTRUCTURE</span>
     <h2 class="section-title">Telah Dipercaya oleh Berbagai Mitra Bisnis</h2>
-    <div class="logos-grid">
-        <div class="logo-box"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
-        <div class="logo-box"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
-        <div class="logo-box"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
-        <div class="logo-box"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
-        <div class="logo-box"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
-        <div class="logo-box"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
-    </div>
-    <div class="logos-dots">
-        <div class="dot active"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+    <div class="logos-slider-wrap">
+        <button class="slider-btn" id="logosPrev"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="logos-grid" id="logosSlider">
+            <div class="logo-box"><img src="{{ asset('images/partners/pertamina.png') }}" alt="Pertamina"></div>
+            <div class="logo-box"><img src="{{ asset('images/partners/j&t.png') }}" alt="J&T Express"></div>
+            <div class="logo-box"><img src="{{ asset('images/partners/indomie.png') }}" alt="Indomie"></div>
+            <div class="logo-box"><img src="{{ asset('images/partners/gudang garam.png') }}" alt="Gudang Garam"></div>
+            <div class="logo-box"><img src="{{ asset('images/partners/pln.png') }}" alt="PLN"></div>
+            <div class="logo-box"><img src="{{ asset('images/partners/sosro.png') }}" alt="Sosro"></div>
+            <div class="logo-box"><img src="{{ asset('images/partners/dua kelinci.png') }}" alt="Dua Kelinci"></div>
+            <div class="logo-box"><img src="{{ asset('images/partners/unipin.png') }}" alt="UniPin"></div>
+        </div>
+        <button class="slider-btn" id="logosNext"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
 </section>
 
@@ -417,6 +418,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 modal.classList.remove("show");
                 document.body.style.overflow = "";
             }
+        });
+    }
+
+    // Slider Logic
+    const logosSlider = document.getElementById("logosSlider");
+    const btnPrev = document.getElementById("logosPrev");
+    const btnNext = document.getElementById("logosNext");
+
+    if (logosSlider && btnPrev && btnNext) {
+        btnPrev.addEventListener("click", function() {
+            logosSlider.scrollBy({ left: -200, behavior: 'smooth' });
+        });
+        btnNext.addEventListener("click", function() {
+            logosSlider.scrollBy({ left: 200, behavior: 'smooth' });
         });
     }
 });
