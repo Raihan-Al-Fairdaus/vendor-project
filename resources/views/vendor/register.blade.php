@@ -247,14 +247,20 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     border-color: #10b981;
     background: #d1fae5;
 }
+.file-upload-box.error {
+    border-color: #ef4444;
+    background: #fee2e2;
+}
 .file-upload-box:hover { border-color: #3b82f6; background: #eff6ff; }
 .file-upload-box input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 .file-upload-box i { font-size: 1.5rem; color: #64748b; margin-bottom: 0.5rem; transition: 0.2s; }
 .file-upload-box.has-file i { color: #10b981; }
+.file-upload-box.error i { color: #ef4444; }
 .file-upload-box p { margin: 0; font-size: 0.85rem; color: var(--navy); font-weight: 600; }
 .file-upload-box span { font-size: 0.75rem; color: #475569; display: block; margin-top: 4px; }
 .file-indicator { font-size: 0.75rem; font-weight: 700; margin-top: 8px; display: none; }
 .file-indicator.success { color: #10b981; display: block; }
+.file-indicator.error { color: #ef4444; display: block; }
 
 /* Agreement styling */
 .agreement-box { background: rgba(27, 58, 96, 0.05); border: 1px solid #cbd5e1; border-radius: 12px; padding: 1.5rem; }
@@ -726,51 +732,24 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                                 <input type="file" name="bank_book" id="bankBookInput" accept=".jpg,.jpeg,.png,.pdf" required onchange="handleFile(this, 'box-bank', 'ind-bank')">
                             </div>
                         </div>
-                        <!-- 3. DIPISAH MENJADI 2 INPUT AGAR BISA UPLOAD 2 FOTO DENGAN MUDAH -->
                         <div class="form-group">
                             <label class="form-label">
-                                <span class="lang-id">Foto Kantor (Depan)</span>
-                                <span class="lang-en">Office Photo (Front)</span> 
+                                <span class="lang-id">Upload Foto Kantor</span>
+                                <span class="lang-en">Upload Office Photos</span> 
                                 <span class="req">*</span>
                             </label>
-                            <div class="file-upload-box" id="box-office1" onclick="document.getElementById('officePhoto1Input').click()">
-                                <i class="fa-solid fa-image"></i>
+                            <div class="file-upload-box" id="box-office" onclick="document.getElementById('officePhotosInput').click()">
+                                <i class="fa-solid fa-images"></i>
                                 <p>
-                                    <span class="lang-id">Pilih Foto 1</span>
-                                    <span class="lang-en">Select Photo 1</span>
+                                    <span class="lang-id">Pilih Foto Kantor</span>
+                                    <span class="lang-en">Select Office Photos</span>
                                 </p>
                                 <span>
-                                    <span class="lang-id">Tampak depan bangunan</span>
-                                    <span class="lang-en">Building front view</span>
+                                    <span class="lang-id">Tampak depan & dalam (Min 2)</span>
+                                    <span class="lang-en">Front & inside view (Min 2)</span>
                                 </span>
-                                <div class="file-indicator" id="ind-office1"></div>
-                                <input type="file" id="officePhoto1Input" accept=".jpg,.jpeg,.png" required onchange="handleFile(this, 'box-office1', 'ind-office1')">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <!-- Placeholder to keep grid aligned if needed, but let's just make it span 1 -->
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">
-                                <span class="lang-id">Foto Kantor (Dalam)</span>
-                                <span class="lang-en">Office Photo (Inside)</span> 
-                                <span class="req">*</span>
-                            </label>
-                            <div class="file-upload-box" id="box-office2" onclick="document.getElementById('officePhoto2Input').click()">
-                                <i class="fa-solid fa-image"></i>
-                                <p>
-                                    <span class="lang-id">Pilih Foto 2</span>
-                                    <span class="lang-en">Select Photo 2</span>
-                                </p>
-                                <span>
-                                    <span class="lang-id">Tampak dalam ruangan</span>
-                                    <span class="lang-en">Inside room view</span>
-                                </span>
-                                <div class="file-indicator" id="ind-office2"></div>
-                                <input type="file" id="officePhoto2Input" accept=".jpg,.jpeg,.png" required onchange="handleFile(this, 'box-office2', 'ind-office2')">
+                                <div class="file-indicator" id="ind-office"></div>
+                                <input type="file" name="office_photos[]" id="officePhotosInput" accept=".jpg,.jpeg,.png" multiple required onchange="handleMultipleFiles(this, 'box-office', 'ind-office')">
                             </div>
                         </div>
                     </div>
@@ -1101,6 +1080,28 @@ function handleFile(inputElement, boxId, indicatorId) {
     }
 }
 
+function handleMultipleFiles(inputElement, boxId, indicatorId) {
+    const box = document.getElementById(boxId);
+    const indicator = document.getElementById(indicatorId);
+    
+    if (inputElement.files && inputElement.files.length > 0) {
+        if (inputElement.files.length >= 2) {
+            box.classList.remove('error');
+            box.classList.add('has-file');
+            indicator.className = 'file-indicator success';
+            indicator.innerHTML = `<i class="fa-solid fa-check"></i> Berhasil: ${inputElement.files.length} Foto Kantor dipilih`;
+        } else {
+            box.classList.remove('has-file');
+            box.classList.add('error');
+            indicator.className = 'file-indicator error';
+            indicator.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Kurang 1 Foto lagi! (Pilih 2 foto sekaligus)`;
+        }
+    } else {
+        box.classList.remove('has-file', 'error');
+        indicator.innerHTML = '';
+    }
+}
+
 // ==================== STEP NAVIGATION ====================
 const steps = [
     { id: 1, title: 'Informasi Perusahaan', desc: 'Data umum perusahaan' },
@@ -1235,11 +1236,16 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
     const idCardFile = document.getElementById('idCardInput').files[0];
     const bankBookFile = document.getElementById('bankBookInput').files[0];
     const npwpFile = document.getElementById('npwpInput').files[0];
-    const officePhoto1 = document.getElementById('officePhoto1Input').files[0];
-    const officePhoto2 = document.getElementById('officePhoto2Input').files[0];
+    const officePhotos = Array.from(document.getElementById('officePhotosInput').files);
 
-    if (!idCardFile || !bankBookFile || !npwpFile || !officePhoto1 || !officePhoto2) {
-        alert(currentLang === 'id' ? 'Mohon lengkapi SEMUA file (termasuk 2 foto kantor) pada langkah 2.' : 'Please complete ALL required files (including 2 office photos) in step 2.');
+    if (!idCardFile || !bankBookFile || !npwpFile) {
+        alert(currentLang === 'id' ? 'Mohon lengkapi semua file yang diperlukan pada langkah 2.' : 'Please complete all required files in step 2.');
+        goToStep(2);
+        return;
+    }
+
+    if (officePhotos.length < 2) {
+        alert(currentLang === 'id' ? 'Minimal 2 foto kantor diperlukan pada langkah 2.' : 'Minimum 2 office photos required in step 2.');
         goToStep(2);
         return;
     }
@@ -1275,8 +1281,10 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
         document.getElementById('npwp_file_url').value = npwpUrl;
 
         const officePhotoUrls = [];
-        officePhotoUrls.push(await uploadFile(officePhoto1, 'office_photos'));
-        officePhotoUrls.push(await uploadFile(officePhoto2, 'office_photos'));
+        for (const photo of officePhotos) {
+            const url = await uploadFile(photo, 'office_photos');
+            officePhotoUrls.push(url);
+        }
         document.getElementById('office_photos_urls').value = JSON.stringify(officePhotoUrls);
 
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (currentLang === 'id' ? 'Menyimpan data...' : 'Saving data...');
