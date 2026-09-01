@@ -103,7 +103,7 @@ a {
 a:hover { color: var(--primary-hover); }
 
 h1, h2, h3, h4 {
-    color: var(--text-main);
+    color: #FFFFFF;
     line-height: 1.2;
     letter-spacing: -0.01em;
 }

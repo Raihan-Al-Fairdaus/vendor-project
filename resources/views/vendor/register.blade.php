@@ -5,7 +5,7 @@
 /* Reset and Defaults */
 nav.navbar { display: none !important; }
 footer.vc-footer { display: none !important; }
-body { margin: 0; padding: 0; }
+body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: #f8fafc; }
 
 :root {
     --navy: #1b3a60;
@@ -16,17 +16,8 @@ body { margin: 0; padding: 0; }
     --text-gray: #64748b;
 }
 
-/* 4 & 5. BACKGROUND RADIAL GRADIENT (Terang di tengah, gelap di pinggir) */
-.page-wrapper {
-    background: radial-gradient(circle at center 30%, var(--navy-light) 0%, var(--navy-dark) 100%) !important;
-    min-height: 100vh;
-    width: 100%;
-    font-family: 'Inter', sans-serif;
-    color: #fff;
-}
-
 /* BRANDING TEXT */
-.brand-text { font-weight: 700; color: #fff; }
+.brand-text { font-weight: 700; color: inherit; }
 .brand-text .brand-red { color: #e11d48; }
 
 /* NAVBAR */
@@ -59,7 +50,7 @@ body { margin: 0; padding: 0; }
 .btn-nav-contact:hover { background: rgba(255,255,255,0.15); }
 .mobile-menu-btn { display: none; font-size: 1.5rem; color: #fff; background: none; border: none; cursor: pointer; }
 
-/* LANG SWITCHER (Custom Pill) */
+/* LANG SWITCHER */
 .lang-switcher {
     display: flex;
     background: rgba(255,255,255,0.15);
@@ -89,13 +80,12 @@ body { margin: 0; padding: 0; }
 .lang-en { display: none; }
 body.lang-en-active .lang-id { display: none; }
 body.lang-en-active .lang-en { display: inline; }
-
-/* Block elements need block display */
 div.lang-id, p.lang-id, h1.lang-id, h2.lang-id, h3.lang-id, h4.lang-id { display: block; }
 body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-active h1.lang-en, body.lang-en-active h2.lang-en, body.lang-en-active h3.lang-en, body.lang-en-active h4.lang-en { display: block; }
 
-/* HERO SECTION */
+/* HERO SECTION - SECTION 1 (NAVY) */
 .hero-wrapper {
+    background-color: var(--navy); /* #1b3a60 */
     padding: 8rem 5% 4rem;
     display: flex;
     position: relative;
@@ -119,18 +109,8 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     z-index: 10;
     max-width: 600px;
 }
-.eyebrow-pill {
-    color: var(--gold) !important;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-}
-/* 1. HERO TITLE FULL GOLD */
+.eyebrow-pill { color: var(--gold) !important; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem; }
 .hero-title { font-size: 3.2rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem; color: var(--gold) !important; }
-
-/* 2. TEKS JADI PUTIH SEMUA */
 .hero-desc { font-size: 0.95rem; color: #ffffff !important; line-height: 1.6; margin-bottom: 3rem; max-width: 90%; }
 .hero-features { display: flex; gap: 2rem; }
 .hf-item { display: flex; align-items: center; gap: 0.75rem; color: #ffffff !important; }
@@ -138,10 +118,15 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 .hf-text { font-size: 0.8rem; line-height: 1.3; color: #ffffff !important; }
 .hf-text strong { display: block; font-weight: 600; margin-bottom: 2px; color: #ffffff !important; }
 
-/* FORM LAYOUT */
+/* FORM SECTION - SECTION 2 (LIGHT GRAY) */
+.form-section {
+    background-color: #f8fafc; /* light gray requested by user */
+    padding: 4rem 0;
+}
+
 .form-layout {
     max-width: 1200px;
-    margin: 0 auto 4rem;
+    margin: 0 auto;
     padding: 0 5%;
     display: grid;
     grid-template-columns: 280px 1fr;
@@ -150,23 +135,23 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     z-index: 10;
 }
 
-/* SIDEBAR STEPS */
+/* SIDEBAR STEPS (Now on light background) */
 .sidebar-steps {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 .steps-box {
-    background: rgba(12, 26, 44, 0.4);
+    background: #ffffff;
     border-radius: 16px;
     padding: 1.5rem;
-    border: 1px solid rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
 }
-.steps-title { color: #ffffff !important; font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem; }
-.step-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; padding: 0.75rem 1rem; border-radius: 12px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; color: #ffffff !important; }
-.step-item.active { background: #fff; color: var(--navy) !important; border: 1px solid #e2e8f0; }
-.step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+.steps-title { color: var(--navy) !important; font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem; }
+.step-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; padding: 0.75rem 1rem; border-radius: 12px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; color: #64748b !important; }
+.step-item.active { background: #f8fafc; color: var(--navy) !important; border: 1px solid #e2e8f0; }
+.step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
 .step-item.active .step-number { background: #eff6ff; border-color: #3b82f6; color: #3b82f6; }
 .step-item.completed .step-number { background: #10b981; border-color: #10b981; color: #fff; }
 .step-text h4 { margin: 0 0 2px; font-size: 0.9rem; font-weight: 700; }
@@ -175,26 +160,27 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 .step-item.active .step-text p { color: #64748b !important; }
 
 .help-box {
-    background: rgba(12, 26, 44, 0.4);
+    background: #ffffff;
     border-radius: 16px;
     padding: 1.5rem;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    backdrop-filter: blur(10px);
 }
-.help-box .icon { font-size: 1.5rem; color: #ffffff !important; margin-bottom: -0.5rem; }
-.help-box h4 { color: #ffffff !important; margin: 0; font-size: 0.95rem; font-weight: 600; }
-.help-box p { color: #ffffff !important; opacity: 0.9; font-size: 0.8rem; margin: 0; line-height: 1.5; }
-.btn-help { background: #ffffff !important; color: var(--navy) !important; padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.help-box .icon { font-size: 1.5rem; color: var(--navy) !important; margin-bottom: -0.5rem; }
+.help-box h4 { color: var(--navy) !important; margin: 0; font-size: 0.95rem; font-weight: 600; }
+.help-box p { color: #64748b !important; font-size: 0.8rem; margin: 0; line-height: 1.5; }
+.btn-help { background: var(--navy) !important; color: #ffffff !important; padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.btn-help:hover { background: var(--navy-dark) !important; }
 
 /* RIGHT CONTENT (FORM) */
 .form-card {
-    background: #f8fafc;
+    background: #ffffff; /* White so it pops against #f8fafc */
     border-radius: 20px;
     padding: 2.5rem;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
     color: var(--navy); 
     border: 1px solid #e2e8f0;
 }
@@ -206,7 +192,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     border-bottom: 1px solid #e2e8f0;
     padding-bottom: 1.5rem;
 }
-.form-header .icon { width: 48px; height: 48px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--navy); font-size: 1.25rem; }
+.form-header .icon { width: 48px; height: 48px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--navy); font-size: 1.25rem; }
 .form-header h2 { margin: 0; font-size: 1.15rem; color: var(--navy); font-weight: 700; }
 
 .form-group { margin-bottom: 1.5rem; }
@@ -233,7 +219,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     border-radius: 8px;
     padding: 1.5rem;
     text-align: center;
-    background: #e2e8f0; 
+    background: #f8fafc; 
     cursor: pointer;
     transition: 0.2s;
     position: relative;
@@ -243,14 +229,8 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     justify-content: center;
     align-items: center;
 }
-.file-upload-box.has-file {
-    border-color: #10b981;
-    background: #d1fae5;
-}
-.file-upload-box.error {
-    border-color: #ef4444;
-    background: #fee2e2;
-}
+.file-upload-box.has-file { border-color: #10b981; background: #d1fae5; }
+.file-upload-box.error { border-color: #ef4444; background: #fee2e2; }
 .file-upload-box:hover { border-color: #3b82f6; background: #eff6ff; }
 .file-upload-box input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 .file-upload-box i { font-size: 1.5rem; color: #64748b; margin-bottom: 0.5rem; transition: 0.2s; }
@@ -283,8 +263,8 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 .step-content.active { display: block; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* CUSTOM FOOTER */
-.custom-footer { background: var(--navy-dark); color: #fff; padding: 4rem 5% 2rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 4rem; }
+/* CUSTOM FOOTER - SECTION 3 (NAVY) */
+.custom-footer { background: var(--navy); color: #fff; padding: 4rem 5% 2rem; }
 .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.5fr 1.5fr; gap: 3rem; }
 .footer-col h4 { font-size: 1.1rem; font-weight: 600; margin: 0 0 1.5rem; color: #fff; }
 .footer-logo-wrap { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
@@ -337,12 +317,13 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     
     .sidebar-steps { display: none; } 
     .mobile-steps { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
-    .mobile-step-item { background: rgba(12, 26, 44, 0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 1rem; color: #ffffff; backdrop-filter: blur(10px); }
+    .mobile-step-item { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 1rem; color: #64748b; }
     .mobile-step-item.active { background: #f8fafc; color: var(--navy); }
-    .mobile-step-item .step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+    .mobile-step-item .step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
     .mobile-step-item.active .step-number { background: #eff6ff; color: #3b82f6; border-color: #3b82f6; }
     .mobile-step-item .step-text h4 { margin: 0; font-size: 0.9rem; font-weight: 700; }
     .mobile-step-item .step-text p { margin: 0; font-size: 0.75rem; }
+    .mobile-step-item.active .step-text h4 { color: var(--navy); }
     .mobile-step-item.active .step-text p { color: #64748b; }
     
     .mobile-help { display: flex; margin-top: 1.5rem; }
@@ -352,100 +333,100 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 }
 </style>
 
-<div class="page-wrapper">
-    <!-- NAVBAR -->
-    <nav class="custom-nav">
-        <button class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
-        <a href="#" class="nav-logo">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo">
-            <span>DNA <span class="text-red">Vendor</span> Portal</span>
-        </a>
-        
-        <div class="nav-right-container">
-            <div class="nav-links">
-                <a href="{{ url('/') }}">
-                    <span class="lang-id">Beranda</span>
-                    <span class="lang-en">Home</span>
-                </a>
-                <a href="#" class="active">
-                    <span class="lang-id">Daftar Vendor</span>
-                    <span class="lang-en">Register Vendor</span>
-                </a>
-                <a href="{{ url('/') }}#why-partner">
-                    <span class="lang-id">Mengapa Bermitra</span>
-                    <span class="lang-en">Why Partner</span>
-                </a>
-                <a href="{{ route('faq') }}">FAQ</a>
-            </div>
-            
-            <div class="lang-switcher">
-                <button class="lang-btn active" onclick="switchLang('id')">ID</button>
-                <button class="lang-btn" onclick="switchLang('en')">EN</button>
-            </div>
-
-            <a href="https://wa.me/6281228358630" target="_blank" class="btn-nav-contact">
-                <i class="fa-regular fa-user"></i> 
-                <span class="lang-id">Hubungi Kami</span>
-                <span class="lang-en">Contact Us</span>
+<!-- NAVBAR -->
+<nav class="custom-nav">
+    <button class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+    <a href="#" class="nav-logo">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo">
+        <span>DNA <span class="text-red">Vendor</span> Portal</span>
+    </a>
+    
+    <div class="nav-right-container">
+        <div class="nav-links">
+            <a href="{{ url('/') }}">
+                <span class="lang-id">Beranda</span>
+                <span class="lang-en">Home</span>
             </a>
+            <a href="#" class="active">
+                <span class="lang-id">Daftar Vendor</span>
+                <span class="lang-en">Register Vendor</span>
+            </a>
+            <a href="{{ url('/') }}#why-partner">
+                <span class="lang-id">Mengapa Bermitra</span>
+                <span class="lang-en">Why Partner</span>
+            </a>
+            <a href="{{ route('faq') }}">FAQ</a>
         </div>
-    </nav>
+        
+        <div class="lang-switcher">
+            <button class="lang-btn active" onclick="switchLang('id')">ID</button>
+            <button class="lang-btn" onclick="switchLang('en')">EN</button>
+        </div>
 
-    <!-- HERO SECTION -->
-    <section class="hero-wrapper">
-        <div class="hero-bg-image"></div>
-        <div class="hero-content">
-            <div class="eyebrow-pill">
-                <span class="lang-id">GABUNG BERSAMA KAMI</span>
-                <span class="lang-en">JOIN US TODAY</span>
-            </div>
-            <h1 class="hero-title">
-                <span class="lang-id">Menjadi Mitra<br>Terpercaya</span>
-                <span class="lang-en">Become a Trusted<br>Partner</span>
-            </h1>
-            <p class="hero-desc">
-                <span class="lang-id">Lengkapi data perusahaan Anda untuk bergabung dalam jaringan vendor terverifikasi <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>. Proses verifikasi kami hanya memakan waktu 2-3 hari kerja.</span>
-                <span class="lang-en">Complete your company profile to join <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>'s verified vendor network. Our verification process only takes 2-3 working days.</span>
-            </p>
-            <div class="hero-features">
-                <div class="hf-item">
-                    <i class="fa-solid fa-shield-halved hf-icon"></i>
-                    <div class="hf-text">
-                        <strong>
-                            <span class="lang-id">Proses Aman</span>
-                            <span class="lang-en">Secure Process</span>
-                        </strong>
-                        <span class="lang-id">dan Terverifikasi</span>
-                        <span class="lang-en">and Verified</span>
-                    </div>
-                </div>
-                <div class="hf-item">
-                    <i class="fa-regular fa-clock hf-icon"></i>
-                    <div class="hf-text">
-                        <strong>
-                            <span class="lang-id">Verifikasi Cepat</span>
-                            <span class="lang-en">Fast Verification</span>
-                        </strong>
-                        <span class="lang-id">2-3 Hari Kerja</span>
-                        <span class="lang-en">2-3 Work Days</span>
-                    </div>
-                </div>
-                <div class="hf-item">
-                    <i class="fa-solid fa-users hf-icon"></i>
-                    <div class="hf-text">
-                        <strong>
-                            <span class="lang-id">Jaringan Mitra</span>
-                            <span class="lang-en">Partner Network</span>
-                        </strong>
-                        <span class="lang-id">Terpercaya</span>
-                        <span class="lang-en">Trusted Globally</span>
-                    </div>
+        <a href="https://wa.me/6281228358630" target="_blank" class="btn-nav-contact">
+            <i class="fa-regular fa-user"></i> 
+            <span class="lang-id">Hubungi Kami</span>
+            <span class="lang-en">Contact Us</span>
+        </a>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero-wrapper">
+    <div class="hero-bg-image"></div>
+    <div class="hero-content">
+        <div class="eyebrow-pill">
+            <span class="lang-id">GABUNG BERSAMA KAMI</span>
+            <span class="lang-en">JOIN US TODAY</span>
+        </div>
+        <h1 class="hero-title">
+            <span class="lang-id">Menjadi Mitra<br>Terpercaya</span>
+            <span class="lang-en">Become a Trusted<br>Partner</span>
+        </h1>
+        <p class="hero-desc">
+            <span class="lang-id">Lengkapi data perusahaan Anda untuk bergabung dalam jaringan vendor terverifikasi <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>. Proses verifikasi kami hanya memakan waktu 2-3 hari kerja.</span>
+            <span class="lang-en">Complete your company profile to join <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>'s verified vendor network. Our verification process only takes 2-3 working days.</span>
+        </p>
+        <div class="hero-features">
+            <div class="hf-item">
+                <i class="fa-solid fa-shield-halved hf-icon"></i>
+                <div class="hf-text">
+                    <strong>
+                        <span class="lang-id">Proses Aman</span>
+                        <span class="lang-en">Secure Process</span>
+                    </strong>
+                    <span class="lang-id">dan Terverifikasi</span>
+                    <span class="lang-en">and Verified</span>
                 </div>
             </div>
+            <div class="hf-item">
+                <i class="fa-regular fa-clock hf-icon"></i>
+                <div class="hf-text">
+                    <strong>
+                        <span class="lang-id">Verifikasi Cepat</span>
+                        <span class="lang-en">Fast Verification</span>
+                    </strong>
+                    <span class="lang-id">2-3 Hari Kerja</span>
+                    <span class="lang-en">2-3 Work Days</span>
+                </div>
+            </div>
+            <div class="hf-item">
+                <i class="fa-solid fa-users hf-icon"></i>
+                <div class="hf-text">
+                    <strong>
+                        <span class="lang-id">Jaringan Mitra</span>
+                        <span class="lang-en">Partner Network</span>
+                    </strong>
+                    <span class="lang-id">Terpercaya</span>
+                    <span class="lang-en">Trusted Globally</span>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- FORM LAYOUT -->
+<!-- FORM SECTION -->
+<section class="form-section">
     <div class="form-layout">
         
         <!-- LEFT SIDEBAR -->
@@ -547,10 +528,8 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                 <input type="hidden" name="npwp_file_url" id="npwp_file_url">
                 <input type="hidden" name="office_photos_urls" id="office_photos_urls">
                 
-                <!-- MOBILE STEPS (Shown only on mobile above current step) -->
-                <div class="mobile-steps" id="mobile-steps-container">
-                    <!-- Javascript will render active step here -->
-                </div>
+                <!-- MOBILE STEPS -->
+                <div class="mobile-steps" id="mobile-steps-container"></div>
 
                 <!-- STEP 1 -->
                 <div class="step-content active" id="step1">
@@ -732,6 +711,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                                 <input type="file" name="bank_book" id="bankBookInput" accept=".jpg,.jpeg,.png,.pdf" required onchange="handleFile(this, 'box-bank', 'ind-bank')">
                             </div>
                         </div>
+                        
                         <div class="form-group">
                             <label class="form-label">
                                 <span class="lang-id">Upload Foto Kantor</span>
@@ -837,104 +817,104 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
             
         </div>
     </div>
+</section>
 
-    <!-- CUSTOM FOOTER -->
-    <footer class="custom-footer">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <div class="footer-logo-wrap">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo">
-                    <span>DNA <span class="text-red">Vendor</span> Portal</span>
+<!-- CUSTOM FOOTER -->
+<footer class="custom-footer">
+    <div class="footer-grid">
+        <div class="footer-col">
+            <div class="footer-logo-wrap">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo">
+                <span>DNA <span class="text-red">Vendor</span> Portal</span>
+            </div>
+            <p>
+                <span class="lang-id">Platform pendaftaran vendor resmi untuk kemitraan bisnis terpercaya bersama <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>.</span>
+                <span class="lang-en">Official vendor registration platform for trusted business partnerships with <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>.</span>
+            </p>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="https://wa.me/6281228358630" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>
+                <span class="lang-id">Navigasi</span>
+                <span class="lang-en">Navigation</span>
+            </h4>
+            <ul class="footer-links">
+                <li><a href="{{ url('/') }}">
+                    <span class="lang-id">Beranda</span>
+                    <span class="lang-en">Home</span>
+                </a></li>
+                <li><a href="{{ route('vendor.register') }}">
+                    <span class="lang-id">Daftar Vendor</span>
+                    <span class="lang-en">Register Vendor</span>
+                </a></li>
+                <li><a href="{{ url('/') }}#why-partner">
+                    <span class="lang-id">Mengapa Bermitra</span>
+                    <span class="lang-en">Why Partner With Us</span>
+                </a></li>
+                <li><a href="{{ route('faq') }}">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>
+                <span class="lang-id">Informasi Kontak</span>
+                <span class="lang-en">Contact Information</span>
+            </h4>
+            <div class="contact-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <div>Jl. Taman Dhika BL 6 No. 3A<br>Sono, Sidoarjo<br>Buduran, Sidoarjo</div>
+            </div>
+            <div class="contact-item">
+                <i class="fa-regular fa-clock"></i>
+                <div>
+                    <span class="lang-id">Senin - Jumat<br>08:00 - 17:00 WIB</span>
+                    <span class="lang-en">Monday - Friday<br>08:00 - 17:00 WIB</span>
                 </div>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <div>
+                    <span class="lang-id">Email Segera Hadir</span>
+                    <span class="lang-en">Email Coming Soon</span>
+                </div>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-phone"></i>
+                <div>
+                    <span class="lang-id">Telepon Segera Hadir</span>
+                    <span class="lang-en">Phone Coming Soon</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-col">
+            <div class="ready-box">
+                <h4>
+                    <span class="lang-id">Siap Bergabung?</span>
+                    <span class="lang-en">Ready to Join?</span>
+                </h4>
                 <p>
-                    <span class="lang-id">Platform pendaftaran vendor resmi untuk kemitraan bisnis terpercaya bersama <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>.</span>
-                    <span class="lang-en">Official vendor registration platform for trusted business partnerships with <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>.</span>
+                    <span class="lang-id">Jadilah bagian dari jaringan vendor terpercaya <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>.</span>
+                    <span class="lang-en">Become a part of <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>'s trusted vendor network.</span>
                 </p>
-                <div class="social-links">
-                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="https://wa.me/6281228358630" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                </div>
-            </div>
-            <div class="footer-col">
-                <h4>
-                    <span class="lang-id">Navigasi</span>
-                    <span class="lang-en">Navigation</span>
-                </h4>
-                <ul class="footer-links">
-                    <li><a href="{{ url('/') }}">
-                        <span class="lang-id">Beranda</span>
-                        <span class="lang-en">Home</span>
-                    </a></li>
-                    <li><a href="{{ route('vendor.register') }}">
-                        <span class="lang-id">Daftar Vendor</span>
-                        <span class="lang-en">Register Vendor</span>
-                    </a></li>
-                    <li><a href="{{ url('/') }}#why-partner">
-                        <span class="lang-id">Mengapa Bermitra</span>
-                        <span class="lang-en">Why Partner With Us</span>
-                    </a></li>
-                    <li><a href="{{ route('faq') }}">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>
-                    <span class="lang-id">Informasi Kontak</span>
-                    <span class="lang-en">Contact Information</span>
-                </h4>
-                <div class="contact-item">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <div>Jl. Taman Dhika BL 6 No. 3A<br>Sono, Sidoarjo<br>Buduran, Sidoarjo</div>
-                </div>
-                <div class="contact-item">
-                    <i class="fa-regular fa-clock"></i>
-                    <div>
-                        <span class="lang-id">Senin - Jumat<br>08:00 - 17:00 WIB</span>
-                        <span class="lang-en">Monday - Friday<br>08:00 - 17:00 WIB</span>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fa-solid fa-envelope"></i>
-                    <div>
-                        <span class="lang-id">Email Segera Hadir</span>
-                        <span class="lang-en">Email Coming Soon</span>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fa-solid fa-phone"></i>
-                    <div>
-                        <span class="lang-id">Telepon Segera Hadir</span>
-                        <span class="lang-en">Phone Coming Soon</span>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-col">
-                <div class="ready-box">
-                    <h4>
-                        <span class="lang-id">Siap Bergabung?</span>
-                        <span class="lang-en">Ready to Join?</span>
-                    </h4>
-                    <p>
-                        <span class="lang-id">Jadilah bagian dari jaringan vendor terpercaya <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>.</span>
-                        <span class="lang-en">Become a part of <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>'s trusted vendor network.</span>
-                    </p>
-                    <a href="{{ route('vendor.register') }}" class="btn-gold">
-                        <span class="lang-id">Daftar Sekarang</span>
-                        <span class="lang-en">Register Now</span> 
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </div>
+                <a href="{{ route('vendor.register') }}" class="btn-gold">
+                    <span class="lang-id">Daftar Sekarang</span>
+                    <span class="lang-en">Register Now</span> 
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
         </div>
-        <div class="footer-bottom">
-            <div>© {{ date('Y') }} DNA Advertising. 
-                <span class="lang-id">Semua hak dilindungi.</span>
-                <span class="lang-en">All rights reserved.</span>
-            </div>
-            <div>Vendor Registration Portal</div>
+    </div>
+    <div class="footer-bottom">
+        <div>© {{ date('Y') }} DNA Advertising. 
+            <span class="lang-id">Semua hak dilindungi.</span>
+            <span class="lang-en">All rights reserved.</span>
         </div>
-    </footer>
-</div>
+        <div>Vendor Registration Portal</div>
+    </div>
+</footer>
 
 <!-- MODAL MOU -->
 <div id="mouModal" class="mou-modal">
@@ -1155,7 +1135,7 @@ function goToStep(stepNumber) {
         let nextHTML = '';
         for(let i = stepNumber + 1; i <= 3; i++) {
             nextHTML += `
-                <div class="mobile-step-item" style="opacity: 0.6;" onclick="goToStep(${i})">
+                <div class="mobile-step-item" style="opacity: 0.8;" onclick="goToStep(${i})">
                     <div class="step-number">${i}</div>
                     <div class="step-text">
                         <h4>${steps[i-1].title}</h4>
@@ -1176,7 +1156,7 @@ function goToStep(stepNumber) {
         }
     }
     
-    window.scrollTo({ top: document.querySelector('.form-layout').offsetTop - 100, behavior: 'smooth' });
+    window.scrollTo({ top: document.querySelector('.form-section').offsetTop - 20, behavior: 'smooth' });
 }
 
 // ==================== MOU MODAL ====================
