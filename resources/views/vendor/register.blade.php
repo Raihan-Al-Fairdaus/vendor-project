@@ -1,484 +1,368 @@
 @extends('layouts.public')
-
-@section('title', 'Vendor Registration - VendorConnect')
-
+@section('title', 'Register Vendor - DNA Vendor Portal')
 @section('content')
 <style>
-    /* LATAR BELAKANG KHUSUS HALAMAN REGISTER (HAPUS SELEKTOR BODY AGAR TIDAK BOCOR KE DASHBOARD) */
-    .register-page-wrapper {
-        background: linear-gradient(135deg, #1b3a60 0%, #3a587d 50%, #899eb9 100%) !important;
-        background-attachment: fixed !important;
-        min-height: calc(100vh - 73px);
-        padding: 4rem 1rem;
-    }
+/* Reset and Defaults */
+nav.navbar { display: none !important; }
+footer.vc-footer { display: none !important; }
+body { background-color: var(--navy); font-family: 'Inter', sans-serif; margin: 0; }
+:root {
+    --navy: #1b3a60;
+    --navy-light: #244b7a;
+    --navy-dark: #122845;
+    --gold: #f59e0b;
+    --gold-hover: #d97706;
+    --text-gray: #94a3b8;
+}
 
-    /* Subtitle Halaman Register */
-    .text-register-subtitle {
-        color: rgba(255, 255, 255, 0.85) !important;
-        opacity: 1 !important;
-    }
+/* NAVBAR */
+.custom-nav {
+    background: transparent;
+    padding: 1.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+}
+.nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+.nav-logo img { height: 28px; filter: brightness(0) invert(1); }
+.nav-logo span { font-weight: 700; color: #fff; font-size: 1.2rem; }
+.nav-logo span .text-red { color: #e11d48; }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a { text-decoration: none; color: rgba(255,255,255,0.8); font-weight: 600; font-size: 0.95rem; transition: 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--gold); }
+.nav-links a.active { border-bottom: 2px solid var(--gold); padding-bottom: 4px; }
+.btn-nav-contact { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 0.5rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; transition: 0.2s; font-size: 0.9rem; }
+.btn-nav-contact:hover { background: rgba(255,255,255,0.1); }
+.mobile-menu-btn { display: none; font-size: 1.5rem; color: #fff; background: none; border: none; cursor: pointer; }
 
-    /* Hapus celah putih di atas footer */
-    .vc-footer {
-        margin-top: 0 !important;
-    }
+/* HERO SECTION */
+.hero-wrapper {
+    padding: 8rem 5% 4rem;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+}
+.hero-bg-image {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 60%;
+    background-image: url('{{ asset("images/hero-billboard.png") }}');
+    background-size: cover;
+    background-position: center;
+    mask-image: linear-gradient(to right, transparent, black 40%);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 40%);
+    opacity: 0.85;
+    z-index: 0;
+}
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 600px;
+}
+.eyebrow-pill {
+    color: var(--gold);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+.hero-title { font-size: 3.2rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem; color: #fff; }
+.hero-title .text-gold { color: var(--gold); }
+.hero-desc { font-size: 0.95rem; color: rgba(255,255,255,0.8); line-height: 1.6; margin-bottom: 3rem; max-width: 90%; }
+.hero-features { display: flex; gap: 2rem; }
+.hf-item { display: flex; align-items: center; gap: 0.75rem; color: #fff; }
+.hf-icon { color: var(--gold); font-size: 1.25rem; }
+.hf-text { font-size: 0.8rem; line-height: 1.3; }
+.hf-text strong { display: block; font-weight: 600; margin-bottom: 2px; }
 
-    /* PERBAIKAN WARNA TEKS KETIKAN DI DALAM INPUT */
-    input.form-control, 
-    select.form-control, 
-    textarea.form-control {
-        color: #1e293b !important;
-    }
+/* FORM LAYOUT */
+.form-layout {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+    padding: 0 5%;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+    position: relative;
+    z-index: 10;
+}
 
-    /* ID CARD UPLOAD (SINGLE) */
-    .single-drop-area {
-        background-color: #faf8f5 !important;
-        border: 2px dashed #c5a059 !important;
-        border-radius: 14px !important;
-        padding: 1.8rem 1.2rem !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-align: center !important;
-        position: relative !important;
-        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        min-height: 120px;
-    }
+/* SIDEBAR STEPS */
+.sidebar-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.steps-box {
+    background: rgba(18, 40, 69, 0.5);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+}
+.steps-title { color: rgba(255,255,255,0.9); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem; }
+.step-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; color: rgba(255,255,255,0.6); padding: 0.75rem 1rem; border-radius: 12px; cursor: pointer; transition: 0.3s; }
+.step-item.active { background: #fff; color: var(--navy); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+.step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+.step-item.active .step-number { background: #eff6ff; border-color: #3b82f6; color: #3b82f6; }
+.step-item.completed .step-number { background: #10b981; border-color: #10b981; color: #fff; }
+.step-text h4 { margin: 0 0 2px; font-size: 0.9rem; font-weight: 700; }
+.step-text p { margin: 0; font-size: 0.75rem; opacity: 0.8; }
+.step-item.active .step-text h4 { color: var(--navy); }
+.step-item.active .step-text p { color: var(--text-gray); }
 
-    .single-drop-area:hover {
-        background-color: #ffffff !important;
-        border-color: #b38e46 !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 10px 20px -6px rgba(197, 160, 89, 0.35) !important;
-    }
+.help-box {
+    background: rgba(18, 40, 69, 0.5);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    backdrop-filter: blur(10px);
+}
+.help-box .icon { font-size: 1.5rem; color: #fff; margin-bottom: -0.5rem; }
+.help-box h4 { color: #fff; margin: 0; font-size: 0.95rem; font-weight: 600; }
+.help-box p { color: rgba(255,255,255,0.7); font-size: 0.8rem; margin: 0; line-height: 1.5; }
+.btn-help { background: #fff; color: var(--navy); padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
 
-    .single-drop-area input[type="file"] {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        cursor: pointer;
-        z-index: 5;
-    }
+/* RIGHT CONTENT (FORM) */
+.form-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 1.5rem;
+}
+.form-header .icon { width: 48px; height: 48px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--navy); font-size: 1.25rem; }
+.form-header h2 { margin: 0; font-size: 1.15rem; color: var(--navy); font-weight: 700; }
 
-    /* GRID FOTO OFFICE (MULTIPLE CARD SYSTEM) */
-    .office-photo-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        gap: 12px;
-        width: 100%;
-        margin-top: 8px;
-    }
+.form-group { margin-bottom: 1.5rem; }
+.form-label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--navy); margin-bottom: 0.5rem; }
+.form-label span.req { color: #ef4444; }
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: var(--navy);
+    background: #fff;
+    transition: 0.2s;
+}
+.form-control:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+.help-text { display: block; font-size: 0.75rem; color: var(--text-gray); margin-top: 0.5rem; line-height: 1.5; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 
-    /* KOTAK TOMBOL UPLOAD DINAMIS */
-    .photo-upload-card {
-        position: relative;
-        aspect-ratio: 1 / 1;
-        background-color: #faf8f5;
-        border: 2px dashed #c5a059;
-        border-radius: 12px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 10px;
-        text-align: center;
-        transition: all 0.2s ease;
-        cursor: pointer;
-    }
+/* File Upload specific styles */
+.file-upload-box {
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+}
+.file-upload-box:hover { border-color: #3b82f6; background: #eff6ff; }
+.file-upload-box input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.file-upload-box i { font-size: 1.5rem; color: #94a3b8; margin-bottom: 0.5rem; }
+.file-upload-box p { margin: 0; font-size: 0.85rem; color: var(--navy); font-weight: 500; }
+.file-upload-box span { font-size: 0.75rem; color: var(--text-gray); }
 
-    .photo-upload-card:hover {
-        background-color: #ffffff;
-        border-color: #b38e46;
-        transform: translateY(-2px);
-    }
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 10px; }
+.photo-item { width: 100%; aspect-ratio: 1; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid #e2e8f0; }
+.photo-item img { width: 100%; height: 100%; object-fit: cover; }
 
-    .photo-upload-card input[type="file"] {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        cursor: pointer;
-        z-index: 5;
-    }
+/* Agreement styling */
+.agreement-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; }
+.agreement-box label { display: flex; gap: 1rem; align-items: flex-start; cursor: pointer; }
+.agreement-box input[type="checkbox"] { margin-top: 4px; width: 18px; height: 18px; }
+.agreement-text { font-size: 0.85rem; color: var(--text-gray); line-height: 1.5; }
 
-    /* KOTAK THUMBNAIL FOTO TERPOTONG RAPI */
-    .photo-item-card {
-        position: relative;
-        aspect-ratio: 1 / 1;
-        border-radius: 12px;
-        overflow: hidden;
-        border: 2px solid #c5a059;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        background-color: #fff;
-    }
+.form-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 3rem; border-top: 1px solid #f1f5f9; padding-top: 1.5rem; }
+.btn-draft { background: #fff; border: 1px solid #e2e8f0; color: var(--navy); padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+.btn-draft:hover { background: #f8fafc; border-color: #cbd5e1; }
+.btn-next, .btn-submit { background: var(--gold); border: none; color: var(--navy); padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
+.btn-next:hover, .btn-submit:hover { background: var(--gold-hover); }
+.btn-prev { background: #f1f5f9; border: none; color: var(--navy); padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+.btn-prev:hover { background: #e2e8f0; }
 
-    .photo-item-card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
+.step-content { display: none; }
+.step-content.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* TOMBOL HAPUS (X) PER KOTAK FOTO */
-    .btn-remove-photo {
-        position: absolute;
-        top: 6px;
-        right: 6px;
-        background: rgba(239, 68, 68, 0.9);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-        font-size: 14px;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 10;
-        transition: background 0.2s;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
+/* CUSTOM FOOTER */
+.custom-footer { background: #0c1a2c; color: #fff; padding: 4rem 5% 2rem; border-top: 1px solid rgba(255,255,255,0.05); }
+.footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.5fr 1.5fr; gap: 3rem; }
+.footer-col h4 { font-size: 0.95rem; font-weight: 600; margin: 0 0 1.5rem; color: #fff; }
+.footer-logo-wrap { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+.footer-logo-wrap img { height: 24px; filter: brightness(0) invert(1); }
+.footer-logo-wrap span { font-weight: 700; font-size: 1.1rem; }
+.footer-col p { color: rgba(255,255,255,0.7); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.5rem; }
+.social-links { display: flex; gap: 1rem; }
+.social-links a { color: #fff; opacity: 0.7; font-size: 1.2rem; transition: 0.2s; }
+.social-links a:hover { opacity: 1; color: var(--gold); }
+.footer-links { list-style: none; padding: 0; margin: 0; }
+.footer-links li { margin-bottom: 0.75rem; }
+.footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; transition: 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+.contact-item { display: flex; gap: 0.75rem; margin-bottom: 1rem; color: rgba(255,255,255,0.7); font-size: 0.85rem; line-height: 1.5; }
+.contact-item i { margin-top: 0.2rem; }
+.footer-bottom { max-width: 1200px; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; color: rgba(255,255,255,0.5); font-size: 0.75rem; }
 
-    .btn-remove-photo:hover {
-        background: rgba(220, 38, 38, 1);
-    }
+/* READY TO JOIN BOX in Footer */
+.ready-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; }
+.ready-box h4 { margin-bottom: 0.5rem; font-size: 1rem; font-weight: 700; color: #fff; }
+.ready-box p { font-size: 0.8rem; margin-bottom: 1.25rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
+.btn-gold { background: var(--gold); color: var(--navy); padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.2s; }
+.btn-gold:hover { background: var(--gold-hover); }
 
-    .photo-item-card .photo-tag {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.65);
-        color: #fff;
-        font-size: 11px;
-        text-align: center;
-        padding: 3px 4px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-/* ============================================================
-   MOBILE-ONLY STYLES & ANIMATIONS (max-width: 640px)
-   Desktop tidak tersentuh sama sekali
-   ============================================================ */
-@media (max-width: 640px) {
-
-    /* --- Animasi Keyframes --- */
-    @keyframes mob-slideUp {
-        from { opacity: 0; transform: translateY(32px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes mob-fadeIn {
-        from { opacity: 0; }
-        to   { opacity: 1; }
-    }
-    @keyframes mob-shimmer {
-        0%   { background-position: -400px 0; }
-        100% { background-position: 400px 0; }
-    }
-    @keyframes mob-pulse-border {
-        0%, 100% { border-color: #c5a059; box-shadow: 0 0 0 0 rgba(197,160,89,0); }
-        50%       { border-color: #e6b93a; box-shadow: 0 0 0 6px rgba(197,160,89,0.18); }
-    }
-    @keyframes mob-float {
-        0%, 100% { transform: translateY(0px); }
-        50%       { transform: translateY(-5px); }
-    }
-    @keyframes mob-spin-badge {
-        from { transform: rotate(0deg); }
-        to   { transform: rotate(360deg); }
-    }
-
-    /* --- Hero Section --- */
-    .register-page-wrapper {
-        padding: 2rem 0.85rem 5rem !important;
-    }
-    .register-page-wrapper h1 {
-        font-size: 1.75rem !important;
-        line-height: 1.2 !important;
-        animation: mob-slideUp 0.5s ease both;
-    }
-    .register-page-wrapper > .container > p {
-        font-size: 0.92rem !important;
-        animation: mob-slideUp 0.6s ease both;
-        animation-delay: 0.1s;
-    }
-
-    /* --- Cards: Transparent background on mobile --- */
-    .card.animate-on-scroll {
-        border-radius: 20px !important;
-        padding: 1.25rem !important;
-        margin-bottom: 1.25rem !important;
-        box-shadow: none !important;
-        animation: mob-slideUp 0.55s ease both;
-        background: transparent !important;
-        border: none !important;
-    }
-    .card.animate-on-scroll:nth-child(1) { animation-delay: 0.15s; }
-    .card.animate-on-scroll:nth-child(2) { animation-delay: 0.25s; }
-    .card.animate-on-scroll:nth-child(3) { animation-delay: 0.35s; }
-
-    /* --- Card Header (putih agar terlihat di background biru) --- */
-    .card h3.mb-4 {
-        font-size: 1.05rem !important;
-        margin-bottom: 1.1rem !important;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid rgba(255,255,255,0.2) !important;
-        color: #fff !important;
-    }
-    .card h3 span[style*="font-size: 1.5rem"] {
-        font-size: 1.6rem !important;
-        animation: mob-float 3s ease-in-out infinite;
-        display: inline-block;
-    }
-
-    /* --- Grid 2-kolom → 1-kolom --- */
-    .grid.grid-cols-2 {
-        grid-template-columns: 1fr !important;
-        gap: 0 !important;
-    }
-
-    /* --- Form Inputs: Lebih besar & mudah diketuk --- */
-    .form-label {
-        font-size: 0.78rem !important;
-        font-weight: 600 !important;
-        letter-spacing: 0.04em !important;
-        text-transform: uppercase;
-        color: rgba(255,255,255,0.85) !important;
-        margin-bottom: 6px !important;
-    }
-    .form-control {
-        min-height: 52px !important;
-        font-size: 16px !important;   /* mencegah auto-zoom iOS */
-        border-radius: 14px !important;
-        padding: 0.85rem 1rem !important;
-        border: 1.5px solid #d1d5db !important;
-        transition: border-color 0.25s, box-shadow 0.25s !important;
-        background: #f8fafc !important;
-    }
-    .form-control:focus {
-        border-color: #1b3a60 !important;
-        box-shadow: 0 0 0 3px rgba(27,58,96,0.12) !important;
-        background: #fff !important;
-    }
-    select.form-control {
-        appearance: auto !important;
-    }
-    textarea.form-control {
-        min-height: 100px !important;
-    }
-
-    /* --- Upload Area: Pulse animasi & lebih compact --- */
-    .single-drop-area {
-        border-radius: 16px !important;
-        padding: 1.4rem 1rem !important;
-        min-height: 100px !important;
-        animation: mob-pulse-border 2.5s ease-in-out infinite !important;
-    }
-    .single-drop-area .drop-icon {
-        font-size: 2rem !important;
-        margin-bottom: 6px !important;
-        animation: mob-float 2.5s ease-in-out infinite;
-        display: block;
-    }
-    .single-drop-area p {
-        font-size: 0.9rem !important;
-        margin-bottom: 2px !important;
-    }
-    .single-drop-area span {
-        font-size: 0.78rem !important;
-    }
-
-    /* --- Office photo grid lebih kecil di mobile --- */
-    .office-photo-grid {
-        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)) !important;
-        gap: 8px !important;
-    }
-
-    /* --- Agreement card --- */
-    .agreement-card {
-        border-radius: 18px !important;
-        padding: 1.1rem !important;
-        animation: mob-slideUp 0.55s ease 0.4s both;
-    }
-    .agreement-btn {
-        border-radius: 14px !important;
-        font-size: 0.9rem !important;
-        padding: 12px 16px !important;
-        gap: 12px !important;
-    }
-    .agreement-btn-icon {
-        width: 38px !important;
-        height: 38px !important;
-        font-size: 18px !important;
-        border-radius: 10px !important;
-    }
-    .agreement-btn-text {
-        font-size: 0.85rem !important;
-    }
-    .agreement-btn-text small {
-        font-size: 0.72rem !important;
-        margin-top: 2px !important;
-    }
-    .agreement-btn-arrow {
-        width: 30px !important;
-        height: 30px !important;
-        font-size: 14px !important;
-    }
-
-    /* --- Checkbox area --- */
-    .agreement-checkbox-wrapper {
-        font-size: 0.88rem !important;
-        line-height: 1.6 !important;
-    }
-
-    /* --- Action Buttons: Submit besar & menonjol --- */
-    .mobile-col {
-        flex-direction: column !important;
-        gap: 0.75rem !important;
-    }
-    #submitBtn {
-        width: 100% !important;
-        order: 1 !important;
-        padding: 1.1rem !important;
-        font-size: 1.05rem !important;
-        border-radius: 16px !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.03em !important;
-        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-        box-shadow: 0 6px 20px rgba(245,158,11,0.4) !important;
-        transition: transform 0.2s, box-shadow 0.2s !important;
-        position: relative;
-        overflow: hidden;
-    }
-    #submitBtn:not(:disabled):active {
-        transform: scale(0.97) !important;
-    }
-    /* Shimmer effect on submit button */
-    #submitBtn:not(:disabled)::after {
-        content: '';
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: linear-gradient(90deg,
-            rgba(255,255,255,0) 0%,
-            rgba(255,255,255,0.3) 50%,
-            rgba(255,255,255,0) 100%);
-        background-size: 400px 100%;
-        animation: mob-shimmer 2s infinite;
-    }
-    .btn.btn-outline[href="/"] {
-        width: 100% !important;
-        order: 2 !important;
-        text-align: center !important;
-        border-radius: 14px !important;
-        padding: 0.9rem !important;
-        font-size: 0.92rem !important;
-    }
-
-    /* --- Error messages --- */
-    .card[style*="error-bg"] {
-        border-radius: 14px !important;
-        font-size: 0.88rem !important;
-    }
-
-    /* --- Teks & elemen lain di atas background biru --- */
-
-    /* Subtitle / helper text di form */
-    .text-muted, small, .text-register-subtitle {
-        color: rgba(255,255,255,0.75) !important;
-    }
-
-    /* Teks helper maps */
-    [style*="color:#b8c7dc"] {
-        color: rgba(255,255,255,0.7) !important;
-    }
-
-    /* Teks di dalam upload area drag-drop */
-    .single-drop-area {
-        background-color: rgba(255,255,255,0.10) !important;
-        border-color: rgba(255,255,255,0.35) !important;
-    }
-    .single-drop-area p,
-    #idCardText, #npwpText, #bankBookText {
-        color: #fff !important;
-    }
-    .single-drop-area span,
-    #idCardSubText, #npwpSubText, #bankBookSubText {
-        color: rgba(255,255,255,0.75) !important;
-    }
-
-    /* Teks di upload foto office */
-    .photo-upload-card {
-        background-color: rgba(255,255,255,0.10) !important;
-        border-color: rgba(255,255,255,0.35) !important;
-    }
-    .photo-upload-card p {
-        color: #fff !important;
-    }
-    .photo-upload-card span {
-        color: rgba(255,255,255,0.75) !important;
-    }
-
-    /* Agreement card */
-    .agreement-card {
-        background: transparent !important;
-        box-shadow: none !important;
-        border: none !important;
-    }
-    .agreement-info h3 {
-        color: #fff !important;
-    }
-    .agreement-info p {
-        color: rgba(255,255,255,0.8) !important;
-    }
-    .agreement-status {
-        color: #fca5a5 !important; /* merah terang agar terlihat di background biru */
-    }
-
-    /* Agreement checkbox label */
-    .agreement-checkbox-wrapper {
-        font-size: 0.88rem !important;
-        line-height: 1.6 !important;
-        color: rgba(255,255,255,0.9) !important;
-    }
-    .agreement-checkbox-wrapper label,
-    .agreement-checkbox-wrapper span,
-    .agreement-checkbox-wrapper strong {
-        color: rgba(255,255,255,0.9) !important;
-    }
-
-    /* Discard draft button: tetap terlihat */
-    .btn.btn-outline[href="/"] {
-        border-color: rgba(248,113,113,0.8) !important;
-        color: #fca5a5 !important;
-        background: rgba(248,113,113,0.1) !important;
-    }
-
-    /* --- Smooth scroll untuk mobile --- */
-    html { scroll-behavior: smooth; }
+/* MOBILE RESPONSIVE */
+@media (max-width: 992px) {
+    .nav-links, .btn-nav-contact { display: none; }
+    .mobile-menu-btn { display: block; }
+    .hero-wrapper { padding: 6rem 5% 3rem; flex-direction: column; }
+    .hero-bg-image { width: 100%; mask-image: linear-gradient(to bottom, transparent, black 80%); -webkit-mask-image: linear-gradient(to bottom, transparent, black 80%); }
+    .hero-features { flex-direction: column; gap: 1rem; }
+    .hero-title { font-size: 2.25rem; }
+    .form-layout { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .grid-2 { grid-template-columns: 1fr; }
+    
+    .sidebar-steps { display: none; } 
+    .mobile-steps { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+    .mobile-step-item { background: rgba(18, 40, 69, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,0.6); backdrop-filter: blur(10px); }
+    .mobile-step-item.active { background: #fff; color: var(--navy); }
+    .mobile-step-item .step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+    .mobile-step-item.active .step-number { background: #eff6ff; color: #3b82f6; border-color: #3b82f6; }
+    .mobile-step-item .step-text h4 { margin: 0; font-size: 0.9rem; font-weight: 700; }
+    .mobile-step-item .step-text p { margin: 0; font-size: 0.75rem; opacity: 0.8; }
+    .mobile-step-item.active .step-text p { color: var(--text-gray); }
+    
+    .mobile-help { margin-top: 1.5rem; }
+}
+@media (min-width: 993px) {
+    .mobile-steps, .mobile-help { display: none; }
 }
 </style>
 
-<div class="register-page-wrapper">
-    <div class="container animate-on-scroll" style="max-width: 800px;">
-        <h1 class="mb-4" style="color: #f59e0b !important; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);">Become a Verified Partner</h1>
-        <p class="text-muted mb-8 text-register-subtitle" style="font-size: 1.05rem;">
-            Complete the form below to register your business in our procurement network. Professional verification takes approximately 2-3 business days.
-        </p>
+<!-- NAVBAR -->
+<nav class="custom-nav">
+    <button class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+    <a href="#" class="nav-logo">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo">
+        <span>DNA <span class="text-red">Vendor</span> Portal</span>
+    </a>
+    <div class="nav-links">
+        <a href="{{ url('/') }}">Beranda</a>
+        <a href="#" class="active">Daftar Vendor</a>
+        <a href="{{ url('/') }}#why-partner">Mengapa Bermitra</a>
+        <a href="{{ route('faq') }}">FAQ</a>
+    </div>
+    <a href="https://wa.me/6281228358630" target="_blank" class="btn-nav-contact"><i class="fa-regular fa-user"></i> Hubungi Kami</a>
+</nav>
 
+<!-- HERO SECTION -->
+<section class="hero-wrapper">
+    <div class="hero-bg-image"></div>
+    <div class="hero-content">
+        <div class="eyebrow-pill">GABUNG BERSAMA KAMI</div>
+        <h1 class="hero-title">Menjadi Mitra<br><span class="text-gold">Terpercaya</span></h1>
+        <p class="hero-desc">Lengkapi data perusahaan Anda untuk bergabung dalam jaringan vendor terverifikasi DNA Advertising. Proses verifikasi kami hanya memakan waktu 2-3 hari kerja.</p>
+        <div class="hero-features">
+            <div class="hf-item">
+                <i class="fa-solid fa-shield-halved hf-icon"></i>
+                <div class="hf-text">
+                    <strong>Proses Aman</strong>
+                    dan Terverifikasi
+                </div>
+            </div>
+            <div class="hf-item">
+                <i class="fa-regular fa-clock hf-icon"></i>
+                <div class="hf-text">
+                    <strong>Verifikasi Cepat</strong>
+                    2-3 Hari Kerja
+                </div>
+            </div>
+            <div class="hf-item">
+                <i class="fa-solid fa-users hf-icon"></i>
+                <div class="hf-text">
+                    <strong>Jaringan Mitra</strong>
+                    Terpercaya
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FORM LAYOUT -->
+<div class="form-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar-steps">
+        <div class="steps-box">
+            <div class="steps-title">Langkah Pendaftaran</div>
+            <div class="step-item active" id="nav-step1">
+                <div class="step-number">1</div>
+                <div class="step-text">
+                    <h4>Informasi Perusahaan</h4>
+                    <p>Data umum perusahaan</p>
+                </div>
+            </div>
+            <div class="step-item" id="nav-step2">
+                <div class="step-number">2</div>
+                <div class="step-text">
+                    <h4>Kontak & Dokumen</h4>
+                    <p>Informasi kontak & dokumen</p>
+                </div>
+            </div>
+            <div class="step-item" id="nav-step3">
+                <div class="step-number">3</div>
+                <div class="step-text">
+                    <h4>Tinjau & Kirim</h4>
+                    <p>Periksa dan kirim pendaftaran</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="help-box">
+            <i class="fa-solid fa-headset icon"></i>
+            <h4>Butuh Bantuan?</h4>
+            <p>Tim kami siap membantu Anda selama proses pendaftaran.</p>
+            <a href="https://wa.me/6281228358630" target="_blank" class="btn-help"><i class="fa-regular fa-user"></i> Hubungi Kami</a>
+        </div>
+    </div>
+
+    <!-- RIGHT FORM CARD -->
+    <div class="form-card">
+        
+        @if(session('success'))
+            <div style="background: #10b981; color: #fff; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div style="background: #ef4444; color: #fff; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                {{ session('error') }}
+            </div>
+        @endif
         @if ($errors->any())
-            <div class="card mb-8" style="background-color: var(--error-bg); border-color: var(--error); padding: 1rem;">
-                <ul style="color: var(--error); margin-left: 1rem;">
+            <div style="background: #ef4444; color: #fff; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <ul style="margin: 0; padding-left: 1.5rem;">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -486,817 +370,317 @@
             </div>
         @endif
 
-        <form action="{{ route('vendor.store') }}" method="POST" id="vendorForm" class="needs-validation">
+        <form id="vendorForm" action="{{ route('vendor.register.submit') }}" method="POST" enctype="multipart/form-data">
             @csrf
-
-            {{-- Hidden inputs untuk menyimpan URL file setelah upload ke Supabase --}}
+            
+            <!-- Hidden inputs for Supabase presigned URL -->
             <input type="hidden" name="id_card_url" id="id_card_url">
             <input type="hidden" name="bank_book_url" id="bank_book_url">
             <input type="hidden" name="npwp_file_url" id="npwp_file_url">
             <input type="hidden" name="office_photos_urls" id="office_photos_urls">
             
-            {{-- Input File Tersembunyi Khusus Mengirimkan Seluruh File Foto Kantor ke Laravel --}}
-            <input type="file" name="office_photos[]" id="officePhotosInput" accept=".jpg,.jpeg,.png" multiple style="display: none;">
-
-            <div class="card mb-8 animate-on-scroll hoverable" style="transition-delay: 0.1s;">
-                <h3 class="mb-4 d-flex align-center gap-4"><span style="color: var(--primary); font-size: 1.5rem;">🏢</span> Business Identity</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="form-group">
-                        <label class="form-label">Company Name</label>
-                        <input type="text" name="company_name" class="form-control" value="{{ old('company_name') }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Business Category</label>
-                        <select name="business_category" class="form-control" required>
-
-    <option value="">Select Vendor Type</option>
-
-    <option value="Badan"
-        {{ old('business_category') == 'Badan' ? 'selected' : '' }}>
-        Badan
-    </option>
-
-    <option value="Perorangan"
-        {{ old('business_category') == 'Perorangan' ? 'selected' : '' }}>
-        Perorangan
-    </option>
-
-</select>
-                       
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Company Address</label>
-                    <textarea name="company_address" class="form-control" rows="3" required>{{ old('company_address') }}</textarea>
-                </div>
-
-<div class="form-group mt-3">
-    <label class="form-label">
-        Share Location Google Maps
-        <span class="required">*</span>
-    </label>
-
-    <input
-        type="url"
-        name="google_maps_link"
-        class="form-control"
-        placeholder="https://maps.app.goo.gl/xxxxxxxx"
-        value="{{ old('google_maps_link') }}"
-        required>
-
-    <small style="
-        display:block;
-        margin-top:8px;
-        color:#b8c7dc;
-        font-size:13px;">
-        📍 Open Google Maps → pilih lokasi perusahaan → Share → Copy Link → Paste di sini.
-    </small>
-</div>
-         
-
-                <div class="form-group">
-    <label class="form-label">NPWP Number</label>
-    <input
-        type="text"
-        name="npwp"
-        class="form-control"
-        placeholder="00.000.000.0-000.000"
-        value="{{ old('npwp') }}"
-        required
-    >
-</div>
+            <!-- MOBILE STEPS (Shown only on mobile above current step) -->
+            <div class="mobile-steps" id="mobile-steps-container">
+                <!-- Javascript will render active step here -->
             </div>
 
-            <div class="card mb-8 animate-on-scroll hoverable" style="transition-delay: 0.2s;">
-                <h3 class="mb-4 d-flex align-center gap-4"><span style="color: var(--primary); font-size: 1.5rem;">📞</span> Contact Information</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="form-group">
-                        <label class="form-label"> Email</label>
-                        <input type="email" name="company_email" class="form-control" value="{{ old('company_email') }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Phone Number</label>
-                        <input type="text" name="company_phone" class="form-control" value="{{ old('company_phone') }}" required>
-                    </div>
+            <!-- STEP 1 -->
+            <div class="step-content active" id="step1">
+                <div class="form-header">
+                    <div class="icon"><i class="fa-regular fa-building"></i></div>
+                    <h2>Informasi Perusahaan</h2>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Nama Penanggung jawab</label>
-                    <input type="text" name="pic_name" class="form-control" value="{{ old('pic_name') }}" required>
-                </div>
-            </div>
-
-            <div class="card mb-8 animate-on-scroll hoverable" style="transition-delay: 0.3s;">
-                <h3 class="mb-4 d-flex align-center gap-4"><span style="color: var(--primary); font-size: 1.5rem;">📄</span> Verification Documents</h3>
                 
-                <!-- ID Card Upload (Single) -->
-                <div class="form-group mb-4">
-                    <label class="form-label">Identity Card (KTP)</label>
-                    <div class="single-drop-area" id="idCardDropArea">
-                        <p id="idCardText" style="margin-bottom: 4px; font-weight: 600; color: #1e293b;">Drag and drop or click to upload ID card</p>
-                        <span id="idCardSubText" style="color: #64748b; font-size: 0.85rem;">PNG, JPG, PDF up to 10MB</span>
-                        <input type="file" name="id_card" id="idCardInput" accept=".jpg,.jpeg,.png,.pdf" required>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Nama Perusahaan <span class="req">*</span></label>
+                        <input type="text" name="company_name" class="form-control" placeholder="Masukkan nama perusahaan" value="{{ old('company_name') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kategori Vendor <span class="req">*</span></label>
+                        <select name="business_category" class="form-control" required>
+                            <option value="" disabled selected>Pilih kategori vendor</option>
+                            <option value="Perorangan" {{ old('business_category') == 'Perorangan' ? 'selected' : '' }}>Perorangan</option>
+                            <option value="Perusahaan" {{ old('business_category') == 'Perusahaan' ? 'selected' : '' }}>Perusahaan</option>
+                        </select>
                     </div>
                 </div>
-                <div class="form-group mt-4">
-
-   
-
-    @error('bank_book')
-        <small class="text-danger">{{ $message }}</small>
-    @enderror
-
-</div>
-
-                <!-- Office Photos Upload (Multiple Cards Grid) -->
+                
                 <div class="form-group">
-                    <label class="form-label">Office Photos (Min. 2 Photos)</label>
-                    
-                    <div class="office-photo-grid" id="officePhotosGrid">
-                        <!-- Kotak Upload Utama Bawaan -->
-                        <div class="photo-upload-card" id="mainUploadCard" style="grid-column: 1 / -1; aspect-ratio: auto; min-height: 120px;">
-                            <p style="margin: 0; color: #1e293b; font-weight: 600;">Drag and drop or click to upload office photos</p>
-                            <span style="color: #64748b; font-size: 0.8rem;">PNG, JPG up to 10MB each (Select 2 or more)</span>
-                            <input type="file" accept=".jpg,.jpeg,.png" multiple id="initialOfficePhotosTrigger">
+                    <label class="form-label">Alamat Perusahaan <span class="req">*</span></label>
+                    <textarea name="company_address" class="form-control" rows="3" placeholder="Masukkan alamat lengkap perusahaan" required>{{ old('company_address') }}</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Lokasi di Google Maps <span class="req">*</span></label>
+                    <input type="url" name="google_maps_link" class="form-control" placeholder="https://maps.app.goo.gl/xxxxxxxxxxxx" value="{{ old('google_maps_link') }}" required>
+                    <span class="help-text">Buka Google Maps → pilih lokasi → Bagikan → Salin link → Tempel di sini.</span>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Nomor NPWP <span class="req">*</span></label>
+                    <input type="text" name="npwp" class="form-control" placeholder="00.000.000.0-000.000" value="{{ old('npwp') }}" required>
+                    <span class="help-text">Masukkan NPWP perusahaan Anda</span>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-draft">Simpan Draf</button>
+                    <button type="button" class="btn-next" onclick="goToStep(2)">Selanjutnya <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="step-content" id="step2">
+                <div class="form-header">
+                    <div class="icon"><i class="fa-regular fa-id-badge"></i></div>
+                    <h2>Kontak & Dokumen</h2>
+                </div>
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Email Perusahaan <span class="req">*</span></label>
+                        <input type="email" name="company_email" class="form-control" placeholder="email@perusahaan.com" value="{{ old('company_email') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nomor Telepon <span class="req">*</span></label>
+                        <input type="text" name="company_phone" class="form-control" placeholder="08xxxxxxxxxx" value="{{ old('company_phone') }}" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Nama PIC / Penanggung Jawab <span class="req">*</span></label>
+                    <input type="text" name="pic_name" class="form-control" placeholder="Masukkan nama PIC" value="{{ old('pic_name') }}" required>
+                </div>
+                
+                <hr style="border:0; border-top: 1px solid #f1f5f9; margin: 2rem 0;">
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Upload KTP <span class="req">*</span></label>
+                        <div class="file-upload-box">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <p>Pilih file KTP</p>
+                            <span>JPG, PNG, PDF max 5MB</span>
+                            <input type="file" name="id_card" id="idCardInput" accept=".jpg,.jpeg,.png,.pdf" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upload NPWP <span class="req">*</span></label>
+                        <div class="file-upload-box">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <p>Pilih file NPWP</p>
+                            <span>JPG, PNG, PDF max 5MB</span>
+                            <input type="file" name="npwp_file" id="npwpInput" accept=".jpg,.jpeg,.png,.pdf" required>
                         </div>
                     </div>
                 </div>
-
-                <!-- NPWP Document -->
-<div class="form-group mt-4">
-
-    <label class="form-label">
-        Upload NPWP Document <span class="required"></span>
-    </label>
-
-    <div class="single-drop-area" id="npwpDropArea">
-
-        <div class="drop-icon">📄</div>
-
-        <p id="npwpText" style="color:#000;font-weight:600;">
-            Drag & drop your NPWP document here
-        </p>
-
-        <span id="npwpSubText">
-            JPG, PNG, PDF (Max 10MB)
-        </span>
-
-        <input
-            type="file"
-            id="npwpInput"
-            name="npwp_file"
-            accept=".jpg,.jpeg,.png,.pdf"
-            required
-        >
-
-    </div>
-
-    @error('npwp_file')
-        <small class="text-danger">{{ $message }}</small>
-    @enderror
-
-</div>
-
-                <!-- Bank Book -->
-<div class="form-group mt-4">
-    <label class="form-label">
-      <div class="form-group">
-
-    <label class="form-label">
-       Upload Buku Tabungan  <span class="required"></span>
-    </label>
-
-    <div class="single-drop-area" id="bankBookDropArea">
-
-        <div class="drop-icon">🏦</div>
-
-        <p id="bankBookText"  style="color:#000;font-weight:600;">
-            Drag & drop your Buku Tabungan here
-</p>
-
-        <span id="bankBookSubText" >
-            JPG, PNG, PDF (Max 10MB)
-        </span>
-
-        <input
-            type="file"
-            id="bankBookInput"
-            name="bank_book"
-            accept=".jpg,.jpeg,.png,.pdf"
-            required
-        >
-
-    </div>
-
-    @error('bank_book')
-        <small class="text-danger">{{ $message }}</small>
-    @enderror
-
-</div>
-
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Upload Buku Rekening <span class="req">*</span></label>
+                        <div class="file-upload-box">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <p>Pilih file Rekening</p>
+                            <span>Halaman depan buku rekening</span>
+                            <input type="file" name="bank_book" id="bankBookInput" accept=".jpg,.jpeg,.png,.pdf" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upload Foto Kantor <span class="req">*</span></label>
+                        <div class="file-upload-box">
+                            <i class="fa-solid fa-images"></i>
+                            <p>Pilih Foto Kantor</p>
+                            <span>Tampak depan & dalam (Min 2)</span>
+                            <input type="file" name="office_photos[]" id="officePhotosInput" accept=".jpg,.jpeg,.png" multiple required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-prev" onclick="goToStep(1)">Kembali</button>
+                    <button type="button" class="btn-next" onclick="goToStep(3)">Selanjutnya <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
             </div>
 
-          <!-- =======================================================
-    AGREEMENT SECTION
-======================================================= -->
-
-<div class="agreement-card">
-
-    <div class="agreement-header">
-
-        <div class="agreement-icon">
-            📄
+            <!-- STEP 3 -->
+            <div class="step-content" id="step3">
+                <div class="form-header">
+                    <div class="icon"><i class="fa-solid fa-check-double"></i></div>
+                    <h2>Tinjau & Kirim</h2>
+                </div>
+                
+                <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 2rem;">Silakan tinjau kembali data yang telah Anda masukkan pada langkah sebelumnya. Jika sudah benar, setujui syarat dan ketentuan untuk mengirimkan pendaftaran.</p>
+                
+                <div class="agreement-box">
+                    <label>
+                        <input type="checkbox" name="agreement" id="agreement" required>
+                        <div class="agreement-text">
+                            <strong>Saya menyetujui Syarat dan Ketentuan</strong><br>
+                            Dengan mencentang kotak ini, saya menyatakan bahwa data yang saya berikan adalah benar dan dapat dipertanggungjawabkan. Saya setuju untuk terikat oleh MOU Perjanjian Kerjasama Vendor DNA Advertising.
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-prev" onclick="goToStep(2)">Kembali</button>
+                    <button type="submit" class="btn-submit" id="submitBtn">Kirim Pendaftaran</button>
+                </div>
+            </div>
+            
+        </form>
+        
+        <!-- MOBILE HELP (Shown below form on mobile) -->
+        <div class="help-box mobile-help">
+            <i class="fa-solid fa-headset icon"></i>
+            <h4>Butuh Bantuan?</h4>
+            <p>Tim kami siap membantu Anda selama proses pendaftaran.</p>
+            <a href="https://wa.me/6281228358630" target="_blank" class="btn-help"><i class="fa-regular fa-user"></i> Hubungi Kami</a>
         </div>
-
-        <div class="agreement-info">
-            <h3>Memorandum Of Understanding (MOU)</h3>
-
-            <p>
-                Harap baca dan pahami seluruh isi MOU ini sebelum melanjutkan registrasi.
-            </p>
-        </div>
-
+        
     </div>
-
-    <button
-        type="button"
-        id="openAgreement"
-        class="agreement-btn">
-
-        <span class="agreement-btn-icon">
-            📄
-        </span>
-
-        <span class="agreement-btn-text">
-            Baca Memorandum Of Understanding
-            <small>Wajib dibaca sebelum registrasi</small>
-        </span>
-
-        <span class="agreement-btn-arrow">
-            →
-        </span>
-
-    </button>
-
-    <div
-        id="agreementStatus"
-        class="agreement-status">
-
-        Anda harus membaca dan menyetujui MOU sebelum melanjutkan.
-
-    </div>
-
 </div>
 
-
-<!-- =======================================================
-    AGREEMENT CHECKBOX
-======================================================= -->
-
-<div class="agreement-checkbox-wrapper">
-
-    <input
-        type="checkbox"
-        id="agreement"
-        name="agreement"
-        value="1"
-        disabled
-        required>
-
-    <label for="agreement">
-        Saya telah membaca, memahami, dan menyetujui seluruh isi
-        <strong>MOU Perjanjian Kerjasama Penunjukan Vendor PT. DNA JAYA GROUP</strong>
-        serta bersedia menjadi Vendor dan mematuhi seluruh ketentuan yang tercantum di dalamnya.
-    </label>
-
-</div>
-
-
-<!-- =======================================================
-    ACTION BUTTONS
-======================================================= -->
-
-<div class="d-flex justify-between align-center mt-4 mobile-col">
-
-    <a
-        href="/"
-        class="btn btn-outline"
-        style="
-            order:2;
-            border-color:#f87171!important;
-            color:#f87171!important;
-            background:rgba(248,113,113,.05);
-        ">
-
-        Discard Draft
-
-    </a>
-
-    <button
-        type="submit"
-        id="submitBtn"
-        class="btn btn-primary"
-        disabled
-        style="
-            order:1;
-            padding:1rem 3rem;
-            font-size:1rem;
-        ">
-
-        Submit Registration
-
-    </button>
-
-</div>
-
-</form>
-
-</div>
-</div>
-</div>
-
-
-
-<!-- =======================================================
-    AGREEMENT MODAL
-======================================================= -->
-
-<div
-    id="agreementModal"
-    class="agreement-modal">
-
-    <div class="agreement-modal-content" style="position: relative;">
-        <!-- Watermark Logo DNA (Tetap Diam Saat Scroll) -->
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background-image: url('{{ asset('images/logo.png') }}'); background-repeat: no-repeat; background-position: center; background-size: contain; opacity: 0.08; pointer-events: none; z-index: 0;"></div>
-
-        <div class="agreement-modal-header" style="justify-content: flex-end; position: relative; z-index: 2;">
-
-            <button
-                type="button"
-                id="closeAgreement">
-
-                ✕
-
-            </button>
-
+<!-- CUSTOM FOOTER -->
+<footer class="custom-footer">
+    <div class="footer-grid">
+        <div class="footer-col">
+            <div class="footer-logo-wrap">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo">
+                <span>DNA <span class="text-red">Vendor</span> Portal</span>
+            </div>
+            <p>Platform pendaftaran vendor resmi untuk kemitraan bisnis terpercaya bersama DNA Advertising.</p>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="https://wa.me/6281228358630" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
         </div>
-
-
-        <div
-            id="agreementScroll"
-            class="agreement-body"
-            style="text-align: justify; position: relative; z-index: 1; background: transparent !important;">
-
-            <h2 style="margin:0 0 1.5rem 0;font-size:1.5rem;font-weight:bold;text-align:center;color:#1e293b;width:100%;">MEMORANDUM OF UNDERSTANDING</h2>
-
-            <div class="agreement-title">
-                <span class="agreement-number">1</span>
-                <h3>PASAL 1 — KETENTUAN UMUM</h3>
-            </div>
-            <p>Memorandum Of Understanding (MOU) ini merupakan dasar dan ketentuan umum kerja sama antara <strong>PT. DNA JAYA GROUP</strong>, selanjutnya disebut <strong>PIHAK PERTAMA</strong>, dengan pihak vendor yang mendaftarkan dan menyatakan kesediannya untuk menjadi rekanan/vendor, selanjutnya disebut <strong>PIHAK KEDUA</strong>.</p>
-            <p>MOU ini dibuat sebagai bentuk kesepahaman mengenai hak, kewajiban, tanggung jawab, serta ketentuan yang harus dipatuhi oleh PIHAK KEDUA selama menjalankan kerja sama dengan PIHAK PERTAMA.</p>
-
-            <div class="agreement-title" style="margin-top:1.25rem;">
-                <span class="agreement-number">2</span>
-                <h3>PASAL 2 — RUANG LINGKUP PEKERJAAN</h3>
-            </div>
-            <p>(1) PIHAK PERTAMA memberikan pekerjaan terkait Advertising dan periklanan sesuai dengan spesifikasi dan lokasi yang sesuai dengan Surat Perintah Kerja yang turun kepada PIHAK KEDUA dan PIHAK KEDUA menyatakan telah sepakat untuk menerima dan akan melaksanakan pekerjaan tersebut.</p>
-            <p>(2) Apabila PIHAK KEDUA merasa keberatan atau tidak mampu untuk mengerjakan Surat Perintah Yang turun dari PIHAK PERTAMA, maka PIHAK KEDUA diberikan waktu <strong>1 x 24 Jam</strong> Masa Sanggah untuk membatalkan atau melakukan revisi atas Surat Perintah Kerja tersebut.</p>
-            <p>(3) PIHAK KEDUA dengan ini menyatakan sanggup untuk menyediakan bahan baku dan jasa pemasangan sebagaimana dimaksud ketentuan Pasal 1 ayat (1) di perjanjian ini.</p>
-            <p>(4) Pekerjaan-pekerjaan lainnya yang tidak dapat dirinci satu persatu namun menurut sifatnya menjadi tanggung jawab PIHAK KEDUA, sehingga hasil pekerjaan dapat diserahkan menurut kuantitas dan kualitas serta dalam jangka waktu yang ditetapkan dalam Perjanjian ini.</p>
-
-            <div class="agreement-title" style="margin-top:1.25rem;">
-                <span class="agreement-number">3</span>
-                <h3>PASAL 3 — KESELAMATAN DAN KESEHATAN KERJA (K3)</h3>
-            </div>
-            <p>(1) PIHAK KEDUA berkewajiban untuk melaksanakan pekerjaan dengan mengutamakan aturan Keselamatan dan Kesehatan Kerja (K3).</p>
-            <p>(2) PIHAK KEDUA wajib menugaskan tenaga kerja ahli yang sesuai dengan pekerjaan yang diberikan oleh PIHAK PERTAMA.</p>
-            <p>(3) Jika PIHAK KEDUA mengalami Kecelakaan Kerja yang terjadi karena tidak dipatuhinya Aturan Kesehatan dan Keselamatan Kerja, maka PIHAK PERTAMA tidak bertanggung jawab atas Kerugian PIHAK KEDUA yang timbul akibat dari kecelakaan kerja tersebut.</p>
-            <p>(4) Di lokasi pekerjaan harus ada wakil PIHAK KEDUA yang ditunjuk sebagai Pimpinan pelaksana yang mempunyai wewenang penuh untuk mewakili PIHAK KEDUA yang dapat menerima/memberikan/memutuskan segala urusan pekerjaan lapangan tidak terkecuali terhadap penanganan resiko kecelakaan kerja.</p>
-            <p>(5) Semua yang berkaitan dengan persoalan dan tuntutan tenaga kerja yang menjadi beban dan tanggung jawab PIHAK KEDUA, baik di dalam maupun di luar pengadilan.</p>
-
-            <div class="agreement-title" style="margin-top:1.25rem;">
-                <span class="agreement-number">4</span>
-                <h3>PASAL 4 — KEWAJIBAN &amp; TANGGUNG JAWAB</h3>
-            </div>
-            <p>(1) PIHAK KEDUA berkewajiban melaksanakan pekerjaan berdasarkan Perjanjian ini dengan penuh tanggung jawab tetapi tidak terbatas pada tanggung jawab atas teknis pekerjaan saja, namun juga memperhatikan ketentuan hukum yang berlaku dan kelestarian lingkungan hidup.</p>
-            <p>(2) Setiap pekerja PIHAK KEDUA wajib didaftarkan menjadi peserta BPJS Ketenagakerjaan oleh PIHAK KEDUA.</p>
-            <p>(3) PIHAK KEDUA wajib memenuhi standar keamanan dan keselamatan kerja untuk keperluan pekerjaan yang beresiko tinggi bagi pekerjanya, meliputi: Sepatu, Body Harness, Helm, Sarung Tangan. PIHAK KEDUA wajib memprioritaskan keamanan dan keselamatan pekerja serta tidak merusak konstruksi Reklame itu sendiri kecuali dalam keadaan Darurat.</p>
-            <p>(4) Apabila PIHAK KEDUA tidak dapat menyediakan alat keamanan keselamatan kerja di atas, maka PIHAK KEDUA dapat meminjam kepada PIHAK PERTAMA dan wajib mengembalikan sesuai kondisi semula.</p>
-            <p>(5) Setiap Pekerja PIHAK KEDUA berkewajiban menggunakan alat-alat keselamatan kerja serta melaksanakan syarat-syarat keselamatan dan perlindungan pekerja.</p>
-            <p>(6) Dalam melakukan Pekerjaan dari Pihak Pertama, PIHAK KEDUA wajib mematuhi waktu kerja yaitu dimulai dari Jam <strong>07.00</strong> dan selambat-lambatnya harus selesai Jam <strong>17.00</strong> Waktu Setempat.</p>
-            <p>(7) PIHAK KEDUA bertanggung jawab terhadap barang yang ada di Lokasi pekerjaan.</p>
-            <p>(8) Dalam melakukan pekerjaan terjadi hujan, angin kencang, masalah kabel Listrik PLN atau hal-hal yang berpotensi menimbulkan resiko tinggi, maka PIHAK KEDUA wajib melaporkan kepada PIHAK PERTAMA terkait kendala yang terjadi.</p>
-            <p>(9) Segala resiko yang timbul yang menimpa PIHAK KEDUA berupa kecelakaan kerja, pekerja PIHAK KEDUA maupun pihak ketiga sehubungan dengan pelaksanaan Pekerjaan berdasarkan Perjanjian ini menjadi beban dan tanggung jawab PIHAK KEDUA sepenuhnya, namun PIHAK PERTAMA akan tetap memberikan bantuan berupa santunan kepada PIHAK KEDUA sesuai dengan kebijakan Perusahaan.</p>
-            <p>(10) PIHAK KEDUA akan memberikan garansi kepada PIHAK PERTAMA atas konstruksi pekerjaan yang telah selesai:</p>
-            <ul style="margin-left:1.5rem;margin-bottom:0.75rem;line-height:1.8;">
-                <li>Pekerjaan <strong>Permanen</strong>: masa garansi konstruksi <strong>1 Tahun</strong> sejak Pengiriman Foto kepada Pihak Pertama.</li>
-                <li>Pekerjaan <strong>Insidentil</strong>: masa garansi konstruksi <strong>7 Hari</strong> sejak Pengiriman Foto kepada Pihak Pertama, kecuali diambil/disita oleh dinas terkait atau terjadi Force Majeur.</li>
+        <div class="footer-col">
+            <h4>Navigasi</h4>
+            <ul class="footer-links">
+                <li><a href="{{ url('/') }}">Beranda</a></li>
+                <li><a href="{{ route('vendor.register') }}">Daftar Vendor</a></li>
+                <li><a href="{{ url('/') }}#why-partner">Mengapa Bermitra</a></li>
+                <li><a href="{{ route('faq') }}">FAQ</a></li>
             </ul>
-
-            <div class="agreement-title" style="margin-top:1.25rem;">
-                <span class="agreement-number">5</span>
-                <h3>PASAL 5 — CARA PEMBAYARAN</h3>
-            </div>
-            <p>(1) Pembayaran harga pekerjaan dilaksanakan oleh PIHAK PERTAMA kepada PIHAK KEDUA dengan cara pembayaran sesuai dengan kesepakatan kedua belah Pihak sesuai dengan Surat Perintah Kerja.</p>
-            <p>(2) PIHAK PERTAMA berhak untuk memotong pembayaran PPH (Pajak Penghasilan) sesuai dengan peraturan perundang-undangan yang berlaku.</p>
-            <p>(3) Pembayaran harga pekerjaan dapat dilakukan secara transfer melalui Rekening PIHAK KEDUA yang telah dicantumkan.</p>
-
-            <div class="agreement-title" style="margin-top:1.25rem;">
-                <span class="agreement-number">6</span>
-                <h3>PASAL 6 — JANGKA WAKTU PERJANJIAN</h3>
-            </div>
-            <p>(1) Jangka waktu perjanjian Kerjasama ini yakni sejak tanggal disetujui oleh PARA PIHAK dan tidak ditentukan jangka waktu berakhirnya.</p>
-            <p>(2) Perjanjian ini akan tetap berlaku sepanjang PARA PIHAK masih melaksanakan kerja sama.</p>
-            <p>(3) Dalam hal kerja sama tidak lagi digunakan, maka PIHAK PERTAMA dapat mengakhiri perjanjian ini dengan menyampaikan surat pemberitahuan penghentian kerja sama secara tertulis kepada PIHAK KEDUA.</p>
-            <p>(4) Dalam hal PARA PIHAK sepakat untuk mengakhiri kerja sama yang akan dituangkan secara tertulis di dalam suatu dokumen yang disepakati oleh PARA PIHAK secara tersendiri.</p>
-
-            <div class="agreement-title" style="margin-top:1.25rem;">
-                <span class="agreement-number">7</span>
-                <h3>PASAL 7 — FORCE MAJEURE</h3>
-            </div>
-            <p>(1) Dalam hal terjadi keadaan memaksa (Force Majeure) yang berada di luar kekuasaan PARA PIHAK, termasuk namun tidak terbatas kepada bencana alam, peperangan, revolusi, huru-hara, dan pemogokan massal, maka pihak yang terkena dampak harus memberitahukan kepada pihak lainnya secara tertulis selambat-lambatnya <strong>3 (tiga) hari kalender</strong> setelah keadaan memaksa itu terjadi.</p>
-            <p>(2) Apabila pihak yang terkena dampak tidak atau lalai memberitahukan kejadian tersebut dalam jangka waktu 3 (tiga) hari kalender tersebut, maka keadaan memaksa dianggap tidak pernah terjadi dan pihak yang mengalami keadaan memaksa tersebut tetap harus melaksanakan kewajibannya sebagaimana termaktub dalam Perjanjian ini.</p>
-            <p>(3) Apabila pemberitahuan diberikan dalam batas waktu yang ditentukan, maka PARA PIHAK akan merundingkan kembali pelaksanaan Perjanjian ini berdasarkan musyawarah untuk mufakat.</p>
-
-            <div class="agreement-title" style="margin-top:1.25rem;">
-                <span class="agreement-number">8</span>
-                <h3>PASAL 8 — PENYELESAIAN PERSELISIHAN</h3>
-            </div>
-            <p>(1) Segala perselisihan atau perbedaan pendapat yang timbul atas pelaksanaan dari Perjanjian ini terlebih dahulu akan dibicarakan dan diselesaikan oleh kedua belah pihak secara musyawarah untuk mufakat.</p>
-            <p>(2) Apabila penyelesaian secara musyawarah tidak tercapai antara kedua belah pihak, maka PIHAK PERTAMA dan PIHAK KEDUA sepakat untuk memilih domisili hukum di <strong>Pengadilan Negeri Sidoarjo</strong>.</p>
-
-            <div class="agreement-title" style="margin-top:1.25rem;">
-                <span class="agreement-number">9</span>
-                <h3>PASAL 9 — KETENTUAN LAIN-LAIN</h3>
-            </div>
-            <p>(1) Apabila terjadi perbedaan materi dan penafsiran antara Perjanjian ini dengan dokumen lampirannya, maka yang diberlakukan adalah ketentuan dalam Perjanjian ini.</p>
-            <p>(2) Segala sesuatu mengenai jenis pekerjaan dalam Perjanjian ini, oleh PARA PIHAK akan diatur dalam perjanjian tersendiri yang merupakan satu kesatuan yang mengikat dan bagian yang tidak terpisahkan dari Perjanjian ini.</p>
-            <p>(3) Apabila terdapat perbedaan isi antara Perjanjian ini dengan lampirannya, maka yang diberlakukan adalah yang tertuang dalam Perjanjian ini.</p>
-
-            <div class="agreement-title" style="margin-top:1.25rem;">
-                <span class="agreement-number">10</span>
-                <h3>PASAL 10 — PERSETUJUAN MELALUI WEBSITE</h3>
-            </div>
-            <p>(1) PIHAK KEDUA menyatakan telah membaca dan memahami seluruh isi MOU ini sebelum melakukan persetujuan.</p>
-            <p>(2) Dengan mencetang kolom persetujuan dan menekan tombol Submit/Kirim pada website, PIHAK KEDUA menyatakan bersedia menjadi Vendor PT. DNA JAYA GROUP.</p>
-            <p>(3) Persetujuan melalui sistem/website merupakan bentuk pernyataan kesediaan PIHAK KEDUA untuk mematuhi dan menjalankan ketentuan yang tercantum dalam MOU ini.</p>
-            <p>(4) Data dan informasi yang diberikan oleh PIHAK KEDUA melalui formulir pendaftaran vendor merupakan bagian dari proses administrasi kerja sama Vendor.</p>
-            <p>(5) PIHAK KEDUA bertanggung jawab atas kebenaran data dan informasi yang disampaikan melalui sistem.</p>
-
-            <div class="agreement-title" style="margin-top:1.25rem;">
-                <span class="agreement-number">11</span>
-                <h3>PASAL 11 — PENUTUP</h3>
-            </div>
-            <p>MOU ini dibuat sebagai dasar dan pedoman dalam pelaksanaan kerja sama <strong>PT. DNA JAYA GROUP</strong> dengan vendor. Dengan melakukan persetujuan melalui website, PIHAK KEDUA menyatakan telah membaca, memahami, menyetujui dan bersedia mematuhi seluruh ketentuan dalam MOU ini.</p>
-            <p>MOU ini berlaku sebagai ketentuan umum kerja sama vendor sejak persetujuan dilakukan melalui sistem/website PT. DNA JAYA GROUP.</p>
-
-            <div style="margin-top:1.5rem;padding:1rem;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:8px;">
-                <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
-                    <input
-                        type="checkbox"
-                        id="mouConfirm"
-                        style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:#d4af37;cursor:pointer;"
-                    >
-                    <span style="font-weight:600;color:#d4af37;font-size:0.88rem;line-height:1.5;">Saya telah membaca, memahami, dan menyetujui seluruh isi MOU Kerja Sama Vendor serta bersedia menjadi Vendor PT. DNA JAYA GROUP</span>
-                </label>
-            </div>
-
         </div>
-
-
-        <div class="agreement-footer" style="position: relative; z-index: 2;">
-
-            <button
-                type="button"
-                id="acceptAgreement"
-                class="agree-button"
-                disabled>
-
-                🔒 I Agree & Continue
-
-            </button>
-
+        <div class="footer-col">
+            <h4>Informasi Kontak</h4>
+            <div class="contact-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <div>Jl. Taman Dhika BL 6 No. 3A<br>Sono, Sidoarjo<br>Buduran, Sidoarjo</div>
+            </div>
+            <div class="contact-item">
+                <i class="fa-regular fa-clock"></i>
+                <div>Senin - Jumat<br>08:00 - 17:00 WIB</div>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <div>Email Segera Hadir</div>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-phone"></i>
+                <div>Telepon Segera Hadir</div>
+            </div>
         </div>
-
+        <div class="footer-col">
+            <div class="ready-box">
+                <h4>Siap Bergabung?</h4>
+                <p>Jadilah bagian dari jaringan vendor terpercaya DNA Advertising.</p>
+                <a href="{{ route('vendor.register') }}" class="btn-gold">Daftar Sekarang <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </div>
     </div>
-
-</div>
-
+    <div class="footer-bottom">
+        <div>© {{ date('Y') }} DNA Advertising. Semua hak dilindungi.</div>
+        <div>Vendor Registration Portal</div>
+    </div>
+</footer>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Business Category Toggle
-       
+// Step Navigation Logic
+const steps = [
+    { id: 1, title: 'Informasi Perusahaan', desc: 'Data umum perusahaan' },
+    { id: 2, title: 'Kontak & Dokumen', desc: 'Informasi kontak & dokumen' },
+    { id: 3, title: 'Tinjau & Kirim', desc: 'Periksa dan kirim pendaftaran' }
+];
 
-        // Single ID Card Upload
-        const idCardInput = document.getElementById('idCardInput');
-        const idCardText = document.getElementById('idCardText');
-        const idCardSubText = document.getElementById('idCardSubText');
-        const bankBookInput = document.getElementById('bankBookInput');
-        const bankBookText = document.getElementById('bankBookText');
-        const npwpInput = document.getElementById('npwpInput');
-        const npwpText = document.getElementById('npwpText');
-        const npwpSubText = document.getElementById('npwpSubText');
-        const bankBookSubText = document.getElementById('bankBookSubText');
-
-
-        if (idCardInput) {
-            idCardInput.addEventListener('change', function() {
-                if (this.files && this.files.length > 0) {
-                    idCardText.style.color = '#0d9488';
-                    idCardText.textContent = '✓ ' + this.files[0].name;
-                    idCardSubText.textContent = (this.files[0].size / (1024 * 1024)).toFixed(2) + ' MB';
-                }
-            });
+function goToStep(stepNumber) {
+    // Hide all steps
+    document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+    // Un-active all nav items
+    document.querySelectorAll('.step-item').forEach(el => el.classList.remove('active'));
+    
+    // Show selected step
+    document.getElementById('step' + stepNumber).classList.add('active');
+    
+    // Update nav items
+    for(let i = 1; i <= 3; i++) {
+        let navItem = document.getElementById('nav-step' + i);
+        if(i < stepNumber) {
+            navItem.classList.add('completed');
+            navItem.classList.remove('active');
+            navItem.querySelector('.step-number').innerHTML = '<i class="fa-solid fa-check"></i>';
+        } else if (i === stepNumber) {
+            navItem.classList.add('active');
+            navItem.classList.remove('completed');
+            navItem.querySelector('.step-number').innerHTML = i;
+        } else {
+            navItem.classList.remove('active', 'completed');
+            navItem.querySelector('.step-number').innerHTML = i;
         }
-
-        if (npwpInput) {
-    npwpInput.addEventListener('change', function () {
-        if (this.files && this.files.length > 0) {
-            npwpText.style.color = '#0d9488';
-            npwpText.textContent = '✓ ' + this.files[0].name;
-            npwpSubText.textContent =
-                (this.files[0].size / (1024 * 1024)).toFixed(2) + ' MB';
-        }
-    });
+    }
+    
+    // Update Mobile Step View
+    const mobileContainer = document.getElementById('mobile-steps-container');
+    let mobileHTML = '';
+    
+    // active step
+    mobileHTML += `
+        <div class="mobile-step-item active">
+            <div class="step-number">${stepNumber}</div>
+            <div class="step-text">
+                <h4>${steps[stepNumber-1].title}</h4>
+                <p>${steps[stepNumber-1].desc}</p>
+            </div>
+        </div>
+    `;
+    
+    // next steps below
+    const nextStepsDiv = document.createElement('div');
+    nextStepsDiv.className = 'mobile-steps';
+    nextStepsDiv.style.marginTop = '1.5rem';
+    let nextHTML = '';
+    for(let i = stepNumber + 1; i <= 3; i++) {
+        nextHTML += `
+            <div class="mobile-step-item" style="opacity: 0.6;">
+                <div class="step-number">${i}</div>
+                <div class="step-text">
+                    <h4>${steps[i-1].title}</h4>
+                    <p>${steps[i-1].desc}</p>
+                </div>
+            </div>
+        `;
+    }
+    nextStepsDiv.innerHTML = nextHTML;
+    
+    mobileContainer.innerHTML = mobileHTML;
+    
+    // Put next steps below form-card
+    const oldNextSteps = document.getElementById('mobile-next-steps');
+    if(oldNextSteps) oldNextSteps.remove();
+    
+    if(nextHTML !== '') {
+        nextStepsDiv.id = 'mobile-next-steps';
+        document.querySelector('.form-card').appendChild(nextStepsDiv);
+    }
+    
+    window.scrollTo({ top: document.querySelector('.form-layout').offsetTop - 100, behavior: 'smooth' });
 }
 
-      if (bankBookInput) {
-    bankBookInput.addEventListener('change', function () {
-        if (this.files && this.files.length > 0) {
-            bankBookText.style.color = '#0d9488';
-            bankBookText.textContent = '✓ ' + this.files[0].name;
-            bankBookSubText.textContent =
-                (this.files[0].size / (1024 * 1024)).toFixed(2) + ' MB';
-        }
-    });
-}
-
-        // Multiple Office Photos - Dynamic Grid System dengan Hapus Per Kotak
-        const officePhotosInput = document.getElementById('officePhotosInput');
-        const officePhotosGrid = document.getElementById('officePhotosGrid');
-        const initialTrigger = document.getElementById('initialOfficePhotosTrigger');
-        
-        let selectedFiles = new DataTransfer();
-
-        function syncInputFiles() {
-            if (officePhotosInput) {
-                officePhotosInput.files = selectedFiles.files;
-            }
-        }
-
-        function renderPhotosGrid() {
-            officePhotosGrid.innerHTML = ''; 
-
-            if (selectedFiles.files.length === 0) {
-                const mainBox = document.createElement('div');
-                mainBox.className = 'photo-upload-card';
-                mainBox.style.gridColumn = '1 / -1';
-                mainBox.style.aspectRatio = 'auto';
-                mainBox.style.minHeight = '120px';
-                mainBox.innerHTML = `
-                    <p style="margin: 0; color: #1e293b; font-weight: 600;">Drag and drop or click to upload office photos</p>
-                    <span style="color: #64748b; font-size: 0.8rem;">PNG, JPG up to 10MB each (Select 2 or more)</span>
-                    <input type="file" accept=".jpg,.jpeg,.png" multiple>
-                `;
-                
-                const input = mainBox.querySelector('input');
-                input.addEventListener('change', handleFileSelect);
-                officePhotosGrid.appendChild(mainBox);
-                syncInputFiles();
-                return;
-            }
-
-            Array.from(selectedFiles.files).forEach((file, index) => {
-                const card = document.createElement('div');
-                card.className = 'photo-item-card';
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    card.innerHTML = `
-                        <button type="button" class="btn-remove-photo" data-index="${index}" title="Remove photo">&times;</button>
-                        <img src="${e.target.result}" alt="Office Photo ${index + 1}">
-                        <div class="photo-tag">Photo ${index + 1}</div>
-                    `;
-
-                    card.querySelector('.btn-remove-photo').addEventListener('click', function(evt) {
-                        evt.stopPropagation();
-                        removeFile(index);
-                    });
-                };
-                reader.readAsDataURL(file);
-
-                officePhotosGrid.appendChild(card);
-            });
-
-            const addMoreCard = document.createElement('div');
-            addMoreCard.className = 'photo-upload-card';
-            addMoreCard.innerHTML = `
-                <span style="font-size: 1.5rem; color: #c5a059; line-height: 1;">+</span>
-                <span style="font-size: 0.75rem; color: #1e293b; font-weight: 600; margin-top: 4px;">+ Add More</span>
-                <input type="file" accept=".jpg,.jpeg,.png" multiple>
-            `;
-
-            const addInput = addMoreCard.querySelector('input');
-            addInput.addEventListener('change', handleFileSelect);
-            officePhotosGrid.appendChild(addMoreCard);
-
-            syncInputFiles();
-        }
-
-        function handleFileSelect(event) {
-            if (event.target.files && event.target.files.length > 0) {
-                const maxSizeBytes = 10 * 1024 * 1024; // 10MB
-                
-                Array.from(event.target.files).forEach(file => {
-                    if (!file.type.startsWith('image/')) {
-                        alert(`File "${file.name}" bukan format gambar yang valid!`);
-                        return;
-                    }
-                    if (file.size > maxSizeBytes) {
-                        alert(`Ukuran file "${file.name}" terlalu besar! Maksimal 10MB per foto.`);
-                        return;
-                    }
-                    selectedFiles.items.add(file);
-                });
-
-                renderPhotosGrid();
-            }
-        }
-
-        function removeFile(index) {
-            const dt = new DataTransfer();
-            const files = selectedFiles.files;
-            
-            for (let i = 0; i < files.length; i++) {
-                if (i !== index) {
-                    dt.items.add(files[i]);
-                }
-            }
-            
-            selectedFiles = dt;
-            renderPhotosGrid();
-        }
-
-        if (initialTrigger) {
-            initialTrigger.addEventListener('change', handleFileSelect);
-        }
-    });
-
-
-
-/* ===========================================
-   SEARCH COMPANY LOCATION
-=========================================== */
-
-const searchLocationBtn = document.getElementById("searchLocationBtn");
-
-if (searchLocationBtn) {
-
-    searchLocationBtn.addEventListener("click", async function () {
-
-        const keyword = document.getElementById("locationSearch").value.trim();
-
-        if (keyword === "") {
-            alert("Please enter a company location.");
-            return;
-        }
-
-        try {
-
-            const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(keyword)}`
-            );
-
-            const data = await response.json();
-
-            if (data.length === 0) {
-                alert("Alamat tidak ditemukan.\nSilakan klik lokasi perusahaan langsung pada peta.");
-                return;
-            }
-
-            const lat = parseFloat(data[0].lat);
-            const lng = parseFloat(data[0].lon);
-
-            companyMap.setView([lat, lng], 16);
-
-            if (companyMarker) {
-                companyMap.removeLayer(companyMarker);
-            }
-
-            companyMarker = L.marker([lat, lng]).addTo(companyMap);
-
-            document.getElementById("latitude").value = lat;
-            document.getElementById("longitude").value = lng;
-
-        } catch (e) {
-
-            alert("Failed to search location.");
-            console.error(e);
-
-        }
-
-    });
-
-}
-
+// Init
 document.addEventListener("DOMContentLoaded", function () {
-
-    const modal = document.getElementById("agreementModal");
-    const openBtn = document.getElementById("openAgreement");
-    const closeBtn = document.getElementById("closeAgreement");
-
-    const scrollArea = document.getElementById("agreementScroll");
-    const acceptBtn = document.getElementById("acceptAgreement");
-
-    const agreement = document.getElementById("agreement");
-    const submitBtn = document.getElementById("submitBtn");
-    const agreementStatus = document.getElementById("agreementStatus");
-
-    if (
-        !modal ||
-        !openBtn ||
-        !closeBtn ||
-        !scrollArea ||
-        !acceptBtn ||
-        !agreement ||
-        !submitBtn ||
-        !agreementStatus
-    ) {
-        console.error("Agreement modal element not found.");
-        return;
-    }
-
-    // Open Modal
-    openBtn.addEventListener("click", function () {
-
-        modal.classList.add("show");
-        document.body.style.overflow = "hidden"; // Lock background scroll
-
-        scrollArea.scrollTop = 0;
-
-        acceptBtn.disabled = true;
-        acceptBtn.classList.remove("enabled");
-
-    });
-
-    // Close Button
-    closeBtn.addEventListener("click", function () {
-
-        modal.classList.remove("show");
-        document.body.style.overflow = ""; // Unlock background scroll
-
-    });
-
-    // Click Backdrop
-    modal.addEventListener("click", function (e) {
-
-        if (e.target === modal) {
-            modal.classList.remove("show");
-            document.body.style.overflow = ""; // Unlock background scroll
-        }
-
-    });
-
-    // Enable Agree Button only when MOU confirm checkbox is checked
-    const mouConfirm = document.getElementById("mouConfirm");
-
-    if (mouConfirm) {
-        mouConfirm.addEventListener("change", function () {
-            if (this.checked) {
-                acceptBtn.disabled = false;
-                acceptBtn.classList.add("enabled");
-            } else {
-                acceptBtn.disabled = true;
-                acceptBtn.classList.remove("enabled");
-            }
-        });
-    }
-
-    // Disable scroll-based auto-enable (now requires checkbox)
-    scrollArea.addEventListener("scroll", function () {
-        // scroll tracking removed - button enabled by checkbox only
-    });
-
-    // Accept Agreement
-    acceptBtn.addEventListener("click", function () {
-
-        agreement.disabled = false;
-        agreement.checked = true;
-        agreement.disabled = false;
-
-        submitBtn.disabled = false;
-
-        agreementStatus.innerHTML =
-            "✅ MOU Perjanjian Kerjasama Vendor telah disetujui.";
-
-        agreementStatus.style.color = "#16a34a";
-
-        modal.classList.remove("show");
-        document.body.style.overflow = ""; // Unlock background scroll
-
-    });
-
+    goToStep(1);
 });
 
 // ============================================================
@@ -1306,7 +690,7 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
     e.preventDefault();
 
     const form = this;
-    const submitBtn = form.querySelector('button[type="submit"]');
+    const submitBtn = document.getElementById('submitBtn');
 
     // Cek semua file sudah dipilih
     const idCardFile = document.getElementById('idCardInput').files[0];
@@ -1315,25 +699,26 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
     const officePhotos = Array.from(document.getElementById('officePhotosInput').files);
 
     if (!idCardFile || !bankBookFile || !npwpFile) {
-        alert('Mohon lengkapi semua file yang diperlukan.');
+        alert('Mohon lengkapi semua file yang diperlukan pada langkah 2.');
+        goToStep(2);
         return;
     }
 
     if (officePhotos.length < 2) {
-        alert('Minimal 2 foto kantor diperlukan.');
+        alert('Minimal 2 foto kantor diperlukan pada langkah 2.');
+        goToStep(2);
         return;
     }
 
     // Tampilkan loading
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '⏳ Mengupload file... Mohon tunggu';
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengupload file...';
 
     try {
         const csrfToken = document.querySelector('input[name="_token"]').value;
 
         // Fungsi upload satu file
         async function uploadFile(file, folder) {
-            // Minta presigned URL dari Laravel
             const presignRes = await fetch('/upload/presign', {
                 method: 'POST',
                 headers: {
@@ -1350,7 +735,6 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
             if (!presignRes.ok) throw new Error('Gagal mendapatkan URL upload');
             const { upload_url, public_url } = await presignRes.json();
 
-            // Upload langsung ke Supabase (bypass Vercel!)
             const uploadRes = await fetch(upload_url, {
                 method: 'PUT',
                 headers: { 'Content-Type': file.type },
@@ -1362,19 +746,19 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
         }
 
         // Upload semua file secara bersamaan
-        submitBtn.innerHTML = '⏳ Mengupload KTP...';
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengupload KTP...';
         const idCardUrl = await uploadFile(idCardFile, 'id_cards');
         document.getElementById('id_card_url').value = idCardUrl;
 
-        submitBtn.innerHTML = '⏳ Mengupload Buku Rekening...';
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengupload Buku Rekening...';
         const bankBookUrl = await uploadFile(bankBookFile, 'bank_books');
         document.getElementById('bank_book_url').value = bankBookUrl;
 
-        submitBtn.innerHTML = '⏳ Mengupload NPWP...';
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengupload NPWP...';
         const npwpUrl = await uploadFile(npwpFile, 'npwp');
         document.getElementById('npwp_file_url').value = npwpUrl;
 
-        submitBtn.innerHTML = '⏳ Mengupload Foto Kantor...';
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengupload Foto Kantor...';
         const officePhotoUrls = [];
         for (const photo of officePhotos) {
             const url = await uploadFile(photo, 'office_photos');
@@ -1382,10 +766,9 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
         }
         document.getElementById('office_photos_urls').value = JSON.stringify(officePhotoUrls);
 
-        // Semua file berhasil diupload, bersihkan file inputs dulu baru submit
-        submitBtn.innerHTML = '⏳ Menyimpan data...';
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan data...';
 
-        // Hapus name dan disable semua file input supaya tidak ikut terkirim ke Vercel
+        // Disable file inputs so they don't upload directly to server
         form.querySelectorAll('input[type="file"]').forEach(input => {
             input.removeAttribute('name');
             input.disabled = true;
@@ -1397,7 +780,7 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
         console.error(err);
         alert('Terjadi kesalahan saat mengupload file: ' + err.message);
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Submit Registration';
+        submitBtn.innerHTML = 'Kirim Pendaftaran';
     }
 });
 </script>
