@@ -9,16 +9,16 @@ body { margin: 0; padding: 0; }
 
 :root {
     --navy: #1b3a60;
-    --navy-light: #244b7a;
-    --navy-dark: #122845;
+    --navy-light: #2a5a8f;
+    --navy-dark: #0c1a2c;
     --gold: #f59e0b;
     --gold-hover: #d97706;
     --text-gray: #64748b;
 }
 
-/* 2. BACKGROUND BERVARIASI (Gradient) */
+/* 4 & 5. BACKGROUND RADIAL GRADIENT (Terang di tengah, gelap di pinggir) */
 .page-wrapper {
-    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%) !important;
+    background: radial-gradient(circle at center 30%, var(--navy-light) 0%, var(--navy-dark) 100%) !important;
     min-height: 100vh;
     width: 100%;
     font-family: 'Inter', sans-serif;
@@ -41,7 +41,6 @@ body { margin: 0; padding: 0; }
     z-index: 100;
 }
 .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
-/* 5. LOGO ASLI (Remove filter) */
 .nav-logo img { height: 35px; } 
 .nav-logo span { font-weight: 700; color: #fff; font-size: 1.2rem; }
 .nav-logo span .text-red { color: #e11d48; }
@@ -53,14 +52,14 @@ body { margin: 0; padding: 0; }
 }
 
 .nav-links { display: flex; gap: 2rem; align-items: center; }
-.nav-links a { text-decoration: none; color: rgba(255,255,255,0.8); font-weight: 600; font-size: 0.95rem; transition: 0.2s; }
-.nav-links a:hover, .nav-links a.active { color: var(--gold); }
+.nav-links a { text-decoration: none; color: #ffffff !important; font-weight: 600; font-size: 0.95rem; transition: 0.2s; opacity: 0.9; }
+.nav-links a:hover, .nav-links a.active { color: var(--gold) !important; opacity: 1; }
 .nav-links a.active { border-bottom: 2px solid var(--gold); padding-bottom: 4px; }
-.btn-nav-contact { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 0.5rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; transition: 0.2s; font-size: 0.9rem; }
-.btn-nav-contact:hover { background: rgba(255,255,255,0.1); }
+.btn-nav-contact { background: transparent; border: 1px solid rgba(255,255,255,0.4); color: #ffffff !important; padding: 0.5rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; transition: 0.2s; font-size: 0.9rem; }
+.btn-nav-contact:hover { background: rgba(255,255,255,0.15); }
 .mobile-menu-btn { display: none; font-size: 1.5rem; color: #fff; background: none; border: none; cursor: pointer; }
 
-/* 3. LANG SWITCHER (Custom Pill) */
+/* LANG SWITCHER (Custom Pill) */
 .lang-switcher {
     display: flex;
     background: rgba(255,255,255,0.15);
@@ -85,7 +84,7 @@ body { margin: 0; padding: 0; }
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-/* 4. LANGUAGE LOGIC (Using Parent Class) */
+/* LANGUAGE LOGIC */
 .lang-id { display: inline; }
 .lang-en { display: none; }
 body.lang-en-active .lang-id { display: none; }
@@ -121,22 +120,23 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     max-width: 600px;
 }
 .eyebrow-pill {
-    color: var(--gold);
+    color: var(--gold) !important;
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     margin-bottom: 1rem;
 }
-/* 8. HERO TITLE CUMA 1 WARNA (Putih semua) */
-.hero-title { font-size: 3.2rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem; color: #ffffff; }
+/* 1. HERO TITLE FULL GOLD */
+.hero-title { font-size: 3.2rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem; color: var(--gold) !important; }
 
-.hero-desc { font-size: 0.95rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 3rem; max-width: 90%; }
+/* 2. TEKS JADI PUTIH SEMUA */
+.hero-desc { font-size: 0.95rem; color: #ffffff !important; line-height: 1.6; margin-bottom: 3rem; max-width: 90%; }
 .hero-features { display: flex; gap: 2rem; }
-.hf-item { display: flex; align-items: center; gap: 0.75rem; color: #fff; }
+.hf-item { display: flex; align-items: center; gap: 0.75rem; color: #ffffff !important; }
 .hf-icon { color: var(--gold); font-size: 1.25rem; }
-.hf-text { font-size: 0.8rem; line-height: 1.3; }
-.hf-text strong { display: block; font-weight: 600; margin-bottom: 2px; }
+.hf-text { font-size: 0.8rem; line-height: 1.3; color: #ffffff !important; }
+.hf-text strong { display: block; font-weight: 600; margin-bottom: 2px; color: #ffffff !important; }
 
 /* FORM LAYOUT */
 .form-layout {
@@ -157,46 +157,44 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     gap: 1.5rem;
 }
 .steps-box {
-    background: rgba(18, 40, 69, 0.6);
+    background: rgba(12, 26, 44, 0.4);
     border-radius: 16px;
     padding: 1.5rem;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
     backdrop-filter: blur(10px);
 }
-.steps-title { color: #fff; font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem; }
-.step-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; padding: 0.75rem 1rem; border-radius: 12px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
-/* 7. STEP TEXT COLOR */
-.step-item { color: rgba(255,255,255,0.7); }
-.step-item.active { background: #fff; color: var(--navy); border: 1px solid #e2e8f0; }
+.steps-title { color: #ffffff !important; font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem; }
+.step-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; padding: 0.75rem 1rem; border-radius: 12px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; color: #ffffff !important; }
+.step-item.active { background: #fff; color: var(--navy) !important; border: 1px solid #e2e8f0; }
 .step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
 .step-item.active .step-number { background: #eff6ff; border-color: #3b82f6; color: #3b82f6; }
 .step-item.completed .step-number { background: #10b981; border-color: #10b981; color: #fff; }
 .step-text h4 { margin: 0 0 2px; font-size: 0.9rem; font-weight: 700; }
 .step-text p { margin: 0; font-size: 0.75rem; }
-/* Override opacity for active state */
-.step-item.active .step-text p { color: #64748b; }
+.step-item.active .step-text h4 { color: var(--navy) !important; }
+.step-item.active .step-text p { color: #64748b !important; }
 
 .help-box {
-    background: rgba(18, 40, 69, 0.6);
+    background: rgba(12, 26, 44, 0.4);
     border-radius: 16px;
     padding: 1.5rem;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
     display: flex;
     flex-direction: column;
     gap: 1rem;
     backdrop-filter: blur(10px);
 }
-.help-box .icon { font-size: 1.5rem; color: #fff; margin-bottom: -0.5rem; }
-.help-box h4 { color: #fff; margin: 0; font-size: 0.95rem; font-weight: 600; }
-.help-box p { color: rgba(255,255,255,0.8); font-size: 0.8rem; margin: 0; line-height: 1.5; }
-.btn-help { background: #fff; color: var(--navy); padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.help-box .icon { font-size: 1.5rem; color: #ffffff !important; margin-bottom: -0.5rem; }
+.help-box h4 { color: #ffffff !important; margin: 0; font-size: 0.95rem; font-weight: 600; }
+.help-box p { color: #ffffff !important; opacity: 0.9; font-size: 0.8rem; margin: 0; line-height: 1.5; }
+.btn-help { background: #ffffff !important; color: var(--navy) !important; padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
 
 /* RIGHT CONTENT (FORM) */
 .form-card {
     background: #f8fafc;
     border-radius: 20px;
     padding: 2.5rem;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
     color: var(--navy); 
     border: 1px solid #e2e8f0;
 }
@@ -226,7 +224,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     box-sizing: border-box;
 }
 .form-control:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
-.help-text { display: block; font-size: 0.75rem; color: var(--text-gray); margin-top: 0.5rem; line-height: 1.5; }
+.help-text { display: block; font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; line-height: 1.5; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 
 /* File Upload specific styles */
@@ -239,32 +237,30 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     cursor: pointer;
     transition: 0.2s;
     position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .file-upload-box.has-file {
     border-color: #10b981;
     background: #d1fae5;
 }
-.file-upload-box.error {
-    border-color: #ef4444;
-    background: #fee2e2;
-}
 .file-upload-box:hover { border-color: #3b82f6; background: #eff6ff; }
 .file-upload-box input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 .file-upload-box i { font-size: 1.5rem; color: #64748b; margin-bottom: 0.5rem; transition: 0.2s; }
 .file-upload-box.has-file i { color: #10b981; }
-.file-upload-box.error i { color: #ef4444; }
 .file-upload-box p { margin: 0; font-size: 0.85rem; color: var(--navy); font-weight: 600; }
 .file-upload-box span { font-size: 0.75rem; color: #475569; display: block; margin-top: 4px; }
 .file-indicator { font-size: 0.75rem; font-weight: 700; margin-top: 8px; display: none; }
 .file-indicator.success { color: #10b981; display: block; }
-.file-indicator.error { color: #ef4444; display: block; }
 
 /* Agreement styling */
 .agreement-box { background: rgba(27, 58, 96, 0.05); border: 1px solid #cbd5e1; border-radius: 12px; padding: 1.5rem; }
 .agreement-box label { display: flex; gap: 1rem; align-items: flex-start; cursor: pointer; opacity: 0.7; transition: 0.3s; }
 .agreement-box label.enabled { opacity: 1; }
-/* 6. MOU MUST BE READ FIRST */
-.agreement-box input[type="checkbox"] { margin-top: 4px; width: 18px; height: 18px; pointer-events: none; } /* Cannot check directly initially */
+.agreement-box input[type="checkbox"] { margin-top: 4px; width: 18px; height: 18px; pointer-events: none; } 
 .agreement-text { font-size: 0.85rem; color: #334155; line-height: 1.6; }
 .btn-mou { background: #3b82f6; color: #fff; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; border: none; cursor: pointer; }
 .btn-mou:hover { background: #2563eb; }
@@ -281,30 +277,30 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 .step-content.active { display: block; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* CUSTOM FOOTER (Matching welcome.blade.php) */
+/* CUSTOM FOOTER */
 .custom-footer { background: var(--navy-dark); color: #fff; padding: 4rem 5% 2rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 4rem; }
 .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.5fr 1.5fr; gap: 3rem; }
 .footer-col h4 { font-size: 1.1rem; font-weight: 600; margin: 0 0 1.5rem; color: #fff; }
 .footer-logo-wrap { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
 .footer-logo-wrap img { height: 28px; }
-.footer-logo-wrap span { font-weight: 700; font-size: 1.2rem; }
+.footer-logo-wrap span { font-weight: 700; font-size: 1.2rem; color: #fff; }
 .footer-logo-wrap span .text-red { color: #e11d48; }
-.footer-col p { color: rgba(255,255,255,0.7); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.5rem; }
+.footer-col p { color: rgba(255,255,255,0.8); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.5rem; }
 .social-links { display: flex; gap: 1rem; }
-.social-links a { color: #fff; opacity: 0.7; font-size: 1.2rem; transition: 0.2s; }
+.social-links a { color: #fff; opacity: 0.8; font-size: 1.2rem; transition: 0.2s; }
 .social-links a:hover { opacity: 1; color: var(--gold); }
 .footer-links { list-style: none; padding: 0; margin: 0; }
 .footer-links li { margin-bottom: 0.75rem; }
-.footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem; transition: 0.2s; }
+.footer-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; transition: 0.2s; }
 .footer-links a:hover { color: var(--gold); }
-.contact-item { display: flex; gap: 0.75rem; margin-bottom: 1rem; color: rgba(255,255,255,0.7); font-size: 0.85rem; line-height: 1.5; }
+.contact-item { display: flex; gap: 0.75rem; margin-bottom: 1rem; color: rgba(255,255,255,0.8); font-size: 0.85rem; line-height: 1.5; }
 .contact-item i { margin-top: 0.2rem; }
-.footer-bottom { max-width: 1200px; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; color: rgba(255,255,255,0.5); font-size: 0.75rem; }
+.footer-bottom { max-width: 1200px; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; color: rgba(255,255,255,0.6); font-size: 0.75rem; }
 
-/* READY TO JOIN BOX in Footer */
-.ready-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; }
+/* READY TO JOIN BOX */
+.ready-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 12px; }
 .ready-box h4 { margin-bottom: 0.5rem; font-size: 1rem; font-weight: 700; color: #fff; }
-.ready-box p { font-size: 0.8rem; margin-bottom: 1.25rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
+.ready-box p { font-size: 0.8rem; margin-bottom: 1.25rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
 .btn-gold { background: var(--gold); color: var(--navy); padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.2s; }
 .btn-gold:hover { background: var(--gold-hover); }
 
@@ -335,7 +331,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     
     .sidebar-steps { display: none; } 
     .mobile-steps { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
-    .mobile-step-item { background: rgba(18, 40, 69, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,0.8); backdrop-filter: blur(10px); }
+    .mobile-step-item { background: rgba(12, 26, 44, 0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 1rem; color: #ffffff; backdrop-filter: blur(10px); }
     .mobile-step-item.active { background: #f8fafc; color: var(--navy); }
     .mobile-step-item .step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
     .mobile-step-item.active .step-number { background: #eff6ff; color: #3b82f6; border-color: #3b82f6; }
@@ -343,12 +339,11 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     .mobile-step-item .step-text p { margin: 0; font-size: 0.75rem; }
     .mobile-step-item.active .step-text p { color: #64748b; }
     
-    .mobile-help { margin-top: 1.5rem; }
+    .mobile-help { display: flex; margin-top: 1.5rem; }
 }
 @media (min-width: 993px) {
     .mobile-steps, .mobile-help { display: none; }
 }
-
 </style>
 
 <div class="page-wrapper">
@@ -724,31 +719,58 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                                     <span class="lang-en">Select Bank Book</span>
                                 </p>
                                 <span>
-                                    <span class="lang-id">Halaman depan buku rekening</span>
-                                    <span class="lang-en">Front page of bank book</span>
+                                    <span class="lang-id">Halaman depan</span>
+                                    <span class="lang-en">Front page</span>
                                 </span>
                                 <div class="file-indicator" id="ind-bank"></div>
                                 <input type="file" name="bank_book" id="bankBookInput" accept=".jpg,.jpeg,.png,.pdf" required onchange="handleFile(this, 'box-bank', 'ind-bank')">
                             </div>
                         </div>
+                        <!-- 3. DIPISAH MENJADI 2 INPUT AGAR BISA UPLOAD 2 FOTO DENGAN MUDAH -->
                         <div class="form-group">
                             <label class="form-label">
-                                <span class="lang-id">Upload Foto Kantor</span>
-                                <span class="lang-en">Upload Office Photos</span> 
+                                <span class="lang-id">Foto Kantor (Depan)</span>
+                                <span class="lang-en">Office Photo (Front)</span> 
                                 <span class="req">*</span>
                             </label>
-                            <div class="file-upload-box" id="box-office" onclick="document.getElementById('officePhotosInput').click()">
-                                <i class="fa-solid fa-images"></i>
+                            <div class="file-upload-box" id="box-office1" onclick="document.getElementById('officePhoto1Input').click()">
+                                <i class="fa-solid fa-image"></i>
                                 <p>
-                                    <span class="lang-id">Pilih Foto Kantor</span>
-                                    <span class="lang-en">Select Office Photos</span>
+                                    <span class="lang-id">Pilih Foto 1</span>
+                                    <span class="lang-en">Select Photo 1</span>
                                 </p>
                                 <span>
-                                    <span class="lang-id">Tampak depan & dalam (Min 2)</span>
-                                    <span class="lang-en">Front & inside view (Min 2)</span>
+                                    <span class="lang-id">Tampak depan bangunan</span>
+                                    <span class="lang-en">Building front view</span>
                                 </span>
-                                <div class="file-indicator" id="ind-office"></div>
-                                <input type="file" name="office_photos[]" id="officePhotosInput" accept=".jpg,.jpeg,.png" multiple required onchange="handleMultipleFiles(this, 'box-office', 'ind-office')">
+                                <div class="file-indicator" id="ind-office1"></div>
+                                <input type="file" id="officePhoto1Input" accept=".jpg,.jpeg,.png" required onchange="handleFile(this, 'box-office1', 'ind-office1')">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <!-- Placeholder to keep grid aligned if needed, but let's just make it span 1 -->
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span class="lang-id">Foto Kantor (Dalam)</span>
+                                <span class="lang-en">Office Photo (Inside)</span> 
+                                <span class="req">*</span>
+                            </label>
+                            <div class="file-upload-box" id="box-office2" onclick="document.getElementById('officePhoto2Input').click()">
+                                <i class="fa-solid fa-image"></i>
+                                <p>
+                                    <span class="lang-id">Pilih Foto 2</span>
+                                    <span class="lang-en">Select Photo 2</span>
+                                </p>
+                                <span>
+                                    <span class="lang-id">Tampak dalam ruangan</span>
+                                    <span class="lang-en">Inside room view</span>
+                                </span>
+                                <div class="file-indicator" id="ind-office2"></div>
+                                <input type="file" id="officePhoto2Input" accept=".jpg,.jpeg,.png" required onchange="handleFile(this, 'box-office2', 'ind-office2')">
                             </div>
                         </div>
                     </div>
@@ -783,7 +805,6 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                     
                     <div class="agreement-box" id="agreementBoxWrapper">
                         <label id="agreementLabel" onclick="handleAgreementClick(event)">
-                            <!-- MUST READ MOU FIRST -->
                             <input type="checkbox" name="agreement" id="agreement" required>
                             <div class="agreement-text">
                                 <strong>
@@ -817,7 +838,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                 
             </form>
             
-            <!-- MOBILE HELP (Shown below form on mobile) -->
+            <!-- MOBILE HELP -->
             <div class="help-box mobile-help">
                 <i class="fa-solid fa-headset icon"></i>
                 <h4>
@@ -838,7 +859,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
         </div>
     </div>
 
-    <!-- CUSTOM FOOTER (Matching welcome.blade.php) -->
+    <!-- CUSTOM FOOTER -->
     <footer class="custom-footer">
         <div class="footer-grid">
             <div class="footer-col">
@@ -1080,30 +1101,6 @@ function handleFile(inputElement, boxId, indicatorId) {
     }
 }
 
-function handleMultipleFiles(inputElement, boxId, indicatorId) {
-    const box = document.getElementById(boxId);
-    const indicator = document.getElementById(indicatorId);
-    
-    if (inputElement.files && inputElement.files.length > 0) {
-        if (inputElement.files.length >= 2) {
-            // Success (2 or more photos)
-            box.classList.remove('error');
-            box.classList.add('has-file');
-            indicator.className = 'file-indicator success';
-            indicator.innerHTML = `<i class="fa-solid fa-check"></i> Berhasil: ${inputElement.files.length} Foto Kantor dipilih`;
-        } else {
-            // Error (Only 1 photo)
-            box.classList.remove('has-file');
-            box.classList.add('error');
-            indicator.className = 'file-indicator error';
-            indicator.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Kurang 1 Foto lagi! (Minimal 2 foto)`;
-        }
-    } else {
-        box.classList.remove('has-file', 'error');
-        indicator.innerHTML = '';
-    }
-}
-
 // ==================== STEP NAVIGATION ====================
 const steps = [
     { id: 1, title: 'Informasi Perusahaan', desc: 'Data umum perusahaan' },
@@ -1186,7 +1183,7 @@ let hasReadMou = false;
 
 function handleAgreementClick(event) {
     if (!hasReadMou) {
-        event.preventDefault(); // Prevent checkbox from being checked
+        event.preventDefault(); 
         openMou();
     }
 }
@@ -1202,23 +1199,22 @@ function closeMou() {
 }
 
 function acceptMou() {
-    hasReadMou = true; // Mark as read
+    hasReadMou = true; 
     
     const checkbox = document.getElementById('agreement');
     const label = document.getElementById('agreementLabel');
     const mouBtn = document.querySelector('.btn-mou');
     
     checkbox.checked = true;
-    checkbox.style.pointerEvents = 'auto'; // Re-enable normal clicking
-    label.classList.add('enabled'); // Full opacity
+    checkbox.style.pointerEvents = 'auto'; 
+    label.classList.add('enabled'); 
     
-    // Change button to indicate success
     if (currentLang === 'id') {
         mouBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> MOU Disetujui';
     } else {
         mouBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> MOU Accepted';
     }
-    mouBtn.style.background = '#10b981'; // Green
+    mouBtn.style.background = '#10b981'; 
     
     closeMou();
 }
@@ -1239,16 +1235,11 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
     const idCardFile = document.getElementById('idCardInput').files[0];
     const bankBookFile = document.getElementById('bankBookInput').files[0];
     const npwpFile = document.getElementById('npwpInput').files[0];
-    const officePhotos = Array.from(document.getElementById('officePhotosInput').files);
+    const officePhoto1 = document.getElementById('officePhoto1Input').files[0];
+    const officePhoto2 = document.getElementById('officePhoto2Input').files[0];
 
-    if (!idCardFile || !bankBookFile || !npwpFile) {
-        alert(currentLang === 'id' ? 'Mohon lengkapi semua file yang diperlukan pada langkah 2.' : 'Please complete all required files in step 2.');
-        goToStep(2);
-        return;
-    }
-
-    if (officePhotos.length < 2) {
-        alert(currentLang === 'id' ? 'Minimal 2 foto kantor diperlukan pada langkah 2.' : 'Minimum 2 office photos required in step 2.');
+    if (!idCardFile || !bankBookFile || !npwpFile || !officePhoto1 || !officePhoto2) {
+        alert(currentLang === 'id' ? 'Mohon lengkapi SEMUA file (termasuk 2 foto kantor) pada langkah 2.' : 'Please complete ALL required files (including 2 office photos) in step 2.');
         goToStep(2);
         return;
     }
@@ -1284,10 +1275,8 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
         document.getElementById('npwp_file_url').value = npwpUrl;
 
         const officePhotoUrls = [];
-        for (const photo of officePhotos) {
-            const url = await uploadFile(photo, 'office_photos');
-            officePhotoUrls.push(url);
-        }
+        officePhotoUrls.push(await uploadFile(officePhoto1, 'office_photos'));
+        officePhotoUrls.push(await uploadFile(officePhoto2, 'office_photos'));
         document.getElementById('office_photos_urls').value = JSON.stringify(officePhotoUrls);
 
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (currentLang === 'id' ? 'Menyimpan data...' : 'Saving data...');
