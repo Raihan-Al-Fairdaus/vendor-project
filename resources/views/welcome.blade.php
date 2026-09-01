@@ -42,7 +42,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 /* HERO SECTION */
 .hero-wrapper {
     background: var(--navy);
-    padding: 4rem 5% 0;
+    padding: 4rem 5% 4rem; /* Tambah padding bawah agar kotak tidak menempel ke bawah */
     position: relative;
     overflow: hidden;
 }
@@ -80,14 +80,15 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 /* FEATURES BAR */
 .features-bar {
     max-width: 1200px;
-    margin: 4rem auto 0;
+    margin: 5rem auto 0;
     background: var(--navy-light);
-    border-radius: 16px 16px 0 0;
+    border-radius: 20px; /* Buat rounded di semua sisi */
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     padding: 2.5rem;
     gap: 2rem;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05); /* Tambah border full */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
 }
 .feature-item { display: flex; align-items: center; gap: 1rem; color: #fff; }
 .feature-icon { width: 48px; height: 48px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
