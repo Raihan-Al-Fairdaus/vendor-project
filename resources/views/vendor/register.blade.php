@@ -16,8 +16,9 @@ body { margin: 0; padding: 0; }
     --text-gray: #64748b;
 }
 
+/* 2. BACKGROUND BERVARIASI (Gradient) */
 .page-wrapper {
-    background-color: var(--navy) !important;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%) !important;
     min-height: 100vh;
     width: 100%;
     font-family: 'Inter', sans-serif;
@@ -40,7 +41,8 @@ body { margin: 0; padding: 0; }
     z-index: 100;
 }
 .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
-.nav-logo img { height: 28px; filter: brightness(0) invert(1); }
+/* 5. LOGO ASLI (Remove filter) */
+.nav-logo img { height: 35px; } 
 .nav-logo span { font-weight: 700; color: #fff; font-size: 1.2rem; }
 .nav-logo span .text-red { color: #e11d48; }
 
@@ -58,22 +60,40 @@ body { margin: 0; padding: 0; }
 .btn-nav-contact:hover { background: rgba(255,255,255,0.1); }
 .mobile-menu-btn { display: none; font-size: 1.5rem; color: #fff; background: none; border: none; cursor: pointer; }
 
-/* LANG SWITCHER (DROPDOWN) */
-.lang-switcher-select {
-    background: rgba(255,255,255,0.1);
+/* 3. LANG SWITCHER (Custom Pill) */
+.lang-switcher {
+    display: flex;
+    background: rgba(255,255,255,0.15);
+    border-radius: 30px;
+    padding: 3px;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+.lang-btn {
+    background: transparent;
+    border: none;
     color: #fff;
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 6px 12px;
-    border-radius: 8px;
+    padding: 6px 16px;
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 700;
+    border-radius: 25px;
     cursor: pointer;
-    outline: none;
-    font-family: inherit;
+    transition: 0.3s;
 }
-.lang-switcher-select option {
+.lang-btn.active {
+    background: #fff;
     color: var(--navy);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
+
+/* 4. LANGUAGE LOGIC (Using Parent Class) */
+.lang-id { display: inline; }
+.lang-en { display: none; }
+body.lang-en-active .lang-id { display: none; }
+body.lang-en-active .lang-en { display: inline; }
+
+/* Block elements need block display */
+div.lang-id, p.lang-id, h1.lang-id, h2.lang-id, h3.lang-id, h4.lang-id { display: block; }
+body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-active h1.lang-en, body.lang-en-active h2.lang-en, body.lang-en-active h3.lang-en, body.lang-en-active h4.lang-en { display: block; }
 
 /* HERO SECTION */
 .hero-wrapper {
@@ -108,9 +128,10 @@ body { margin: 0; padding: 0; }
     text-transform: uppercase;
     margin-bottom: 1rem;
 }
-.hero-title { font-size: 3.2rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem; color: #fff; }
-.hero-title .text-gold { color: var(--gold); }
-.hero-desc { font-size: 0.95rem; color: rgba(255,255,255,0.8); line-height: 1.6; margin-bottom: 3rem; max-width: 90%; }
+/* 8. HERO TITLE CUMA 1 WARNA (Putih semua) */
+.hero-title { font-size: 3.2rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem; color: #ffffff; }
+
+.hero-desc { font-size: 0.95rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 3rem; max-width: 90%; }
 .hero-features { display: flex; gap: 2rem; }
 .hf-item { display: flex; align-items: center; gap: 0.75rem; color: #fff; }
 .hf-icon { color: var(--gold); font-size: 1.25rem; }
@@ -136,28 +157,30 @@ body { margin: 0; padding: 0; }
     gap: 1.5rem;
 }
 .steps-box {
-    background: rgba(18, 40, 69, 0.5);
+    background: rgba(18, 40, 69, 0.6);
     border-radius: 16px;
     padding: 1.5rem;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
     backdrop-filter: blur(10px);
 }
-.steps-title { color: rgba(255,255,255,0.9); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem; }
-.step-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; color: rgba(255,255,255,0.6); padding: 0.75rem 1rem; border-radius: 12px; cursor: pointer; transition: 0.3s; }
-.step-item.active { background: #f8fafc; color: var(--navy); box-shadow: 0 10px 20px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
-.step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+.steps-title { color: #fff; font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem; }
+.step-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; padding: 0.75rem 1rem; border-radius: 12px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
+/* 7. STEP TEXT COLOR */
+.step-item { color: rgba(255,255,255,0.7); }
+.step-item.active { background: #fff; color: var(--navy); border: 1px solid #e2e8f0; }
+.step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
 .step-item.active .step-number { background: #eff6ff; border-color: #3b82f6; color: #3b82f6; }
 .step-item.completed .step-number { background: #10b981; border-color: #10b981; color: #fff; }
 .step-text h4 { margin: 0 0 2px; font-size: 0.9rem; font-weight: 700; }
-.step-text p { margin: 0; font-size: 0.75rem; opacity: 0.8; }
-.step-item.active .step-text h4 { color: var(--navy); }
-.step-item.active .step-text p { color: var(--text-gray); }
+.step-text p { margin: 0; font-size: 0.75rem; }
+/* Override opacity for active state */
+.step-item.active .step-text p { color: #64748b; }
 
 .help-box {
-    background: rgba(18, 40, 69, 0.5);
+    background: rgba(18, 40, 69, 0.6);
     border-radius: 16px;
     padding: 1.5rem;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -165,12 +188,12 @@ body { margin: 0; padding: 0; }
 }
 .help-box .icon { font-size: 1.5rem; color: #fff; margin-bottom: -0.5rem; }
 .help-box h4 { color: #fff; margin: 0; font-size: 0.95rem; font-weight: 600; }
-.help-box p { color: rgba(255,255,255,0.7); font-size: 0.8rem; margin: 0; line-height: 1.5; }
+.help-box p { color: rgba(255,255,255,0.8); font-size: 0.8rem; margin: 0; line-height: 1.5; }
 .btn-help { background: #fff; color: var(--navy); padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
 
 /* RIGHT CONTENT (FORM) */
 .form-card {
-    background: #f8fafc; /* Dimmed slightly from pure white #fff */
+    background: #f8fafc;
     border-radius: 20px;
     padding: 2.5rem;
     box-shadow: 0 20px 40px rgba(0,0,0,0.15);
@@ -212,7 +235,7 @@ body { margin: 0; padding: 0; }
     border-radius: 8px;
     padding: 1.5rem;
     text-align: center;
-    background: #e2e8f0; /* Darker than before */
+    background: #e2e8f0; 
     cursor: pointer;
     transition: 0.2s;
     position: relative;
@@ -221,21 +244,29 @@ body { margin: 0; padding: 0; }
     border-color: #10b981;
     background: #d1fae5;
 }
+.file-upload-box.error {
+    border-color: #ef4444;
+    background: #fee2e2;
+}
 .file-upload-box:hover { border-color: #3b82f6; background: #eff6ff; }
 .file-upload-box input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 .file-upload-box i { font-size: 1.5rem; color: #64748b; margin-bottom: 0.5rem; transition: 0.2s; }
 .file-upload-box.has-file i { color: #10b981; }
+.file-upload-box.error i { color: #ef4444; }
 .file-upload-box p { margin: 0; font-size: 0.85rem; color: var(--navy); font-weight: 600; }
 .file-upload-box span { font-size: 0.75rem; color: #475569; display: block; margin-top: 4px; }
-.file-indicator { font-size: 0.75rem; color: #10b981; font-weight: 700; margin-top: 8px; display: none; }
-.file-upload-box.has-file .file-indicator { display: block; }
+.file-indicator { font-size: 0.75rem; font-weight: 700; margin-top: 8px; display: none; }
+.file-indicator.success { color: #10b981; display: block; }
+.file-indicator.error { color: #ef4444; display: block; }
 
 /* Agreement styling */
 .agreement-box { background: rgba(27, 58, 96, 0.05); border: 1px solid #cbd5e1; border-radius: 12px; padding: 1.5rem; }
-.agreement-box label { display: flex; gap: 1rem; align-items: flex-start; cursor: pointer; }
-.agreement-box input[type="checkbox"] { margin-top: 4px; width: 18px; height: 18px; }
+.agreement-box label { display: flex; gap: 1rem; align-items: flex-start; cursor: pointer; opacity: 0.7; transition: 0.3s; }
+.agreement-box label.enabled { opacity: 1; }
+/* 6. MOU MUST BE READ FIRST */
+.agreement-box input[type="checkbox"] { margin-top: 4px; width: 18px; height: 18px; pointer-events: none; } /* Cannot check directly initially */
 .agreement-text { font-size: 0.85rem; color: #334155; line-height: 1.6; }
-.btn-mou { background: #3b82f6; color: #fff; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; border: none; cursor: pointer; }
+.btn-mou { background: #3b82f6; color: #fff; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; border: none; cursor: pointer; }
 .btn-mou:hover { background: #2563eb; }
 
 .form-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 3rem; border-top: 1px solid #e2e8f0; padding-top: 1.5rem; }
@@ -250,12 +281,12 @@ body { margin: 0; padding: 0; }
 .step-content.active { display: block; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* CUSTOM FOOTER (Restored exactly to match welcome.blade.php) */
-.custom-footer { background: var(--navy); color: #fff; padding: 4rem 5% 2rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 4rem; }
+/* CUSTOM FOOTER (Matching welcome.blade.php) */
+.custom-footer { background: var(--navy-dark); color: #fff; padding: 4rem 5% 2rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 4rem; }
 .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.5fr 1.5fr; gap: 3rem; }
 .footer-col h4 { font-size: 1.1rem; font-weight: 600; margin: 0 0 1.5rem; color: #fff; }
 .footer-logo-wrap { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
-.footer-logo-wrap img { height: 28px; filter: brightness(0) invert(1); }
+.footer-logo-wrap img { height: 28px; }
 .footer-logo-wrap span { font-weight: 700; font-size: 1.2rem; }
 .footer-logo-wrap span .text-red { color: #e11d48; }
 .footer-col p { color: rgba(255,255,255,0.7); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.5rem; }
@@ -304,13 +335,13 @@ body { margin: 0; padding: 0; }
     
     .sidebar-steps { display: none; } 
     .mobile-steps { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
-    .mobile-step-item { background: rgba(18, 40, 69, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,0.6); backdrop-filter: blur(10px); }
+    .mobile-step-item { background: rgba(18, 40, 69, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,0.8); backdrop-filter: blur(10px); }
     .mobile-step-item.active { background: #f8fafc; color: var(--navy); }
-    .mobile-step-item .step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+    .mobile-step-item .step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
     .mobile-step-item.active .step-number { background: #eff6ff; color: #3b82f6; border-color: #3b82f6; }
     .mobile-step-item .step-text h4 { margin: 0; font-size: 0.9rem; font-weight: 700; }
-    .mobile-step-item .step-text p { margin: 0; font-size: 0.75rem; opacity: 0.8; }
-    .mobile-step-item.active .step-text p { color: var(--text-gray); }
+    .mobile-step-item .step-text p { margin: 0; font-size: 0.75rem; }
+    .mobile-step-item.active .step-text p { color: #64748b; }
     
     .mobile-help { margin-top: 1.5rem; }
 }
@@ -318,7 +349,6 @@ body { margin: 0; padding: 0; }
     .mobile-steps, .mobile-help { display: none; }
 }
 
-.lang-en { display: none; }
 </style>
 
 <div class="page-wrapper">
@@ -332,19 +362,30 @@ body { margin: 0; padding: 0; }
         
         <div class="nav-right-container">
             <div class="nav-links">
-                <a href="{{ url('/') }}"><span class="lang-id">Beranda</span><span class="lang-en">Home</span></a>
-                <a href="#" class="active"><span class="lang-id">Daftar Vendor</span><span class="lang-en">Register Vendor</span></a>
-                <a href="{{ url('/') }}#why-partner"><span class="lang-id">Mengapa Bermitra</span><span class="lang-en">Why Partner</span></a>
+                <a href="{{ url('/') }}">
+                    <span class="lang-id">Beranda</span>
+                    <span class="lang-en">Home</span>
+                </a>
+                <a href="#" class="active">
+                    <span class="lang-id">Daftar Vendor</span>
+                    <span class="lang-en">Register Vendor</span>
+                </a>
+                <a href="{{ url('/') }}#why-partner">
+                    <span class="lang-id">Mengapa Bermitra</span>
+                    <span class="lang-en">Why Partner</span>
+                </a>
                 <a href="{{ route('faq') }}">FAQ</a>
             </div>
             
-            <select class="lang-switcher-select" onchange="switchLang(this.value)">
-                <option value="id">Bahasa Indonesia</option>
-                <option value="en">English</option>
-            </select>
+            <div class="lang-switcher">
+                <button class="lang-btn active" onclick="switchLang('id')">ID</button>
+                <button class="lang-btn" onclick="switchLang('en')">EN</button>
+            </div>
 
             <a href="https://wa.me/6281228358630" target="_blank" class="btn-nav-contact">
-                <i class="fa-regular fa-user"></i> <span class="lang-id">Hubungi Kami</span><span class="lang-en">Contact Us</span>
+                <i class="fa-regular fa-user"></i> 
+                <span class="lang-id">Hubungi Kami</span>
+                <span class="lang-en">Contact Us</span>
             </a>
         </div>
     </nav>
@@ -353,10 +394,13 @@ body { margin: 0; padding: 0; }
     <section class="hero-wrapper">
         <div class="hero-bg-image"></div>
         <div class="hero-content">
-            <div class="eyebrow-pill"><span class="lang-id">GABUNG BERSAMA KAMI</span><span class="lang-en">JOIN US TODAY</span></div>
+            <div class="eyebrow-pill">
+                <span class="lang-id">GABUNG BERSAMA KAMI</span>
+                <span class="lang-en">JOIN US TODAY</span>
+            </div>
             <h1 class="hero-title">
-                <span class="lang-id">Menjadi Mitra<br><span class="text-gold">Terpercaya</span></span>
-                <span class="lang-en">Become a Trusted<br><span class="text-gold">Partner</span></span>
+                <span class="lang-id">Menjadi Mitra<br>Terpercaya</span>
+                <span class="lang-en">Become a Trusted<br>Partner</span>
             </h1>
             <p class="hero-desc">
                 <span class="lang-id">Lengkapi data perusahaan Anda untuk bergabung dalam jaringan vendor terverifikasi <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>. Proses verifikasi kami hanya memakan waktu 2-3 hari kerja.</span>
@@ -366,22 +410,34 @@ body { margin: 0; padding: 0; }
                 <div class="hf-item">
                     <i class="fa-solid fa-shield-halved hf-icon"></i>
                     <div class="hf-text">
-                        <strong><span class="lang-id">Proses Aman</span><span class="lang-en">Secure Process</span></strong>
-                        <span class="lang-id">dan Terverifikasi</span><span class="lang-en">and Verified</span>
+                        <strong>
+                            <span class="lang-id">Proses Aman</span>
+                            <span class="lang-en">Secure Process</span>
+                        </strong>
+                        <span class="lang-id">dan Terverifikasi</span>
+                        <span class="lang-en">and Verified</span>
                     </div>
                 </div>
                 <div class="hf-item">
                     <i class="fa-regular fa-clock hf-icon"></i>
                     <div class="hf-text">
-                        <strong><span class="lang-id">Verifikasi Cepat</span><span class="lang-en">Fast Verification</span></strong>
-                        <span class="lang-id">2-3 Hari Kerja</span><span class="lang-en">2-3 Work Days</span>
+                        <strong>
+                            <span class="lang-id">Verifikasi Cepat</span>
+                            <span class="lang-en">Fast Verification</span>
+                        </strong>
+                        <span class="lang-id">2-3 Hari Kerja</span>
+                        <span class="lang-en">2-3 Work Days</span>
                     </div>
                 </div>
                 <div class="hf-item">
                     <i class="fa-solid fa-users hf-icon"></i>
                     <div class="hf-text">
-                        <strong><span class="lang-id">Jaringan Mitra</span><span class="lang-en">Partner Network</span></strong>
-                        <span class="lang-id">Terpercaya</span><span class="lang-en">Trusted Globally</span>
+                        <strong>
+                            <span class="lang-id">Jaringan Mitra</span>
+                            <span class="lang-en">Partner Network</span>
+                        </strong>
+                        <span class="lang-id">Terpercaya</span>
+                        <span class="lang-en">Trusted Globally</span>
                     </div>
                 </div>
             </div>
@@ -394,37 +450,66 @@ body { margin: 0; padding: 0; }
         <!-- LEFT SIDEBAR -->
         <div class="sidebar-steps">
             <div class="steps-box">
-                <div class="steps-title"><span class="lang-id">Langkah Pendaftaran</span><span class="lang-en">Registration Steps</span></div>
+                <div class="steps-title">
+                    <span class="lang-id">Langkah Pendaftaran</span>
+                    <span class="lang-en">Registration Steps</span>
+                </div>
                 
                 <div class="step-item active" id="nav-step1" onclick="goToStep(1)">
                     <div class="step-number">1</div>
                     <div class="step-text">
-                        <h4><span class="lang-id">Informasi Perusahaan</span><span class="lang-en">Company Information</span></h4>
-                        <p><span class="lang-id">Data umum perusahaan</span><span class="lang-en">General company data</span></p>
+                        <h4>
+                            <span class="lang-id">Informasi Perusahaan</span>
+                            <span class="lang-en">Company Information</span>
+                        </h4>
+                        <p>
+                            <span class="lang-id">Data umum perusahaan</span>
+                            <span class="lang-en">General company data</span>
+                        </p>
                     </div>
                 </div>
                 <div class="step-item" id="nav-step2" onclick="goToStep(2)">
                     <div class="step-number">2</div>
                     <div class="step-text">
-                        <h4><span class="lang-id">Kontak & Dokumen</span><span class="lang-en">Contact & Documents</span></h4>
-                        <p><span class="lang-id">Informasi kontak & dokumen</span><span class="lang-en">Contact info & legal docs</span></p>
+                        <h4>
+                            <span class="lang-id">Kontak & Dokumen</span>
+                            <span class="lang-en">Contact & Documents</span>
+                        </h4>
+                        <p>
+                            <span class="lang-id">Informasi kontak & dokumen</span>
+                            <span class="lang-en">Contact info & legal docs</span>
+                        </p>
                     </div>
                 </div>
                 <div class="step-item" id="nav-step3" onclick="goToStep(3)">
                     <div class="step-number">3</div>
                     <div class="step-text">
-                        <h4><span class="lang-id">Tinjau & Kirim</span><span class="lang-en">Review & Submit</span></h4>
-                        <p><span class="lang-id">Periksa dan kirim pendaftaran</span><span class="lang-en">Review and send application</span></p>
+                        <h4>
+                            <span class="lang-id">Tinjau & Kirim</span>
+                            <span class="lang-en">Review & Submit</span>
+                        </h4>
+                        <p>
+                            <span class="lang-id">Periksa dan kirim pendaftaran</span>
+                            <span class="lang-en">Review and send application</span>
+                        </p>
                     </div>
                 </div>
             </div>
             
             <div class="help-box">
                 <i class="fa-solid fa-headset icon"></i>
-                <h4><span class="lang-id">Butuh Bantuan?</span><span class="lang-en">Need Help?</span></h4>
-                <p><span class="lang-id">Tim kami siap membantu Anda selama proses pendaftaran.</span><span class="lang-en">Our team is ready to assist you during the registration process.</span></p>
+                <h4>
+                    <span class="lang-id">Butuh Bantuan?</span>
+                    <span class="lang-en">Need Help?</span>
+                </h4>
+                <p>
+                    <span class="lang-id">Tim kami siap membantu Anda selama proses pendaftaran.</span>
+                    <span class="lang-en">Our team is ready to assist you during the registration process.</span>
+                </p>
                 <a href="https://wa.me/6281228358630" target="_blank" class="btn-help">
-                    <i class="fa-regular fa-user"></i> <span class="lang-id">Hubungi Kami</span><span class="lang-en">Contact Us</span>
+                    <i class="fa-regular fa-user"></i> 
+                    <span class="lang-id">Hubungi Kami</span>
+                    <span class="lang-en">Contact Us</span>
                 </a>
             </div>
         </div>
@@ -470,16 +555,27 @@ body { margin: 0; padding: 0; }
                 <div class="step-content active" id="step1">
                     <div class="form-header">
                         <div class="icon"><i class="fa-regular fa-building"></i></div>
-                        <h2><span class="lang-id">Informasi Perusahaan</span><span class="lang-en">Company Information</span></h2>
+                        <h2>
+                            <span class="lang-id">Informasi Perusahaan</span>
+                            <span class="lang-en">Company Information</span>
+                        </h2>
                     </div>
                     
                     <div class="grid-2">
                         <div class="form-group">
-                            <label class="form-label"><span class="lang-id">Nama Perusahaan</span><span class="lang-en">Company Name</span> <span class="req">*</span></label>
+                            <label class="form-label">
+                                <span class="lang-id">Nama Perusahaan</span>
+                                <span class="lang-en">Company Name</span> 
+                                <span class="req">*</span>
+                            </label>
                             <input type="text" name="company_name" class="form-control" placeholder="..." value="{{ old('company_name') }}" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label"><span class="lang-id">Kategori Vendor</span><span class="lang-en">Vendor Category</span> <span class="req">*</span></label>
+                            <label class="form-label">
+                                <span class="lang-id">Kategori Vendor</span>
+                                <span class="lang-en">Vendor Category</span> 
+                                <span class="req">*</span>
+                            </label>
                             <select name="business_category" class="form-control" required>
                                 <option value="" disabled selected class="lang-id">Pilih kategori vendor</option>
                                 <option value="" disabled selected class="lang-en">Select category</option>
@@ -490,12 +586,20 @@ body { margin: 0; padding: 0; }
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label"><span class="lang-id">Alamat Perusahaan</span><span class="lang-en">Company Address</span> <span class="req">*</span></label>
+                        <label class="form-label">
+                            <span class="lang-id">Alamat Perusahaan</span>
+                            <span class="lang-en">Company Address</span> 
+                            <span class="req">*</span>
+                        </label>
                         <textarea name="company_address" class="form-control" rows="3" placeholder="..." required>{{ old('company_address') }}</textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label"><span class="lang-id">Lokasi di Google Maps</span><span class="lang-en">Google Maps Location</span> <span class="req">*</span></label>
+                        <label class="form-label">
+                            <span class="lang-id">Lokasi di Google Maps</span>
+                            <span class="lang-en">Google Maps Location</span> 
+                            <span class="req">*</span>
+                        </label>
                         <input type="url" name="google_maps_link" class="form-control" placeholder="https://maps.app.goo.gl/xxxxxxxxxxxx" value="{{ old('google_maps_link') }}" required>
                         <span class="help-text">
                             <span class="lang-id">Buka Google Maps → pilih lokasi → Bagikan → Salin link → Tempel di sini.</span>
@@ -504,7 +608,11 @@ body { margin: 0; padding: 0; }
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label"><span class="lang-id">Nomor NPWP</span><span class="lang-en">Tax ID (NPWP)</span> <span class="req">*</span></label>
+                        <label class="form-label">
+                            <span class="lang-id">Nomor NPWP</span>
+                            <span class="lang-en">Tax ID (NPWP)</span> 
+                            <span class="req">*</span>
+                        </label>
                         <input type="text" name="npwp" class="form-control" placeholder="00.000.000.0-000.000" value="{{ old('npwp') }}" required>
                         <span class="help-text">
                             <span class="lang-id">Masukkan NPWP perusahaan Anda</span>
@@ -513,8 +621,15 @@ body { margin: 0; padding: 0; }
                     </div>
                     
                     <div class="form-actions">
-                        <button type="button" class="btn-draft"><span class="lang-id">Simpan Draf</span><span class="lang-en">Save Draft</span></button>
-                        <button type="button" class="btn-next" onclick="goToStep(2)"><span class="lang-id">Selanjutnya</span><span class="lang-en">Next Step</span> <i class="fa-solid fa-arrow-right"></i></button>
+                        <button type="button" class="btn-draft">
+                            <span class="lang-id">Simpan Draf</span>
+                            <span class="lang-en">Save Draft</span>
+                        </button>
+                        <button type="button" class="btn-next" onclick="goToStep(2)">
+                            <span class="lang-id">Selanjutnya</span>
+                            <span class="lang-en">Next Step</span> 
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -522,22 +637,37 @@ body { margin: 0; padding: 0; }
                 <div class="step-content" id="step2">
                     <div class="form-header">
                         <div class="icon"><i class="fa-regular fa-id-badge"></i></div>
-                        <h2><span class="lang-id">Kontak & Dokumen</span><span class="lang-en">Contact & Documents</span></h2>
+                        <h2>
+                            <span class="lang-id">Kontak & Dokumen</span>
+                            <span class="lang-en">Contact & Documents</span>
+                        </h2>
                     </div>
                     
                     <div class="grid-2">
                         <div class="form-group">
-                            <label class="form-label"><span class="lang-id">Email Perusahaan</span><span class="lang-en">Company Email</span> <span class="req">*</span></label>
+                            <label class="form-label">
+                                <span class="lang-id">Email Perusahaan</span>
+                                <span class="lang-en">Company Email</span> 
+                                <span class="req">*</span>
+                            </label>
                             <input type="email" name="company_email" class="form-control" placeholder="email@perusahaan.com" value="{{ old('company_email') }}" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label"><span class="lang-id">Nomor Telepon</span><span class="lang-en">Phone Number</span> <span class="req">*</span></label>
+                            <label class="form-label">
+                                <span class="lang-id">Nomor Telepon</span>
+                                <span class="lang-en">Phone Number</span> 
+                                <span class="req">*</span>
+                            </label>
                             <input type="text" name="company_phone" class="form-control" placeholder="08xxxxxxxxxx" value="{{ old('company_phone') }}" required>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label"><span class="lang-id">Nama PIC / Penanggung Jawab</span><span class="lang-en">PIC / Person in Charge Name</span> <span class="req">*</span></label>
+                        <label class="form-label">
+                            <span class="lang-id">Nama PIC / Penanggung Jawab</span>
+                            <span class="lang-en">PIC / Person in Charge Name</span> 
+                            <span class="req">*</span>
+                        </label>
                         <input type="text" name="pic_name" class="form-control" placeholder="..." value="{{ old('pic_name') }}" required>
                     </div>
                     
@@ -545,20 +675,34 @@ body { margin: 0; padding: 0; }
                     
                     <div class="grid-2">
                         <div class="form-group">
-                            <label class="form-label"><span class="lang-id">Upload KTP</span><span class="lang-en">Upload ID Card (KTP)</span> <span class="req">*</span></label>
+                            <label class="form-label">
+                                <span class="lang-id">Upload KTP</span>
+                                <span class="lang-en">Upload ID Card (KTP)</span> 
+                                <span class="req">*</span>
+                            </label>
                             <div class="file-upload-box" id="box-ktp" onclick="document.getElementById('idCardInput').click()">
                                 <i class="fa-solid fa-id-card"></i>
-                                <p><span class="lang-id">Pilih file KTP</span><span class="lang-en">Select ID file</span></p>
+                                <p>
+                                    <span class="lang-id">Pilih file KTP</span>
+                                    <span class="lang-en">Select ID file</span>
+                                </p>
                                 <span>JPG, PNG, PDF max 5MB</span>
                                 <div class="file-indicator" id="ind-ktp"></div>
                                 <input type="file" name="id_card" id="idCardInput" accept=".jpg,.jpeg,.png,.pdf" required onchange="handleFile(this, 'box-ktp', 'ind-ktp')">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label"><span class="lang-id">Upload NPWP</span><span class="lang-en">Upload Tax ID (NPWP)</span> <span class="req">*</span></label>
+                            <label class="form-label">
+                                <span class="lang-id">Upload NPWP</span>
+                                <span class="lang-en">Upload Tax ID (NPWP)</span> 
+                                <span class="req">*</span>
+                            </label>
                             <div class="file-upload-box" id="box-npwp" onclick="document.getElementById('npwpInput').click()">
                                 <i class="fa-solid fa-file-invoice-dollar"></i>
-                                <p><span class="lang-id">Pilih file NPWP</span><span class="lang-en">Select Tax file</span></p>
+                                <p>
+                                    <span class="lang-id">Pilih file NPWP</span>
+                                    <span class="lang-en">Select Tax file</span>
+                                </p>
                                 <span>JPG, PNG, PDF max 5MB</span>
                                 <div class="file-indicator" id="ind-npwp"></div>
                                 <input type="file" name="npwp_file" id="npwpInput" accept=".jpg,.jpeg,.png,.pdf" required onchange="handleFile(this, 'box-npwp', 'ind-npwp')">
@@ -568,21 +712,41 @@ body { margin: 0; padding: 0; }
                     
                     <div class="grid-2">
                         <div class="form-group">
-                            <label class="form-label"><span class="lang-id">Upload Buku Rekening</span><span class="lang-en">Upload Bank Book</span> <span class="req">*</span></label>
+                            <label class="form-label">
+                                <span class="lang-id">Upload Buku Rekening</span>
+                                <span class="lang-en">Upload Bank Book</span> 
+                                <span class="req">*</span>
+                            </label>
                             <div class="file-upload-box" id="box-bank" onclick="document.getElementById('bankBookInput').click()">
                                 <i class="fa-solid fa-book"></i>
-                                <p><span class="lang-id">Pilih file Rekening</span><span class="lang-en">Select Bank Book</span></p>
-                                <span><span class="lang-id">Halaman depan buku rekening</span><span class="lang-en">Front page of bank book</span></span>
+                                <p>
+                                    <span class="lang-id">Pilih file Rekening</span>
+                                    <span class="lang-en">Select Bank Book</span>
+                                </p>
+                                <span>
+                                    <span class="lang-id">Halaman depan buku rekening</span>
+                                    <span class="lang-en">Front page of bank book</span>
+                                </span>
                                 <div class="file-indicator" id="ind-bank"></div>
                                 <input type="file" name="bank_book" id="bankBookInput" accept=".jpg,.jpeg,.png,.pdf" required onchange="handleFile(this, 'box-bank', 'ind-bank')">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label"><span class="lang-id">Upload Foto Kantor</span><span class="lang-en">Upload Office Photos</span> <span class="req">*</span></label>
+                            <label class="form-label">
+                                <span class="lang-id">Upload Foto Kantor</span>
+                                <span class="lang-en">Upload Office Photos</span> 
+                                <span class="req">*</span>
+                            </label>
                             <div class="file-upload-box" id="box-office" onclick="document.getElementById('officePhotosInput').click()">
                                 <i class="fa-solid fa-images"></i>
-                                <p><span class="lang-id">Pilih Foto Kantor</span><span class="lang-en">Select Office Photos</span></p>
-                                <span><span class="lang-id">Tampak depan & dalam (Min 2)</span><span class="lang-en">Front & inside view (Min 2)</span></span>
+                                <p>
+                                    <span class="lang-id">Pilih Foto Kantor</span>
+                                    <span class="lang-en">Select Office Photos</span>
+                                </p>
+                                <span>
+                                    <span class="lang-id">Tampak depan & dalam (Min 2)</span>
+                                    <span class="lang-en">Front & inside view (Min 2)</span>
+                                </span>
                                 <div class="file-indicator" id="ind-office"></div>
                                 <input type="file" name="office_photos[]" id="officePhotosInput" accept=".jpg,.jpeg,.png" multiple required onchange="handleMultipleFiles(this, 'box-office', 'ind-office')">
                             </div>
@@ -590,8 +754,15 @@ body { margin: 0; padding: 0; }
                     </div>
                     
                     <div class="form-actions">
-                        <button type="button" class="btn-prev" onclick="goToStep(1)"><span class="lang-id">Kembali</span><span class="lang-en">Back</span></button>
-                        <button type="button" class="btn-next" onclick="goToStep(3)"><span class="lang-id">Selanjutnya</span><span class="lang-en">Next Step</span> <i class="fa-solid fa-arrow-right"></i></button>
+                        <button type="button" class="btn-prev" onclick="goToStep(1)">
+                            <span class="lang-id">Kembali</span>
+                            <span class="lang-en">Back</span>
+                        </button>
+                        <button type="button" class="btn-next" onclick="goToStep(3)">
+                            <span class="lang-id">Selanjutnya</span>
+                            <span class="lang-en">Next Step</span> 
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -599,7 +770,10 @@ body { margin: 0; padding: 0; }
                 <div class="step-content" id="step3">
                     <div class="form-header">
                         <div class="icon"><i class="fa-solid fa-check-double"></i></div>
-                        <h2><span class="lang-id">Tinjau & Kirim</span><span class="lang-en">Review & Submit</span></h2>
+                        <h2>
+                            <span class="lang-id">Tinjau & Kirim</span>
+                            <span class="lang-en">Review & Submit</span>
+                        </h2>
                     </div>
                     
                     <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 2rem;">
@@ -607,8 +781,9 @@ body { margin: 0; padding: 0; }
                         <span class="lang-en">Please review the data you entered in the previous steps. If everything is correct, agree to the terms and conditions to submit your application.</span>
                     </p>
                     
-                    <div class="agreement-box">
-                        <label>
+                    <div class="agreement-box" id="agreementBoxWrapper">
+                        <label id="agreementLabel" onclick="handleAgreementClick(event)">
+                            <!-- MUST READ MOU FIRST -->
                             <input type="checkbox" name="agreement" id="agreement" required>
                             <div class="agreement-text">
                                 <strong>
@@ -619,14 +794,24 @@ body { margin: 0; padding: 0; }
                                 <span class="lang-en">By checking this box, I declare that the data provided is true and accountable. I agree to be bound by the Vendor Cooperation MOU of <span class="brand-text" style="color:var(--navy)">DNA <span class="brand-red">Advertising</span></span>.</span>
                                 
                                 <br>
-                                <button type="button" class="btn-mou" onclick="openMou()"><i class="fa-solid fa-file-contract"></i> <span class="lang-id">Lihat Dokumen MOU Selengkapnya</span><span class="lang-en">View Full MOU Document</span></button>
+                                <button type="button" class="btn-mou" onclick="openMou()">
+                                    <i class="fa-solid fa-file-contract"></i> 
+                                    <span class="lang-id">Baca Dokumen MOU Dulu</span>
+                                    <span class="lang-en">Read MOU Document First</span>
+                                </button>
                             </div>
                         </label>
                     </div>
                     
                     <div class="form-actions">
-                        <button type="button" class="btn-prev" onclick="goToStep(2)"><span class="lang-id">Kembali</span><span class="lang-en">Back</span></button>
-                        <button type="submit" class="btn-submit" id="submitBtn"><span class="lang-id">Kirim Pendaftaran</span><span class="lang-en">Submit Registration</span></button>
+                        <button type="button" class="btn-prev" onclick="goToStep(2)">
+                            <span class="lang-id">Kembali</span>
+                            <span class="lang-en">Back</span>
+                        </button>
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            <span class="lang-id">Kirim Pendaftaran</span>
+                            <span class="lang-en">Submit Registration</span>
+                        </button>
                     </div>
                 </div>
                 
@@ -635,9 +820,19 @@ body { margin: 0; padding: 0; }
             <!-- MOBILE HELP (Shown below form on mobile) -->
             <div class="help-box mobile-help">
                 <i class="fa-solid fa-headset icon"></i>
-                <h4><span class="lang-id">Butuh Bantuan?</span><span class="lang-en">Need Help?</span></h4>
-                <p><span class="lang-id">Tim kami siap membantu Anda selama proses pendaftaran.</span><span class="lang-en">Our team is ready to assist you during the registration process.</span></p>
-                <a href="https://wa.me/6281228358630" target="_blank" class="btn-help"><i class="fa-regular fa-user"></i> <span class="lang-id">Hubungi Kami</span><span class="lang-en">Contact Us</span></a>
+                <h4>
+                    <span class="lang-id">Butuh Bantuan?</span>
+                    <span class="lang-en">Need Help?</span>
+                </h4>
+                <p>
+                    <span class="lang-id">Tim kami siap membantu Anda selama proses pendaftaran.</span>
+                    <span class="lang-en">Our team is ready to assist you during the registration process.</span>
+                </p>
+                <a href="https://wa.me/6281228358630" target="_blank" class="btn-help">
+                    <i class="fa-regular fa-user"></i> 
+                    <span class="lang-id">Hubungi Kami</span>
+                    <span class="lang-en">Contact Us</span>
+                </a>
             </div>
             
         </div>
@@ -662,16 +857,31 @@ body { margin: 0; padding: 0; }
                 </div>
             </div>
             <div class="footer-col">
-                <h4><span class="lang-id">Navigasi</span><span class="lang-en">Navigation</span></h4>
+                <h4>
+                    <span class="lang-id">Navigasi</span>
+                    <span class="lang-en">Navigation</span>
+                </h4>
                 <ul class="footer-links">
-                    <li><a href="{{ url('/') }}"><span class="lang-id">Beranda</span><span class="lang-en">Home</span></a></li>
-                    <li><a href="{{ route('vendor.register') }}"><span class="lang-id">Daftar Vendor</span><span class="lang-en">Register Vendor</span></a></li>
-                    <li><a href="{{ url('/') }}#why-partner"><span class="lang-id">Mengapa Bermitra</span><span class="lang-en">Why Partner With Us</span></a></li>
+                    <li><a href="{{ url('/') }}">
+                        <span class="lang-id">Beranda</span>
+                        <span class="lang-en">Home</span>
+                    </a></li>
+                    <li><a href="{{ route('vendor.register') }}">
+                        <span class="lang-id">Daftar Vendor</span>
+                        <span class="lang-en">Register Vendor</span>
+                    </a></li>
+                    <li><a href="{{ url('/') }}#why-partner">
+                        <span class="lang-id">Mengapa Bermitra</span>
+                        <span class="lang-en">Why Partner With Us</span>
+                    </a></li>
                     <li><a href="{{ route('faq') }}">FAQ</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4><span class="lang-id">Informasi Kontak</span><span class="lang-en">Contact Information</span></h4>
+                <h4>
+                    <span class="lang-id">Informasi Kontak</span>
+                    <span class="lang-en">Contact Information</span>
+                </h4>
                 <div class="contact-item">
                     <i class="fa-solid fa-location-dot"></i>
                     <div>Jl. Taman Dhika BL 6 No. 3A<br>Sono, Sidoarjo<br>Buduran, Sidoarjo</div>
@@ -685,26 +895,42 @@ body { margin: 0; padding: 0; }
                 </div>
                 <div class="contact-item">
                     <i class="fa-solid fa-envelope"></i>
-                    <div><span class="lang-id">Email Segera Hadir</span><span class="lang-en">Email Coming Soon</span></div>
+                    <div>
+                        <span class="lang-id">Email Segera Hadir</span>
+                        <span class="lang-en">Email Coming Soon</span>
+                    </div>
                 </div>
                 <div class="contact-item">
                     <i class="fa-solid fa-phone"></i>
-                    <div><span class="lang-id">Telepon Segera Hadir</span><span class="lang-en">Phone Coming Soon</span></div>
+                    <div>
+                        <span class="lang-id">Telepon Segera Hadir</span>
+                        <span class="lang-en">Phone Coming Soon</span>
+                    </div>
                 </div>
             </div>
             <div class="footer-col">
                 <div class="ready-box">
-                    <h4><span class="lang-id">Siap Bergabung?</span><span class="lang-en">Ready to Join?</span></h4>
+                    <h4>
+                        <span class="lang-id">Siap Bergabung?</span>
+                        <span class="lang-en">Ready to Join?</span>
+                    </h4>
                     <p>
                         <span class="lang-id">Jadilah bagian dari jaringan vendor terpercaya <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>.</span>
                         <span class="lang-en">Become a part of <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>'s trusted vendor network.</span>
                     </p>
-                    <a href="{{ route('vendor.register') }}" class="btn-gold"><span class="lang-id">Daftar Sekarang</span><span class="lang-en">Register Now</span> <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="{{ route('vendor.register') }}" class="btn-gold">
+                        <span class="lang-id">Daftar Sekarang</span>
+                        <span class="lang-en">Register Now</span> 
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <div>© {{ date('Y') }} DNA Advertising. <span class="lang-id">Semua hak dilindungi.</span><span class="lang-en">All rights reserved.</span></div>
+            <div>© {{ date('Y') }} DNA Advertising. 
+                <span class="lang-id">Semua hak dilindungi.</span>
+                <span class="lang-en">All rights reserved.</span>
+            </div>
             <div>Vendor Registration Portal</div>
         </div>
     </footer>
@@ -791,8 +1017,15 @@ body { margin: 0; padding: 0; }
             
         </div>
         <div class="mou-footer">
-            <button class="btn-draft" onclick="closeMou()"><span class="lang-id">Tutup</span><span class="lang-en">Close</span></button>
-            <button class="btn-next" onclick="acceptMou()"><i class="fa-solid fa-check"></i> <span class="lang-id">Saya Mengerti & Setuju</span><span class="lang-en">I Understand & Agree</span></button>
+            <button class="btn-draft" onclick="closeMou()">
+                <span class="lang-id">Tutup Dulu</span>
+                <span class="lang-en">Close First</span>
+            </button>
+            <button class="btn-next" onclick="acceptMou()">
+                <i class="fa-solid fa-check"></i> 
+                <span class="lang-id">Saya Mengerti & Setuju</span>
+                <span class="lang-en">I Understand & Agree</span>
+            </button>
         </div>
     </div>
 </div>
@@ -800,25 +1033,22 @@ body { margin: 0; padding: 0; }
 <script>
 // ==================== LANGUAGE SWITCHER ====================
 let currentLang = 'id'; // default
+
 function switchLang(lang) {
     currentLang = lang;
     
-    // Check if dropdown matches
-    const select = document.querySelector('.lang-switcher-select');
-    if(select && select.value !== lang) {
-        select.value = lang;
-    }
+    // Update button visual state
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.lang-btn[onclick="switchLang('${lang}')"]`).classList.add('active');
     
-    // Show/hide texts
-    if(lang === 'id') {
-        document.querySelectorAll('.lang-en').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.lang-id').forEach(el => el.style.display = '');
+    // Toggle body class which controls CSS display
+    if(lang === 'en') {
+        document.body.classList.add('lang-en-active');
     } else {
-        document.querySelectorAll('.lang-id').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.lang-en').forEach(el => el.style.display = '');
+        document.body.classList.remove('lang-en-active');
     }
     
-    // Update active step titles inside JS array so mobile renders correctly
+    // Update step data
     if(lang === 'en') {
         steps[0].title = 'Company Information'; steps[0].desc = 'General company data';
         steps[1].title = 'Contact & Documents'; steps[1].desc = 'Contact info & legal docs';
@@ -829,16 +1059,8 @@ function switchLang(lang) {
         steps[2].title = 'Tinjau & Kirim'; steps[2].desc = 'Periksa dan kirim pendaftaran';
     }
     
-    // Re-render mobile steps if on mobile
     goToStep(currentStepNumber);
 }
-
-// Initial hide of english classes to prevent FOUC (Flash of Unstyled Content)
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll('.lang-en').forEach(el => el.style.display = 'none');
-    switchLang('id'); // initialize language
-    goToStep(1);
-});
 
 // ==================== FILE UPLOAD INDICATORS ====================
 function handleFile(inputElement, boxId, indicatorId) {
@@ -846,9 +1068,11 @@ function handleFile(inputElement, boxId, indicatorId) {
     const indicator = document.getElementById(indicatorId);
     
     if (inputElement.files && inputElement.files.length > 0) {
+        box.classList.remove('error');
         box.classList.add('has-file');
         const fileName = inputElement.files[0].name;
         const fileSize = (inputElement.files[0].size / (1024 * 1024)).toFixed(2) + ' MB';
+        indicator.className = 'file-indicator success';
         indicator.innerHTML = `<i class="fa-solid fa-check"></i> Disimpan: ${fileName} (${fileSize})`;
     } else {
         box.classList.remove('has-file');
@@ -861,10 +1085,21 @@ function handleMultipleFiles(inputElement, boxId, indicatorId) {
     const indicator = document.getElementById(indicatorId);
     
     if (inputElement.files && inputElement.files.length > 0) {
-        box.classList.add('has-file');
-        indicator.innerHTML = `<i class="fa-solid fa-check"></i> Disimpan: ${inputElement.files.length} Foto Kantor`;
+        if (inputElement.files.length >= 2) {
+            // Success (2 or more photos)
+            box.classList.remove('error');
+            box.classList.add('has-file');
+            indicator.className = 'file-indicator success';
+            indicator.innerHTML = `<i class="fa-solid fa-check"></i> Berhasil: ${inputElement.files.length} Foto Kantor dipilih`;
+        } else {
+            // Error (Only 1 photo)
+            box.classList.remove('has-file');
+            box.classList.add('error');
+            indicator.className = 'file-indicator error';
+            indicator.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Kurang 1 Foto lagi! (Minimal 2 foto)`;
+        }
     } else {
-        box.classList.remove('has-file');
+        box.classList.remove('has-file', 'error');
         indicator.innerHTML = '';
     }
 }
@@ -880,16 +1115,12 @@ let currentStepNumber = 1;
 function goToStep(stepNumber) {
     currentStepNumber = stepNumber;
     
-    // Hide all steps
     document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
-    // Un-active all nav items
     document.querySelectorAll('.step-item').forEach(el => el.classList.remove('active'));
     
-    // Show selected step
     let target = document.getElementById('step' + stepNumber);
     if(target) target.classList.add('active');
     
-    // Update nav items
     for(let i = 1; i <= 3; i++) {
         let navItem = document.getElementById('nav-step' + i);
         if(!navItem) continue;
@@ -907,7 +1138,7 @@ function goToStep(stepNumber) {
         }
     }
     
-    // Update Mobile Step View
+    // Update Mobile
     const mobileContainer = document.getElementById('mobile-steps-container');
     if(mobileContainer) {
         let mobileHTML = `
@@ -951,29 +1182,60 @@ function goToStep(stepNumber) {
 }
 
 // ==================== MOU MODAL ====================
+let hasReadMou = false;
+
+function handleAgreementClick(event) {
+    if (!hasReadMou) {
+        event.preventDefault(); // Prevent checkbox from being checked
+        openMou();
+    }
+}
+
 function openMou() {
     document.getElementById('mouModal').classList.add('show');
     document.body.style.overflow = 'hidden';
 }
+
 function closeMou() {
     document.getElementById('mouModal').classList.remove('show');
     document.body.style.overflow = '';
 }
+
 function acceptMou() {
-    document.getElementById('agreement').checked = true;
+    hasReadMou = true; // Mark as read
+    
+    const checkbox = document.getElementById('agreement');
+    const label = document.getElementById('agreementLabel');
+    const mouBtn = document.querySelector('.btn-mou');
+    
+    checkbox.checked = true;
+    checkbox.style.pointerEvents = 'auto'; // Re-enable normal clicking
+    label.classList.add('enabled'); // Full opacity
+    
+    // Change button to indicate success
+    if (currentLang === 'id') {
+        mouBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> MOU Disetujui';
+    } else {
+        mouBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> MOU Accepted';
+    }
+    mouBtn.style.background = '#10b981'; // Green
+    
     closeMou();
 }
 
-// ============================================================
-// PRESIGNED UPLOAD - Upload langsung ke Supabase dari browser
-// ============================================================
+// ==================== UPLOAD ====================
 document.getElementById('vendorForm').addEventListener('submit', async function(e) {
     e.preventDefault();
+
+    if (!hasReadMou) {
+        alert(currentLang === 'id' ? 'Anda harus membaca dan menyetujui MOU terlebih dahulu.' : 'You must read and agree to the MOU first.');
+        openMou();
+        return;
+    }
 
     const form = this;
     const submitBtn = document.getElementById('submitBtn');
 
-    // Cek semua file sudah dipilih
     const idCardFile = document.getElementById('idCardInput').files[0];
     const bankBookFile = document.getElementById('bankBookInput').files[0];
     const npwpFile = document.getElementById('npwpInput').files[0];
@@ -991,55 +1253,36 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
         return;
     }
 
-    // Tampilkan loading
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (currentLang === 'id' ? 'Mengupload file...' : 'Uploading files...');
 
     try {
         const csrfToken = document.querySelector('input[name="_token"]').value;
 
-        // Fungsi upload satu file
         async function uploadFile(file, folder) {
             const presignRes = await fetch('/upload/presign', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                },
-                body: JSON.stringify({
-                    filename: file.name,
-                    folder: folder,
-                    type: file.type,
-                })
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                body: JSON.stringify({ filename: file.name, folder: folder, type: file.type })
             });
 
             if (!presignRes.ok) throw new Error('Gagal mendapatkan URL upload');
             const { upload_url, public_url } = await presignRes.json();
 
-            const uploadRes = await fetch(upload_url, {
-                method: 'PUT',
-                headers: { 'Content-Type': file.type },
-                body: file,
-            });
-
-            if (!uploadRes.ok) throw new Error('Gagal mengupload file: ' + file.name);
+            const uploadRes = await fetch(upload_url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
+            if (!uploadRes.ok) throw new Error('Gagal mengupload file');
             return public_url;
         }
 
-        // Upload semua file secara bersamaan
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (currentLang === 'id' ? 'Mengupload KTP...' : 'Uploading ID...');
         const idCardUrl = await uploadFile(idCardFile, 'id_cards');
         document.getElementById('id_card_url').value = idCardUrl;
 
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (currentLang === 'id' ? 'Mengupload Buku Rekening...' : 'Uploading Bank Book...');
         const bankBookUrl = await uploadFile(bankBookFile, 'bank_books');
         document.getElementById('bank_book_url').value = bankBookUrl;
 
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (currentLang === 'id' ? 'Mengupload NPWP...' : 'Uploading Tax ID...');
         const npwpUrl = await uploadFile(npwpFile, 'npwp');
         document.getElementById('npwp_file_url').value = npwpUrl;
 
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (currentLang === 'id' ? 'Mengupload Foto Kantor...' : 'Uploading Photos...');
         const officePhotoUrls = [];
         for (const photo of officePhotos) {
             const url = await uploadFile(photo, 'office_photos');
@@ -1049,11 +1292,7 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
 
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (currentLang === 'id' ? 'Menyimpan data...' : 'Saving data...');
 
-        // Disable file inputs so they don't upload directly to server
-        form.querySelectorAll('input[type="file"]').forEach(input => {
-            input.removeAttribute('name');
-            input.disabled = true;
-        });
+        form.querySelectorAll('input[type="file"]').forEach(input => { input.removeAttribute('name'); input.disabled = true; });
 
         form.submit();
 
