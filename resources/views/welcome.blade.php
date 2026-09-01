@@ -9,8 +9,8 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 
 /* Variables */
 :root {
-    --navy: #0a1628;
-    --navy-light: #132540;
+    --navy: #1b3a60;
+    --navy-light: #244b7a;
     --gold: #f59e0b;
     --gold-hover: #d97706;
     --text-gray: #64748b;
@@ -73,8 +73,8 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 .hero-buttons { display: flex; gap: 1rem; }
 .btn-primary { background: var(--gold); color: var(--navy); padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.2s; }
 .btn-primary:hover { background: var(--gold-hover); }
-.btn-outline { background: transparent; color: #fff; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.2s; }
-.btn-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+.btn-outline { background: transparent !important; color: #ffffff !important; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; border: 1px solid rgba(255,255,255,0.4) !important; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.2s; }
+.btn-outline:hover { background: rgba(255,255,255,0.15) !important; border-color: #ffffff !important; }
 .hero-image { border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
 .hero-image img { width: 100%; display: block; object-fit: cover; }
 
