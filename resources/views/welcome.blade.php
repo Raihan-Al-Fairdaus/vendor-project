@@ -96,7 +96,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 .feature-text p { margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.4; }
 
 /* LOGOS SECTION */
-.logos-section { background: #fff; padding: 4rem 5%; text-align: center; }
+.logos-section { background: #ffffff; padding: 4rem 5% 5rem; text-align: center; position: relative; z-index: 20; box-shadow: 0 30px 50px -20px rgba(10, 22, 40, 0.06); }
 .section-eyebrow { color: #3b82f6; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
 .section-title { color: var(--navy); font-size: 2rem; font-weight: 700; margin-bottom: 3rem; }
 .logos-slider-wrap { display: flex; align-items: center; gap: 1rem; max-width: 1100px; margin: 0 auto; position: relative; }
@@ -108,7 +108,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
 /* WHY PARTNER SECTION */
-.why-section { background: #f8fafc; padding: 4rem 5% 6rem; text-align: center; }
+.why-section { background: #f8fafc; padding: 6rem 5% 6rem; text-align: center; position: relative; z-index: 10; }
 .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 3rem auto 0; text-align: left; }
 .card-item { background: #fff; padding: 2.5rem 2rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 .card-icon { width: 56px; height: 56px; background: #eff6ff; color: #3b82f6; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; }
