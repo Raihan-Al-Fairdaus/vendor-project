@@ -1,5 +1,5 @@
 @extends('layouts.public')
-@section('title', 'Become Our Vendor Partner - DNA Vendor Portal')
+@section('title', 'Jadilah Mitra Vendor Kami - DNA Vendor Portal')
 @section('content')
 <style>
 /* Reset and Hide Defaults */
@@ -205,19 +205,19 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
         <a href="#why-partner">Why Partner With Us</a>
         <a href="{{ route('faq') }}">FAQ</a>
     </div>
-    <a href="https://wa.me/6281228358630?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-nav-contact"><i class="fa-solid fa-headset"></i> Contact Team</a>
+    <a href="https://wa.me/6281228358630?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-nav-contact"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>
 </nav>
 
 <!-- HERO SECTION -->
 <section class="hero-wrapper">
     <div class="hero-grid">
         <div class="hero-content">
-            <div class="eyebrow-pill">EMPOWERING GLOBAL SUPPLY CHAINS</div>
-            <h1 class="hero-title">Become Our<br><span class="text-gold">Vendor Partner</span></h1>
-            <p class="hero-desc">Join our systematic procurement network. We provide a transparent, efficient platform for businesses to grow alongside our global enterprise requirements.</p>
+            <div class="eyebrow-pill">MEMBERDAYAKAN RANTAI PASOK GLOBAL</div>
+            <h1 class="hero-title">Jadilah Mitra<br><span class="text-gold">Vendor Kami</span></h1>
+            <p class="hero-desc">Bergabunglah dengan jaringan pengadaan sistematis kami. Kami menyediakan platform yang transparan dan efisien bagi bisnis Anda untuk tumbuh bersama kebutuhan global perusahaan kami.</p>
             <div class="hero-buttons">
-                <a href="{{ route('vendor.register') }}" class="btn-primary">Register as Vendor <i class="fa-solid fa-arrow-right"></i></a>
-                <a href="#" id="howItWorksBtn" class="btn-outline"><i class="fa-regular fa-circle-play"></i> How it works</a>
+                <a href="{{ route('vendor.register') }}" class="btn-primary">Register Vendor <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#" id="howItWorksBtn" class="btn-outline"><i class="fa-regular fa-circle-play"></i> Cara kerjanya</a>
             </div>
         </div>
         <div class="hero-image">
@@ -230,22 +230,22 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
         <div class="feature-item">
             <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
             <div class="feature-text">
-                <h4>Trusted Network</h4>
-                <p>Verified vendors.<br>Secure collaboration.</p>
+                <h4>Jaringan Terpercaya</h4>
+                <p>Vendor terverifikasi.<br>Kolaborasi aman.</p>
             </div>
         </div>
         <div class="feature-item">
             <div class="feature-icon"><i class="fa-solid fa-chart-column"></i></div>
             <div class="feature-text">
-                <h4>Scalable Growth</h4>
-                <p>Access to more opportunities<br>and long-term partnerships.</p>
+                <h4>Pertumbuhan Terukur</h4>
+                <p>Akses ke lebih banyak peluang<br>dan kemitraan jangka panjang.</p>
             </div>
         </div>
         <div class="feature-item">
             <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
             <div class="feature-text">
-                <h4>Digital Efficiency</h4>
-                <p>Smart procurement with<br>real-time transparency.</p>
+                <h4>Efisiensi Digital</h4>
+                <p>Pengadaan cerdas dengan<br>transparansi real-time.</p>
             </div>
         </div>
     </div>
@@ -253,7 +253,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 
 <!-- LOGOS SECTION -->
 <section class="logos-section">
-    <span class="section-eyebrow">TECHNOLOGY & INFRASTRUCTURE</span>
+    <span class="section-eyebrow">TEKNOLOGI & INFRASTRUKTUR</span>
     <h2 class="section-title">Telah Dipercaya oleh Berbagai Mitra Bisnis</h2>
     <div class="logos-slider-wrap">
         <button class="slider-btn" id="logosPrev"><i class="fa-solid fa-chevron-left"></i></button>
@@ -278,18 +278,18 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
     <div class="cards-grid">
         <div class="card-item">
             <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
-            <h4>Built-in Trust</h4>
-            <p>Our transparent vetting process ensures all partners meet global standards, creating a secure marketplace.</p>
+            <h4>Kepercayaan Terjamin</h4>
+            <p>Proses seleksi transparan kami memastikan semua mitra memenuhi standar global, menciptakan pasar yang aman.</p>
         </div>
         <div class="card-item">
             <div class="card-icon"><i class="fa-solid fa-chart-column"></i></div>
-            <h4>Scalable Growth</h4>
-            <p>Gain access to massive procurement contracts and scale your operations through recurring business.</p>
+            <h4>Pertumbuhan Terukur</h4>
+            <p>Dapatkan akses ke kontrak pengadaan berskala besar dan tingkatkan operasi Anda melalui bisnis berulang.</p>
         </div>
         <div class="card-item">
             <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
-            <h4>Digital Efficiency</h4>
-            <p>Eliminate manual paperwork with our automated documentation system and real-time tracking.</p>
+            <h4>Efisiensi Digital</h4>
+            <p>Hilangkan dokumen manual dengan sistem dokumentasi otomatis kami dan pelacakan real-time.</p>
         </div>
     </div>
 </section>
@@ -300,11 +300,11 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
         <div class="cta-content">
             <div class="cta-icon"><i class="fa-solid fa-headset"></i></div>
             <div class="cta-text">
-                <h3>Need Help?</h3>
-                <p>Having trouble while registering your company? Feel free to contact our team during working hours. We are ready to assist your registration process.</p>
+                <h3>Butuh Bantuan?</h3>
+                <p>Mengalami kesulitan saat mendaftarkan perusahaan Anda? Jangan ragu untuk menghubungi tim kami selama jam kerja. Kami siap membantu proses registrasi Anda.</p>
             </div>
         </div>
-        <a href="https://wa.me/6281228358630?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-white"><i class="fa-solid fa-headset"></i> Contact Team</a>
+        <a href="https://wa.me/6281228358630?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-white"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>
     </div>
 </section>
 
@@ -316,7 +316,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
                 <img src="{{ asset('images/logo.png') }}" alt="Logo">
                 <span>DNA <span class="text-red">Vendor</span> Portal</span>
             </div>
-            <p>Secure vendor registration platform for trusted business partnerships with DNA Advertising.</p>
+            <p>Platform registrasi vendor yang aman untuk kemitraan bisnis terpercaya dengan DNA Advertising.</p>
             <div class="social-links">
                 <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
                 <a href="#"><i class="fa-brands fa-youtube"></i></a>
@@ -324,7 +324,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
             </div>
         </div>
         <div class="footer-col">
-            <h4>Quick Links</h4>
+            <h4>Tautan Cepat</h4>
             <ul class="footer-links">
                 <li><a href="#">Home</a></li>
                 <li><a href="{{ route('vendor.register') }}">Register Vendor</a></li>
@@ -333,33 +333,33 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Contact Information</h4>
+            <h4>Informasi Kontak</h4>
             <div class="contact-item">
                 <i class="fa-solid fa-location-dot"></i>
                 <div>Jl. Taman Dhika BL 6 No. 3A<br>Sono, Sidoarjo<br>Buduran, Sidoarjo</div>
             </div>
             <div class="contact-item">
                 <i class="fa-regular fa-clock"></i>
-                <div>Monday - Friday<br>08:00 - 17:00 WIB</div>
+                <div>Senin - Jumat<br>08:00 - 17:00 WIB</div>
             </div>
             <div class="contact-item">
                 <i class="fa-solid fa-envelope"></i>
-                <div>Email Coming Soon</div>
+                <div>Email Segera Hadir</div>
             </div>
             <div class="contact-item">
                 <i class="fa-solid fa-phone"></i>
-                <div>Phone Coming Soon</div>
+                <div>Telepon Segera Hadir</div>
             </div>
         </div>
         <div class="footer-col">
-            <h4>Ready to Get Started?</h4>
-            <p>Join our network and grow your business with DNA Advertising.</p>
-            <a href="{{ route('vendor.register') }}" class="btn-primary" style="display:inline-flex;">Register as Vendor <i class="fa-solid fa-arrow-right"></i></a>
+            <h4>Siap untuk Memulai?</h4>
+            <p>Bergabunglah dengan jaringan kami dan kembangkan bisnis Anda bersama DNA Advertising.</p>
+            <a href="{{ route('vendor.register') }}" class="btn-primary" style="display:inline-flex;">Register Vendor <i class="fa-solid fa-arrow-right"></i></a>
         </div>
     </div>
     <div class="footer-bottom">
-        <div>© {{ date('Y') }} DNA Advertising. All rights reserved.</div>
-        <div>Vendor Registration Portal</div>
+        <div>© {{ date('Y') }} DNA Advertising. Hak cipta dilindungi.</div>
+        <div>Portal Registrasi Vendor</div>
     </div>
 </footer>
 
