@@ -7,11 +7,12 @@
     /* ============================================================
        GLOBAL OVERRIDE & FONTS
     ============================================================ */
-    body {
+    html, body {
         font-family: 'Inter', sans-serif;
         margin: 0;
         padding: 0;
-        background: #0a1628 !important;
+        background-color: #0a1628 !important;
+        min-height: 100vh;
     }
 
     /* ============================================================
@@ -184,11 +185,12 @@
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 12px;
-        padding: 0.75rem 1.5rem;
+        padding: 0.75rem 1rem;
         display: flex;
         align-items: center;
-        gap: 0.85rem;
-        min-width: 160px;
+        gap: 0.75rem;
+        flex: 1 1 calc(50% - 1rem);
+        min-width: 140px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
@@ -878,9 +880,16 @@
                         background: rgba(255, 255, 255, 0.95);
                         border-radius: 50px;
                         padding: 0.5rem 1.5rem;
-                        display: inline-flex;
+                        display: flex;
+                        max-width: 100%;
+                        overflow-x: auto;
                         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
                         margin-top: 2rem;
+                        -ms-overflow-style: none;
+                        scrollbar-width: none;
+                    }
+                    .custom-pagination-container::-webkit-scrollbar {
+                        display: none;
                     }
                     .custom-pagination {
                         display: flex;
