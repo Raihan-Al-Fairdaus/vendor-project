@@ -370,7 +370,7 @@ body { background-color: var(--navy); font-family: 'Inter', sans-serif; margin: 
             </div>
         @endif
 
-        <form id="vendorForm" action="{{ route('vendor.register.submit') }}" method="POST" enctype="multipart/form-data">
+        <form id="vendorForm" action="{{ route('vendor.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             
             <!-- Hidden inputs for Supabase presigned URL -->
