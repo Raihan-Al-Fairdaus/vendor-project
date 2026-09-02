@@ -565,7 +565,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                                 <option value="" disabled selected class="lang-id">Pilih kategori vendor</option>
                                 <option value="" disabled selected class="lang-en">Select category</option>
                                 <option value="Perorangan" {{ old('business_category') == 'Perorangan' ? 'selected' : '' }}>Perorangan / Individual</option>
-                                <option value="Perusahaan" {{ old('business_category') == 'Perusahaan' ? 'selected' : '' }}>Perusahaan / Enterprise</option>
+                                <option value="Badan" {{ old('business_category') == 'Badan' ? 'selected' : '' }}>Badan / Enterprise</option>
                             </select>
                         </div>
                     </div>
