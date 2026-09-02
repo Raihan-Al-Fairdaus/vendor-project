@@ -1060,25 +1060,32 @@ function handleFile(inputElement, boxId, indicatorId) {
     }
 }
 
+let accumulatedOfficePhotos = [];
+
 function handleMultipleFiles(inputElement, boxId, indicatorId) {
     const box = document.getElementById(boxId);
     const indicator = document.getElementById(indicatorId);
     
     if (inputElement.files && inputElement.files.length > 0) {
-        if (inputElement.files.length >= 2) {
+        // Tambahkan file baru ke dalam array global
+        for (let i = 0; i < inputElement.files.length; i++) {
+            accumulatedOfficePhotos.push(inputElement.files[i]);
+        }
+        
+        // Reset input supaya bisa klik lagi untuk nambah file
+        inputElement.value = '';
+        
+        if (accumulatedOfficePhotos.length >= 2) {
             box.classList.remove('error');
             box.classList.add('has-file');
             indicator.className = 'file-indicator success';
-            indicator.innerHTML = `<i class="fa-solid fa-check"></i> Berhasil: ${inputElement.files.length} Foto Kantor dipilih`;
+            indicator.innerHTML = `<i class="fa-solid fa-check"></i> Berhasil: ${accumulatedOfficePhotos.length} Foto Kantor disimpan`;
         } else {
             box.classList.remove('has-file');
             box.classList.add('error');
             indicator.className = 'file-indicator error';
-            indicator.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Kurang 1 Foto lagi! (Pilih 2 foto sekaligus)`;
+            indicator.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Baru ${accumulatedOfficePhotos.length} Foto! (Klik kotak ini lagi untuk tambah foto)`;
         }
-    } else {
-        box.classList.remove('has-file', 'error');
-        indicator.innerHTML = '';
     }
 }
 
@@ -1216,7 +1223,7 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
     const idCardFile = document.getElementById('idCardInput').files[0];
     const bankBookFile = document.getElementById('bankBookInput').files[0];
     const npwpFile = document.getElementById('npwpInput').files[0];
-    const officePhotos = Array.from(document.getElementById('officePhotosInput').files);
+    const officePhotos = accumulatedOfficePhotos;
 
     if (!idCardFile || !bankBookFile || !npwpFile) {
         alert(currentLang === 'id' ? 'Mohon lengkapi semua file yang diperlukan pada langkah 2.' : 'Please complete all required files in step 2.');
