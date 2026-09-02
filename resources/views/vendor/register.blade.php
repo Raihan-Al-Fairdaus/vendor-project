@@ -110,7 +110,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     max-width: 600px;
 }
 .eyebrow-pill { color: var(--gold) !important; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1rem; }
-.hero-title { font-size: 3.2rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem; color: var(--gold) !important; }
+.hero-title { font-size: 3.2rem; font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem; }
 .hero-desc { font-size: 0.95rem; color: #ffffff !important; line-height: 1.6; margin-bottom: 3rem; max-width: 90%; }
 .hero-features { display: flex; gap: 2rem; }
 .hf-item { display: flex; align-items: center; gap: 0.75rem; color: #ffffff !important; }
@@ -381,8 +381,8 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
             <span class="lang-en">JOIN US TODAY</span>
         </div>
         <h1 class="hero-title">
-            <span class="lang-id">Menjadi Mitra<br>Terpercaya</span>
-            <span class="lang-en">Become a Trusted<br>Partner</span>
+            <span class="lang-id" style="color: #ffffff !important;">Menjadi Mitra<br><span style="color: var(--gold) !important;">Terpercaya</span></span>
+            <span class="lang-en" style="color: #ffffff !important;">Become a Trusted<br><span style="color: var(--gold) !important;">Partner</span></span>
         </h1>
         <p class="hero-desc">
             <span class="lang-id">Lengkapi data perusahaan Anda untuk bergabung dalam jaringan vendor terverifikasi <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>. Proses verifikasi kami hanya memakan waktu 2-3 hari kerja.</span>
