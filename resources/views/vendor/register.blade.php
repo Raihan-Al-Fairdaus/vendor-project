@@ -154,10 +154,11 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 .step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
 .step-item.active .step-number { background: #eff6ff; border-color: #3b82f6; color: #3b82f6; }
 .step-item.completed .step-number { background: #10b981; border-color: #10b981; color: #fff; }
-.step-text h4 { margin: 0 0 2px; font-size: 0.9rem; font-weight: 700; }
-.step-text p { margin: 0; font-size: 0.75rem; }
+.step-text h4 { margin: 0 0 2px; font-size: 0.9rem; font-weight: 700; color: #475569 !important; }
+.step-text p { margin: 0; font-size: 0.75rem; color: #94a3b8 !important; }
 .step-item.active .step-text h4 { color: var(--navy) !important; }
 .step-item.active .step-text p { color: #64748b !important; }
+.step-item.completed .step-text h4 { color: var(--navy) !important; }
 
 .help-box {
     background: #ffffff;
@@ -321,10 +322,10 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     .mobile-step-item.active { background: #f8fafc; color: var(--navy); }
     .mobile-step-item .step-number { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
     .mobile-step-item.active .step-number { background: #eff6ff; color: #3b82f6; border-color: #3b82f6; }
-    .mobile-step-item .step-text h4 { margin: 0; font-size: 0.9rem; font-weight: 700; }
-    .mobile-step-item .step-text p { margin: 0; font-size: 0.75rem; }
-    .mobile-step-item.active .step-text h4 { color: var(--navy); }
-    .mobile-step-item.active .step-text p { color: #64748b; }
+    .mobile-step-item .step-text h4 { margin: 0; font-size: 0.9rem; font-weight: 700; color: #475569 !important; }
+    .mobile-step-item .step-text p { margin: 0; font-size: 0.75rem; color: #94a3b8 !important; }
+    .mobile-step-item.active .step-text h4 { color: var(--navy) !important; }
+    .mobile-step-item.active .step-text p { color: #64748b !important; }
     
     .mobile-help { display: flex; margin-top: 1.5rem; }
 }
