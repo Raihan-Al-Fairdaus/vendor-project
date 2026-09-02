@@ -734,7 +734,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                                     <span class="lang-en">Front & inside view (Min 2)</span>
                                 </span>
                                 <div class="file-indicator" id="ind-office"></div>
-                                <input type="file" name="office_photos[]" id="officePhotosInput" accept=".jpg,.jpeg,.png" multiple required onchange="handleMultipleFiles(this, 'box-office', 'ind-office')">
+                                <input type="file" id="officePhotosInput" accept=".jpg,.jpeg,.png" multiple onchange="handleMultipleFiles(this, 'box-office', 'ind-office')">
                             </div>
                         </div>
                     </div>
@@ -793,7 +793,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                             <span class="lang-id">Kembali</span>
                             <span class="lang-en">Back</span>
                         </button>
-                        <button type="submit" class="btn-submit" id="submitBtn">
+                        <button type="button" class="btn-submit" id="submitBtn" onclick="submitVendorForm()">
                             <span class="lang-id">Kirim Pendaftaran</span>
                             <span class="lang-en">Submit Registration</span>
                         </button>
@@ -1213,8 +1213,25 @@ function acceptMou() {
 }
 
 // ==================== UPLOAD ====================
-document.getElementById('vendorForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
+async function submitVendorForm() {
+    const form = document.getElementById('vendorForm');
+    
+    // Manual validation for all fields including hidden ones
+    if (!form.checkValidity()) {
+        for (let i = 0; i < form.elements.length; i++) {
+            const field = form.elements[i];
+            if (!field.checkValidity()) {
+                let stepElement = field.closest('.step-content');
+                if (stepElement) {
+                    let stepId = stepElement.id.replace('step', '');
+                    goToStep(parseInt(stepId));
+                    setTimeout(() => field.reportValidity(), 100);
+                    return;
+                }
+            }
+        }
+        return;
+    }
 
     if (!hasReadMou) {
         alert(currentLang === 'id' ? 'Anda harus membaca dan menyetujui MOU terlebih dahulu.' : 'You must read and agree to the MOU first.');
@@ -1222,7 +1239,6 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
         return;
     }
 
-    const form = this;
     const submitBtn = document.getElementById('submitBtn');
 
     const idCardFile = document.getElementById('idCardInput').files[0];
@@ -1291,6 +1307,6 @@ document.getElementById('vendorForm').addEventListener('submit', async function(
         submitBtn.disabled = false;
         submitBtn.innerHTML = currentLang === 'id' ? 'Kirim Pendaftaran' : 'Submit Registration';
     }
-});
+}
 </script>
 @endsection
