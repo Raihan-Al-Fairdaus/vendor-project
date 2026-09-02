@@ -1,137 +1,140 @@
 @extends('layouts.admin')
 
-@section('page_title', 'System Overview')
-@section('header_actions')
-    <!-- Tombol Export Data dan + New Vendor sudah dihilangkan -->
-@endsection
+@section('page_title', 'Overview')
 
 @section('content')
-{{-- Greeting Banner on Mobile --}}
-<div class="mobile-greeting-banner">
-    <h2>Halo, {{ Auth::user()->name }}!</h2>
-    <p>Role: Administrator • {{ now()->translatedFormat('l, d F Y') }}</p>
+
+{{-- Top Header --}}
+<div class="admin-page-header" style="background-color: #1b3a60; padding: 1.75rem 2rem 1.5rem;">
+    <h1 style="color: #ffffff; font-size: 1.5rem; font-weight: 700; margin: 0 0 0.35rem 0; line-height: 1.2;">Overview</h1>
+    <p style="color: rgba(255,255,255,0.55); font-size: 0.85rem; margin: 0;">Ringkasan data dan aktivitas sistem vendor portal.</p>
 </div>
 
-<div class="grid grid-cols-4 gap-4 mb-8 stat-cards-grid">
-    <div class="card stat-card-new stat-total animate-on-scroll hoverable" style="transition-delay: 0.1s;">
-        <div class="stat-card-icon-wrapper">
+{{-- Stat Cards --}}
+<div style="padding: 0 2rem 1.25rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;">
+    <div style="background-color: #ffffff; border-radius: 10px; padding: 1.25rem; display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 44px; height: 44px; border-radius: 10px; background-color: #eff6ff; color: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0;">
             <i class="fa-solid fa-users"></i>
         </div>
-        <div class="stat-card-details">
-            <span class="stat-card-label">Total Vendors</span>
-            <span class="stat-card-value">{{ $totalVendors }}</span>
-            <span class="stat-card-desc">Registered</span>
+        <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #1e3a8a; margin-bottom: 1px;">Total Vendors</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #0f172a; line-height: 1.2;">{{ $totalVendors }}</div>
+            <div style="font-size: 0.72rem; color: #64748b; margin-top: 1px;">Registered</div>
         </div>
     </div>
-    <div class="card stat-card-new stat-pending animate-on-scroll hoverable" style="transition-delay: 0.2s;">
-        <div class="stat-card-icon-wrapper">
+
+    <div style="background-color: #ffffff; border-radius: 10px; padding: 1.25rem; display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 44px; height: 44px; border-radius: 10px; background-color: #fffbeb; color: #f59e0b; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0;">
             <i class="fa-solid fa-hourglass-half"></i>
         </div>
-        <div class="stat-card-details">
-            <span class="stat-card-label">Pending</span>
-            <span class="stat-card-value">{{ $pendingVendors }}</span>
-            <span class="stat-card-desc">Awaiting review</span>
+        <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #f59e0b; margin-bottom: 1px;">Pending</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #0f172a; line-height: 1.2;">{{ $pendingVendors }}</div>
+            <div style="font-size: 0.72rem; color: #64748b; margin-top: 1px;">Awaiting review</div>
         </div>
     </div>
-    <div class="card stat-card-new stat-approved animate-on-scroll hoverable" style="transition-delay: 0.3s;">
-        <div class="stat-card-icon-wrapper">
+
+    <div style="background-color: #ffffff; border-radius: 10px; padding: 1.25rem; display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 44px; height: 44px; border-radius: 10px; background-color: #ecfdf5; color: #10b981; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0;">
             <i class="fa-solid fa-circle-check"></i>
         </div>
-        <div class="stat-card-details">
-            <span class="stat-card-label">Approved</span>
-            <span class="stat-card-value">{{ $approvedVendors }}</span>
-            <span class="stat-card-desc">Active partners</span>
+        <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #10b981; margin-bottom: 1px;">Approved</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #0f172a; line-height: 1.2;">{{ $approvedVendors }}</div>
+            <div style="font-size: 0.72rem; color: #64748b; margin-top: 1px;">Active partners</div>
         </div>
     </div>
-    <div class="card stat-card-new stat-rejected animate-on-scroll hoverable" style="transition-delay: 0.4s;">
-        <div class="stat-card-icon-wrapper">
+
+    <div style="background-color: #ffffff; border-radius: 10px; padding: 1.25rem; display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 44px; height: 44px; border-radius: 10px; background-color: #fef2f2; color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0;">
             <i class="fa-solid fa-circle-xmark"></i>
         </div>
-        <div class="stat-card-details">
-            <span class="stat-card-label">Rejected</span>
-            <span class="stat-card-value">{{ $rejectedVendors }}</span>
-            <span class="stat-card-desc">Ineligible</span>
+        <div>
+            <div style="font-size: 0.8rem; font-weight: 700; color: #ef4444; margin-bottom: 1px;">Rejected</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #0f172a; line-height: 1.2;">{{ $rejectedVendors }}</div>
+            <div style="font-size: 0.72rem; color: #64748b; margin-top: 1px;">Ineligible</div>
         </div>
     </div>
 </div>
 
-<div class="grid gap-4 mb-8 chart-grid">
-    <!-- Chart Dinamis dengan Chart.js -->
-    <div class="card animate-on-scroll" style="transition-delay: 0.5s;">
-        <h3 class="mb-4">Monthly Registrations</h3>
+{{-- Chart + Categories --}}
+<div style="padding: 0 2rem 1.25rem; display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem;">
+    {{-- Monthly Registrations Chart --}}
+    <div style="background-color: #ffffff; border-radius: 10px; padding: 1.25rem;">
+        <h3 style="margin: 0 0 1rem 0; font-size: 1rem; font-weight: 700; color: #0f172a;">Monthly Registrations</h3>
         <div style="position: relative; height: 220px; width: 100%;">
             <canvas id="monthlyRegistrationsChart"></canvas>
         </div>
     </div>
 
-    <div class="card animate-on-scroll hoverable" style="transition-delay: 0.6s;">
-        <h3 class="mb-4">Vendor Categories</h3>
-        <div>
+    {{-- Vendor Categories --}}
+    <div style="background-color: #ffffff; border-radius: 10px; padding: 1.25rem; display: flex; flex-direction: column;">
+        <h3 style="margin: 0 0 1rem 0; font-size: 1rem; font-weight: 700; color: #0f172a;">Vendor Categories</h3>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1;">
             @foreach($categories as $category)
-            <div class="d-flex justify-between mb-2">
-                <span style="font-size:0.875rem;color:#ffffff;font-weight:500;">{{ $category->business_category }}</span>
-                <span style="font-weight:600;color:#ffffff;">{{ $category->total }}</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid #f1f5f9;">
+                <span style="font-size: 0.875rem; color: #0f172a; font-weight: 500;">{{ $category->business_category }}</span>
+                <span style="font-weight: 600; color: #0f172a; font-size: 0.85rem; background-color: #f1f5f9; padding: 0.2rem 0.6rem; border-radius: 6px;">{{ $category->total }}</span>
             </div>
             @endforeach
             @if($categories->isEmpty())
-                <p class="text-muted" style="font-size: 0.875rem;">No data available.</p>
+                <p style="font-size: 0.875rem; color: #64748b; margin: 0;">No data available.</p>
             @endif
         </div>
     </div>
 </div>
 
-<div class="card animate-on-scroll" style="transition-delay: 0.7s;">
-    <div class="d-flex justify-between align-center mb-4">
-        <h3>Vendor Management</h3>
-        <a href="{{ route('admin.vendors.index') }}"
-   style="
-        font-size:0.875rem;
-        color:#ffffff;
-        font-weight:600;
-        text-decoration:none;
-   ">
-        View All →
-</a>
-    </div>
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>VENDOR NAME</th>
-                    <th>CATEGORY</th>
-                    <th>CONTACT EMAIL</th>
-                    <th>REGISTERED</th>
-                    <th>STATUS</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($recentVendors as $vendor)
-                <tr>
-                    <td data-label="VENDOR NAME">
-                        <a href="{{ route('admin.vendors.show', $vendor->id) }}" style="font-weight: 500; color: var(--primary);">{{ $vendor->company_name }}</a>
-                        <div style="font-size: 0.75rem; color: var(--text-muted);">{{ $vendor->pic_name }}</div>
-                    </td>
-                    <td data-label="CATEGORY">{{ $vendor->business_category }}</td>
-                    <td data-label="CONTACT EMAIL">{{ $vendor->company_email }}</td>
-                    <td data-label="REGISTERED">{{ $vendor->created_at->format('M d, Y') }}</td>
-                    <td data-label="STATUS">
-                        <span class="badge badge-{{ $vendor->status }}">
-                            {{ ucfirst($vendor->status) }}
-                        </span>
-                    </td>
-                </tr>
-                @endforeach
-                @if($recentVendors->isEmpty())
-                <tr>
-                    <td colspan="5" class="text-center text-muted">No vendors found.</td>
-                </tr>
-                @endif
-            </tbody>
-        </table>
+{{-- Vendor Table --}}
+<div style="padding: 0 2rem 2rem;">
+    <div style="background-color: #ffffff; border-radius: 10px; overflow: hidden;">
+        <div style="padding: 1.25rem 1.25rem 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; font-size: 1rem; font-weight: 700; color: #0f172a;">Vendor Management</h3>
+            <a href="{{ route('admin.vendors.index') }}" style="font-size: 0.875rem; color: #3b82f6; font-weight: 600; text-decoration: none;">
+                View All →
+            </a>
+        </div>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #e2e8f0; border-top: 1px solid #f1f5f9;">
+                        <th style="padding: 0.85rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">VENDOR NAME</th>
+                        <th style="padding: 0.85rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">CATEGORY</th>
+                        <th style="padding: 0.85rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">CONTACT EMAIL</th>
+                        <th style="padding: 0.85rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">REGISTERED</th>
+                        <th style="padding: 0.85rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">STATUS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($recentVendors as $vendor)
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 0.85rem 1.25rem;">
+                            <a href="{{ route('admin.vendors.show', $vendor->id) }}" style="font-weight: 600; color: #3b82f6; text-decoration: none; font-size: 0.85rem;">{{ $vendor->company_name }}</a>
+                            <div style="font-size: 0.75rem; color: #64748b; margin-top: 1px;">{{ $vendor->pic_name }}</div>
+                        </td>
+                        <td style="padding: 0.85rem 1.25rem; color: #0f172a; font-size: 0.85rem;">{{ $vendor->business_category }}</td>
+                        <td style="padding: 0.85rem 1.25rem; color: #0f172a; font-size: 0.85rem;">{{ $vendor->company_email }}</td>
+                        <td style="padding: 0.85rem 1.25rem; color: #0f172a; font-size: 0.85rem;">{{ $vendor->created_at->format('M d, Y') }}</td>
+                        <td style="padding: 0.85rem 1.25rem;">
+                            @if($vendor->status == 'approved')
+                                <span style="background-color: #d1fae5; color: #059669; padding: 0.3rem 0.65rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;"><span style="font-size:8px;">●</span> Approved</span>
+                            @elseif($vendor->status == 'rejected')
+                                <span style="background-color: #fee2e2; color: #dc2626; padding: 0.3rem 0.65rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;"><span style="font-size:8px;">●</span> Rejected</span>
+                            @else
+                                <span style="background-color: #fef3c7; color: #d97706; padding: 0.3rem 0.65rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;"><span style="font-size:8px;">●</span> Pending</span>
+                            @endif
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" style="padding: 2.5rem; text-align: center; color: #64748b; font-size: 0.9rem;">No vendors found.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-{{-- Script Chart.js untuk Monthly Registrations --}}
 {{-- Script Chart.js untuk Monthly Registrations --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -170,13 +173,13 @@
             scales: {
                 x: {
                     grid: { display: false },
-                    ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 11 } }
+                    ticks: { color: '#64748b', font: { size: 11 } }
                 },
                 y: {
                     beginAtZero: true,
-                    grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                    grid: { color: '#f1f5f9' },
                     ticks: { 
-                        color: 'rgba(255, 255, 255, 0.7)',
+                        color: '#64748b',
                         stepSize: 1,
                         font: { size: 11 }
                     }

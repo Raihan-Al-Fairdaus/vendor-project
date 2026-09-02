@@ -1,30 +1,38 @@
 @extends('layouts.admin')
 
-@section('page_title', 'Billboard Management')
-@section('page_subtitle', 'Kelola data billboard dan status ketersediaannya.')
-
-@section('header_actions')
-    <a href="{{ route('admin.billboards.create') }}" class="btn btn-primary btn-sm">➕ Tambah Billboard</a>
-@endsection
+@section('page_title', 'Billboards')
 
 @section('content')
 
-{{-- Undo Last Import Button --}}
+{{-- Top header bar: title + action button on dark navy bg --}}
+<div class="admin-page-header" style="background-color: #1b3a60; padding: 1.75rem 2rem 1.5rem; display: flex; justify-content: space-between; align-items: flex-start;">
+    <div>
+        <h1 style="color: #ffffff; font-size: 1.5rem; font-weight: 700; margin: 0 0 0.35rem 0; line-height: 1.2;">Billboards</h1>
+        <p style="color: rgba(255,255,255,0.55); font-size: 0.85rem; margin: 0;">Kelola data billboard dan status ketersediaannya.</p>
+    </div>
+    <div>
+        <a href="{{ route('admin.billboards.create') }}" style="background-color: #ffffff; color: #1e293b; text-decoration: none; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+            <i class="fa-solid fa-plus" style="color: #1e293b;"></i> Tambah Billboard
+        </a>
+    </div>
+</div>
+
+{{-- Undo Last Import Banner --}}
 @if(session('last_import_count'))
-<div class="card mb-3" style="padding: 1rem 1.5rem; border: 2px solid #ef4444; background: rgba(239, 68, 68, 0.08);">
-    <div class="d-flex align-center gap-4" style="flex-wrap: wrap; justify-content: space-between;">
+<div style="padding: 0 2rem 1.25rem;">
+    <div style="background-color: #ffffff; border-radius: 10px; border-left: 4px solid #ef4444; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
         <div>
-            <span style="font-size: 1rem; color: #f87171; font-weight: 600;">
-                📦 Baru saja import {{ session('last_import_count') }} {{ session('last_import_jenis', 'data') }}
-            </span>
-            <small style="display: block; color: var(--text-muted); margin-top: 0.25rem;">
+            <div style="font-size: 0.95rem; color: #ef4444; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+                <span>📦</span> Baru saja import {{ session('last_import_count') }} {{ session('last_import_jenis', 'data') }}
+            </div>
+            <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.25rem;">
                 Salah import? Klik tombol di samping untuk membatalkan dan menghapus {{ session('last_import_count') }} data terakhir.
-            </small>
+            </div>
         </div>
-        <form action="{{ route('admin.billboards.undoImport') }}" method="POST" onsubmit="return confirm('⚠️ YAKIN ingin menghapus {{ session('last_import_count') }} data terakhir?\n\nAksi ini TIDAK BISA dibatalkan!');">
+        <form action="{{ route('admin.billboards.undoImport') }}" method="POST" onsubmit="return confirm('⚠️ YAKIN ingin menghapus {{ session('last_import_count') }} data terakhir?\n\nAksi ini TIDAK BISA dibatalkan!');" style="margin: 0;">
             @csrf
             <input type="hidden" name="count" value="{{ session('last_import_count') }}">
-            <button type="submit" class="btn btn-sm" style="background: #ef4444; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 700; cursor: pointer;">
+            <button type="submit" style="background-color: #ef4444; color: #ffffff; border: none; padding: 0.55rem 1.25rem; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
                 🗑️ Undo Import (Hapus {{ session('last_import_count') }} data)
             </button>
         </form>
@@ -33,261 +41,195 @@
 @endif
 
 {{-- Import Box --}}
-<div class="card mb-4" style="padding: 1.5rem 2rem;">
-    <h3 style="margin-top:0; margin-bottom:1rem; font-size:1.1rem; color:var(--primary);">Import Billboard dari Excel</h3>
-    <form action="{{ route('admin.billboards.import') }}" method="POST" enctype="multipart/form-data" class="d-flex align-center gap-4" style="flex-wrap: wrap;" id="importForm" onsubmit="return confirmImport()">
-        @csrf
-        <div style="flex:1; min-width: 250px;">
-            <input type="file" name="files[]" class="form-control" accept=".xlsx,.xls,.csv" multiple required>
-            <small style="color:var(--text-muted); display:block; margin-top:0.25rem;">
-                Bisa pilih banyak file sekaligus (Blok semua file di dalam folder). Kode otomatis.
-            </small>
-        </div>
-        <div style="min-width: 200px;">
-            <select name="jenis_import" id="jenisImport" class="form-control" required style="height: 42px; background: rgba(255,255,255,0.1); color: #fff; border: 2px solid #f59e0b; border-radius: 6px; font-weight: 600;">
-                <option value="" disabled selected style="background:#1e293b;">⚠️ -- PILIH JENIS --</option>
-                <option value="billboard" style="background:#1e293b;">📋 Billboard</option>
-                <option value="midiboard" style="background:#1e293b;">📺 Midiboard</option>
-            </select>
-            <small style="color:#f59e0b; display:block; margin-top:0.25rem; font-weight:600;">
-                ⬆️ WAJIB pilih jenis dulu!
-            </small>
-        </div>
-        <button type="submit" class="btn btn-primary">Upload &amp; Import</button>
-    </form>
-    <script>
-        function confirmImport() {
-            var jenis = document.getElementById('jenisImport').value;
-            if (!jenis) {
-                alert('⚠️ Kamu HARUS pilih jenis (Billboard / Midiboard) dulu!');
-                return false;
+<div style="padding: 0 2rem 1.25rem;">
+    <div style="background-color: #ffffff; border-radius: 10px; padding: 1.25rem 1.5rem;">
+        <h3 style="margin: 0 0 1rem 0; font-size: 1rem; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-file-excel" style="color: #10b981;"></i> Import Billboard dari Excel
+        </h3>
+        <form action="{{ route('admin.billboards.import') }}" method="POST" enctype="multipart/form-data" style="display: flex; gap: 1rem; align-items: flex-start; flex-wrap: wrap;" id="importForm" onsubmit="return confirmImport()">
+            @csrf
+            <div style="flex: 1; min-width: 260px;">
+                <input type="file" name="files[]" accept=".xlsx,.xls,.csv" multiple required style="width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.45rem 0.75rem; color: #0f172a; background: #ffffff; font-size: 0.85rem; outline: none; box-sizing: border-box;">
+                <div style="color: #64748b; font-size: 0.75rem; margin-top: 0.35rem;">
+                    Bisa pilih banyak file sekaligus (Blok semua file di dalam folder). Kode otomatis.
+                </div>
+            </div>
+            <div style="min-width: 200px;">
+                <select name="jenis_import" id="jenisImport" required style="width: 100%; height: 38px; border: 1px solid #f59e0b; border-radius: 6px; padding: 0 0.75rem; color: #0f172a; background: #ffffff; font-size: 0.85rem; font-weight: 600; outline: none; box-sizing: border-box; cursor: pointer;">
+                    <option value="" disabled selected>⚠️ -- PILIH JENIS --</option>
+                    <option value="billboard">📋 Billboard</option>
+                    <option value="midiboard">📺 Midiboard</option>
+                </select>
+                <div style="color: #d97706; font-size: 0.75rem; margin-top: 0.35rem; font-weight: 600;">
+                    ⬆️ WAJIB pilih jenis dulu!
+                </div>
+            </div>
+            <div>
+                <button type="submit" style="background-color: #1b3a60; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1.25rem; font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer; height: 38px; box-sizing: border-box;">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload &amp; Import
+                </button>
+            </div>
+        </form>
+        <script>
+            function confirmImport() {
+                var jenis = document.getElementById('jenisImport').value;
+                if (!jenis) {
+                    alert('⚠️ Kamu HARUS pilih jenis (Billboard / Midiboard) dulu!');
+                    return false;
+                }
+                var label = jenis === 'midiboard' ? 'MIDIBOARD' : 'BILLBOARD';
+                return confirm('Kamu akan mengimport data sebagai: ' + label + '\n\nApakah sudah benar?');
             }
-            var label = jenis === 'midiboard' ? 'MIDIBOARD' : 'BILLBOARD';
-            return confirm('Kamu akan mengimport data sebagai: ' + label + '\n\nApakah sudah benar?');
-        }
-    </script>
+        </script>
+    </div>
 </div>
 
 {{-- Search & Filter Box --}}
-<div class="admin-search-outer mb-4">
-    <style>
-        .admin-search-outer {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 1.25rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        .admin-search-form {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .asf-group {
-            position: relative;
-            flex: 1;
-            min-width: 200px;
-        }
-        .asf-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.1rem;
-            pointer-events: none;
-            z-index: 10;
-        }
-        .asf-input, .asf-select {
-            width: 100%;
-            height: 48px;
-            padding: 0 1rem 0 3rem !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1) !important;
-            color: #ffffff !important;
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-        .asf-input::placeholder {
-            color: rgba(255, 255, 255, 0.6) !important;
-        }
-        .asf-select option {
-            background: #1e293b; /* Dark bg for dropdown options */
-            color: #ffffff;
-        }
-        .asf-input:focus, .asf-select:focus {
-            border-color: rgba(255, 255, 255, 0.5) !important;
-            background: rgba(255, 255, 255, 0.15) !important;
-        }
-        .asf-btn-search {
-            height: 48px;
-            padding: 0 1.5rem;
-            background: #f59e0b !important;
-            color: white !important;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .asf-btn-search:hover {
-            background: #d97706 !important;
-        }
-        .asf-btn-reset {
-            height: 48px;
-            padding: 0 1.5rem;
-            background: rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            border-radius: 8px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        .asf-btn-reset:hover {
-            background: rgba(255, 255, 255, 0.2) !important;
-        }
-    </style>
-    
-    <form action="{{ route('admin.billboards.index') }}" method="GET" class="admin-search-form">
-        <div class="asf-group" style="flex: 2;">
-            <span class="asf-icon">🔍</span>
-            <input type="text" name="search" class="asf-input" placeholder="Cari kode, alamat billboard..." value="{{ request('search') }}">
-        </div>
-        
-        <div class="asf-group">
-            <span class="asf-icon">📍</span>
-            <select name="city" class="asf-select" onchange="this.form.submit()">
-                <option value="">Semua Kota</option>
-                @foreach($cityCounts as $cityName => $counts)
-                    @php
-                        $bb = $counts['billboard'] ?? 0;
-                        $mb = $counts['midiboard'] ?? 0;
-                        $parts = [];
-                        if ($bb > 0) $parts[] = $bb . ' BB';
-                        if ($mb > 0) $parts[] = $mb . ' MB';
-                        $label = strtoupper($cityName) . ' (' . implode(' · ', $parts) . ')';
-                    @endphp
-                    <option value="{{ $cityName }}" {{ request('city') === $cityName ? 'selected' : '' }}>
-                        {{ $label }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        
-        <div class="asf-group">
-            <span class="asf-icon">📋</span>
-            <select name="jenis" class="asf-select" onchange="this.form.submit()">
-                <option value="">Semua Jenis</option>
-                <option value="billboard" {{ request('jenis') === 'billboard' ? 'selected' : '' }}>Billboard</option>
-                <option value="midiboard" {{ request('jenis') === 'midiboard' ? 'selected' : '' }}>Midiboard</option>
-            </select>
+<div style="padding: 0 2rem 1.25rem;">
+    <form action="{{ route('admin.billboards.index') }}" method="GET" style="background-color: #ffffff; border-radius: 10px; padding: 0.85rem 1rem; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+        <div style="flex: 2; min-width: 220px; display: flex; align-items: center; gap: 0.5rem; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 0.75rem;">
+            <i class="fa-solid fa-search" style="color: #94a3b8; font-size: 0.85rem;"></i>
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kode, alamat billboard..." style="border: none; outline: none; width: 100%; color: #0f172a; background: transparent; font-size: 0.85rem;" onkeydown="if(event.key==='Enter'){this.form.submit();}">
         </div>
 
-        <div class="asf-group">
-            <span class="asf-icon">🚦</span>
-            <select name="status" class="asf-select" onchange="this.form.submit()">
-                <option value="">Semua Status</option>
-                <option value="tersedia" {{ request('status') === 'tersedia' ? 'selected' : '' }}>🟢 Tersedia</option>
-                <option value="terisi" {{ request('status') === 'terisi' ? 'selected' : '' }}>🔴 Terisi</option>
-            </select>
-        </div>
-        
-        <button type="submit" class="asf-btn-search">Cari</button>
-        
+        <select name="city" style="border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 0.75rem; color: #0f172a; outline: none; background: #ffffff; cursor: pointer; font-size: 0.85rem; min-width: 150px;" onchange="this.form.submit()">
+            <option value="">Semua Kota</option>
+            @foreach($cityCounts as $cityName => $counts)
+                @php
+                    $bb = $counts['billboard'] ?? 0;
+                    $mb = $counts['midiboard'] ?? 0;
+                    $parts = [];
+                    if ($bb > 0) $parts[] = $bb . ' BB';
+                    if ($mb > 0) $parts[] = $mb . ' MB';
+                    $label = strtoupper($cityName) . ' (' . implode(' · ', $parts) . ')';
+                @endphp
+                <option value="{{ $cityName }}" {{ request('city') === $cityName ? 'selected' : '' }}>
+                    {{ $label }}
+                </option>
+            @endforeach
+        </select>
+
+        <select name="jenis" style="border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 0.75rem; color: #0f172a; outline: none; background: #ffffff; cursor: pointer; font-size: 0.85rem;" onchange="this.form.submit()">
+            <option value="">Semua Jenis</option>
+            <option value="billboard" {{ request('jenis') === 'billboard' ? 'selected' : '' }}>Billboard</option>
+            <option value="midiboard" {{ request('jenis') === 'midiboard' ? 'selected' : '' }}>Midiboard</option>
+        </select>
+
+        <select name="status" style="border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 0.75rem; color: #0f172a; outline: none; background: #ffffff; cursor: pointer; font-size: 0.85rem;" onchange="this.form.submit()">
+            <option value="">Semua Status</option>
+            <option value="tersedia" {{ request('status') === 'tersedia' ? 'selected' : '' }}>🟢 Tersedia</option>
+            <option value="terisi" {{ request('status') === 'terisi' ? 'selected' : '' }}>🔴 Terisi</option>
+        </select>
+
+        <button type="submit" style="background-color: #1b3a60; color: #ffffff; border: none; border-radius: 6px; padding: 0.55rem 1.25rem; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-size: 0.85rem;">
+            <i class="fa-solid fa-search"></i> Cari
+        </button>
+
         @if(request()->filled('search') || request()->filled('city') || request()->filled('jenis') || request()->filled('status'))
-            <a href="{{ route('admin.billboards.index') }}" class="asf-btn-reset">✕ Reset</a>
+            <a href="{{ route('admin.billboards.index') }}" style="background: #ffffff; border: 1px solid #e2e8f0; color: #0f172a; border-radius: 6px; padding: 0.5rem 1.25rem; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; cursor: pointer; text-decoration: none; font-size: 0.85rem;">
+                <i class="fa-solid fa-rotate-right" style="color: #64748b;"></i> Reset
+            </a>
         @endif
     </form>
 </div>
 
-<div class="card animate-on-scroll" style="padding:0; overflow:hidden;">
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>KODE</th>
-                    <th>JENIS</th>
-                    <th>KOTA</th>
-                    <th>ALAMAT</th>
-                    <th>UKURAN</th>
-                    <th>SISI</th>
-                    <th>STATUS</th>
-                    <th>AKSI</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($billboards as $board)
-                    <tr>
-                        <td data-label="KODE" style="font-weight:700; font-family:monospace; letter-spacing:0.5px;">{{ $board->code ?? '-' }}</td>
-                        <td data-label="JENIS">
+{{-- Data Table --}}
+<div style="padding: 0 2rem 1.25rem;">
+    <div style="background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #e2e8f0;">
+                        <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">KODE</th>
+                        <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">JENIS</th>
+                        <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">KOTA</th>
+                        <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">ALAMAT</th>
+                        <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">UKURAN</th>
+                        <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">SISI</th>
+                        <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">STATUS</th>
+                        <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">AKSI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($billboards as $board)
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 0.85rem 1.25rem; font-weight: 700; font-family: monospace; letter-spacing: 0.5px; color: #0f172a; font-size: 0.85rem;">
+                            {{ $board->code ?? '-' }}
+                        </td>
+                        <td style="padding: 0.85rem 1.25rem;">
                             <span style="
                                 background: {{ $board->jenis === 'midiboard' ? 'rgba(245,158,11,0.15)' : 'rgba(59,130,246,0.15)' }};
-                                color: {{ $board->jenis === 'midiboard' ? '#d97706' : '#3b82f6' }};
-                                padding: .25rem .6rem;
+                                color: {{ $board->jenis === 'midiboard' ? '#d97706' : '#2563eb' }};
+                                padding: 0.25rem 0.6rem;
                                 border-radius: 6px;
-                                font-size: .75rem;
+                                font-size: 0.75rem;
                                 font-weight: 600;
                             ">{{ ucfirst($board->jenis ?? 'billboard') }}</span>
                         </td>
-                        <td data-label="KOTA" style="font-weight:600;">{{ $board->city }}</td>
-                        <td data-label="ALAMAT">{{ $board->address }}</td>
-                        <td data-label="UKURAN">{{ $board->ukuran ?? '-' }}</td>
-                        <td data-label="SISI">{{ $board->sisi ?? 1 }}</td>
-                        <td data-label="STATUS">
+                        <td style="padding: 0.85rem 1.25rem; font-weight: 600; color: #0f172a; font-size: 0.85rem;">
+                            {{ $board->city }}
+                        </td>
+                        <td style="padding: 0.85rem 1.25rem; color: #0f172a; font-size: 0.85rem;">
+                            {{ $board->address }}
+                        </td>
+                        <td style="padding: 0.85rem 1.25rem; color: #0f172a; font-size: 0.85rem;">
+                            {{ $board->ukuran ?? '-' }}
+                        </td>
+                        <td style="padding: 0.85rem 1.25rem; color: #0f172a; font-size: 0.85rem;">
+                            {{ $board->sisi ?? 1 }}
+                        </td>
+                        <td style="padding: 0.85rem 1.25rem;">
                             @php
                                 $isTersedia = $board->status === 'tersedia';
-                                $bg = $isTersedia ? 'rgba(16,185,129,.2)' : 'rgba(239,68,68,.2)';
-                                $color = $isTersedia ? '#34d399' : '#f87171';
-                                $border = $isTersedia ? '#10b981' : '#ef4444';
+                                $bg = $isTersedia ? '#d1fae5' : '#fee2e2';
+                                $color = $isTersedia ? '#059669' : '#dc2626';
                             @endphp
-                            <span style="background:{{ $bg }}; border:1px solid {{ $border }}; color:{{ $color }}; padding:.3rem .75rem; border-radius:20px; font-size:.75rem; font-weight:600; display:inline-flex; align-items:center; gap:.4rem;">
-                                <span style="font-size:12px; color:{{ $color }} !important;">●</span>
-                                <span style="color:{{ $color }} !important;">{{ ucfirst($board->status) }}</span>
+                            <span style="background-color: {{ $bg }}; color: {{ $color }}; padding: 0.3rem 0.65rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                <span style="font-size: 8px;">●</span> {{ ucfirst($board->status) }}
                             </span>
                         </td>
-                        <td data-label="AKSI">
-                            <div class="d-flex gap-2">
-                                <a href="{{ route('admin.billboards.edit', $board->id) }}" class="btn btn-outline btn-sm">Edit</a>
-                                <form action="{{ route('admin.billboards.destroy', $board->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus billboard ini?');" style="display:inline;">
+                        <td style="padding: 0.85rem 1.25rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <a href="{{ route('admin.billboards.edit', $board->id) }}" style="border: 1px solid #e2e8f0; color: #3b82f6; text-decoration: none; padding: 0.4rem 0.7rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; background: #ffffff;">
+                                    <i class="fa-regular fa-pen-to-square"></i> Edit
+                                </a>
+                                <form action="{{ route('admin.billboards.destroy', $board->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus billboard ini?');" style="display: inline; margin: 0;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-outline btn-sm" style="color:var(--error); border-color:var(--error);">Hapus</button>
+                                    <button type="submit" style="border: 1px solid #fee2e2; color: #ef4444; background: #ffffff; padding: 0.4rem 0.7rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer;">
+                                        <i class="fa-regular fa-trash-can"></i> Hapus
+                                    </button>
                                 </form>
                             </div>
                         </td>
                     </tr>
-                @empty
+                    @empty
                     <tr>
-                        <td colspan="8" class="text-center text-muted" style="padding: 2rem;">
+                        <td colspan="8" style="padding: 2.5rem; text-align: center; color: #64748b; font-size: 0.9rem;">
                             Belum ada data billboard.
                         </td>
                     </tr>
-                @endforelse
-            </tbody>
-        </table>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<div class="mt-5 mb-4 d-flex justify-content-center">
+{{-- Pagination --}}
+<div style="padding: 0 2rem 2rem; display: flex; justify-content: center;">
     <style>
         .custom-pagination-container {
             background: #ffffff;
             border-radius: 50px;
-            padding: 0.5rem 1.5rem;
+            padding: 0.4rem 1.25rem;
             display: inline-flex;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
         .custom-pagination {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
             list-style: none;
             margin: 0;
             padding: 0;
@@ -299,28 +241,28 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            color: #4b5563; /* Dark gray for text */
+            color: #475569;
             font-weight: 600;
             text-decoration: none;
             border: none;
             background: transparent;
-            min-width: 35px;
-            height: 35px;
+            min-width: 32px;
+            height: 32px;
             border-radius: 50%;
             transition: all 0.2s;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
         }
         .custom-pagination .mypill-link:hover {
-            color: var(--primary, #3b82f6);
-            background: rgba(59, 130, 246, 0.1);
+            color: #1e3a8a;
+            background: rgba(30, 58, 138, 0.08);
         }
         .custom-pagination .mypill-item.active .mypill-link {
-            background: var(--primary, #3b82f6); /* Use their primary color */
+            background: #1e3a8a;
             color: #ffffff;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.3);
         }
         .custom-pagination .mypill-item.disabled .mypill-link {
-            color: #9ca3af;
+            color: #cbd5e1;
             cursor: not-allowed;
             background: transparent;
         }
@@ -329,11 +271,11 @@
             border-radius: 20px;
             padding: 0 0.75rem;
             width: auto;
-            color: var(--primary, #3b82f6);
+            color: #1e3a8a;
         }
         .custom-pagination li:first-child.disabled .mypill-link,
         .custom-pagination li:last-child.disabled .mypill-link {
-            color: #9ca3af;
+            color: #cbd5e1;
         }
     </style>
     {{ $billboards->appends(request()->query())->links('admin.billboards.pagination') }}
