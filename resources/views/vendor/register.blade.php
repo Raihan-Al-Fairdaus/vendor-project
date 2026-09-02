@@ -6,7 +6,7 @@
 nav.navbar { display: none !important; }
 footer.vc-footer { display: none !important; }
 *, *::before, *::after { box-sizing: border-box; }
-body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
+html, body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; max-width: 100vw; }
 
 :root {
     --navy: #1b3a60;
@@ -308,13 +308,14 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 /* MOBILE RESPONSIVE */
 @media (max-width: 992px) {
     .nav-links { display: none; }
-    .mobile-menu-btn { display: block; }
+    .mobile-menu-btn { display: none !important; }
+    .btn-nav-contact { display: none !important; }
     .hero-wrapper { padding: 6rem 5% 3rem; flex-direction: column; }
     .hero-bg-image { width: 100%; opacity: 0.15; mask-image: none; -webkit-mask-image: none; background-position: center top; }
     .hero-features { flex-direction: column; gap: 1rem; }
     .hero-title { font-size: 2.25rem; }
     .form-layout { grid-template-columns: 1fr; padding: 0 1rem; }
-    .form-card { padding: 1.25rem; }
+    .form-card { padding: 1.25rem; width: 100%; max-width: 100%; }
     .custom-footer { padding: 3rem 1.5rem 2rem; }
     .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
     .grid-2 { grid-template-columns: 1fr; }
