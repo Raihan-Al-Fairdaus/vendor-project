@@ -1264,17 +1264,57 @@ async function submitVendorForm() {
     try {
         const csrfToken = document.querySelector('input[name="_token"]').value;
 
+        // Fungsi kompresi gambar (klien-side)
+        async function compressImage(file, maxWidth = 1600, quality = 0.7) {
+            // Hanya proses file gambar (abaikan PDF)
+            if (!file.type.startsWith('image/')) return file;
+
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.src = URL.createObjectURL(file);
+                img.onload = () => {
+                    URL.revokeObjectURL(img.src);
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob((blob) => {
+                        if (blob) {
+                            const newName = file.name.replace(/\.[^/.]+$/, "") + ".jpg";
+                            resolve(new File([blob], newName, { type: 'image/jpeg', lastModified: Date.now() }));
+                        } else {
+                            resolve(file); // fallback
+                        }
+                    }, 'image/jpeg', quality);
+                };
+                img.onerror = () => resolve(file);
+            });
+        }
+
         async function uploadFile(file, folder) {
+            // Kompres file sebelum diupload (jika gambar)
+            const fileToUpload = await compressImage(file);
+            
             const presignRes = await fetch('/upload/presign', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
-                body: JSON.stringify({ filename: file.name, folder: folder, type: file.type })
+                body: JSON.stringify({ filename: fileToUpload.name, folder: folder, type: fileToUpload.type })
             });
 
             if (!presignRes.ok) throw new Error('Gagal mendapatkan URL upload');
             const { upload_url, public_url } = await presignRes.json();
 
-            const uploadRes = await fetch(upload_url, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
+            const uploadRes = await fetch(upload_url, { method: 'PUT', headers: { 'Content-Type': fileToUpload.type }, body: fileToUpload });
             if (!uploadRes.ok) throw new Error('Gagal mengupload file');
             return public_url;
         }
