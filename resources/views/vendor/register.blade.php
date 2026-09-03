@@ -4,7 +4,6 @@
 <style>
 /* Reset and Defaults */
 nav.navbar { display: none !important; }
-footer.vc-footer { display: none !important; }
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; max-width: 100vw; }
 
@@ -265,27 +264,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 .step-content.active { display: block; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* CUSTOM FOOTER - SECTION 3 (NAVY) */
-.custom-footer { background: var(--navy); color: #fff; padding: 4rem 5% 2rem; }
-.footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.5fr 1.5fr; gap: 3rem; }
-.footer-col h4 { font-size: 1.1rem; font-weight: 600; margin: 0 0 1.5rem; color: #fff; }
-.footer-logo-wrap { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
-.footer-logo-wrap img { height: 28px; }
-.footer-logo-wrap span { font-weight: 700; font-size: 1.2rem; color: #fff; }
-.footer-logo-wrap span .text-red { color: #e11d48; }
-.footer-col p { color: rgba(255,255,255,0.8); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.5rem; }
-.social-links { display: flex; gap: 1rem; }
-.social-links a { color: #fff; opacity: 0.8; font-size: 1.2rem; transition: 0.2s; }
-.social-links a:hover { opacity: 1; color: var(--gold); }
-.footer-links { list-style: none; padding: 0; margin: 0; }
-.footer-links li { margin-bottom: 0.75rem; }
-.footer-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; transition: 0.2s; }
-.footer-links a:hover { color: var(--gold); }
-.contact-item { display: flex; gap: 0.75rem; margin-bottom: 1rem; color: rgba(255,255,255,0.8); font-size: 0.85rem; line-height: 1.5; }
-.contact-item i { margin-top: 0.2rem; }
-.footer-bottom { max-width: 1200px; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; color: rgba(255,255,255,0.6); font-size: 0.75rem; }
 
-/* READY TO JOIN BOX */
 .ready-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 12px; }
 .ready-box h4 { margin-bottom: 0.5rem; font-size: 1rem; font-weight: 700; color: #fff; }
 .ready-box p { font-size: 0.8rem; margin-bottom: 1.25rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
@@ -823,103 +802,6 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
         </div>
     </div>
 </section>
-
-<!-- CUSTOM FOOTER -->
-<footer class="custom-footer">
-    <div class="footer-grid">
-        <div class="footer-col">
-            <div class="footer-logo-wrap">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo">
-                <span>DNA <span class="text-red">Vendor</span> Portal</span>
-            </div>
-            <p>
-                <span class="lang-id">Platform pendaftaran vendor resmi untuk kemitraan bisnis terpercaya bersama <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>.</span>
-                <span class="lang-en">Official vendor registration platform for trusted business partnerships with <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>.</span>
-            </p>
-            <div class="social-links">
-                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="https://wa.me/6281228358630" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="footer-col">
-            <h4>
-                <span class="lang-id">Navigasi</span>
-                <span class="lang-en">Navigation</span>
-            </h4>
-            <ul class="footer-links">
-                <li><a href="{{ url('/') }}">
-                    <span class="lang-id">Beranda</span>
-                    <span class="lang-en">Home</span>
-                </a></li>
-                <li><a href="{{ route('vendor.register') }}">
-                    <span class="lang-id">Daftar Vendor</span>
-                    <span class="lang-en">Register Vendor</span>
-                </a></li>
-                <li><a href="{{ url('/') }}#why-partner">
-                    <span class="lang-id">Mengapa Bermitra</span>
-                    <span class="lang-en">Why Partner With Us</span>
-                </a></li>
-                <li><a href="{{ route('faq') }}">FAQ</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>
-                <span class="lang-id">Informasi Kontak</span>
-                <span class="lang-en">Contact Information</span>
-            </h4>
-            <div class="contact-item">
-                <i class="fa-solid fa-location-dot"></i>
-                <div>Jl. Taman Dhika BL 6 No. 3A<br>Sono, Sidoarjo<br>Buduran, Sidoarjo</div>
-            </div>
-            <div class="contact-item">
-                <i class="fa-regular fa-clock"></i>
-                <div>
-                    <span class="lang-id">Senin - Jumat<br>08:00 - 17:00 WIB</span>
-                    <span class="lang-en">Monday - Friday<br>08:00 - 17:00 WIB</span>
-                </div>
-            </div>
-            <div class="contact-item">
-                <i class="fa-solid fa-envelope"></i>
-                <div>
-                    <span class="lang-id">Email Segera Hadir</span>
-                    <span class="lang-en">Email Coming Soon</span>
-                </div>
-            </div>
-            <div class="contact-item">
-                <i class="fa-solid fa-phone"></i>
-                <div>
-                    <span class="lang-id">Telepon Segera Hadir</span>
-                    <span class="lang-en">Phone Coming Soon</span>
-                </div>
-            </div>
-        </div>
-        <div class="footer-col">
-            <div class="ready-box">
-                <h4>
-                    <span class="lang-id">Siap Bergabung?</span>
-                    <span class="lang-en">Ready to Join?</span>
-                </h4>
-                <p>
-                    <span class="lang-id">Jadilah bagian dari jaringan vendor terpercaya <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>.</span>
-                    <span class="lang-en">Become a part of <span class="brand-text">DNA <span class="brand-red">Advertising</span></span>'s trusted vendor network.</span>
-                </p>
-                <a href="{{ route('vendor.register') }}" class="btn-gold">
-                    <span class="lang-id">Daftar Sekarang</span>
-                    <span class="lang-en">Register Now</span> 
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div>© {{ date('Y') }} DNA Advertising. 
-            <span class="lang-id">Semua hak dilindungi.</span>
-            <span class="lang-en">All rights reserved.</span>
-        </div>
-        <div>Vendor Registration Portal</div>
-    </div>
-</footer>
 
 <!-- MODAL MOU -->
 <div id="mouModal" class="mou-modal">

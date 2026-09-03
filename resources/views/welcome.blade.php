@@ -4,7 +4,6 @@
 <style>
 /* Reset and Hide Defaults */
 nav.navbar { display: none !important; }
-footer.vc-footer { display: none !important; }
 html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
 
 /* Variables */
@@ -125,26 +124,6 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 .btn-white { background: #fff; color: var(--navy); padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.2s; white-space: nowrap; }
 .btn-white:hover { background: #f1f5f9; }
 
-/* CUSTOM FOOTER */
-.custom-footer { background: var(--navy); color: #fff; padding: 4rem 5% 2rem; }
-.footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.5fr 1.5fr; gap: 3rem; }
-.footer-col h4 { font-size: 1.1rem; font-weight: 600; margin: 0 0 1.5rem; color: #fff; }
-.footer-logo-wrap { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
-.footer-logo-wrap img { height: 24px; }
-.footer-logo-wrap span { font-weight: 700; font-size: 1.1rem; }
-.footer-logo-wrap span .text-red { color: #e11d48; }
-.footer-col p { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
-.social-links { display: flex; gap: 1rem; }
-.social-links a { width: 36px; height: 36px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: 0.2s; }
-.social-links a:hover { background: var(--gold); }
-.footer-links { list-style: none; padding: 0; margin: 0; }
-.footer-links li { margin-bottom: 0.75rem; }
-.footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
-.footer-links a:hover { color: var(--gold); }
-.contact-item { display: flex; gap: 1rem; margin-bottom: 1rem; color: rgba(255,255,255,0.7); font-size: 0.9rem; }
-.contact-item i { margin-top: 0.2rem; }
-.footer-bottom { max-width: 1200px; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
-
 /* RESPONSIVE MOBILE */
 @media (max-width: 992px) {
     .nav-links, .btn-nav-contact { display: none; }
@@ -172,10 +151,6 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
     .cta-box { flex-direction: column; text-align: center; padding: 2rem 1.5rem; gap: 1.5rem; }
     .cta-content { flex-direction: column; align-items: center; max-width: 100%; gap: 1rem; }
     .btn-white { width: 100%; }
-    
-    .custom-footer { padding: 3rem 1.5rem 1.5rem; }
-    .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .footer-bottom { flex-direction: column; text-align: center; gap: 1rem; }
 }
 
 /* Modals */
@@ -308,60 +283,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
     </div>
 </section>
 
-<!-- CUSTOM FOOTER -->
-<footer class="custom-footer">
-    <div class="footer-grid">
-        <div class="footer-col">
-            <div class="footer-logo-wrap">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo">
-                <span>DNA <span class="text-red">Vendor</span> Portal</span>
-            </div>
-            <p>Platform registrasi vendor yang aman untuk kemitraan bisnis terpercaya dengan DNA Advertising.</p>
-            <div class="social-links">
-                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="https://wa.me/6281228358630" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="https://www.instagram.com/dna.advofficial" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="footer-col">
-            <h4>Tautan Cepat</h4>
-            <ul class="footer-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="{{ route('vendor.register') }}">Register Vendor</a></li>
-                <li><a href="#why-partner">Why Partner With Us</a></li>
-                <li><a href="{{ route('faq') }}">FAQ</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>Informasi Kontak</h4>
-            <div class="contact-item">
-                <i class="fa-solid fa-location-dot"></i>
-                <div>Jl. Taman Dhika BL 6 No. 3A<br>Sono, Sidoarjo<br>Buduran, Sidoarjo</div>
-            </div>
-            <div class="contact-item">
-                <i class="fa-regular fa-clock"></i>
-                <div>Senin - Jumat<br>08:00 - 17:00 WIB</div>
-            </div>
-            <div class="contact-item">
-                <i class="fa-solid fa-envelope"></i>
-                <div>Email Segera Hadir</div>
-            </div>
-            <div class="contact-item">
-                <i class="fa-solid fa-phone"></i>
-                <div>Telepon Segera Hadir</div>
-            </div>
-        </div>
-        <div class="footer-col">
-            <h4>Siap untuk Memulai?</h4>
-            <p>Bergabunglah dengan jaringan kami dan kembangkan bisnis Anda bersama DNA Advertising.</p>
-            <a href="{{ route('vendor.register') }}" class="btn-primary" style="display:inline-flex;">Register Vendor <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div>© {{ date('Y') }} DNA Advertising. Hak cipta dilindungi.</div>
-        <div>Portal Registrasi Vendor</div>
-    </div>
-</footer>
+
 
 {{-- MODAL HOW IT WORKS --}}
 <div id="howItWorksModal" class="vc-modal">
