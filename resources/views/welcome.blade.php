@@ -221,7 +221,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
             </div>
         </div>
         <div class="hero-image">
-            <img src="{{ asset('images/kantor-project.jpg') }}" alt="Meeting">
+            <img src="{{ asset('images/dna-billboard.png') }}" alt="DNA Advertising Billboard">
         </div>
     </div>
 
