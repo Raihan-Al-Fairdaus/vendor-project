@@ -18,7 +18,7 @@
 </div>
 
 <div style="padding: 0 2rem 2rem;">
-    <div style="background-color: #ffffff; border-radius: 10px; padding: 2rem; max-width: 800px; margin: 0;">
+    <div style="background-color: #ffffff; border-radius: 10px; padding: 2rem; width: 100%; margin: 0;">
         
         {{-- Kode Billboard (Read-only) --}}
         <div style="background: #f8fafc; color: #0f172a; padding: 1.25rem 1.5rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between;">
