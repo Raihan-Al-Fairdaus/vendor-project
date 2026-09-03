@@ -1,6 +1,6 @@
 <style>
 /* CUSTOM FOOTER STYLES */
-.custom-footer { background: #1b3a60; color: #fff; padding: 4rem 5% 2rem; font-family: 'Inter', sans-serif; }
+.custom-footer { background: #1b3a60; color: #fff; padding: 4rem 5% 2rem; font-family: 'Inter', sans-serif; position: relative; z-index: 10; }
 .custom-footer .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1.5fr 1.5fr; gap: 3rem; }
 .custom-footer .footer-col h4 { font-size: 1.1rem; font-weight: 600; margin: 0 0 1.5rem; color: #fff; }
 .custom-footer .footer-logo-wrap { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
