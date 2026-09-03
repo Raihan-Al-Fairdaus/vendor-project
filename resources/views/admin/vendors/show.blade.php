@@ -48,8 +48,8 @@
     </div>
 </div>
 
-<div style="padding: 0 2rem 2rem; height: calc(100vh - 110px); overflow: hidden; display: flex; flex-direction: column;">
-    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; flex: 1; min-height: 0;" id="vendor-dashboard-layout">
+<div style="padding: 0 2rem 2rem;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; align-items: stretch;" id="vendor-dashboard-layout">
         
         {{-- KOLOM KIRI --}}
         <div style="display: flex; flex-direction: column; gap: 1.5rem; height: 100%;">
