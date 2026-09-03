@@ -48,11 +48,11 @@
     </div>
 </div>
 
-<div style="padding: 0 2rem 2rem;">
-    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; align-items: start;" id="vendor-dashboard-layout">
+<div style="padding: 0 2rem 2rem; height: calc(100vh - 110px); overflow: hidden; display: flex; flex-direction: column;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; flex: 1; min-height: 0;" id="vendor-dashboard-layout">
         
         {{-- KOLOM KIRI --}}
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; height: 100%;">
             
             {{-- Company Profile --}}
             <div style="background-color: #ffffff; border-radius: 10px; padding: 1.5rem;">
@@ -92,7 +92,7 @@
             </div>
 
             {{-- PIC Information --}}
-            <div style="background-color: #ffffff; border-radius: 10px; padding: 1.5rem;">
+            <div style="background-color: #ffffff; border-radius: 10px; padding: 1.5rem; flex: 1; display: flex; flex-direction: column;">
                 <div style="display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1.25rem;">
                     <div style="width: 32px; height: 32px; background: #eff6ff; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #3b82f6;">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -100,7 +100,7 @@
                     <h3 style="margin: 0; color: #0f172a; font-size: 1.1rem; font-weight: 700;">Person in Charge (PIC)</h3>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; align-items: center;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; align-items: start; flex: 1; align-content: center;">
                     <div style="display: flex; align-items: center; gap: 0.75rem; background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
                         <div style="width: 40px; height: 40px; background: #e0e7ff; color: #4f46e5; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; border-radius: 50%; font-weight: 700; flex-shrink: 0;">
                             {{ strtoupper(substr($vendor->pic_name ?? $vendor->name ?? 'A', 0, 1)) }}
@@ -126,7 +126,7 @@
         </div>
 
         {{-- KOLOM KANAN --}}
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; height: 100%;">
             
             {{-- Review Actions --}}
             @if($vendor->status !== 'approved' && $vendor->status !== 'rejected')
@@ -159,63 +159,65 @@
             @endif
 
             {{-- Documents --}}
-            <div style="background-color: #ffffff; border-radius: 10px; padding: 1.5rem;">
+            <div style="background-color: #ffffff; border-radius: 10px; padding: 1.5rem; flex: 1; display: flex; flex-direction: column;">
                 <h3 style="margin: 0 0 1rem 0; font-size: 1rem; color: #0f172a; font-weight: 700; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.75rem;">Dokumen Terlampir</h3>
 
-                {{-- KTP --}}
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: 600; margin-bottom: 0.4rem;">Dokumen Verifikasi</div>
-                    <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
-                        <div style="display: flex; align-items: center; gap: 0.75rem;">
-                            <span style="font-size: 1.5rem;">📄</span>
-                            <div>
-                                <div style="font-weight: 700; color: #0f172a; font-size: 0.9rem;">KTP (Identity Card)</div>
-                                <div style="font-size: 0.75rem; color: #10b981; font-weight: 500;">Verified Secure File</div>
+                <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-around;">
+                    {{-- KTP --}}
+                    <div>
+                        <div style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: 600; margin-bottom: 0.4rem;">Dokumen Verifikasi</div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <span style="font-size: 1.5rem;">📄</span>
+                                <div>
+                                    <div style="font-weight: 700; color: #0f172a; font-size: 0.9rem;">KTP (Identity Card)</div>
+                                    <div style="font-size: 0.75rem; color: #10b981; font-weight: 500;">Verified Secure File</div>
+                                </div>
                             </div>
+                            @if($vendor->id_card_path)
+                                <a href="{{ str_starts_with($vendor->id_card_path, 'http') ? $vendor->id_card_path : Storage::url($vendor->id_card_path) }}" target="_blank" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
+                            @else
+                                <span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Not Uploaded</span>
+                            @endif
                         </div>
-                        @if($vendor->id_card_path)
-                            <a href="{{ str_starts_with($vendor->id_card_path, 'http') ? $vendor->id_card_path : Storage::url($vendor->id_card_path) }}" target="_blank" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
-                        @else
-                            <span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Not Uploaded</span>
-                        @endif
                     </div>
-                </div>
 
-                {{-- NPWP --}}
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: 600; margin-bottom: 0.4rem;">Dokumen Pajak</div>
-                    <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
-                        <div style="display: flex; align-items: center; gap: 0.75rem;">
-                            <span style="font-size: 1.5rem;">🧾</span>
-                            <div>
-                                <div style="font-weight: 700; color: #0f172a; font-size: 0.9rem;">NPWP</div>
-                                <div style="font-size: 0.75rem; color: #10b981; font-weight: 500;">Tax Identification File</div>
+                    {{-- NPWP --}}
+                    <div>
+                        <div style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: 600; margin-bottom: 0.4rem;">Dokumen Pajak</div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <span style="font-size: 1.5rem;">🧾</span>
+                                <div>
+                                    <div style="font-weight: 700; color: #0f172a; font-size: 0.9rem;">NPWP</div>
+                                    <div style="font-size: 0.75rem; color: #10b981; font-weight: 500;">Tax Identification File</div>
+                                </div>
                             </div>
+                            @if($vendor->npwp_file_path)
+                                <a href="{{ str_starts_with($vendor->npwp_file_path, 'http') ? $vendor->npwp_file_path : Storage::url($vendor->npwp_file_path) }}" target="_blank" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
+                            @else
+                                <span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Not Uploaded</span>
+                            @endif
                         </div>
-                        @if($vendor->npwp_file_path)
-                            <a href="{{ str_starts_with($vendor->npwp_file_path, 'http') ? $vendor->npwp_file_path : Storage::url($vendor->npwp_file_path) }}" target="_blank" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
-                        @else
-                            <span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Not Uploaded</span>
-                        @endif
                     </div>
-                </div>
 
-                {{-- Bank Book --}}
-                <div>
-                    <div style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: 600; margin-bottom: 0.4rem;">Dokumen Pendukung</div>
-                    <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
-                        <div style="display: flex; align-items: center; gap: 0.75rem;">
-                            <span style="font-size: 1.5rem;">🏦</span>
-                            <div>
-                                <div style="font-weight: 700; color: #0f172a; font-size: 0.9rem;">Buku Tabungan</div>
-                                <div style="font-size: 0.75rem; color: #10b981; font-weight: 500;">Bank Account Book</div>
+                    {{-- Bank Book --}}
+                    <div>
+                        <div style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; font-weight: 600; margin-bottom: 0.4rem;">Dokumen Pendukung</div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <span style="font-size: 1.5rem;">🏦</span>
+                                <div>
+                                    <div style="font-weight: 700; color: #0f172a; font-size: 0.9rem;">Buku Tabungan</div>
+                                    <div style="font-size: 0.75rem; color: #10b981; font-weight: 500;">Bank Account Book</div>
+                                </div>
                             </div>
+                            @if($vendor->bank_book_path)
+                                <a href="{{ str_starts_with($vendor->bank_book_path, 'http') ? $vendor->bank_book_path : Storage::url($vendor->bank_book_path) }}" target="_blank" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
+                            @else
+                                <span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Not Uploaded</span>
+                            @endif
                         </div>
-                        @if($vendor->bank_book_path)
-                            <a href="{{ str_starts_with($vendor->bank_book_path, 'http') ? $vendor->bank_book_path : Storage::url($vendor->bank_book_path) }}" target="_blank" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
-                        @else
-                            <span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Not Uploaded</span>
-                        @endif
                     </div>
                 </div>
 
