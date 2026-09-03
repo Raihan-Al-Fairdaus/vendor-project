@@ -320,7 +320,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
             <div class="social-links">
                 <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
                 <a href="https://wa.me/6281228358630" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.instagram.com/dna.advofficial" target="_blank"><i class="fa-brands fa-instagram"></i></a>
             </div>
         </div>
         <div class="footer-col">
