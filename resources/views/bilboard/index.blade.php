@@ -669,6 +669,19 @@
     .bb-back-home-btn:hover {
         color: #fbbf24 !important;
     }
+
+    /* OPTIMASI: Matikan animasi background yang sangat berat di mobile agar backdrop-filter tidak menyebabkan frame drop */
+    @media (max-width: 991px) {
+        .bb-bg-gradient, .bb-glow-blob-1, .bb-glow-blob-2, .bb-wrapper {
+            animation: none !important;
+        }
+        .bb-item-card, .bb-search-card {
+            /* Fallback rendering filter jika GPU kesulitan */
+            -webkit-backdrop-filter: none !important;
+            backdrop-filter: none !important;
+            background: rgba(30, 58, 138, 0.7) !important; /* warna fallback yang solid/gelap */
+        }
+    }
 </style>
 
 {{-- Animated Background Wrapper --}}
@@ -699,7 +712,7 @@
                 <div class="bb-stats-row">
                     <div class="bb-stat-card">
                         <div class="bb-stat-icon">
-                            <svg width="1em" height="1em"  fill="currentColor" style="font-size:inherit;" class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M64 0C28.7 0 0 28.7 0 64L0 352c0 35.3 28.7 64 64 64l176 0-10.7 32L160 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l256 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-69.3 0L336 416l176 0c35.3 0 64-28.7 64-64l0-288c0-35.3-28.7-64-64-64L64 0zM512 64l0 224L64 288 64 64l448 0z"/></svg>
+                            <i class="fa-solid fa-desktop"></i>
                         </div>
                         <div class="bb-stat-info">
                             <span class="bb-stat-value">{{ $billboardCount }}</span>
@@ -708,7 +721,7 @@
                     </div>
                     <div class="bb-stat-card">
                         <div class="bb-stat-icon" style="background: rgba(245,158,11,0.15); color: #f59e0b;">
-                            <svg width="1em" height="1em"  fill="currentColor" style="font-size:inherit;" class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M64 64l0 288 512 0 0-288L64 64zM0 64C0 28.7 28.7 0 64 0L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 416c-35.3 0-64-28.7-64-64L0 64zM128 448l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-384 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg>
+                            <i class="fa-solid fa-tv"></i>
                         </div>
                         <div class="bb-stat-info">
                             <span class="bb-stat-value">{{ $midiboardCount }}</span>
@@ -717,7 +730,7 @@
                     </div>
                     <div class="bb-stat-card">
                         <div class="bb-stat-icon">
-                            <svg width="1em" height="1em"  fill="currentColor" style="font-size:inherit;" class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                            <i class="fa-solid fa-location-dot"></i>
                         </div>
                         <div class="bb-stat-info">
                             <span class="bb-stat-value">{{ count($cityCounts) }}</span>
@@ -726,7 +739,7 @@
                     </div>
                     <div class="bb-stat-card">
                         <div class="bb-stat-icon">
-                            <svg width="1em" height="1em"  fill="currentColor" style="font-size:inherit;" class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
+                            <i class="fa-solid fa-circle-check"></i>
                         </div>
                         <div class="bb-stat-info">
                             <span class="bb-stat-value">100%</span>
