@@ -79,6 +79,8 @@
                     <td style="padding: 0.85rem 1.25rem;">
                         @if($vendor->status == 'approved')
                             <span style="background-color: #d1fae5; color: #059669; padding: 0.3rem 0.65rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;"><span style="font-size:8px;">●</span> Approved</span>
+                        @elseif($vendor->status == 'rejected')
+                            <span style="background-color: #fee2e2; color: #dc2626; padding: 0.3rem 0.65rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;"><span style="font-size:8px;">●</span> Rejected</span>
                         @else
                             <span style="background-color: #fef3c7; color: #d97706; padding: 0.3rem 0.65rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;"><span style="font-size:8px;">●</span> Pending</span>
                         @endif
