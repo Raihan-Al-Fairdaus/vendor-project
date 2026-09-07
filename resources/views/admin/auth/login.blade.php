@@ -14,7 +14,7 @@
 
     {{-- Preload: muat CSS login & foto billboard lebih awal --}}
     <link rel="preload" href="{{ asset('css/login.css') }}?v=2.1" as="style">
-    <link rel="preload" href="{{ asset('images/billboard-header.jpg') }}" as="image">
+    <link rel="preload" href="{{ asset('images/billboard-header.webp') }}" as="image">
 
     {{-- Fonts & Icons --}}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -40,7 +40,7 @@
             
             <div class="left-header-wrap">
                 <div class="brand">
-                    <img src="{{ asset('images/logo.png') }}" class="logo" alt="DNA Advertising">
+                    <img src="{{ asset('images/logo.webp') }}" class="logo" alt="DNA Advertising">
                     <h1><span>DNA</span> Advertising</h1>
                     <p>Secure Vendor Management Portal</p>
                 </div>

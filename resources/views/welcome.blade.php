@@ -171,7 +171,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 <nav class="custom-nav">
     <button class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
     <a href="#" class="nav-logo">
-        <img src="{{ asset('images/logo.png') }}" alt="Logo">
+        <img src="{{ asset('images/logo.webp') }}" alt="Logo">
         <span>DNA <span class="text-red">Vendor</span> Portal</span>
     </a>
     <div class="nav-links">

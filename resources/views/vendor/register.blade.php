@@ -275,7 +275,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 .mou-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center; padding: 2rem; backdrop-filter: blur(5px); }
 .mou-modal.show { display: flex; }
 .mou-content { background: #fff; width: 100%; max-width: 800px; border-radius: 16px; display: flex; flex-direction: column; max-height: 90vh; position: relative; overflow: hidden; }
-.mou-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background-image: url('{{ asset("images/logo.png") }}'); background-repeat: no-repeat; background-position: center; background-size: contain; opacity: 0.05; pointer-events: none; z-index: 0; }
+.mou-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background-image: url('{{ asset("images/logo.webp") }}'); background-repeat: no-repeat; background-position: center; background-size: contain; opacity: 0.05; pointer-events: none; z-index: 0; }
 .mou-header { padding: 1.5rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; background: #fff; }
 .mou-header h3 { margin: 0; color: var(--navy); font-size: 1.25rem; font-weight: 800; text-align: center; width: 100%; }
 .mou-close { position: absolute; right: 1.5rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b; }
@@ -321,7 +321,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 <nav class="custom-nav">
     <button class="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
     <a href="#" class="nav-logo">
-        <img src="{{ asset('images/logo.png') }}" alt="Logo">
+        <img src="{{ asset('images/logo.webp') }}" alt="Logo">
         <span>DNA <span class="text-red">Vendor</span> Portal</span>
     </a>
     

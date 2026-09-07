@@ -7,7 +7,7 @@
     <title>@yield('title', 'DNA Vendor Portal')</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
 
     <!-- Preconnect: koneksi awal ke CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,9 +21,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
+    @unless(Request::routeIs('bilboard.*'))
     <!-- Font Awesome -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    @endunless
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -92,7 +94,7 @@
                 class="brand"
                 style="display:flex;align-items:center;gap:.5rem;text-decoration:none;">
 
-                <img src="{{ asset('images/logo.png') }}"
+                <img src="{{ asset('images/logo.webp') }}"
                     alt="Logo"
                     style="width:50px;height:24px;object-fit:contain;">
 

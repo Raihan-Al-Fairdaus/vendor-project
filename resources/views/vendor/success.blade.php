@@ -148,7 +148,7 @@
 <!-- NAVBAR -->
 <nav class="custom-nav">
     <a href="{{ url('/') }}" class="nav-logo">
-        <img src="{{ asset('images/logo.png') }}" alt="Logo">
+        <img src="{{ asset('images/logo.webp') }}" alt="Logo">
         <span>DNA <span class="text-red">Vendor</span> Portal</span>
     </a>
 </nav>
