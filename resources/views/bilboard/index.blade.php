@@ -12,15 +12,24 @@
         margin: 0;
         padding: 0;
         background-color: #0a1628 !important;
-        min-height: 100vh;
-    }
+        min-height: 100dvh;
+        overscroll-behavior-y: none;
+}
 
     /* ============================================================
        DYNAMIC DISSOLVE FLOWING GRADIENT BACKGROUND
     ============================================================ */
+    html, body {
+        background-color: #1b3a60 !important;
+        /* overscroll-behavior: none; */ /* Opsi jika ingin mematikan efek bounce, tapi biarkan saja default dan fix backgroundnya */
+        overscroll-behavior-y: none;
+}
     .bb-bg-container {
         position: fixed;
-        inset: 0;
+        top: -150px;
+        bottom: -150px;
+        left: -50px;
+        right: -50px;
         z-index: 0;
         overflow: hidden;
         background: #1b3a60; /* Fallback */
@@ -91,7 +100,7 @@
     .bb-wrapper {
         position: relative;
         z-index: 1;
-        min-height: 100vh;
+        min-height: 100dvh;
         padding-bottom: 80px;
     }
 
