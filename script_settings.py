@@ -1,4 +1,5 @@
-@extends('layouts.admin')
+with open(r'C:\laragon\www\vendor-project\resources\views\admin\settings\index.blade.php', 'w', encoding='utf-8') as f:
+    f.write('''@extends('layouts.admin')
 
 @section('title', 'Settings - VendorConnect')
 @section('page_title', 'Settings')
@@ -39,10 +40,10 @@
             <div class="settings-card" style="background-color: #ffffff; border-radius: 10px; padding: 1.5rem; display: flex; flex-direction: column; overflow-y: auto;">
                 <div class="settings-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid #e2e8f0; flex-shrink: 0;">
                     <div style="width: 44px; height: 44px; background-color: #3b82f6; color: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; flex-shrink: 0;">
-                        {{ strtoupper(substr($user->name, 0, 1)) }}
+                        {{ strtoupper(substr(->name, 0, 1)) }}
                     </div>
                     <div>
-                        <h3 style="margin: 0 0 0.2rem 0; font-size: 1rem; font-weight: 700; color: #0f172a;">{{ $user->name }}</h3>
+                        <h3 style="margin: 0 0 0.2rem 0; font-size: 1rem; font-weight: 700; color: #0f172a;">{{ ->name }}</h3>
                         <span style="font-size: 0.7rem; background-color: #e0f2fe; color: #0369a1; padding: 0.15rem 0.5rem; border-radius: 9999px; font-weight: 600;">Administrator</span>
                     </div>
                 </div>
@@ -59,17 +60,17 @@
                     @csrf
                     <div class="settings-field" style="margin-bottom: 1rem;">
                         <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #0f172a; margin-bottom: 0.35rem;">Full Name</label>
-                        <input type="text" name="name" value="{{ old('name', $user->name) }}" required style="width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 0.75rem; color: #0f172a; background-color: #ffffff; font-size: 0.85rem; outline: none;">
-                        @error('name')<p style="color: #ef4444; font-size: 0.75rem; margin: 0.25rem 0 0 0;">{{ $message }}</p>@enderror
+                        <input type="text" name="name" value="{{ old('name', ->name) }}" required style="width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 0.75rem; color: #0f172a; background-color: #ffffff; font-size: 0.85rem; outline: none;">
+                        @error('name')<p style="color: #ef4444; font-size: 0.75rem; margin: 0.25rem 0 0 0;">{{  }}</p>@enderror
                     </div>
                     <div class="settings-field" style="margin-bottom: 1rem;">
                         <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #0f172a; margin-bottom: 0.35rem;">Email Address</label>
-                        <input type="email" name="email" value="{{ old('email', $user->email) }}" required style="width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 0.75rem; color: #0f172a; background-color: #ffffff; font-size: 0.85rem; outline: none;">
-                        @error('email')<p style="color: #ef4444; font-size: 0.75rem; margin: 0.25rem 0 0 0;">{{ $message }}</p>@enderror
+                        <input type="email" name="email" value="{{ old('email', ->email) }}" required style="width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 0.75rem; color: #0f172a; background-color: #ffffff; font-size: 0.85rem; outline: none;">
+                        @error('email')<p style="color: #ef4444; font-size: 0.75rem; margin: 0.25rem 0 0 0;">{{  }}</p>@enderror
                     </div>
                     <div class="settings-field" style="margin-bottom: 1.25rem;">
                         <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #0f172a; margin-bottom: 0.35rem;">Account Created</label>
-                        <input type="text" value="{{ $user->created_at->format('d M Y, H:i') }}" disabled style="width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 0.75rem; color: #64748b; background-color: #f8fafc; font-size: 0.85rem; cursor: not-allowed;">
+                        <input type="text" value="{{ ->created_at->format('d M Y, H:i') }}" disabled style="width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 0.75rem; color: #64748b; background-color: #f8fafc; font-size: 0.85rem; cursor: not-allowed;">
                     </div>
                     
                     <div style="margin-top: auto;">
@@ -102,10 +103,10 @@
                     <div class="settings-field" style="margin-bottom: 1rem;">
                         <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #0f172a; margin-bottom: 0.35rem;">Current Password</label>
                         <div style="position: relative;">
-                            <input type="password" name="current_password" id="current_password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required style="width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 2.5rem 0.5rem 0.75rem; color: #0f172a; background-color: #ffffff; font-size: 0.85rem; outline: none;">
+                            <input type="password" name="current_password" id="current_password" placeholder="••••••••" required style="width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 2.5rem 0.5rem 0.75rem; color: #0f172a; background-color: #ffffff; font-size: 0.85rem; outline: none;">
                             <button type="button" class="toggle-pwd" data-target="current_password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1rem; padding: 0; display: flex; align-items: center; justify-content: center; color: #64748b;"><i class="fa-solid fa-eye"></i></button>
                         </div>
-                        @error('current_password')<p style="color: #ef4444; font-size: 0.75rem; margin: 0.25rem 0 0 0;">{{ $message }}</p>@enderror
+                        @error('current_password')<p style="color: #ef4444; font-size: 0.75rem; margin: 0.25rem 0 0 0;">{{  }}</p>@enderror
                     </div>
 
                     <div class="settings-field" style="margin-bottom: 1rem;">
@@ -114,13 +115,13 @@
                             <input type="password" name="password" id="new_password" placeholder="Min. 8 characters" required style="width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 2.5rem 0.5rem 0.75rem; color: #0f172a; background-color: #ffffff; font-size: 0.85rem; outline: none;">
                             <button type="button" class="toggle-pwd" data-target="new_password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1rem; padding: 0; display: flex; align-items: center; justify-content: center; color: #64748b;"><i class="fa-solid fa-eye"></i></button>
                         </div>
-                        @error('password')<p style="color: #ef4444; font-size: 0.75rem; margin: 0.25rem 0 0 0;">{{ $message }}</p>@enderror
+                        @error('password')<p style="color: #ef4444; font-size: 0.75rem; margin: 0.25rem 0 0 0;">{{  }}</p>@enderror
                     </div>
 
                     <div class="settings-field" style="margin-bottom: 1.25rem;">
                         <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #0f172a; margin-bottom: 0.35rem;">Confirm New Password</label>
                         <div style="position: relative;">
-                            <input type="password" name="password_confirmation" id="confirm_password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required style="width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 2.5rem 0.5rem 0.75rem; color: #0f172a; background-color: #ffffff; font-size: 0.85rem; outline: none;">
+                            <input type="password" name="password_confirmation" id="confirm_password" placeholder="••••••••" required style="width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.5rem 2.5rem 0.5rem 0.75rem; color: #0f172a; background-color: #ffffff; font-size: 0.85rem; outline: none;">
                             <button type="button" class="toggle-pwd" data-target="confirm_password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1rem; padding: 0; display: flex; align-items: center; justify-content: center; color: #64748b;"><i class="fa-solid fa-eye"></i></button>
                         </div>
                     </div>
@@ -179,3 +180,4 @@
 </script>
 
 @endsection
+''')
