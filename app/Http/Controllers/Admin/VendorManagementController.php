@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VendorStatusMail;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use PhpOffice\PhpWord\PhpWord;
@@ -61,7 +63,13 @@ class VendorManagementController extends Controller
             'status' => 'approved'
         ]);
 
-        return back()->with('success', 'Vendor approved successfully.');
+        try {
+            Mail::to($vendor->vendor_email)->send(new VendorStatusMail($vendor, 'approved'));
+        } catch (\Exception $e) {
+            return back()->with('success', 'Vendor approved successfully. Namun email gagal dikirim: ' . $e->getMessage());
+        }
+
+        return back()->with('success', 'Vendor approved and email sent successfully.');
     }
 
     public function reject($id)
@@ -72,7 +80,13 @@ class VendorManagementController extends Controller
             'status' => 'rejected'
         ]);
 
-        return back()->with('success', 'Vendor rejected successfully.');
+        try {
+            Mail::to($vendor->vendor_email)->send(new VendorStatusMail($vendor, 'rejected'));
+        } catch (\Exception $e) {
+            return back()->with('success', 'Vendor rejected successfully. Namun email gagal dikirim: ' . $e->getMessage());
+        }
+
+        return back()->with('success', 'Vendor rejected and email sent successfully.');
     }
 
     public function destroy($id)
