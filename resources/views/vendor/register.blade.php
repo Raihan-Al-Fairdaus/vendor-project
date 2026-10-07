@@ -1193,7 +1193,10 @@ async function submitVendorForm() {
                 body: JSON.stringify({ filename: fileToUpload.name, folder: folder, type: fileToUpload.type })
             });
 
-            if (!presignRes.ok) throw new Error('Gagal mendapatkan URL upload');
+            if (!presignRes.ok) {
+                const errData = await presignRes.json();
+                throw new Error(errData.message || 'Gagal mendapatkan URL upload dari server');
+            }
             const { upload_url, public_url } = await presignRes.json();
 
             const uploadRes = await fetch(upload_url, { method: 'PUT', headers: { 'Content-Type': fileToUpload.type }, body: fileToUpload });
@@ -1225,7 +1228,8 @@ async function submitVendorForm() {
 
     } catch (err) {
         console.error(err);
-        alert(currentLang === 'id' ? 'Terjadi kesalahan saat mengupload file: ' : 'Error uploading file: ' + err.message);
+        const prefix = currentLang === 'id' ? 'Terjadi kesalahan saat mengupload file: ' : 'Error uploading file: ';
+        alert(prefix + err.message);
         submitBtn.disabled = false;
         submitBtn.innerHTML = currentLang === 'id' ? 'Kirim Pendaftaran' : 'Submit Registration';
     }

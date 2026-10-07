@@ -64,7 +64,7 @@ class VendorManagementController extends Controller
         ]);
 
         try {
-            Mail::to($vendor->vendor_email)->send(new VendorStatusMail($vendor, 'approved'));
+            Mail::to($vendor->company_email)->send(new VendorStatusMail($vendor, 'approved'));
         } catch (\Exception $e) {
             return back()->with('success', 'Vendor approved successfully. Namun email gagal dikirim: ' . $e->getMessage());
         }
@@ -81,7 +81,7 @@ class VendorManagementController extends Controller
         ]);
 
         try {
-            Mail::to($vendor->vendor_email)->send(new VendorStatusMail($vendor, 'rejected'));
+            Mail::to($vendor->company_email)->send(new VendorStatusMail($vendor, 'rejected'));
         } catch (\Exception $e) {
             return back()->with('success', 'Vendor rejected successfully. Namun email gagal dikirim: ' . $e->getMessage());
         }

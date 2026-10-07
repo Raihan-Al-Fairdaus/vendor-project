@@ -78,7 +78,7 @@
             <h1>DNA <span>Vendor</span> Portal</h1>
         </div>
         <div class="content">
-            <p>Halo, <strong>{{ $vendor->vendor_name }}</strong>,</p>
+            <p>Halo, <strong>{{ $vendor->company_name }}</strong>,</p>
 
             @if($status === 'approved')
                 <p>Selamat! Kami informasikan bahwa pendaftaran Anda sebagai mitra vendor di <strong>DNA Advertising</strong> telah <strong>DISETUJUI</strong>.</p>
@@ -87,7 +87,7 @@
                     Status: DISETUJUI (APPROVED)
                 </div>
 
-                <p>Tim kami akan segera menghubungi Anda melalui nomor kontak yang terdaftar ({{ $vendor->vendor_phone }}) untuk langkah selanjutnya mengenai kerjasama penyewaan billboard.</p>
+                <p>Tim kami akan segera menghubungi Anda melalui nomor kontak yang terdaftar ({{ $vendor->company_phone }}) untuk langkah selanjutnya mengenai kerjasama penyewaan billboard.</p>
                 
                 <p>Terima kasih telah bergabung menjadi bagian dari jaringan DNA Advertising.</p>
 

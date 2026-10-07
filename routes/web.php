@@ -178,33 +178,13 @@ Route::middleware('auth')->group(function () {
 )->name('admin.vendors.export');
 
     // Detail, Approve, Reject & Delete Vendor
-    Route::get('/admin/vendors/{id}', function ($id) {
-        $user   = Auth::user();
-        $vendor = Vendor::findOrFail($id);
-        $recentVendors = Vendor::latest()->take(5)->get();
-        return view('admin.vendors.show', compact('user', 'vendor', 'recentVendors'));
-    })->name('admin.vendors.show');
+    Route::get('/admin/vendors/{id}', [VendorManagementController::class, 'show'])->name('admin.vendors.show');
 
-    Route::post('/admin/vendors/{id}/approve', function ($id) {
-        $vendor = Vendor::findOrFail($id);
-        $vendor->update(['status' => 'approved']);
-        return back()->with('success', 'Vendor berhasil disetujui (Approved).');
-    })->name('admin.vendors.approve');
+    Route::post('/admin/vendors/{id}/approve', [VendorManagementController::class, 'approve'])->name('admin.vendors.approve');
 
-    Route::post('/admin/vendors/{id}/reject', function ($id) {
-        $vendor = Vendor::findOrFail($id);
-        $vendor->update(['status' => 'rejected']);
-        return back()->with('error', 'Vendor telah ditolak (Rejected).');
-    })->name('admin.vendors.reject');
+    Route::post('/admin/vendors/{id}/reject', [VendorManagementController::class, 'reject'])->name('admin.vendors.reject');
 
-    Route::delete('/admin/vendors/{id}', function ($id) {
-        $vendor = Vendor::findOrFail($id);
-        $vendor->delete();
-        return redirect()
-    ->route('admin.vendors.index')
-    ->with('success', 'Vendor berhasil dihapus.');
-    
-    })->name('admin.vendors.destroy');
+    Route::delete('/admin/vendors/{id}', [VendorManagementController::class, 'destroy'])->name('admin.vendors.destroy');
 
   // --- MANAJEMEN DOKUMEN ---
 Route::get('/admin/documents', [DocumentController::class, 'index'])
