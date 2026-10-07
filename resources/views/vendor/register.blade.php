@@ -1189,7 +1189,7 @@ async function submitVendorForm() {
             
             const presignRes = await fetch('/upload/presign', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrfToken },
                 body: JSON.stringify({ filename: fileToUpload.name, folder: folder, type: fileToUpload.type })
             });
 
@@ -1200,7 +1200,7 @@ async function submitVendorForm() {
             const { upload_url, public_url } = await presignRes.json();
 
             const uploadRes = await fetch(upload_url, { method: 'PUT', headers: { 'Content-Type': fileToUpload.type }, body: fileToUpload });
-            if (!uploadRes.ok) throw new Error('Gagal mengupload file');
+            if (!uploadRes.ok) throw new Error('Gagal mengupload file: ' + await uploadRes.text());
             return public_url;
         }
 
