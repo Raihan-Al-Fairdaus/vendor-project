@@ -480,8 +480,20 @@
             0 0 0 1px rgba(245, 158, 11, 0.15);
     }
 
+    .bb-card-thumb-wrap {
+        padding: 12px 14px 0;
+    }
+
+    .bb-card-thumb {
+        width: 100%;
+        height: 110px;
+        object-fit: cover;
+        border-radius: 12px;
+        display: block;
+    }
+
     .bb-card-body {
-        padding: 1.75rem;
+        padding: 1.25rem 1.75rem 1.75rem;
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -897,8 +909,22 @@
         @if($billboards->count())
             <div class="bb-cards-grid">
                 @foreach($billboards as $board)
+                    @php
+                        $photoMap = [
+                            '#002-BAL-I' => 'billboard-1.jpg',
+                            '#003-BAL-I' => 'billboard-2.jpg',
+                            '#006-BDG-II' => 'billboard-3.jpg',
+                            '#005-BDG-I' => 'billboard-4.jpg',
+                            '#0012-BDG-I' => 'billboard-5.jpg',
+                            '#007-BDG-I' => 'billboard-6.jpg',
+                        ];
+                        $photoName = $photoMap[$board->code] ?? ('billboard-' . ((($loop->iteration - 1) % 6) + 1) . '.jpg');
+                    @endphp
                     <div class="bb-item-card">
                         <div class="bb-card-strip"></div>
+                        <div class="bb-card-thumb-wrap">
+                            <img src="{{ asset('images/billboards/' . $photoName) }}" alt="{{ $board->code }}" class="bb-card-thumb" loading="lazy">
+                        </div>
                         <div class="bb-card-body">
                             {{-- Badges row --}}
                             <div class="bb-badge-row">
