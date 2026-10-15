@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <form action="{{ route('admin.billboards.update', $billboard) }}" method="POST">
+        <form action="{{ route('admin.billboards.update', $billboard) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -107,6 +107,80 @@
                 @error('status') <span style="font-size:0.8rem; color:#ef4444; margin-top: 4px; display: block;">{{ $message }}</span> @enderror
             </div>
 
+            {{-- Simulasi Billboard --}}
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                    <div>
+                        <label style="display:block; font-weight:700; color:#0f172a; font-size: 0.95rem; margin: 0;">
+                            Simulasi Billboard (Gambar / Video)
+                        </label>
+                        <span style="font-size: 0.8rem; color: #64748b;">
+                            Unggah preview simulasi billboard untuk dapat dilihat pengunjung di halaman publik via tombol "Lihat Simulasi".
+                        </span>
+                    </div>
+                    <div>
+                        @if($billboard->has_simulation)
+                            <span style="background: #d1fae5; color: #059669; padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                {{ $billboard->is_video_simulation ? '🎥 Video Simulasi Aktif' : '🖼️ Gambar Simulasi Aktif' }}
+                            </span>
+                        @else
+                            <span style="background: #f1f5f9; color: #64748b; padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">
+                                ⚪ Belum ada simulasi
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                @if($billboard->has_simulation)
+                    <div style="margin-bottom: 1.25rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                            <span style="font-size: 0.8rem; font-weight: 600; color: #0f172a;">Simulasi Tersimpan:</span>
+                            <button type="button" onclick="if(confirm('⚠️ Yakin ingin menghapus file simulasi billboard ini?')) document.getElementById('delete-simulation-form').submit();" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; border-radius: 6px; padding: 0.35rem 0.75rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                <i class="fa-regular fa-trash-can"></i> Hapus Simulasi
+                            </button>
+                        </div>
+                        <div style="max-width: 480px; border-radius: 6px; overflow: hidden; background: #0f172a; display: flex; align-items: center; justify-content: center;">
+                            @if($billboard->is_video_simulation)
+                                <video controls style="width: 100%; max-height: 280px; display: block;">
+                                    <source src="{{ $billboard->simulation_url }}">
+                                    Browser tidak mendukung pemutar video.
+                                </video>
+                            @elseif($billboard->is_pdf_simulation)
+                                <div style="background: #ffffff; width: 100%; padding: 1.5rem; text-align: center; border: 1px solid #e2e8f0;">
+                                    <div style="font-size: 2.5rem; color: #dc2626; margin-bottom: 0.5rem;">📄</div>
+                                    <div style="font-weight: 600; font-size: 0.9rem; color: #0f172a; margin-bottom: 0.5rem;">Dokumen Simulasi PDF</div>
+                                    <a href="{{ $billboard->simulation_url }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.35rem; color: #2563eb; font-size: 0.82rem; font-weight: 600; text-decoration: none; background: #eff6ff; padding: 0.4rem 0.8rem; border-radius: 6px;">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka File PDF di Tab Baru
+                                    </a>
+                                </div>
+                            @else
+                                <img src="{{ $billboard->simulation_url }}" alt="Simulasi {{ $billboard->code }}" style="width: 100%; max-height: 280px; object-fit: contain; display: block;">
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+                {{-- File Input --}}
+                <div>
+                    <label style="display:block; margin-bottom:0.4rem; font-weight:600; color:#0f172a; font-size: 0.85rem;">
+                        {{ $billboard->has_simulation ? 'Ganti File Simulasi:' : 'Unggah File Simulasi:' }}
+                    </label>
+                    <input type="file" name="simulation_file" id="simulation_file" accept=".jpg,.jpeg,.png,.webp,.mp4,.mov,.webm,.pdf" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0.5rem 0.75rem; background: #ffffff; color: #0f172a; font-size: 0.85rem; box-sizing: border-box;" onchange="previewSimulation(this)">
+                    <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.35rem;">
+                        Format yang didukung: <strong>PDF, JPG, PNG, WEBP, MP4, MOV, WEBM</strong> (Maksimal 50MB).
+                    </div>
+                    @error('simulation_file') <span style="font-size:0.8rem; color:#ef4444; margin-top: 4px; display: block;">{{ $message }}</span> @enderror
+
+                    {{-- Live Preview Box --}}
+                    <div id="new-preview-box" style="display: none; margin-top: 1rem; background: #ffffff; border: 1px solid #3b82f6; border-radius: 6px; padding: 0.75rem;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: #2563eb; display: block; margin-bottom: 0.5rem;">
+                            👀 Preview File Baru (Sebelum Disimpan):
+                        </span>
+                        <div id="new-preview-container" style="max-width: 480px; border-radius: 6px; overflow: hidden; background: #0f172a;"></div>
+                    </div>
+                </div>
+            </div>
+
             <div style="display: flex; gap: 1rem; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 1.5rem;">
                 <button type="submit" style="background: #1b3a60; color: #ffffff; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#13294b'" onmouseout="this.style.background='#1b3a60'">
                     Simpan Perubahan
@@ -116,7 +190,59 @@
                 </a>
             </div>
         </form>
+
+        @if($billboard->has_simulation)
+        <form id="delete-simulation-form" action="{{ route('admin.billboards.simulation.delete', $billboard->id) }}" method="POST" style="display: none;">
+            @csrf
+            @method('DELETE')
+        </form>
+        @endif
+
     </div>
 </div>
+
+<script>
+function previewSimulation(input) {
+    const box = document.getElementById('new-preview-box');
+    const container = document.getElementById('new-preview-container');
+    container.innerHTML = '';
+
+    if (!input.files || !input.files[0]) {
+        box.style.display = 'none';
+        return;
+    }
+
+    const file = input.files[0];
+    const fileType = file.type;
+
+    if (fileType === 'application/pdf' || file.name.match(/\.pdf$/i)) {
+        const pdfCard = document.createElement('div');
+        pdfCard.style.cssText = 'background: #ffffff; padding: 1.5rem; text-align: center; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; box-sizing: border-box;';
+        pdfCard.innerHTML = '<div style="font-size: 2.5rem; color: #dc2626; margin-bottom: 0.4rem;">📄</div>' +
+                            '<div style="font-weight: 700; color: #0f172a; font-size: 0.9rem; word-break: break-all;">' + file.name + '</div>' +
+                            '<div style="font-size: 0.78rem; color: #64748b; margin-top: 0.25rem;">File Dokumen PDF (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)</div>';
+        container.appendChild(pdfCard);
+        box.style.display = 'block';
+    } else if (fileType.startsWith('image/')) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.style.width = '100%';
+        img.style.maxHeight = '280px';
+        img.style.objectFit = 'contain';
+        img.style.display = 'block';
+        container.appendChild(img);
+        box.style.display = 'block';
+    } else if (fileType.startsWith('video/') || file.name.match(/\.(mp4|mov|webm)$/i)) {
+        const video = document.createElement('video');
+        video.src = URL.createObjectURL(file);
+        video.controls = true;
+        video.style.width = '100%';
+        video.style.maxHeight = '280px';
+        video.style.display = 'block';
+        container.appendChild(video);
+        box.style.display = 'block';
+    }
+}
+</script>
 
 @endsection

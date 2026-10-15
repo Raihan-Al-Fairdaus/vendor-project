@@ -60,4 +60,48 @@ class BillboardController extends Controller
 
         return view('bilboard.index', compact('billboards', 'cityCounts', 'types', 'billboardCount', 'midiboardCount'));
     }
+
+    /**
+     * Stream or redirect to simulation file (handles PDF, video, image with CORS headers).
+     */
+    public function simulationFile(Billboard $billboard)
+    {
+        if (!$billboard->simulation_path) {
+            abort(404, 'File simulasi tidak ditemukan');
+        }
+
+        // Jika URL eksternal langsung
+        if (str_starts_with($billboard->simulation_path, 'http://') || str_starts_with($billboard->simulation_path, 'https://')) {
+            return redirect($billboard->simulation_path);
+        }
+
+        // Cek jika tersimpan di Supabase
+        if (config('filesystems.disks.supabase.key')) {
+            try {
+                if (\Illuminate\Support\Facades\Storage::disk('supabase')->exists($billboard->simulation_path)) {
+                    $stream = \Illuminate\Support\Facades\Storage::disk('supabase')->readStream($billboard->simulation_path);
+                    $mime   = \Illuminate\Support\Facades\Storage::disk('supabase')->mimeType($billboard->simulation_path) ?? 'application/octet-stream';
+                    return response()->stream(function() use ($stream) {
+                        fpassthru($stream);
+                    }, 200, [
+                        'Content-Type' => $mime,
+                        'Access-Control-Allow-Origin' => '*',
+                        'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+                        'Content-Disposition' => 'inline; filename="' . basename($billboard->simulation_path) . '"',
+                    ]);
+                }
+            } catch (\Exception $e) {}
+        }
+
+        // Cek jika tersimpan di public disk
+        if (\Illuminate\Support\Facades\Storage::disk('public')->exists($billboard->simulation_path)) {
+            $path = \Illuminate\Support\Facades\Storage::disk('public')->path($billboard->simulation_path);
+            return response()->file($path, [
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+            ]);
+        }
+
+        return redirect($billboard->simulation_url);
+    }
 }

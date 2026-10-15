@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Billboard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class BillboardController extends Controller
@@ -96,6 +97,23 @@ class BillboardController extends Controller
         // Hilangkan format kepemilikan
         $data['kepemilikan'] = 'DNA Advertising';
 
+        // Upload simulasi jika ada
+        if ($request->hasFile('simulation_file')) {
+            $request->validate([
+                'simulation_file' => 'file|mimes:jpg,jpeg,png,webp,mp4,mov,webm,pdf|max:51200',
+            ]);
+            $file = $request->file('simulation_file');
+            $ext  = strtolower($file->getClientOriginalExtension());
+            if (in_array($ext, ['mp4', 'mov', 'webm'])) {
+                $data['simulation_type'] = 'video';
+            } elseif ($ext === 'pdf') {
+                $data['simulation_type'] = 'pdf';
+            } else {
+                $data['simulation_type'] = 'image';
+            }
+            $data['simulation_path'] = $this->storeSimulationFile($file);
+        }
+
         Billboard::create($data);
 
         return Redirect::route('admin.billboards.index')
@@ -140,6 +158,26 @@ class BillboardController extends Controller
         // Hilangkan format kepemilikan
         $data['kepemilikan'] = 'DNA Advertising';
 
+        // Upload atau ganti simulasi jika ada
+        if ($request->hasFile('simulation_file')) {
+            $request->validate([
+                'simulation_file' => 'file|mimes:jpg,jpeg,png,webp,mp4,mov,webm,pdf|max:51200',
+            ]);
+            if ($billboard->simulation_path) {
+                $this->removeSimulationFile($billboard->simulation_path);
+            }
+            $file = $request->file('simulation_file');
+            $ext  = strtolower($file->getClientOriginalExtension());
+            if (in_array($ext, ['mp4', 'mov', 'webm'])) {
+                $data['simulation_type'] = 'video';
+            } elseif ($ext === 'pdf') {
+                $data['simulation_type'] = 'pdf';
+            } else {
+                $data['simulation_type'] = 'image';
+            }
+            $data['simulation_path'] = $this->storeSimulationFile($file);
+        }
+
         $billboard->update($data);
 
         return Redirect::route('admin.billboards.index')
@@ -147,10 +185,96 @@ class BillboardController extends Controller
     }
 
     /**
+     * Upload or replace simulation directly.
+     */
+    public function uploadSimulation(Request $request, Billboard $billboard)
+    {
+        $request->validate([
+            'simulation_file' => 'required|file|mimes:jpg,jpeg,png,webp,mp4,mov,webm,pdf|max:51200',
+        ], [
+            'simulation_file.required' => 'Pilih file simulasi (PDF, gambar, atau video) terlebih dahulu.',
+            'simulation_file.mimes'    => 'Format simulasi harus PDF, gambar (JPG, PNG, WEBP), atau video (MP4, MOV, WEBM).',
+            'simulation_file.max'      => 'Ukuran file simulasi maksimal 50MB.',
+        ]);
+
+        if ($billboard->simulation_path) {
+            $this->removeSimulationFile($billboard->simulation_path);
+        }
+
+        $file = $request->file('simulation_file');
+        $ext  = strtolower($file->getClientOriginalExtension());
+        if (in_array($ext, ['mp4', 'mov', 'webm'])) {
+            $type = 'video';
+        } elseif ($ext === 'pdf') {
+            $type = 'pdf';
+        } else {
+            $type = 'image';
+        }
+        $path = $this->storeSimulationFile($file);
+
+        $billboard->update([
+            'simulation_path' => $path,
+            'simulation_type' => $type,
+        ]);
+
+        return Redirect::back()->with('success', "Simulasi untuk billboard {$billboard->code} berhasil diunggah.");
+    }
+
+    /**
+     * Delete simulation from billboard.
+     */
+    public function deleteSimulation(Billboard $billboard)
+    {
+        if ($billboard->simulation_path) {
+            $this->removeSimulationFile($billboard->simulation_path);
+        }
+
+        $billboard->update([
+            'simulation_path' => null,
+            'simulation_type' => null,
+        ]);
+
+        return Redirect::back()->with('success', "Simulasi untuk billboard {$billboard->code} berhasil dihapus.");
+    }
+
+    /**
+     * Helper simpan file simulasi ke Supabase (atau fallback ke public disk).
+     */
+    protected function storeSimulationFile($file): string
+    {
+        if (config('filesystems.disks.supabase.key')) {
+            try {
+                return Storage::disk('supabase')->putFile('simulations', $file, 'public');
+            } catch (\Exception $e) {
+                // fallback
+            }
+        }
+        return $file->store('simulations', 'public');
+    }
+
+    /**
+     * Helper hapus file simulasi dari storage.
+     */
+    protected function removeSimulationFile(string $path): void
+    {
+        if (config('filesystems.disks.supabase.key')) {
+            try {
+                Storage::disk('supabase')->delete($path);
+            } catch (\Exception $e) {}
+        }
+        try {
+            Storage::disk('public')->delete($path);
+        } catch (\Exception $e) {}
+    }
+
+    /**
      * Delete a billboard.
      */
     public function destroy(Billboard $billboard)
     {
+        if ($billboard->simulation_path) {
+            $this->removeSimulationFile($billboard->simulation_path);
+        }
         $billboard->delete();
         return Redirect::back()->with('success', 'Billboard berhasil dihapus.');
     }

@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\VendorManagementController;
 // ==========================================
 Route::get('/', [VendorController::class, 'index'])->name('home');
 Route::get('/bilboard', [App\Http\Controllers\BillboardController::class, 'index'])->name('bilboard.index');
+Route::get('/bilboard/{billboard}/simulation-file', [App\Http\Controllers\BillboardController::class, 'simulationFile'])->name('bilboard.simulation.file');
 
 Route::get('/run-migrations', function () {
     try {
@@ -291,5 +292,7 @@ Route::get('/admin/documents', [DocumentController::class, 'index'])
         Route::delete('admin/billboards/{billboard}', [App\Http\Controllers\Admin\BillboardController::class, 'destroy'])->name('admin.billboards.destroy');
         Route::post('admin/billboards/import', [App\Http\Controllers\Admin\BillboardController::class, 'import'])->name('admin.billboards.import');
         Route::post('admin/billboards/undo-import', [App\Http\Controllers\Admin\BillboardController::class, 'undoImport'])->name('admin.billboards.undoImport');
+        Route::post('admin/billboards/{billboard}/simulation', [App\Http\Controllers\Admin\BillboardController::class, 'uploadSimulation'])->name('admin.billboards.simulation.upload');
+        Route::delete('admin/billboards/{billboard}/simulation', [App\Http\Controllers\Admin\BillboardController::class, 'deleteSimulation'])->name('admin.billboards.simulation.delete');
 
 });

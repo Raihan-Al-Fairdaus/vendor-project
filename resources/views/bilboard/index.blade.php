@@ -589,6 +589,19 @@
     /* Card Footer Button */
     .bb-card-footer {
         padding: 0 1.75rem 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .bb-btn-row {
+        display: flex;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
+
+    .bb-btn-row > * {
+        flex: 1;
     }
 
     .bb-btn-link {
@@ -597,11 +610,11 @@
         justify-content: center;
         gap: 6px;
         width: 100%;
-        padding: 0.9rem 1rem;
+        padding: 0.85rem 1rem;
         background: linear-gradient(135deg, #f59e0b, #d97706);
         border-radius: 10px;
         font-weight: 700;
-        font-size: 0.92rem;
+        font-size: 0.9rem;
         color: #0a1628 !important;
         text-decoration: none;
         letter-spacing: 0.02em;
@@ -621,6 +634,57 @@
 
     .bb-btn-link:hover svg {
         transform: translateX(3px);
+    }
+
+    .bb-btn-simulasi {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        padding: 0.85rem 1rem;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #ffffff !important;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        box-sizing: border-box;
+    }
+
+    .bb-btn-simulasi:hover {
+        background: rgba(255, 255, 255, 0.22);
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateY(-1px);
+    }
+
+    .bb-btn-wa {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 0.85rem 1rem;
+        background: #25D366;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #ffffff !important;
+        text-decoration: none;
+        letter-spacing: 0.01em;
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        transition: all 0.25s ease;
+        box-sizing: border-box;
+    }
+
+    .bb-btn-wa:hover {
+        background: #20bd5a;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
     }
 
     .bb-no-gps-link {
@@ -705,59 +769,389 @@
     }
 
     /* ============================================================
-       FLOATING WHATSAPP BUTTON
+       SIMULATION MODAL VIEWER (COMPACT FRAME & MOBILE OPTIMIZED)
     ============================================================ */
-    .bb-wa-float {
+    .bb-sim-backdrop {
         position: fixed;
-        bottom: 30px;
-        right: 30px;
-        background-color: #25D366;
-        color: white;
-        border-radius: 50px;
-        padding: 10px 20px 10px 12px;
+        inset: 0;
+        background: rgba(10, 20, 35, 0.78);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 99999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        box-sizing: border-box;
+        opacity: 0;
+        transition: opacity 0.22s ease;
+    }
+    .bb-sim-backdrop.is-active {
+        display: flex;
+        opacity: 1;
+    }
+    .bb-sim-frame {
+        background: #1b3a60; /* Pinggiran bingkai #1b3a60 */
+        border-radius: 12px;
+        box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.15);
+        width: 90vw;
+        max-width: 720px; /* Tidak terlalu besar / 1 layar penuh */
+        height: auto;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-sizing: border-box;
+        animation: bbSimPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        margin: auto;
+    }
+    @keyframes bbSimPop {
+        from {
+            transform: scale(0.96) translateY(8px);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+    }
+    .bb-sim-header {
+        background: #1b3a60;
+        padding: 0.65rem 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+        user-select: none;
+        flex-shrink: 0;
+    }
+    .bb-sim-header-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+        flex: 1;
+    }
+    .bb-sim-header-badge {
+        background: rgba(245, 158, 11, 0.2);
+        color: #fbbf24;
+        font-weight: 700;
+        font-size: 0.7rem;
+        padding: 2px 7px;
+        border-radius: 4px;
+        letter-spacing: 0.04em;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    .bb-sim-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #ffffff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .bb-sim-header-right {
         display: flex;
         align-items: center;
         gap: 10px;
-        text-decoration: none;
-        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-        z-index: 1000;
-        transition: all 0.3s ease;
-        animation: waPulse 2s infinite;
+        flex-shrink: 0;
     }
-    .bb-wa-float:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
-        color: white;
-    }
-    .bb-wa-icon {
-        background-color: white;
-        color: #25D366;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
+    .bb-sim-zoom-controls {
         display: flex;
-        justify-content: center;
         align-items: center;
-        font-size: 1.3rem;
+        gap: 3px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 5px;
+        padding: 2px 5px;
     }
-    .bb-wa-text {
-        font-weight: 700;
+    .bb-sim-zoom-btn {
+        background: transparent;
+        border: none;
+        color: #ffffff;
         font-size: 1rem;
-        letter-spacing: 0.5px;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background 0.15s;
+        line-height: 1;
     }
-    @keyframes waPulse {
-        0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-        70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    .bb-sim-zoom-btn:hover {
+        background: rgba(255, 255, 255, 0.18);
     }
-    @media (max-width: 768px) {
-        .bb-wa-float {
-            bottom: 20px;
-            right: 20px;
-            padding: 8px 16px 8px 10px;
+    .bb-sim-zoom-label {
+        font-size: 0.78rem;
+        font-weight: 600;
+        min-width: 40px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.9);
+        cursor: pointer;
+    }
+    .bb-sim-page-badge {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.08);
+        padding: 3px 8px;
+        border-radius: 5px;
+        white-space: nowrap;
+    }
+    .bb-sim-close-btn {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 1.2rem;
+        width: 28px;
+        height: 28px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.15s;
+        line-height: 1;
+    }
+    .bb-sim-close-btn:hover {
+        background: rgba(239, 68, 68, 0.85);
+    }
+    .bb-sim-stage {
+        background: #f8fafc; /* Tema terang meja baca */
+        overflow: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        position: relative;
+        box-sizing: border-box;
+        max-height: 430px;
+        min-height: 200px;
+    }
+    .bb-sim-canvas-paper {
+        background: #ffffff;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06);
+        border-radius: 4px;
+        max-width: 100%;
+        max-height: 400px;
+        height: auto;
+        display: block;
+        margin: auto;
+    }
+    .bb-sim-img-view {
+        max-width: 100%;
+        max-height: 400px;
+        width: auto;
+        object-fit: contain;
+        background: #ffffff;
+        border-radius: 4px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        display: block;
+        margin: auto;
+        transition: transform 0.2s ease;
+    }
+    .bb-sim-video-view {
+        max-width: 100%;
+        max-height: 400px;
+        border-radius: 8px;
+        background: #000000;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        display: block;
+        margin: auto;
+    }
+    .bb-sim-iframe-view {
+        width: 100%;
+        height: 380px;
+        border: none;
+        background: #ffffff;
+        border-radius: 4px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    }
+    .bb-sim-spinner-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        color: #475569;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 2rem;
+    }
+    .bb-sim-spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid #cbd5e1;
+        border-top-color: #1b3a60;
+        border-radius: 50%;
+        animation: bbSimSpin 0.8s linear infinite;
+    }
+    @keyframes bbSimSpin {
+        to { transform: rotate(360deg); }
+    }
+    .bb-sim-footer {
+        background: #1b3a60; /* Pinggiran footer #1b3a60 */
+        padding: 0.75rem 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        user-select: none;
+        flex-shrink: 0;
+    }
+    .bb-sim-footer-loc {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.8rem;
+        max-width: 220px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .bb-sim-nav-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    /* Tombol navigasi putih teks hitam sesuai instruksi */
+    .bb-sim-nav-btn {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-weight: 600;
+        font-size: 0.84rem;
+        border: none;
+        border-radius: 6px;
+        padding: 0.45rem 1rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+    .bb-sim-nav-btn:hover:not(:disabled) {
+        background: #f8fafc !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    }
+    .bb-sim-nav-btn:disabled {
+        opacity: 0.38 !important;
+        cursor: not-allowed !important;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+    .bb-sim-wa-btn {
+        background: #25D366;
+        color: #ffffff !important;
+        font-weight: 700;
+        font-size: 0.84rem;
+        padding: 0.45rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        box-shadow: 0 2px 8px rgba(37, 211, 102, 0.35);
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+    .bb-sim-wa-btn:hover {
+        background: #20bd5a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.45);
+    }
+
+    /* ============================================================
+       RESPONSIVE HP / MOBILE OPTIMIZATION
+    ============================================================ */
+    @media (max-width: 640px) {
+        .bb-sim-backdrop {
+            padding: 0.75rem 0.5rem;
         }
-        .bb-wa-text {
-            font-size: 0.9rem;
+        .bb-sim-frame {
+            width: 100%;
+            max-width: 100%;
+            max-height: 92vh;
+            border-radius: 10px;
+        }
+        .bb-sim-header {
+            padding: 0.55rem 0.75rem;
+            gap: 6px;
+        }
+        .bb-sim-header-left {
+            gap: 6px;
+        }
+        .bb-sim-header-badge {
+            font-size: 0.65rem;
+            padding: 2px 5px;
+        }
+        .bb-sim-title {
+            font-size: 0.8rem;
+            max-width: 130px;
+        }
+        .bb-sim-header-right {
+            gap: 6px;
+        }
+        .bb-sim-zoom-controls {
+            display: none; /* Hide micro zoom buttons on phone so header doesn't overflow */
+        }
+        .bb-sim-page-badge {
+            font-size: 0.75rem;
+            padding: 2px 6px;
+        }
+        .bb-sim-close-btn {
+            width: 26px;
+            height: 26px;
+            font-size: 1.1rem;
+        }
+        .bb-sim-stage {
+            padding: 0.6rem;
+            max-height: 48vh;
+            min-height: 180px;
+        }
+        .bb-sim-canvas-paper,
+        .bb-sim-img-view,
+        .bb-sim-video-view {
+            max-height: 46vh;
+        }
+        .bb-sim-footer {
+            padding: 0.65rem 0.75rem;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .bb-sim-footer-loc {
+            max-width: 100%;
+            justify-content: center;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+        .bb-sim-nav-group {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .bb-sim-nav-btn {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+        .bb-sim-wa-btn {
+            width: 100%;
+            padding: 0.55rem;
+            font-size: 0.82rem;
+            box-sizing: border-box;
         }
     }
 </style>
@@ -964,16 +1358,33 @@
                             @endif
                         </div>
 
-                        {{-- Footer CTA button --}}
+                        {{-- Footer CTA buttons --}}
                         <div class="bb-card-footer">
-                            @if($board->google_maps_url)
-                                <a href="{{ $board->google_maps_url }}" target="_blank" rel="noopener" class="bb-btn-link">
-                                    Lihat Lokasi
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                                </a>
-                            @else
-                                <span class="bb-no-gps-link">Lokasi belum diatur</span>
-                            @endif
+                            <div class="bb-btn-row">
+                                @if($board->google_maps_url)
+                                    <a href="{{ $board->google_maps_url }}" target="_blank" rel="noopener" class="bb-btn-link">
+                                        Lihat Lokasi
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                    </a>
+                                @else
+                                    <span class="bb-no-gps-link">Lokasi belum diatur</span>
+                                @endif
+
+                                @if($board->simulation_path)
+                                    <button type="button" class="bb-btn-simulasi" onclick="openSimulationModal('{{ addslashes($board->code) }}', '{{ addslashes($board->jenis ?? 'Billboard') }}', '{{ addslashes($board->address) }}', '{{ $board->simulation_file_url }}', '{{ $board->simulation_kind }}', '{{ rawurlencode('Halo DNA Advertising, saya ingin bertanya mengenai billboard dengan kode ' . $board->code . '. Mohon informasi mengenai harga sewa, ketersediaan, lokasi, dan detail billboard tersebut. Terima kasih.') }}')">
+                                        <span>👁️</span> Lihat Simulasi
+                                    </button>
+                                @endif
+                            </div>
+
+                            @php
+                                $waMessage = 'Halo DNA Advertising, saya ingin bertanya mengenai billboard dengan kode ' . $board->code . '. Mohon informasi mengenai harga sewa, ketersediaan, lokasi, dan detail billboard tersebut. Terima kasih.';
+                                $waUrl = 'https://wa.me/6287798018647?text=' . rawurlencode($waMessage);
+                            @endphp
+                            <a href="{{ $waUrl }}" target="_blank" rel="noopener" class="bb-btn-wa">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                                <span>Tanya Billboard Ini via WhatsApp</span>
+                            </a>
                         </div>
                     </div>
                 @endforeach
@@ -1069,14 +1480,297 @@
     </div>
 
 
-    {{-- FLOATING WHATSAPP BUTTON --}}
-    {{-- Ganti nomor 628... dengan nomor WA tujuan --}}
-    <a href="https://wa.me/6281234567890?text=Halo%20DNA%20Advertising,%20saya%20tertarik%20untuk%20order%20Billboard." target="_blank" class="bb-wa-float">
-        <div class="bb-wa-icon">
-            <i class="fa-brands fa-whatsapp"></i>
+    {{-- SIMULATION MODAL VIEWER --}}
+    <div id="simBackdrop" class="bb-sim-backdrop" onclick="handleSimBackdropClick(event)">
+        <div class="bb-sim-frame" role="dialog" aria-modal="true" aria-labelledby="simTitleText">
+            {{-- Header --}}
+            <div class="bb-sim-header">
+                <div class="bb-sim-header-left">
+                    <span class="bb-sim-header-badge">SIMULASI</span>
+                    <span id="simTitleText" class="bb-sim-title">Billboard</span>
+                </div>
+                <div class="bb-sim-header-right">
+                    <div class="bb-sim-zoom-controls">
+                        <button type="button" class="bb-sim-zoom-btn" onclick="simZoomOut()" title="Perkecil">−</button>
+                        <span id="simZoomLabel" class="bb-sim-zoom-label" onclick="simResetZoom()" title="Klik untuk Reset Zoom (100%)">100%</span>
+                        <button type="button" class="bb-sim-zoom-btn" onclick="simZoomIn()" title="Perbesar">+</button>
+                    </div>
+                    <span id="simPageBadge" class="bb-sim-page-badge">1 / 1</span>
+                    <button type="button" class="bb-sim-close-btn" onclick="closeSimulationModal()" title="Tutup Simulasi" aria-label="Tutup">✕</button>
+                </div>
+            </div>
+
+            {{-- Body (Bright Desk Stage) --}}
+            <div class="bb-sim-stage" id="simStage">
+                <canvas id="simCanvas" class="bb-sim-canvas-paper" style="display: none;"></canvas>
+                <div id="simMediaWrap" style="display: none;"></div>
+                <div id="simLoader" class="bb-sim-spinner-wrap" style="display: none;">
+                    <div class="bb-sim-spinner"></div>
+                    <span>Memuat file simulasi...</span>
+                </div>
+            </div>
+
+            {{-- Footer (Navigation & WA) --}}
+            <div class="bb-sim-footer">
+                <div class="bb-sim-footer-loc">
+                    <span>📍</span>
+                    <span id="simAddressText" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">-</span>
+                </div>
+                <div class="bb-sim-nav-group">
+                    <button type="button" id="simPrevBtn" class="bb-sim-nav-btn" onclick="simGoPrev()">
+                        ← Sebelumnya
+                    </button>
+                    <button type="button" id="simNextBtn" class="bb-sim-nav-btn" onclick="simGoNext()">
+                        Selanjutnya →
+                    </button>
+                </div>
+                <a href="#" id="simWaBtn" target="_blank" rel="noopener" class="bb-sim-wa-btn">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                    </svg>
+                    <span>Tanya via WhatsApp</span>
+                </a>
+            </div>
         </div>
-        <span class="bb-wa-text">Order Here</span>
-    </a>
+    </div>
+
+    {{-- PDF.js for rendering PDF documents directly with pagination --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+    if (typeof window.pdfjsLib !== 'undefined') {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    var currentPdf = null;
+    var currentTotalPages = 1;
+    var currentPageNum = 1;
+    var currentZoom = 1.0;
+    var isRendering = false;
+    var pendingPageNum = null;
+    var currentMediaKind = 'image';
+    var currentMediaUrl = '';
+
+    function openSimulationModal(code, jenis, address, mediaUrl, mediaKind, waTextEncoded) {
+        var modal = document.getElementById('simBackdrop');
+        var title = document.getElementById('simTitleText');
+        var addressEl = document.getElementById('simAddressText');
+        var waBtn = document.getElementById('simWaBtn');
+        var pageBadge = document.getElementById('simPageBadge');
+
+        title.textContent = (jenis || 'Billboard') + ' ' + code;
+        addressEl.textContent = address || 'Lokasi tidak tersedia';
+        waBtn.href = 'https://wa.me/6287798018647?text=' + waTextEncoded;
+
+        currentMediaKind = mediaKind || 'image';
+        currentMediaUrl = mediaUrl;
+        currentZoom = 1.0;
+        updateZoomDisplay();
+
+        // Reset stage elements
+        document.getElementById('simCanvas').style.display = 'none';
+        var mediaWrap = document.getElementById('simMediaWrap');
+        mediaWrap.style.display = 'none';
+        mediaWrap.innerHTML = '';
+        var loader = document.getElementById('simLoader');
+        loader.style.display = 'flex';
+
+        modal.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+
+        if (currentMediaKind === 'pdf') {
+            loadPdfDocument(mediaUrl);
+        } else if (currentMediaKind === 'video') {
+            loader.style.display = 'none';
+            mediaWrap.style.display = 'flex';
+            mediaWrap.innerHTML = '<video src="' + mediaUrl + '" class="bb-sim-video-view" controls autoplay playsinline></video>';
+            currentTotalPages = 1;
+            currentPageNum = 1;
+            pageBadge.textContent = 'Video';
+            updateNavControls();
+        } else {
+            // Image
+            loader.style.display = 'none';
+            mediaWrap.style.display = 'flex';
+            var img = document.createElement('img');
+            img.src = mediaUrl;
+            img.alt = 'Simulasi ' + code;
+            img.className = 'bb-sim-img-view';
+            mediaWrap.appendChild(img);
+            currentTotalPages = 1;
+            currentPageNum = 1;
+            pageBadge.textContent = '1 / 1';
+            updateNavControls();
+        }
+    }
+
+    function loadPdfDocument(url) {
+        var loader = document.getElementById('simLoader');
+        var canvas = document.getElementById('simCanvas');
+
+        if (typeof pdfjsLib === 'undefined') {
+            loader.style.display = 'none';
+            var mediaWrap = document.getElementById('simMediaWrap');
+            mediaWrap.style.display = 'flex';
+            mediaWrap.innerHTML = '<iframe src="' + url + '" class="bb-sim-iframe-view"></iframe>';
+            document.getElementById('simPageBadge').textContent = 'Dokumen PDF';
+            updateNavControls();
+            return;
+        }
+
+        pdfjsLib.getDocument(url).promise.then(function(pdf) {
+            currentPdf = pdf;
+            currentTotalPages = pdf.numPages;
+            currentPageNum = 1;
+            loader.style.display = 'none';
+            canvas.style.display = 'block';
+            renderPdfPage(currentPageNum);
+        }).catch(function(err) {
+            console.error('PDF.js render error, fallback to iframe:', err);
+            loader.style.display = 'none';
+            var mediaWrap = document.getElementById('simMediaWrap');
+            mediaWrap.style.display = 'flex';
+            mediaWrap.innerHTML = '<iframe src="' + url + '" class="bb-sim-iframe-view"></iframe>';
+            document.getElementById('simPageBadge').textContent = 'PDF';
+            updateNavControls();
+        });
+    }
+
+    function renderPdfPage(num) {
+        if (!currentPdf) return;
+        isRendering = true;
+
+        currentPdf.getPage(num).then(function(page) {
+            var stage = document.getElementById('simStage');
+            var canvas = document.getElementById('simCanvas');
+            var ctx = canvas.getContext('2d');
+
+            var availableW = Math.max(260, stage.clientWidth - 30);
+            var availableH = Math.max(200, Math.min(stage.clientHeight - 20, 390));
+
+            var scaleW = availableW / unscaled.width;
+            var scaleH = availableH / unscaled.height;
+            var baseScale = Math.min(scaleW, scaleH, 1.3);
+            var finalScale = Math.max(0.3, baseScale * currentZoom);
+
+            var viewport = page.getViewport({ scale: finalScale });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            var renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function() {
+                isRendering = false;
+                if (pendingPageNum !== null) {
+                    renderPdfPage(pendingPageNum);
+                    pendingPageNum = null;
+                }
+            });
+
+            document.getElementById('simPageBadge').textContent = num + ' / ' + currentTotalPages;
+            updateNavControls();
+        });
+    }
+
+    function queueRenderPage(num) {
+        if (isRendering) {
+            pendingPageNum = num;
+        } else {
+            renderPdfPage(num);
+        }
+    }
+
+    function simGoNext() {
+        if (currentMediaKind === 'pdf' && currentPdf && currentPageNum < currentTotalPages) {
+            currentPageNum++;
+            queueRenderPage(currentPageNum);
+        }
+    }
+
+    function simGoPrev() {
+        if (currentMediaKind === 'pdf' && currentPdf && currentPageNum > 1) {
+            currentPageNum--;
+            queueRenderPage(currentPageNum);
+        }
+    }
+
+    function updateNavControls() {
+        var prevBtn = document.getElementById('simPrevBtn');
+        var nextBtn = document.getElementById('simNextBtn');
+
+        if (currentMediaKind !== 'pdf' || currentTotalPages <= 1) {
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+        } else {
+            prevBtn.disabled = (currentPageNum <= 1);
+            nextBtn.disabled = (currentPageNum >= currentTotalPages);
+        }
+    }
+
+    function simZoomIn() {
+        currentZoom = Math.min(2.5, currentZoom + 0.2);
+        applyZoom();
+    }
+
+    function simZoomOut() {
+        currentZoom = Math.max(0.5, currentZoom - 0.2);
+        applyZoom();
+    }
+
+    function simResetZoom() {
+        currentZoom = 1.0;
+        applyZoom();
+    }
+
+    function applyZoom() {
+        updateZoomDisplay();
+        if (currentMediaKind === 'pdf' && currentPdf) {
+            renderPdfPage(currentPageNum);
+        } else if (currentMediaKind === 'image') {
+            var img = document.querySelector('#simMediaWrap img');
+            if (img) {
+                img.style.transform = 'scale(' + currentZoom + ')';
+            }
+        }
+    }
+
+    function updateZoomDisplay() {
+        var label = document.getElementById('simZoomLabel');
+        if (label) {
+            label.textContent = Math.round(currentZoom * 100) + '%';
+        }
+    }
+
+    function closeSimulationModal() {
+        var modal = document.getElementById('simBackdrop');
+        var mediaWrap = document.getElementById('simMediaWrap');
+        var video = mediaWrap.querySelector('video');
+        if (video) video.pause();
+        mediaWrap.innerHTML = '';
+        currentPdf = null;
+        modal.classList.remove('is-active');
+        document.body.style.overflow = '';
+    }
+
+    function handleSimBackdropClick(event) {
+        if (event.target && event.target.id === 'simBackdrop') {
+            closeSimulationModal();
+        }
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' || event.key === 'Esc') {
+            closeSimulationModal();
+        } else if (event.key === 'ArrowRight') {
+            simGoNext();
+        } else if (event.key === 'ArrowLeft') {
+            simGoPrev();
+        }
+    });
+    </script>
 
 </div>
 @endsection

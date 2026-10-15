@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <form action="{{ route('admin.billboards.store') }}" method="POST">
+        <form action="{{ route('admin.billboards.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
@@ -106,6 +106,30 @@
                 @error('status') <span style="font-size:0.8rem; color:#ef4444; margin-top: 4px; display: block;">{{ $message }}</span> @enderror
             </div>
 
+            {{-- Simulasi Billboard (Opsional) --}}
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
+                <label style="display:block; font-weight:700; color:#0f172a; font-size: 0.95rem; margin: 0 0 0.25rem 0;">
+                    Simulasi Billboard (PDF / Gambar / Video) <span style="font-weight: 400; color: #64748b; font-size: 0.85rem;">(Opsional)</span>
+                </label>
+                <span style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 0.75rem;">
+                    Unggah file simulasi (dokumen PDF, mockup foto/video) yang nantinya dapat dilihat calon klien di halaman publik.
+                </span>
+
+                <input type="file" name="simulation_file" id="simulation_file" accept=".jpg,.jpeg,.png,.webp,.mp4,.mov,.webm,.pdf" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0.5rem 0.75rem; background: #ffffff; color: #0f172a; font-size: 0.85rem; box-sizing: border-box;" onchange="previewSimulation(this)">
+                <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.35rem;">
+                    Format yang didukung: <strong>PDF, JPG, PNG, WEBP, MP4, MOV, WEBM</strong> (Maksimal 50MB).
+                </div>
+                @error('simulation_file') <span style="font-size:0.8rem; color:#ef4444; margin-top: 4px; display: block;">{{ $message }}</span> @enderror
+
+                {{-- Live Preview Box --}}
+                <div id="new-preview-box" style="display: none; margin-top: 1rem; background: #ffffff; border: 1px solid #3b82f6; border-radius: 6px; padding: 0.75rem;">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #2563eb; display: block; margin-bottom: 0.5rem;">
+                        👀 Preview File (Sebelum Disimpan):
+                    </span>
+                    <div id="new-preview-container" style="max-width: 480px; border-radius: 6px; overflow: hidden; background: #0f172a;"></div>
+                </div>
+            </div>
+
             <div style="display: flex; gap: 1rem; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 1.5rem;">
                 <button type="submit" style="background: #1b3a60; color: #ffffff; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#13294b'" onmouseout="this.style.background='#1b3a60'">
                     Simpan Billboard
@@ -117,6 +141,50 @@
         </form>
     </div>
 </div>
+
+<script>
+function previewSimulation(input) {
+    const box = document.getElementById('new-preview-box');
+    const container = document.getElementById('new-preview-container');
+    container.innerHTML = '';
+
+    if (!input.files || !input.files[0]) {
+        box.style.display = 'none';
+        return;
+    }
+
+    const file = input.files[0];
+    const fileType = file.type;
+
+    if (fileType === 'application/pdf' || file.name.match(/\.pdf$/i)) {
+        const pdfCard = document.createElement('div');
+        pdfCard.style.cssText = 'background: #ffffff; padding: 1.5rem; text-align: center; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; box-sizing: border-box;';
+        pdfCard.innerHTML = '<div style="font-size: 2.5rem; color: #dc2626; margin-bottom: 0.4rem;">📄</div>' +
+                            '<div style="font-weight: 700; color: #0f172a; font-size: 0.9rem; word-break: break-all;">' + file.name + '</div>' +
+                            '<div style="font-size: 0.78rem; color: #64748b; margin-top: 0.25rem;">File Dokumen PDF (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)</div>';
+        container.appendChild(pdfCard);
+        box.style.display = 'block';
+    } else if (fileType.startsWith('image/')) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.style.width = '100%';
+        img.style.maxHeight = '280px';
+        img.style.objectFit = 'contain';
+        img.style.display = 'block';
+        container.appendChild(img);
+        box.style.display = 'block';
+    } else if (fileType.startsWith('video/') || file.name.match(/\.(mp4|mov|webm)$/i)) {
+        const video = document.createElement('video');
+        video.src = URL.createObjectURL(file);
+        video.controls = true;
+        video.style.width = '100%';
+        video.style.maxHeight = '280px';
+        video.style.display = 'block';
+        container.appendChild(video);
+        box.style.display = 'block';
+    }
+}
+</script>
 
 {{-- Auto-preview kode billboard --}}
 <script>

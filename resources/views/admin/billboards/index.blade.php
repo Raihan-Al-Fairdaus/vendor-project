@@ -147,6 +147,7 @@
                         <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">UKURAN</th>
                         <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">SISI</th>
                         <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">STATUS</th>
+                        <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">SIMULASI</th>
                         <th style="padding: 1rem 1.25rem; font-size: 0.7rem; color: #1e3a8a; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">AKSI</th>
                     </tr>
                 </thead>
@@ -189,6 +190,32 @@
                             </span>
                         </td>
                         <td style="padding: 0.85rem 1.25rem;">
+                            @if($board->simulation_path)
+                                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                                    @if($board->is_video_simulation)
+                                        <span style="background: #e0f2fe; color: #0284c7; padding: 0.25rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                            🎥 Video
+                                        </span>
+                                    @elseif($board->is_pdf_simulation)
+                                        <span style="background: #fef3c7; color: #b45309; padding: 0.25rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                            📄 PDF
+                                        </span>
+                                    @else
+                                        <span style="background: #f0fdf4; color: #16a34a; padding: 0.25rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                            🖼️ Gambar
+                                        </span>
+                                    @endif
+                                    <a href="{{ $board->simulation_url }}" target="_blank" rel="noopener" style="color: #64748b; font-size: 0.8rem; text-decoration: none;" title="Buka File Simulasi">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    </a>
+                                </div>
+                            @else
+                                <span style="background: #f1f5f9; color: #94a3b8; padding: 0.25rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">
+                                    Belum Ada
+                                </span>
+                            @endif
+                        </td>
+                        <td style="padding: 0.85rem 1.25rem;">
                             <div style="display: flex; align-items: center; gap: 0.5rem;">
                                 <a href="{{ route('admin.billboards.edit', $board->id) }}" style="border: 1px solid #e2e8f0; color: #3b82f6; text-decoration: none; padding: 0.4rem 0.7rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; background: #ffffff;">
                                     <i class="fa-regular fa-pen-to-square"></i> Edit
@@ -205,7 +232,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8" style="padding: 2.5rem; text-align: center; color: #64748b; font-size: 0.9rem;">
+                        <td colspan="9" style="padding: 2.5rem; text-align: center; color: #64748b; font-size: 0.9rem;">
                             Belum ada data billboard.
                         </td>
                     </tr>

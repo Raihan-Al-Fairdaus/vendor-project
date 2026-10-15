@@ -21,6 +21,8 @@ class Billboard extends Model
         'sisi',
         'map_link',
         'status',
+        'simulation_path',
+        'simulation_type',
     ];
 
     const STATUS_TERSEDIA = 'tersedia';
@@ -81,6 +83,68 @@ class Billboard extends Model
     public function getGoogleMapsUrlAttribute(): ?string
     {
         return $this->map_link;
+    }
+
+    /**
+     * URL untuk file simulasi (gambar/video)
+     */
+    public function getSimulationUrlAttribute(): ?string
+    {
+        if (!$this->simulation_path) {
+            return null;
+        }
+
+        if (str_starts_with($this->simulation_path, 'http://') || str_starts_with($this->simulation_path, 'https://')) {
+            return $this->simulation_path;
+        }
+
+        // Jika path disimpan di disk supabase / S3
+        if (config('filesystems.disks.supabase.key')) {
+            try {
+                return \Illuminate\Support\Facades\Storage::disk('supabase')->url($this->simulation_path);
+            } catch (\Exception $e) {
+                // fallback
+            }
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($this->simulation_path);
+    }
+
+    public function getHasSimulationAttribute(): bool
+    {
+        return !empty($this->simulation_path);
+    }
+
+    public function getIsVideoSimulationAttribute(): bool
+    {
+        if ($this->simulation_type === 'video') return true;
+        if ($this->simulation_path) {
+            $ext = strtolower(pathinfo($this->simulation_path, PATHINFO_EXTENSION));
+            return in_array($ext, ['mp4', 'mov', 'webm', 'ogg']);
+        }
+        return false;
+    }
+
+    public function getIsPdfSimulationAttribute(): bool
+    {
+        if ($this->simulation_type === 'pdf') return true;
+        if ($this->simulation_path) {
+            $ext = strtolower(pathinfo($this->simulation_path, PATHINFO_EXTENSION));
+            return $ext === 'pdf';
+        }
+        return false;
+    }
+
+    public function getSimulationKindAttribute(): string
+    {
+        if ($this->is_video_simulation) return 'video';
+        if ($this->is_pdf_simulation) return 'pdf';
+        return 'image';
+    }
+
+    public function getSimulationFileUrlAttribute(): string
+    {
+        return route('bilboard.simulation.file', $this->id);
     }
 
     /**
