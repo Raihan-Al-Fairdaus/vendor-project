@@ -937,9 +937,6 @@
         background: #ffffff;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06);
         border-radius: 4px;
-        max-width: 100%;
-        max-height: 400px;
-        height: auto;
         display: block;
         margin: auto;
     }
@@ -1547,6 +1544,7 @@
     var currentZoom = 1.0;
     var isRendering = false;
     var pendingPageNum = null;
+    var currentRenderTask = null;
     var currentMediaKind = 'image';
     var currentMediaUrl = '';
 
@@ -1567,7 +1565,12 @@
         updateZoomDisplay();
 
         // Reset stage elements
-        document.getElementById('simCanvas').style.display = 'none';
+        var canvas = document.getElementById('simCanvas');
+        if (canvas) {
+            canvas.style.display = 'none';
+            var ctx = canvas.getContext('2d');
+            if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
         var mediaWrap = document.getElementById('simMediaWrap');
         mediaWrap.style.display = 'none';
         mediaWrap.innerHTML = '';
@@ -1603,75 +1606,132 @@
         }
     }
 
+    function fallbackToIframe(url) {
+        var loader = document.getElementById('simLoader');
+        var canvas = document.getElementById('simCanvas');
+        if (loader) loader.style.display = 'none';
+        if (canvas) canvas.style.display = 'none';
+        var mediaWrap = document.getElementById('simMediaWrap');
+        if (mediaWrap) {
+            mediaWrap.style.display = 'flex';
+            mediaWrap.innerHTML = '<iframe src="' + url + '#toolbar=0" class="bb-sim-iframe-view"></iframe>';
+        }
+        var pageBadge = document.getElementById('simPageBadge');
+        if (pageBadge) pageBadge.textContent = 'Dokumen PDF';
+        updateNavControls();
+    }
+
     function loadPdfDocument(url) {
         var loader = document.getElementById('simLoader');
         var canvas = document.getElementById('simCanvas');
 
         if (typeof pdfjsLib === 'undefined') {
-            loader.style.display = 'none';
-            var mediaWrap = document.getElementById('simMediaWrap');
-            mediaWrap.style.display = 'flex';
-            mediaWrap.innerHTML = '<iframe src="' + url + '" class="bb-sim-iframe-view"></iframe>';
-            document.getElementById('simPageBadge').textContent = 'Dokumen PDF';
-            updateNavControls();
+            fallbackToIframe(url);
             return;
         }
 
-        pdfjsLib.getDocument(url).promise.then(function(pdf) {
+        // Reset canvas state
+        if (canvas) canvas.style.display = 'none';
+
+        pdfjsLib.getDocument({
+            url: url,
+            cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
+            cMapPacked: true
+        }).promise.then(function(pdf) {
             currentPdf = pdf;
-            currentTotalPages = pdf.numPages;
+            currentTotalPages = pdf.numPages || 1;
             currentPageNum = 1;
-            loader.style.display = 'none';
-            canvas.style.display = 'block';
+            if (loader) loader.style.display = 'none';
+            if (canvas) canvas.style.display = 'block';
             renderPdfPage(currentPageNum);
         }).catch(function(err) {
-            console.error('PDF.js render error, fallback to iframe:', err);
-            loader.style.display = 'none';
-            var mediaWrap = document.getElementById('simMediaWrap');
-            mediaWrap.style.display = 'flex';
-            mediaWrap.innerHTML = '<iframe src="' + url + '" class="bb-sim-iframe-view"></iframe>';
-            document.getElementById('simPageBadge').textContent = 'PDF';
-            updateNavControls();
+            console.error('PDF.js getDocument error, falling back to iframe:', err);
+            fallbackToIframe(url);
         });
     }
 
     function renderPdfPage(num) {
         if (!currentPdf) return;
+
+        // Batalkan render sebelumnya jika masih berjalan
+        if (currentRenderTask) {
+            try {
+                currentRenderTask.cancel();
+            } catch (e) {}
+            currentRenderTask = null;
+        }
+
         isRendering = true;
 
         currentPdf.getPage(num).then(function(page) {
             var stage = document.getElementById('simStage');
             var canvas = document.getElementById('simCanvas');
+            if (!stage || !canvas) {
+                isRendering = false;
+                return;
+            }
             var ctx = canvas.getContext('2d');
 
-            var availableW = Math.max(260, stage.clientWidth - 30);
-            var availableH = Math.max(200, Math.min(stage.clientHeight - 20, 390));
+            // Ambil dimensi asli halaman PDF
+            var unscaled = page.getViewport({ scale: 1.0 });
+
+            // Hitung ukuran yang pas untuk stage
+            var stageW = stage.clientWidth || 600;
+            var availableW = Math.max(260, stageW - 32);
+            var availableH = Math.max(200, 390);
 
             var scaleW = availableW / unscaled.width;
             var scaleH = availableH / unscaled.height;
-            var baseScale = Math.min(scaleW, scaleH, 1.3);
-            var finalScale = Math.max(0.3, baseScale * currentZoom);
+            var baseScale = Math.min(scaleW, scaleH);
+            var finalScale = Math.max(0.2, baseScale * currentZoom);
 
             var viewport = page.getViewport({ scale: finalScale });
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
+
+            // Dukungan tampilan High-DPI / Retina & Smartphone
+            var outputScale = window.devicePixelRatio || 1;
+            canvas.width = Math.floor(viewport.width * outputScale);
+            canvas.height = Math.floor(viewport.height * outputScale);
+            canvas.style.width = Math.floor(viewport.width) + 'px';
+            canvas.style.height = Math.floor(viewport.height) + 'px';
+
+            var transform = outputScale !== 1
+                ? [outputScale, 0, 0, outputScale, 0, 0]
+                : null;
 
             var renderContext = {
                 canvasContext: ctx,
+                transform: transform,
                 viewport: viewport
             };
 
-            var renderTask = page.render(renderContext);
-            renderTask.promise.then(function() {
+            currentRenderTask = page.render(renderContext);
+            currentRenderTask.promise.then(function() {
+                currentRenderTask = null;
                 isRendering = false;
                 if (pendingPageNum !== null) {
-                    renderPdfPage(pendingPageNum);
+                    var next = pendingPageNum;
                     pendingPageNum = null;
+                    renderPdfPage(next);
                 }
+            }).catch(function(err) {
+                currentRenderTask = null;
+                isRendering = false;
+                if (err && err.name === 'RenderingCancelledException') {
+                    // Normal jika dibatalkan karena ganti halaman / zoom cepat
+                    return;
+                }
+                console.error('Render page error:', err);
             });
 
-            document.getElementById('simPageBadge').textContent = num + ' / ' + currentTotalPages;
+            var pageBadge = document.getElementById('simPageBadge');
+            if (pageBadge) {
+                pageBadge.textContent = num + ' / ' + currentTotalPages;
+            }
             updateNavControls();
+        }).catch(function(err) {
+            console.error('getPage error, fallback to iframe:', err);
+            isRendering = false;
+            fallbackToIframe(currentMediaUrl);
         });
     }
 
@@ -1700,6 +1760,7 @@
     function updateNavControls() {
         var prevBtn = document.getElementById('simPrevBtn');
         var nextBtn = document.getElementById('simNextBtn');
+        if (!prevBtn || !nextBtn) return;
 
         if (currentMediaKind !== 'pdf' || currentTotalPages <= 1) {
             prevBtn.disabled = true;
@@ -1711,12 +1772,12 @@
     }
 
     function simZoomIn() {
-        currentZoom = Math.min(2.5, currentZoom + 0.2);
+        currentZoom = Math.min(2.5, Math.round((currentZoom + 0.2) * 10) / 10);
         applyZoom();
     }
 
     function simZoomOut() {
-        currentZoom = Math.max(0.5, currentZoom - 0.2);
+        currentZoom = Math.max(0.5, Math.round((currentZoom - 0.2) * 10) / 10);
         applyZoom();
     }
 
@@ -1747,11 +1808,17 @@
     function closeSimulationModal() {
         var modal = document.getElementById('simBackdrop');
         var mediaWrap = document.getElementById('simMediaWrap');
-        var video = mediaWrap.querySelector('video');
+        var video = mediaWrap ? mediaWrap.querySelector('video') : null;
         if (video) video.pause();
-        mediaWrap.innerHTML = '';
+        if (mediaWrap) mediaWrap.innerHTML = '';
+        if (currentRenderTask) {
+            try { currentRenderTask.cancel(); } catch(e) {}
+            currentRenderTask = null;
+        }
         currentPdf = null;
-        modal.classList.remove('is-active');
+        pendingPageNum = null;
+        isRendering = false;
+        if (modal) modal.classList.remove('is-active');
         document.body.style.overflow = '';
     }
 
