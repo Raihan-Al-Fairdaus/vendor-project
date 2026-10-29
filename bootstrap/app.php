@@ -25,6 +25,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             PreventBackHistory::class,
         ]);
+
+        // Middleware pembatas khusus PC/Laptop untuk area admin
+        $middleware->alias([
+            'desktop.only' => \App\Http\Middleware\EnsureDesktopOnly::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

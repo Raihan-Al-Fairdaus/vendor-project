@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Central - DNA Vendor Portal')</title>
     
+    {{-- Device Guard: Khusus PC & Laptop (Redirect HP/Mobile ke Beranda) --}}
+    <script>
+        (function() {
+            var ua = (navigator.userAgent || navigator.vendor || window.opera || '').toLowerCase();
+            var isMobile = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|webos|tablet/i.test(ua);
+            var isTouchSmall = ('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth <= 820;
+            if (isMobile || isTouchSmall) {
+                window.location.replace("{{ route('home') }}");
+            }
+        })();
+    </script>
+    
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
 

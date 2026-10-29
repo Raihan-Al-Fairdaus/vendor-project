@@ -88,33 +88,35 @@ Route::post('/upload/presign', [VendorController::class, 'generatePresignedUrl']
 Route::view('/faq', 'faq.faq')->name('faq');
 
 // ==========================================
-// 2. ROUTE LOGIN ADMIN
+// 2. ROUTE LOGIN ADMIN (KHUSUS PC & LAPTOP)
 // ==========================================
-Route::get('/admin/login', function () {
-    return view('admin.auth.login');
-})->name('admin.login');
+Route::middleware('desktop.only')->group(function () {
+    Route::get('/admin/login', function () {
+        return view('admin.auth.login');
+    })->name('admin.login');
 
-Route::post('/admin/login', function (Request $request) {
-    $credentials = $request->validate([
-        'email'    => ['required', 'email'],
-        'password' => ['required'],
-    ]);
+    Route::post('/admin/login', function (Request $request) {
+        $credentials = $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-    if (Auth::attempt($credentials, $request->has('remember'))) {
-        $request->session()->regenerate();
-        return redirect()->intended(route('admin.dashboard'));
-    }
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('admin.dashboard'));
+        }
 
-    return back()->withErrors([
-        'email' => 'Email atau password yang dimasukkan salah.',
-    ])->onlyInput('email');
-})->middleware('throttle:5,1')->name('admin.login.post');
+        return back()->withErrors([
+            'email' => 'Email atau password yang dimasukkan salah.',
+        ])->onlyInput('email');
+    })->middleware('throttle:5,1')->name('admin.login.post');
+});
 
 
 // ==========================================
-// 3. ROUTE AREA DASHBOARD & NAVIGASI ADMIN
+// 3. ROUTE AREA DASHBOARD & NAVIGASI ADMIN (KHUSUS PC & LAPTOP)
 // ==========================================
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'desktop.only'])->group(function () {
 
     // --- DASHBOARD UTAMA ---
     Route::get('/admin/dashboard', function () {

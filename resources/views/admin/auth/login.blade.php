@@ -5,6 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - DNA Advertising</title>
 
+    {{-- Device Guard: Khusus PC & Laptop (Redirect HP/Mobile ke Beranda) --}}
+    <script>
+        (function() {
+            var ua = (navigator.userAgent || navigator.vendor || window.opera || '').toLowerCase();
+            var isMobile = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|webos|tablet/i.test(ua);
+            var isTouchSmall = ('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth <= 820;
+            if (isMobile || isTouchSmall) {
+                window.location.replace("{{ route('home') }}");
+            }
+        })();
+    </script>
+
+    {{-- Anti-Inspect & DevTools Guard: Redirect ke Pendaftaran Vendor jika F12 / Inspect dibuka --}}
+    <script>
+        (function() {
+            var vendorRegisterUrl = "{{ route('vendor.register') }}";
+
+            function kickToRegister() {
+                window.location.replace(vendorRegisterUrl);
+            }
+
+            // 1. Blokir tombol F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U (Windows, Linux, Mac)
+            window.addEventListener('keydown', function(e) {
+                // F12
+                if (e.key === 'F12' || e.keyCode === 123) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    kickToRegister();
+                    return false;
+                }
+                // Ctrl+Shift+I / J / C (Windows) atau Cmd+Option+I / J / C (Mac)
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (
+                    e.key === 'I' || e.key === 'i' ||
+                    e.key === 'J' || e.key === 'j' ||
+                    e.key === 'C' || e.key === 'c' ||
+                    e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67
+                )) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    kickToRegister();
+                    return false;
+                }
+                // Ctrl+U (View Page Source)
+                if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U' || e.keyCode === 85)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    kickToRegister();
+                    return false;
+                }
+            }, true);
+
+            // 2. Blokir Klik Kanan (Mencegah menu Inspect Element)
+            window.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                kickToRegister();
+                return false;
+            }, true);
+
+            // 3. Deteksi aktif DevTools yang terbuka (Docked samping / bawah)
+            function checkDevToolsDimensions() {
+                var widthDiff = window.outerWidth - window.innerWidth;
+                var heightDiff = window.outerHeight - window.innerHeight;
+                if (widthDiff > 160 || heightDiff > 160) {
+                    kickToRegister();
+                }
+            }
+            window.addEventListener('resize', checkDevToolsDimensions);
+            checkDevToolsDimensions();
+
+            // 4. Deteksi DevTools aktif via debugger timing
+            setInterval(function() {
+                var start = performance.now();
+                (function() {}['constructor']('debugger')());
+                var diff = performance.now() - start;
+                if (diff > 100) {
+                    kickToRegister();
+                }
+            }, 750);
+        })();
+    </script>
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Preconnect: koneksi awal ke CDN sebelum browser butuh resource --}}
