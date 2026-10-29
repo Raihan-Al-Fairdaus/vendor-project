@@ -83,7 +83,7 @@
                     </p>
 
                     @if($vendor->google_maps_link)
-                        <a href="{{ $vendor->google_maps_link }}" target="_blank" style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.5rem 1rem; background:#f8fafc; border:1px solid #cbd5e1; color:#0f172a; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
+                        <a href="{{ $vendor->google_maps_link }}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.5rem 1rem; background:#f8fafc; border:1px solid #cbd5e1; color:#0f172a; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
                             Buka di Google Maps
                         </a>
@@ -175,7 +175,7 @@
                                 </div>
                             </div>
                             @if($vendor->id_card_path)
-                                <a href="{{ str_starts_with($vendor->id_card_path, 'http') ? $vendor->id_card_path : Storage::url($vendor->id_card_path) }}" target="_blank" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
+                                <a href="{{ str_starts_with($vendor->id_card_path, 'http') ? $vendor->id_card_path : Storage::url($vendor->id_card_path) }}" target="_blank" rel="noopener noreferrer" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
                             @else
                                 <span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Not Uploaded</span>
                             @endif
@@ -194,7 +194,7 @@
                                 </div>
                             </div>
                             @if($vendor->npwp_file_path)
-                                <a href="{{ str_starts_with($vendor->npwp_file_path, 'http') ? $vendor->npwp_file_path : Storage::url($vendor->npwp_file_path) }}" target="_blank" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
+                                <a href="{{ str_starts_with($vendor->npwp_file_path, 'http') ? $vendor->npwp_file_path : Storage::url($vendor->npwp_file_path) }}" target="_blank" rel="noopener noreferrer" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
                             @else
                                 <span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Not Uploaded</span>
                             @endif
@@ -213,7 +213,7 @@
                                 </div>
                             </div>
                             @if($vendor->bank_book_path)
-                                <a href="{{ str_starts_with($vendor->bank_book_path, 'http') ? $vendor->bank_book_path : Storage::url($vendor->bank_book_path) }}" target="_blank" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
+                                <a href="{{ str_starts_with($vendor->bank_book_path, 'http') ? $vendor->bank_book_path : Storage::url($vendor->bank_book_path) }}" target="_blank" rel="noopener noreferrer" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.85rem; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">View</a>
                             @else
                                 <span style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Not Uploaded</span>
                             @endif

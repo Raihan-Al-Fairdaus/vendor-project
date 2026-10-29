@@ -29,6 +29,9 @@ Route::get('/bilboard', [App\Http\Controllers\BillboardController::class, 'index
 Route::get('/bilboard/{billboard}/simulation-file', [App\Http\Controllers\BillboardController::class, 'simulationFile'])->name('bilboard.simulation.file');
 
 Route::get('/run-migrations', function () {
+    // Keamanan: Tolak akses publik tanpa verifikasi token internal rahasia
+    abort_unless(app()->isLocal() && request('token') === env('APP_KEY'), 403, 'Akses ditolak.');
+
     try {
         \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
         return response("Migrations run successfully!\n" . \Illuminate\Support\Facades\Artisan::output(), 200)
@@ -40,6 +43,9 @@ Route::get('/run-migrations', function () {
 });
 
 Route::get('/seed-admin', function () {
+    // Keamanan: Mencegah pengambilalihan akun admin secara publik
+    abort_unless(app()->isLocal() && request('token') === env('APP_KEY'), 403, 'Akses ditolak.');
+
     try {
         $email    = 'admin@vendorconnect.com';
         $password = 'password123';
@@ -69,11 +75,15 @@ Route::get('/register', function () {
     return redirect()->route('vendor.register');
 });
 
-Route::post('/vendor/register', [VendorController::class, 'store'])->name('vendor.store');
+Route::post('/vendor/register', [VendorController::class, 'store'])
+    ->middleware('throttle:10,1')
+    ->name('vendor.store');
 Route::get('/vendor/success', [VendorController::class, 'success'])->name('vendor.success');
 
-// Generate presigned URL untuk direct upload ke Supabase Storage
-Route::post('/upload/presign', [VendorController::class, 'generatePresignedUrl'])->name('upload.presign');
+// Generate presigned URL untuk direct upload ke Supabase Storage (dilindungi rate limiting)
+Route::post('/upload/presign', [VendorController::class, 'generatePresignedUrl'])
+    ->middleware('throttle:20,1')
+    ->name('upload.presign');
 
 Route::view('/faq', 'faq.faq')->name('faq');
 
@@ -98,7 +108,7 @@ Route::post('/admin/login', function (Request $request) {
     return back()->withErrors([
         'email' => 'Email atau password yang dimasukkan salah.',
     ])->onlyInput('email');
-})->name('admin.login.post');
+})->middleware('throttle:5,1')->name('admin.login.post');
 
 
 // ==========================================

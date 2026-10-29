@@ -42,8 +42,22 @@ class VendorController extends Controller
             return response()->json(['message' => 'Format file tidak diizinkan.'], 422);
         }
 
-        $extension = pathinfo($request->filename, PATHINFO_EXTENSION);
-        $uniqueName = uniqid() . '_' . time() . '.' . $extension;
+        $extension = strtolower(pathinfo($request->filename, PATHINFO_EXTENSION));
+
+        $allowedExtensions = [
+            'image/jpeg'      => ['jpg', 'jpeg'],
+            'image/png'       => ['png'],
+            'image/webp'      => ['webp'],
+            'application/pdf' => ['pdf'],
+        ];
+
+        // Validasi keamanan: Ekstensi harus cocok persis dengan MIME type yang diizinkan
+        if (!isset($allowedExtensions[$request->type]) || !in_array($extension, $allowedExtensions[$request->type], true)) {
+            return response()->json(['message' => 'Ekstensi file tidak valid atau tidak cocok dengan tipe file.'], 422);
+        }
+
+        $safeExtension = ($extension === 'jpeg') ? 'jpg' : $extension;
+        $uniqueName = uniqid('', true) . '_' . time() . '.' . $safeExtension;
         $key = $request->folder . '/' . $uniqueName;
 
         $s3Client = new S3Client([
@@ -88,12 +102,12 @@ class VendorController extends Controller
             'company_email'     => 'required|email|unique:vendors,company_email',
             'company_phone'     => 'required|string|max:50',
             'pic_name'          => 'required|string|max:255',
-            'google_maps_link'  => 'nullable|url',
+            'google_maps_link'  => ['nullable', 'url', 'regex:/^https?:\/\//i'],
 
-            // Sekarang menerima URL string, bukan file upload
-            'id_card_url'       => 'required|string|url',
-            'bank_book_url'     => 'required|string|url',
-            'npwp_file_url'     => 'required|string|url',
+            // Validasi URL dokumen: harus berformat URL dengan skema http/https yang valid
+            'id_card_url'       => ['required', 'string', 'url', 'regex:/^https?:\/\//i'],
+            'bank_book_url'     => ['required', 'string', 'url', 'regex:/^https?:\/\//i'],
+            'npwp_file_url'     => ['required', 'string', 'url', 'regex:/^https?:\/\//i'],
             'office_photos_urls'=> 'required|string', // JSON string of URLs
 
             'agreement'         => 'accepted',
@@ -103,6 +117,13 @@ class VendorController extends Controller
 
         if (!is_array($officePhotoUrls) || count($officePhotoUrls) < 2 || count($officePhotoUrls) > 3) {
             return back()->withErrors(['office_photos_urls' => 'Foto kantor harus berjumlah 2 sampai 3 foto.']);
+        }
+
+        // Validasi keamanan: Pastikan setiap URL foto kantor adalah URL HTTP/HTTPS yang sah
+        foreach ($officePhotoUrls as $photoUrl) {
+            if (!is_string($photoUrl) || !filter_var($photoUrl, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $photoUrl)) {
+                return back()->withErrors(['office_photos_urls' => 'Format URL foto kantor tidak valid.']);
+            }
         }
 
         Vendor::create([

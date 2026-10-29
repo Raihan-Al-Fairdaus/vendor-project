@@ -70,6 +70,11 @@ class BillboardController extends Controller
             abort(404, 'File simulasi tidak ditemukan');
         }
 
+        // Keamanan: Cegah directory traversal
+        if (str_contains($billboard->simulation_path, '..') || str_starts_with($billboard->simulation_path, '/') || str_starts_with($billboard->simulation_path, '\\')) {
+            abort(400, 'Format file path tidak valid');
+        }
+
         // Jika URL eksternal langsung
         if (str_starts_with($billboard->simulation_path, 'http://') || str_starts_with($billboard->simulation_path, 'https://')) {
             return redirect($billboard->simulation_path);
@@ -96,10 +101,14 @@ class BillboardController extends Controller
         // Cek jika tersimpan di public disk
         if (\Illuminate\Support\Facades\Storage::disk('public')->exists($billboard->simulation_path)) {
             $path = \Illuminate\Support\Facades\Storage::disk('public')->path($billboard->simulation_path);
-            return response()->file($path, [
-                'Access-Control-Allow-Origin' => '*',
-                'Access-Control-Allow-Methods' => 'GET, OPTIONS',
-            ]);
+            $realPath = realpath($path);
+            $basePath = realpath(storage_path('app/public'));
+            if ($realPath && $basePath && str_starts_with($realPath, $basePath)) {
+                return response()->file($realPath, [
+                    'Access-Control-Allow-Origin' => '*',
+                    'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+                ]);
+            }
         }
 
         return redirect($billboard->simulation_url);

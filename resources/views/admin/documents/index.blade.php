@@ -113,6 +113,7 @@
                             @if($vendor->id_card_path)
                                 <a href="{{ str_starts_with($vendor->id_card_path, 'http') ? $vendor->id_card_path : Storage::url($vendor->id_card_path) }}"
                                    target="_blank"
+                                   rel="noopener noreferrer"
                                    style="border: 1px solid #e2e8f0; background-color: #f8fafc; color: #3b82f6; text-decoration: none; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.15s ease-in-out;">
                                     👁️ View KTP
                                 </a>
@@ -128,6 +129,7 @@
                             @if($vendor->bank_book_path)
                                 <a href="{{ str_starts_with($vendor->bank_book_path, 'http') ? $vendor->bank_book_path : Storage::url($vendor->bank_book_path) }}"
                                    target="_blank"
+                                   rel="noopener noreferrer"
                                    style="border: 1px solid #e2e8f0; background-color: #f8fafc; color: #3b82f6; text-decoration: none; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.15s ease-in-out;">
                                     🏦 View Bank Book
                                 </a>
@@ -143,6 +145,7 @@
                             @if($vendor->google_maps_link)
                                 <a href="{{ $vendor->google_maps_link }}"
                                    target="_blank"
+                                   rel="noopener noreferrer"
                                    style="border: 1px solid #e2e8f0; background-color: #f8fafc; color: #3b82f6; text-decoration: none; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.15s ease-in-out;">
                                     📍 Open Maps
                                 </a>
@@ -162,7 +165,7 @@
                             @if(!empty($photos))
                                 <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
                                     @foreach($photos as $photo)
-                                        <a href="{{ str_starts_with($photo, 'http') ? $photo : Storage::url($photo) }}" target="_blank" style="display: inline-block; line-height: 0;">
+                                        <a href="{{ str_starts_with($photo, 'http') ? $photo : Storage::url($photo) }}" target="_blank" rel="noopener noreferrer" style="display: inline-block; line-height: 0;">
                                             <img
                                                 src="{{ str_starts_with($photo, 'http') ? $photo : Storage::url($photo) }}"
                                                 alt="Office Photo"
