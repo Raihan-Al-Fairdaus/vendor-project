@@ -148,6 +148,26 @@ class Billboard extends Model
     }
 
     /**
+     * URL foto asli cover billboard (diekstrak dari simulasi) jika tersedia.
+     */
+    public function getCardPhotoUrlAttribute(): ?string
+    {
+        $codeClean = ltrim($this->code, '#');
+        if (file_exists(public_path("images/billboards/{$codeClean}.jpg"))) {
+            return asset("images/billboards/{$codeClean}.jpg");
+        }
+        if (file_exists(public_path("images/billboards/{$codeClean}.png"))) {
+            return asset("images/billboards/{$codeClean}.png");
+        }
+        return null;
+    }
+
+    public function getHasCardPhotoAttribute(): bool
+    {
+        return !empty($this->card_photo_url);
+    }
+
+    /**
      * Display label: "Billboard #001-SDA-I" atau "Midiboard #012-SBY-II"
      */
     public function getDisplayLabelAttribute(): string
