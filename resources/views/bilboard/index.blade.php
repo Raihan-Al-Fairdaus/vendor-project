@@ -687,6 +687,14 @@
         box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
     }
 
+    @keyframes bbWaSpin {
+        to { transform: rotate(360deg); }
+    }
+    .bb-wa-spin {
+        animation: bbWaSpin 0.75s linear infinite;
+        flex-shrink: 0;
+    }
+
     .bb-no-gps-link {
         display: block;
         text-align: center;
@@ -1368,17 +1376,26 @@
                                 @endif
 
                                 @if($board->simulation_path)
-                                    <button type="button" class="bb-btn-simulasi" onclick="openSimulationModal('{{ addslashes($board->code) }}', '{{ addslashes($board->jenis ?? 'Billboard') }}', '{{ addslashes($board->address) }}', '{{ $board->simulation_file_url }}', '{{ $board->simulation_kind }}', '{{ rawurlencode('Halo DNA Advertising, saya ingin bertanya mengenai billboard dengan kode ' . $board->code . '. Mohon informasi mengenai harga sewa, ketersediaan, lokasi, dan detail billboard tersebut. Terima kasih.') }}')">
+                                    <button type="button" class="bb-btn-simulasi" onclick="openSimulationModal('{{ addslashes($board->code) }}', '{{ addslashes($board->jenis ?? 'Billboard') }}', '{{ addslashes($board->address) }}', '{{ $board->simulation_file_url }}', '{{ $board->simulation_kind }}', '{{ rawurlencode('Halo DNA Advertising, saya ingin bertanya mengenai billboard dengan kode #' . ltrim($board->code, '#') . '. Mohon informasi mengenai harga sewa, ketersediaan, lokasi, dan detail billboard tersebut. Terima kasih.') }}', '{{ $board->simulation_url ?? '' }}')">
                                         <span>👁️</span> Lihat Simulasi
                                     </button>
                                 @endif
                             </div>
 
                             @php
-                                $waMessage = 'Halo DNA Advertising, saya ingin bertanya mengenai billboard dengan kode ' . $board->code . '. Mohon informasi mengenai harga sewa, ketersediaan, lokasi, dan detail billboard tersebut. Terima kasih.';
+                                $formattedCode = '#' . ltrim($board->code, '#');
+                                $waMessage = 'Halo DNA Advertising, saya ingin bertanya mengenai billboard dengan kode ' . $formattedCode . '. Mohon informasi mengenai harga sewa, ketersediaan, lokasi, dan detail billboard tersebut. Terima kasih.';
                                 $waUrl = 'https://wa.me/6287798018647?text=' . rawurlencode($waMessage);
                             @endphp
-                            <a href="{{ $waUrl }}" target="_blank" rel="noopener noreferrer" class="bb-btn-wa">
+                            <a href="{{ $waUrl }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="bb-btn-wa"
+                               data-code="{{ $formattedCode }}"
+                               data-simulation-url="{{ $board->has_simulation ? $board->simulation_file_url : '' }}"
+                               data-public-url="{{ $board->simulation_url ?? '' }}"
+                               data-has-simulation="{{ $board->has_simulation ? '1' : '0' }}"
+                               onclick="return handleBillboardWaClick(event, this)">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                                 <span>Tanya Billboard Ini via WhatsApp</span>
                             </a>
@@ -1521,7 +1538,7 @@
                         Selanjutnya →
                     </button>
                 </div>
-                <a href="#" id="simWaBtn" target="_blank" rel="noopener noreferrer" class="bb-sim-wa-btn">
+                <a href="#" id="simWaBtn" target="_blank" rel="noopener noreferrer" class="bb-sim-wa-btn" onclick="return handleModalWaClick(event, this)">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
                     </svg>
@@ -1547,8 +1564,13 @@
     var currentRenderTask = null;
     var currentMediaKind = 'image';
     var currentMediaUrl = '';
+    var currentModalData = { code: '', mediaUrl: '', publicUrl: '', kind: '' };
 
-    function openSimulationModal(code, jenis, address, mediaUrl, mediaKind, waTextEncoded) {
+    function openSimulationModal(code, jenis, address, mediaUrl, mediaKind, waTextEncoded, publicUrl) {
+        currentModalData.code = code || '';
+        currentModalData.mediaUrl = mediaUrl || '';
+        currentModalData.publicUrl = publicUrl || mediaUrl || '';
+        currentModalData.kind = mediaKind || 'image';
         var modal = document.getElementById('simBackdrop');
         var title = document.getElementById('simTitleText');
         var addressEl = document.getElementById('simAddressText');
@@ -1837,6 +1859,116 @@
             simGoPrev();
         }
     });
+
+    /**
+     * Web Share API WhatsApp dengan lampiran foto simulasi asli
+     */
+    async function shareBillboardViaWa(params) {
+        var rawCode = params.code || '';
+        var cleanCode = rawCode ? ('#' + rawCode.replace(/^#+/, '')) : '#-';
+        var baseMessage = 'Halo DNA Advertising, saya ingin bertanya mengenai billboard dengan kode ' + cleanCode + '. Mohon informasi mengenai harga sewa, ketersediaan, lokasi, dan detail billboard tersebut. Terima kasih.';
+        var simFileUrl = params.simFileUrl || '';
+        var publicUrl = params.publicUrl || simFileUrl;
+        var hasSimulation = !!params.hasSimulation && !!simFileUrl;
+        var btnElement = params.btnElement || null;
+
+        function openFallback() {
+            var text = baseMessage;
+            if (publicUrl) {
+                text += '\n\nFoto/File Simulasi Billboard:\n' + publicUrl + '\n(Catatan: Buka tautan di atas untuk melihat foto simulasi billboard jika perangkat tidak mendukung lampiran otomatis).';
+            }
+            var waUrl = 'https://wa.me/6287798018647?text=' + encodeURIComponent(text);
+            window.open(waUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        // Jika tidak ada simulasi atau browser tidak mendukung navigator.share
+        if (!hasSimulation || !navigator.share) {
+            openFallback();
+            return;
+        }
+
+        var originalContent = btnElement ? btnElement.innerHTML : null;
+        if (btnElement) {
+            btnElement.style.pointerEvents = 'none';
+            btnElement.innerHTML = '<svg class="bb-wa-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg> <span>Menyiapkan WhatsApp...</span>';
+        }
+
+        try {
+            // Ambil gambar/file langsung dari server
+            var response = await fetch(simFileUrl);
+            if (!response.ok) {
+                throw new Error('Gagal mengunduh file simulasi (status ' + response.status + ')');
+            }
+
+            var blob = await response.blob();
+            var mimeType = blob.type || 'image/jpeg';
+            if (mimeType === 'application/octet-stream' || !mimeType) {
+                mimeType = 'image/jpeg';
+            }
+
+            var ext = 'jpg';
+            if (mimeType.includes('png')) ext = 'png';
+            else if (mimeType.includes('webp')) ext = 'webp';
+            else if (mimeType.includes('pdf')) ext = 'pdf';
+            else if (mimeType.includes('jpeg') || mimeType.includes('jpg')) ext = 'jpg';
+
+            var codeSlug = cleanCode.replace(/^#/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
+            var fileName = 'Billboard-' + codeSlug + '.' + ext;
+            var file = new File([blob], fileName, { type: mimeType });
+
+            // Periksa dukungan berbagi file
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    title: 'Billboard ' + cleanCode,
+                    text: baseMessage,
+                    files: [file]
+                });
+            } else {
+                openFallback();
+            }
+        } catch (err) {
+            if (err && err.name === 'AbortError') {
+                // Client membatalkan share dialog
+                return;
+            }
+            console.warn('Web Share API gagal, beralih ke fallback WhatsApp link:', err);
+            openFallback();
+        } finally {
+            if (btnElement && originalContent) {
+                btnElement.innerHTML = originalContent;
+                btnElement.style.pointerEvents = '';
+            }
+        }
+    }
+
+    function handleBillboardWaClick(event, el) {
+        if (event) event.preventDefault();
+        var code = el.getAttribute('data-code') || '';
+        var simUrl = el.getAttribute('data-simulation-url') || '';
+        var pubUrl = el.getAttribute('data-public-url') || '';
+        var hasSim = el.getAttribute('data-has-simulation') === '1';
+
+        shareBillboardViaWa({
+            code: code,
+            simFileUrl: simUrl,
+            publicUrl: pubUrl,
+            hasSimulation: hasSim,
+            btnElement: el
+        });
+        return false;
+    }
+
+    function handleModalWaClick(event, el) {
+        if (event) event.preventDefault();
+        shareBillboardViaWa({
+            code: currentModalData.code,
+            simFileUrl: currentModalData.mediaUrl,
+            publicUrl: currentModalData.publicUrl,
+            hasSimulation: !!currentModalData.mediaUrl,
+            btnElement: el
+        });
+        return false;
+    }
     </script>
 
 </div>
