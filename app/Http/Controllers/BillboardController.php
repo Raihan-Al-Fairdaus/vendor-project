@@ -80,20 +80,12 @@ class BillboardController extends Controller
             return redirect($billboard->simulation_path);
         }
 
-        // Cek jika tersimpan di Supabase
+        // Cek jika tersimpan di Supabase -> redirect langsung ke public Supabase CDN
         if (config('filesystems.disks.supabase.key')) {
             try {
                 if (\Illuminate\Support\Facades\Storage::disk('supabase')->exists($billboard->simulation_path)) {
-                    $stream = \Illuminate\Support\Facades\Storage::disk('supabase')->readStream($billboard->simulation_path);
-                    $mime   = \Illuminate\Support\Facades\Storage::disk('supabase')->mimeType($billboard->simulation_path) ?? 'application/octet-stream';
-                    return response()->stream(function() use ($stream) {
-                        fpassthru($stream);
-                    }, 200, [
-                        'Content-Type' => $mime,
-                        'Access-Control-Allow-Origin' => '*',
-                        'Access-Control-Allow-Methods' => 'GET, OPTIONS',
-                        'Content-Disposition' => 'inline; filename="' . basename($billboard->simulation_path) . '"',
-                    ]);
+                    $url = \Illuminate\Support\Facades\Storage::disk('supabase')->url($billboard->simulation_path);
+                    return redirect()->away($url);
                 }
             } catch (\Exception $e) {}
         }

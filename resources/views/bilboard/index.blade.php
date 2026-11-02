@@ -1380,7 +1380,7 @@
                                 @endif
 
                                 @if($board->simulation_path)
-                                    <button type="button" class="bb-btn-simulasi" onclick="openSimulationModal('{{ addslashes($board->code) }}', '{{ addslashes($board->jenis ?? 'Billboard') }}', '{{ addslashes($board->address) }}', '{{ $board->simulation_file_url }}', '{{ $board->simulation_kind }}', '{{ rawurlencode('Halo DNA Advertising, saya ingin bertanya mengenai billboard dengan kode #' . ltrim($board->code, '#') . '. Mohon informasi mengenai harga sewa, ketersediaan, lokasi, dan detail billboard tersebut. Terima kasih.') }}', '{{ $board->simulation_url ?? '' }}')">
+                                    <button type="button" class="bb-btn-simulasi" onclick="openSimulationModal('{{ addslashes($board->code) }}', '{{ addslashes($board->jenis ?? 'Billboard') }}', '{{ addslashes($board->address) }}', '{{ $board->simulation_url ?: $board->simulation_file_url }}', '{{ $board->simulation_kind }}', '{{ rawurlencode('Halo DNA Advertising, saya ingin bertanya mengenai billboard dengan kode #' . ltrim($board->code, '#') . '. Mohon informasi mengenai harga sewa, ketersediaan, lokasi, dan detail billboard tersebut. Terima kasih.') }}', '{{ $board->simulation_url ?? '' }}')">
                                         <span>👁️</span> Lihat Simulasi
                                     </button>
                                 @endif
