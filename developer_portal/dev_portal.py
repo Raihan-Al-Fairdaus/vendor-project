@@ -3,9 +3,9 @@
 DNA ADVERTISING - DEVELOPER PORTAL (DESKTOP APPLICATION)
 =============================================================================
 Aplikasi Desktop Khusus Developer / Super Administrator
-- Login Eksklusif Developer (Email, Password, Secret Key)
-- Dilengkapi Fitur Intip/Lihat Password (👁️ Show/Hide Password)
-- Server URL Fleksibel (Bisa untuk Vercel, Hosting Pribadi/VPS/cPanel, atau Localhost)
+- Tampilan Modern & Bersih (Menyesuaikan Tema Website DNA: Navy Blue & Putih)
+- Login Simpel: Cukup Email & Password Developer
+- Dilengkapi Fitur Intip/Lihat Password (👁️ Show/Hide)
 - Live Monitoring Riwayat Login Admin
 - Manajemen Akun Admin & Reset Password Jika Admin Lupa Password
 =============================================================================
@@ -30,21 +30,23 @@ except Exception:
     pass
 
 # =============================================================================
-# KONFIGURASI TEMA WARNA MODERN (DARK THEME)
+# KONFIGURASI TEMA WARNA WEBSITE DNA ADVERTISING (LIGHT & BRAND NAVY)
 # =============================================================================
-COLOR_BG_DARK       = "#0B1120"  # Dark Slate (Latar Belakang Luar)
-COLOR_BG_CARD       = "#1E293B"  # Slate 800 (Card & Panel)
-COLOR_BG_CARD_HOVER = "#334155"  # Slate 700 (Border & Hover)
-COLOR_BG_INPUT      = "#0F172A"  # Dark Slate (Input Field)
-COLOR_TEXT_PRIMARY  = "#F8FAFC"  # Putih Bersih
-COLOR_TEXT_MUTED    = "#94A3B8"  # Slate 400 (Teks Sekunder)
-COLOR_PRIMARY       = "#2563EB"  # Royal Blue (Tombol Utama)
-COLOR_PRIMARY_HOVER = "#1D4ED8"  # Darker Blue
-COLOR_SUCCESS       = "#10B981"  # Emerald Green (Status Sukses)
-COLOR_DANGER        = "#EF4444"  # Merah (Hapus / Status Gagal)
+COLOR_BG            = "#EDF2F7"  # Latar belakang utama (Soft Light Gray)
+COLOR_CARD          = "#FFFFFF"  # Latar card & panel (Putih Bersih)
+COLOR_NAVY          = "#1B3A60"  # Brand Utama DNA Advertising (Deep Navy)
+COLOR_NAVY_HOVER    = "#234B7C"  # Hover Navy
+COLOR_NAVY_LIGHT    = "#EBF2FA"  # Navy Muda / Tint
+COLOR_BLUE          = "#2563EB"  # Aksen Biru
+COLOR_TEXT_MAIN     = "#0F172A"  # Teks Utama (Slate 900)
+COLOR_TEXT_MUTED    = "#64748B"  # Teks Sekunder (Slate 500)
+COLOR_BORDER        = "#E2E8F0"  # Garis pembatas (Slate 200)
+COLOR_INPUT_BG      = "#FFFFFF"  # Field input
+COLOR_INPUT_BORDER  = "#CBD5E1"  # Border input (Slate 300)
+COLOR_SUCCESS       = "#10B981"  # Hijau (Status Berhasil)
+COLOR_DANGER        = "#EF4444"  # Merah (Status Gagal / Hapus)
 COLOR_DANGER_HOVER  = "#DC2626"
-COLOR_WARNING       = "#F59E0B"  # Amber (Peringatan)
-COLOR_BORDER        = "#334155"  # Border Slate
+COLOR_WARNING       = "#F59E0B"  # Amber / Kuning Peringatan
 
 FONT_TITLE = ("Segoe UI", 16, "bold")
 FONT_HEADING = ("Segoe UI", 12, "bold")
@@ -53,7 +55,9 @@ FONT_BODY_BOLD = ("Segoe UI", 10, "bold")
 FONT_SMALL = ("Segoe UI", 9)
 FONT_MONO = ("Consolas", 9)
 
-# Lokasi File Konfigurasi Lokal untuk menyimpan URL Server & Email terakhir
+# Kredensial & Konfigurasi Default
+DEFAULT_SERVER_URL = "https://dna-vendor.vercel.app"
+DEFAULT_SECRET_KEY = "dna_dev_sec_2026_secret_key_dna_portal"
 CONFIG_FILE = os.path.join(os.path.expanduser("~"), ".dna_dev_portal_config.json")
 
 
@@ -65,7 +69,7 @@ def load_local_config():
         except Exception:
             pass
     return {
-        "server_url": "https://dna-vendor.vercel.app",
+        "server_url": DEFAULT_SERVER_URL,
         "remember_email": "developer@dna-advertising.com",
     }
 
@@ -79,28 +83,25 @@ def save_local_config(data):
 
 
 # =============================================================================
-# KELAS UTAMA APLIKASI DEVELOPER PORTAL
+# KELAS UTAMA APLIKASI
 # =============================================================================
 class DeveloperPortalApp(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("DNA Advertising - Developer Portal")
-        self.geometry("1120x740")
+        self.geometry("1140x740")
         self.minsize(980, 640)
-        self.configure(bg=COLOR_BG_DARK)
+        self.configure(bg=COLOR_BG)
 
         # State Aplikasi
-        self.server_url = "https://dna-vendor.vercel.app"
+        self.local_config = load_local_config()
+        self.server_url = self.local_config.get("server_url", DEFAULT_SERVER_URL)
+        self.secret_key = DEFAULT_SECRET_KEY
         self.auth_token = None
         self.dev_email = None
         self.auto_refresh_timer = None
         self.auto_refresh_enabled = False
 
-        # Load konfigurasi sebelumnya
-        self.local_config = load_local_config()
-        self.server_url = self.local_config.get("server_url", "https://dna-vendor.vercel.app")
-
-        # Inisialisasi Tampilan
         self.setup_styles()
         self.show_login_frame()
 
@@ -114,80 +115,76 @@ class DeveloperPortalApp(tk.Tk):
         except Exception:
             pass
 
+        # Tabs Styling
         self.style.configure(
             "TNotebook",
-            background=COLOR_BG_DARK,
+            background=COLOR_BG,
             borderwidth=0,
         )
         self.style.configure(
             "TNotebook.Tab",
-            background=COLOR_BG_CARD,
+            background=COLOR_CARD,
             foreground=COLOR_TEXT_MUTED,
             font=("Segoe UI", 10, "bold"),
-            padding=[18, 9],
+            padding=[20, 10],
             borderwidth=0,
         )
         self.style.map(
             "TNotebook.Tab",
-            background=[("selected", COLOR_PRIMARY), ("active", COLOR_BG_CARD_HOVER)],
-            foreground=[("selected", COLOR_TEXT_PRIMARY), ("active", COLOR_TEXT_PRIMARY)],
+            background=[("selected", COLOR_NAVY), ("active", COLOR_NAVY_LIGHT)],
+            foreground=[("selected", "#FFFFFF"), ("active", COLOR_NAVY)],
         )
 
+        # Treeview (Tabel Data)
         self.style.configure(
             "Treeview",
-            background=COLOR_BG_CARD,
-            foreground=COLOR_TEXT_PRIMARY,
-            fieldbackground=COLOR_BG_CARD,
+            background=COLOR_CARD,
+            foreground=COLOR_TEXT_MAIN,
+            fieldbackground=COLOR_CARD,
             font=("Segoe UI", 9),
             rowheight=32,
             borderwidth=0,
         )
         self.style.configure(
             "Treeview.Heading",
-            background=COLOR_BG_CARD_HOVER,
-            foreground=COLOR_TEXT_PRIMARY,
+            background=COLOR_NAVY,
+            foreground="#FFFFFF",
             font=("Segoe UI", 9, "bold"),
             relief="flat",
-            padding=[8, 6],
+            padding=[8, 7],
         )
-        self.style.map("Treeview.Heading", background=[("active", COLOR_PRIMARY)])
+        self.style.map("Treeview.Heading", background=[("active", COLOR_NAVY_HOVER)])
         self.style.map(
             "Treeview",
-            background=[("selected", COLOR_PRIMARY)],
-            foreground=[("selected", COLOR_TEXT_PRIMARY)],
+            background=[("selected", COLOR_NAVY_LIGHT)],
+            foreground=[("selected", COLOR_NAVY)],
         )
 
         self.style.configure(
             "Vertical.TScrollbar",
-            background=COLOR_BG_CARD,
-            troughcolor=COLOR_BG_DARK,
+            background=COLOR_BG,
+            troughcolor=COLOR_CARD,
             borderwidth=0,
             arrowsize=12,
         )
 
     # -------------------------------------------------------------------------
-    # HELPER REQUEST DENGAN DUAL ROUTE FALLBACK (/api/developer ATAU /developer)
+    # HELPER REQUEST DENGAN DUAL ROUTE FALLBACK
     # -------------------------------------------------------------------------
     def api_request(self, method: str, subpath: str, **kwargs):
-        """
-        Mengirim request dengan otomatis mencoba /api/developer/{subpath},
-        dan jika 404 Not Found, otomatis fallback ke /developer/{subpath}.
-        Memastikan kompatibel dengan Vercel, Laragon, cPanel, Nginx, maupun VPS!
-        """
         base = self.server_url.rstrip("/")
         timeout = kwargs.pop("timeout", 15)
 
-        # Rute 1: /api/developer/...
+        # Coba /api/developer/...
         url1 = f"{base}/api/developer{subpath}"
         try:
             resp = requests.request(method, url1, timeout=timeout, **kwargs)
             if resp.status_code != 404:
                 return resp
-        except Exception as e:
-            # Jika rute 1 gagal koneksi atau error selain 404, coba rute 2
+        except Exception:
             pass
 
-        # Rute 2 Fallback: /developer/...
+        # Fallback ke /developer/...
         url2 = f"{base}/developer{subpath}"
         return requests.request(method, url2, timeout=timeout, **kwargs)
 
@@ -198,254 +195,135 @@ class DeveloperPortalApp(tk.Tk):
         if hasattr(self, "main_frame") and self.main_frame:
             self.main_frame.destroy()
 
-        self.login_frame = tk.Frame(self, bg=COLOR_BG_DARK)
+        self.login_frame = tk.Frame(self, bg=COLOR_BG)
         self.login_frame.pack(fill="both", expand=True)
 
-        # Container Tengah
-        center = tk.Frame(self.login_frame, bg=COLOR_BG_DARK)
+        center = tk.Frame(self.login_frame, bg=COLOR_BG)
         center.place(relx=0.5, rely=0.5, anchor="center")
 
+        # Kartu Putih Bersih
         card = tk.Frame(
             center,
-            bg=COLOR_BG_CARD,
-            padx=42,
-            pady=34,
+            bg=COLOR_CARD,
+            padx=44,
+            pady=38,
             highlightbackground=COLOR_BORDER,
             highlightthickness=1,
         )
         card.pack()
 
-        # Badge Developer
-        badge = tk.Frame(card, bg="#312E81", padx=14, pady=4)
+        # Banner Header Brand DNA
+        badge = tk.Frame(card, bg=COLOR_NAVY_LIGHT, padx=14, pady=4)
         badge.pack(anchor="center", pady=(0, 10))
         tk.Label(
             badge,
             text="⚡ DNA DEVELOPER SECURITY ACCESS",
             font=("Segoe UI", 8, "bold"),
-            fg="#A5B4FC",
-            bg="#312E81",
+            fg=COLOR_NAVY,
+            bg=COLOR_NAVY_LIGHT,
         ).pack()
 
         tk.Label(
             card,
             text="DNA Developer Portal",
             font=FONT_TITLE,
-            fg=COLOR_TEXT_PRIMARY,
-            bg=COLOR_BG_CARD,
+            fg=COLOR_NAVY,
+            bg=COLOR_CARD,
         ).pack(anchor="center")
 
         tk.Label(
             card,
-            text="Khusus Developer / Super Administrator",
+            text="Masuk untuk memonitor riwayat login admin & kelola password",
             font=FONT_SMALL,
             fg=COLOR_TEXT_MUTED,
-            bg=COLOR_BG_CARD,
-        ).pack(anchor="center", pady=(4, 18))
+            bg=COLOR_CARD,
+        ).pack(anchor="center", pady=(4, 22))
 
-        # ---------------------------------------------------------------------
-        # 1. INPUT ALAMAT WEBSITE / DOMAIN BACKEND
-        # ---------------------------------------------------------------------
-        server_lbl_frame = tk.Frame(card, bg=COLOR_BG_CARD)
-        server_lbl_frame.pack(fill="x", pady=(0, 3))
-
-        tk.Label(
-            server_lbl_frame,
-            text="ALAMAT WEBSITE (DOMAIN HOSTING / BACKEND)",
-            font=("Segoe UI", 8, "bold"),
-            fg=COLOR_TEXT_MUTED,
-            bg=COLOR_BG_CARD,
-        ).pack(side="left")
-
-        # Tombol Cepat (Presets)
-        presets_frame = tk.Frame(server_lbl_frame, bg=COLOR_BG_CARD)
-        presets_frame.pack(side="right")
-
-        def set_preset(url):
-            self.server_entry.delete(0, tk.END)
-            self.server_entry.insert(0, url)
-
-        btn_vercel = tk.Button(
-            presets_frame,
-            text="Vercel",
-            font=("Segoe UI", 7, "bold"),
-            bg=COLOR_BG_CARD_HOVER,
-            fg=COLOR_TEXT_PRIMARY,
-            relief="flat",
-            padx=5,
-            pady=1,
-            cursor="hand2",
-            command=lambda: set_preset("https://dna-vendor.vercel.app"),
-        )
-        btn_vercel.pack(side="left", padx=2)
-
-        btn_local = tk.Button(
-            presets_frame,
-            text="Localhost",
-            font=("Segoe UI", 7, "bold"),
-            bg=COLOR_BG_CARD_HOVER,
-            fg=COLOR_TEXT_PRIMARY,
-            relief="flat",
-            padx=5,
-            pady=1,
-            cursor="hand2",
-            command=lambda: set_preset("http://127.0.0.1:8000"),
-        )
-        btn_local.pack(side="left", padx=2)
-
-        self.server_entry = tk.Entry(
-            card,
-            font=FONT_BODY,
-            bg=COLOR_BG_INPUT,
-            fg=COLOR_TEXT_PRIMARY,
-            insertbackground=COLOR_TEXT_PRIMARY,
-            relief="flat",
-            highlightthickness=1,
-            highlightbackground=COLOR_BORDER,
-            highlightcolor=COLOR_PRIMARY,
-            width=46,
-        )
-        self.server_entry.insert(0, self.server_url)
-        self.server_entry.pack(fill="x", ipady=6, pady=(0, 2))
-
-        tk.Label(
-            card,
-            text="*Jika nanti website sudah dipindah ke hosting baru, cukup ganti alamat URL di atas.",
-            font=("Segoe UI", 7),
-            fg="#64748B",
-            bg=COLOR_BG_CARD,
-        ).pack(anchor="w", pady=(0, 12))
-
-        # ---------------------------------------------------------------------
-        # 2. INPUT EMAIL DEVELOPER
-        # ---------------------------------------------------------------------
+        # 1. Input Email Developer
         tk.Label(
             card,
             text="EMAIL DEVELOPER",
             font=("Segoe UI", 8, "bold"),
             fg=COLOR_TEXT_MUTED,
-            bg=COLOR_BG_CARD,
-        ).pack(anchor="w", pady=(0, 3))
+            bg=COLOR_CARD,
+        ).pack(anchor="w", pady=(0, 4))
 
         self.email_entry = tk.Entry(
             card,
             font=FONT_BODY,
-            bg=COLOR_BG_INPUT,
-            fg=COLOR_TEXT_PRIMARY,
-            insertbackground=COLOR_TEXT_PRIMARY,
+            bg=COLOR_INPUT_BG,
+            fg=COLOR_TEXT_MAIN,
+            insertbackground=COLOR_TEXT_MAIN,
             relief="flat",
             highlightthickness=1,
-            highlightbackground=COLOR_BORDER,
-            highlightcolor=COLOR_PRIMARY,
-            width=46,
+            highlightbackground=COLOR_INPUT_BORDER,
+            highlightcolor=COLOR_NAVY,
+            width=42,
         )
         saved_email = self.local_config.get("remember_email", "developer@dna-advertising.com")
         self.email_entry.insert(0, saved_email)
-        self.email_entry.pack(fill="x", ipady=6, pady=(0, 12))
+        self.email_entry.pack(fill="x", ipady=7, pady=(0, 14))
 
-        # ---------------------------------------------------------------------
-        # 3. INPUT PASSWORD DEVELOPER (DENGAN FITUR LIHAT PASSWORD 👁️)
-        # ---------------------------------------------------------------------
+        # 2. Input Password Developer (Dengan Tombol Lihat Password 👁️)
         tk.Label(
             card,
             text="PASSWORD DEVELOPER",
             font=("Segoe UI", 8, "bold"),
             fg=COLOR_TEXT_MUTED,
-            bg=COLOR_BG_CARD,
-        ).pack(anchor="w", pady=(0, 3))
+            bg=COLOR_CARD,
+        ).pack(anchor="w", pady=(0, 4))
 
-        pass_row = tk.Frame(card, bg=COLOR_BG_INPUT, highlightbackground=COLOR_BORDER, highlightthickness=1)
-        pass_row.pack(fill="x", pady=(0, 12))
+        pass_row = tk.Frame(card, bg=COLOR_CARD, highlightbackground=COLOR_INPUT_BORDER, highlightthickness=1)
+        pass_row.pack(fill="x", pady=(0, 18))
 
         self.pass_entry = tk.Entry(
             pass_row,
             font=FONT_BODY,
-            bg=COLOR_BG_INPUT,
-            fg=COLOR_TEXT_PRIMARY,
-            insertbackground=COLOR_TEXT_PRIMARY,
+            bg=COLOR_INPUT_BG,
+            fg=COLOR_TEXT_MAIN,
+            insertbackground=COLOR_TEXT_MAIN,
             relief="flat",
             show="•",
         )
         self.pass_entry.insert(0, "DevDNA@2026!")
-        self.pass_entry.pack(side="left", fill="x", expand=True, ipady=6, padx=(8, 0))
+        self.pass_entry.pack(side="left", fill="x", expand=True, ipady=7, padx=(8, 0))
 
         self.btn_eye_pass = tk.Button(
             pass_row,
             text="👁️",
             font=("Segoe UI Emoji", 10),
-            bg=COLOR_BG_INPUT,
+            bg=COLOR_CARD,
             fg=COLOR_TEXT_MUTED,
-            activebackground=COLOR_BG_CARD_HOVER,
-            activeforeground=COLOR_TEXT_PRIMARY,
+            activebackground=COLOR_NAVY_LIGHT,
+            activeforeground=COLOR_NAVY,
             relief="flat",
             bd=0,
             cursor="hand2",
-            padx=8,
+            padx=10,
             command=lambda: self.toggle_input_visibility(self.pass_entry, self.btn_eye_pass),
         )
-        self.btn_eye_pass.pack(side="right", padx=(0, 4))
+        self.btn_eye_pass.pack(side="right", padx=(0, 2))
 
-        # ---------------------------------------------------------------------
-        # 4. INPUT SECRET KEY DEVELOPER (DENGAN FITUR LIHAT PASSWORD 👁️)
-        # ---------------------------------------------------------------------
-        tk.Label(
-            card,
-            text="DEVELOPER SECRET KEY",
-            font=("Segoe UI", 8, "bold"),
-            fg=COLOR_TEXT_MUTED,
-            bg=COLOR_BG_CARD,
-        ).pack(anchor="w", pady=(0, 3))
-
-        secret_row = tk.Frame(card, bg=COLOR_BG_INPUT, highlightbackground=COLOR_BORDER, highlightthickness=1)
-        secret_row.pack(fill="x", pady=(0, 16))
-
-        self.secret_entry = tk.Entry(
-            secret_row,
-            font=FONT_BODY,
-            bg=COLOR_BG_INPUT,
-            fg=COLOR_TEXT_PRIMARY,
-            insertbackground=COLOR_TEXT_PRIMARY,
-            relief="flat",
-            show="•",
-        )
-        self.secret_entry.insert(0, "dna_dev_sec_2026_secret_key_dna_portal")
-        self.secret_entry.pack(side="left", fill="x", expand=True, ipady=6, padx=(8, 0))
-
-        self.btn_eye_secret = tk.Button(
-            secret_row,
-            text="👁️",
-            font=("Segoe UI Emoji", 10),
-            bg=COLOR_BG_INPUT,
-            fg=COLOR_TEXT_MUTED,
-            activebackground=COLOR_BG_CARD_HOVER,
-            activeforeground=COLOR_TEXT_PRIMARY,
-            relief="flat",
-            bd=0,
-            cursor="hand2",
-            padx=8,
-            command=lambda: self.toggle_input_visibility(self.secret_entry, self.btn_eye_secret),
-        )
-        self.btn_eye_secret.pack(side="right", padx=(0, 4))
-
-        # Status / Feedback Label
+        # Status Error / Loading Label
         self.login_status_lbl = tk.Label(
             card,
             text="",
             font=FONT_SMALL,
             fg=COLOR_DANGER,
-            bg=COLOR_BG_CARD,
-            wraplength=380,
+            bg=COLOR_CARD,
+            wraplength=360,
             justify="center",
         )
         self.login_status_lbl.pack(pady=(0, 12))
 
-        # Tombol Login
+        # Tombol Masuk
         self.btn_login = tk.Button(
             card,
             text="MASUK KE DEVELOPER PORTAL",
             font=FONT_BODY_BOLD,
-            bg=COLOR_PRIMARY,
+            bg=COLOR_NAVY,
             fg="#FFFFFF",
-            activebackground=COLOR_PRIMARY_HOVER,
+            activebackground=COLOR_NAVY_HOVER,
             activeforeground="#FFFFFF",
             relief="flat",
             cursor="hand2",
@@ -453,57 +331,102 @@ class DeveloperPortalApp(tk.Tk):
         )
         self.btn_login.pack(fill="x", ipady=9)
 
+        # Ikon Pengaturan Server Tersembunyi (Discreet Gear di Kanan Bawah)
+        gear_frame = tk.Frame(card, bg=COLOR_CARD)
+        gear_frame.pack(fill="x", pady=(14, 0))
+
+        btn_settings = tk.Button(
+            gear_frame,
+            text="⚙️ Pengaturan Server",
+            font=("Segoe UI", 8),
+            fg=COLOR_TEXT_MUTED,
+            bg=COLOR_CARD,
+            activebackground=COLOR_CARD,
+            activeforeground=COLOR_NAVY,
+            relief="flat",
+            bd=0,
+            cursor="hand2",
+            command=self.open_server_settings_modal,
+        )
+        btn_settings.pack(side="right")
+
         # Shortcut Enter
+        self.email_entry.bind("<Return>", lambda e: self.handle_login_clicked())
         self.pass_entry.bind("<Return>", lambda e: self.handle_login_clicked())
-        self.secret_entry.bind("<Return>", lambda e: self.handle_login_clicked())
 
     def toggle_input_visibility(self, entry_widget, button_widget):
-        """Fitur Intip/Lihat Password yang disembunyikan"""
         if entry_widget.cget("show") == "":
             entry_widget.config(show="•")
             button_widget.config(text="👁️", fg=COLOR_TEXT_MUTED)
         else:
             entry_widget.config(show="")
-            button_widget.config(text="🔒", fg=COLOR_PRIMARY)
+            button_widget.config(text="🔒", fg=COLOR_NAVY)
+
+    def open_server_settings_modal(self):
+        """Modal tersembunyi jika developer suatu saat ingin ganti URL server backend"""
+        modal = tk.Toplevel(self)
+        modal.title("Pengaturan Alamat Server")
+        modal.geometry("460x220")
+        modal.configure(bg=COLOR_BG)
+        modal.transient(self)
+        modal.grab_set()
+
+        card = tk.Frame(modal, bg=COLOR_CARD, padx=24, pady=20, highlightbackground=COLOR_BORDER, highlightthickness=1)
+        card.pack(fill="both", expand=True, padx=16, pady=16)
+
+        tk.Label(card, text="⚙️ Alamat Server Backend", font=FONT_HEADING, fg=COLOR_NAVY, bg=COLOR_CARD).pack(anchor="w")
+        tk.Label(card, text="Ganti alamat URL jika website telah dipindah ke hosting/domain baru:", font=FONT_SMALL, fg=COLOR_TEXT_MUTED, bg=COLOR_CARD).pack(anchor="w", pady=(2, 10))
+
+        url_entry = tk.Entry(card, font=FONT_BODY, bg=COLOR_INPUT_BG, fg=COLOR_TEXT_MAIN, relief="flat", highlightthickness=1, highlightbackground=COLOR_INPUT_BORDER, highlightcolor=COLOR_NAVY)
+        url_entry.insert(0, self.server_url)
+        url_entry.pack(fill="x", ipady=6, pady=(0, 14))
+
+        actions = tk.Frame(card, bg=COLOR_CARD)
+        actions.pack(fill="x")
+
+        def save_url():
+            new_url = url_entry.get().strip().rstrip("/")
+            if new_url:
+                self.server_url = new_url
+                save_local_config({"server_url": self.server_url, "remember_email": self.email_entry.get().strip()})
+                modal.destroy()
+                messagebox.showinfo("Tersimpan", f"Server berhasil diatur ke:\n{self.server_url}", parent=self)
+
+        tk.Button(actions, text="Simpan Alamat", font=FONT_BODY_BOLD, bg=COLOR_NAVY, fg="#FFFFFF", relief="flat", padx=12, pady=5, cursor="hand2", command=save_url).pack(side="left")
+        tk.Button(actions, text="Batal", font=FONT_BODY, bg=COLOR_BG, fg=COLOR_TEXT_MAIN, relief="flat", padx=10, pady=5, cursor="hand2", command=modal.destroy).pack(side="right")
 
     def set_login_loading(self, loading: bool, message: str = "", is_error: bool = False):
         if loading:
-            self.btn_login.config(state="disabled", text="Memverifikasi Kredensial...", bg=COLOR_BG_CARD_HOVER)
-            self.login_status_lbl.config(text="Menghubungi Server Backend...", fg=COLOR_TEXT_MUTED)
+            self.btn_login.config(state="disabled", text="Memverifikasi...", bg=COLOR_TEXT_MUTED)
+            self.login_status_lbl.config(text="Menghubungi sistem...", fg=COLOR_TEXT_MUTED)
         else:
-            self.btn_login.config(state="normal", text="MASUK KE DEVELOPER PORTAL", bg=COLOR_PRIMARY)
-            self.login_status_lbl.config(
-                text=message,
-                fg=COLOR_DANGER if is_error else COLOR_SUCCESS,
-            )
+            self.btn_login.config(state="normal", text="MASUK KE DEVELOPER PORTAL", bg=COLOR_NAVY)
+            self.login_status_lbl.config(text=message, fg=COLOR_DANGER if is_error else COLOR_SUCCESS)
 
     def handle_login_clicked(self):
-        server = self.server_entry.get().strip().rstrip("/")
         email = self.email_entry.get().strip()
         password = self.pass_entry.get().strip()
-        secret_key = self.secret_entry.get().strip()
 
-        if not server or not email or not password:
-            self.set_login_loading(False, "Harap isi Server URL, Email, dan Password!", is_error=True)
+        if not email or not password:
+            self.set_login_loading(False, "Harap isi Email dan Password Developer!", is_error=True)
             return
 
-        self.server_url = server
         self.set_login_loading(True)
 
         def worker():
             headers = {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "X-Dev-Secret-Key": secret_key,
+                "X-Dev-Secret-Key": self.secret_key,
             }
             payload = {
                 "email": email,
                 "password": password,
-                "secret_key": secret_key,
+                "secret_key": self.secret_key,
             }
 
             try:
-                resp = self.api_request("POST", "/login", json=payload, headers=headers, timeout=12)
+                resp = self.api_request("POST", "/login", json=payload, headers=headers, timeout=14)
                 data = resp.json() if resp.headers.get("content-type", "").startswith("application/json") else {}
 
                 if resp.status_code == 200 and data.get("status") == "success":
@@ -516,21 +439,19 @@ class DeveloperPortalApp(tk.Tk):
                     })
 
                     self.after(0, lambda: self.on_login_success(token, dev_email))
-                elif resp.status_code == 404:
-                    err_msg = (
-                        "Server merespons 404 (Route not found).\n"
-                        "Kemungkinan update kode belum di-push ke server tersebut,\n"
-                        "atau alamat server belum tepat."
-                    )
-                    self.after(0, lambda: self.set_login_loading(False, err_msg, is_error=True))
                 else:
-                    err_msg = data.get("message") or f"Gagal masuk (Kode: {resp.status_code})"
+                    err_msg = data.get("message")
+                    if not err_msg:
+                        if resp.status_code == 401:
+                            err_msg = "Email atau Password Developer salah."
+                        elif resp.status_code == 404:
+                            err_msg = "Layanan Developer belum siap di server ini."
+                        else:
+                            err_msg = f"Gagal masuk (Kode: {resp.status_code})"
                     self.after(0, lambda: self.set_login_loading(False, err_msg, is_error=True))
             except requests.exceptions.ConnectionError:
                 self.after(0, lambda: self.set_login_loading(
-                    False,
-                    f"Tidak dapat terhubung ke server:\n{self.server_url}\nPastikan server aktif dan URL benar.",
-                    is_error=True
+                    False, "Tidak dapat terhubung ke server. Periksa koneksi internet Anda.", is_error=True
                 ))
             except requests.exceptions.Timeout:
                 self.after(0, lambda: self.set_login_loading(
@@ -547,115 +468,104 @@ class DeveloperPortalApp(tk.Tk):
         self.show_dashboard_frame()
 
     # -------------------------------------------------------------------------
-    # TAMPILAN DASHBOARD UTAMA DEVELOPER
+    # TAMPILAN DASHBOARD UTAMA
     # -------------------------------------------------------------------------
     def show_dashboard_frame(self):
         if hasattr(self, "login_frame") and self.login_frame:
             self.login_frame.destroy()
 
-        self.main_frame = tk.Frame(self, bg=COLOR_BG_DARK)
+        self.main_frame = tk.Frame(self, bg=COLOR_BG)
         self.main_frame.pack(fill="both", expand=True)
 
-        # 1. HEADER BAR
-        header = tk.Frame(self.main_frame, bg=COLOR_BG_CARD, padx=22, pady=12)
+        # 1. HEADER BAR NAVY
+        header = tk.Frame(self.main_frame, bg=COLOR_NAVY, padx=24, pady=14)
         header.pack(fill="x")
 
         # Judul & Badge Kiri
-        title_box = tk.Frame(header, bg=COLOR_BG_CARD)
+        title_box = tk.Frame(header, bg=COLOR_NAVY)
         title_box.pack(side="left")
 
         tk.Label(
             title_box,
             text="DNA ADVERTISING",
-            font=("Segoe UI", 12, "bold"),
-            fg=COLOR_TEXT_PRIMARY,
-            bg=COLOR_BG_CARD,
+            font=("Segoe UI", 13, "bold"),
+            fg="#FFFFFF",
+            bg=COLOR_NAVY,
         ).pack(side="left")
 
-        dev_badge = tk.Frame(title_box, bg="#312E81", padx=8, pady=2)
-        dev_badge.pack(side="left", padx=10)
+        dev_badge = tk.Frame(title_box, bg="#2A4D77", padx=8, pady=2)
+        dev_badge.pack(side="left", padx=12)
         tk.Label(
             dev_badge,
-            text="DEVELOPER CONSOLE",
+            text="DEVELOPER PORTAL",
             font=("Segoe UI", 8, "bold"),
-            fg="#A5B4FC",
-            bg="#312E81",
+            fg="#93C5FD",
+            bg="#2A4D77",
         ).pack()
 
-        # Status Koneksi Server
-        server_short = "Production (Vercel)" if "vercel" in self.server_url else ("Localhost" if "127.0.0.1" in self.server_url or "localhost" in self.server_url else "Custom Server")
-        tk.Label(
-            header,
-            text=f"🟢 {server_short} ({self.server_url})",
-            font=FONT_SMALL,
-            fg=COLOR_SUCCESS,
-            bg=COLOR_BG_CARD,
-        ).pack(side="left", padx=16)
-
-        # Kanan: Identitas & Tombol Logout
-        right_box = tk.Frame(header, bg=COLOR_BG_CARD)
+        # Identitas & Logout Kanan
+        right_box = tk.Frame(header, bg=COLOR_NAVY)
         right_box.pack(side="right")
 
         tk.Label(
             right_box,
             text=f"Developer: {self.dev_email}",
             font=FONT_SMALL,
-            fg=COLOR_TEXT_MUTED,
-            bg=COLOR_BG_CARD,
-        ).pack(side="left", padx=12)
+            fg="#CBD5E1",
+            bg=COLOR_NAVY,
+        ).pack(side="left", padx=14)
 
         btn_logout = tk.Button(
             right_box,
-            text="Logout",
+            text="Keluar",
             font=FONT_SMALL,
-            bg=COLOR_BG_CARD_HOVER,
-            fg=COLOR_TEXT_PRIMARY,
+            bg="#2A4D77",
+            fg="#FFFFFF",
             activebackground=COLOR_DANGER,
             activeforeground="#FFFFFF",
             relief="flat",
             padx=12,
-            pady=3,
+            pady=4,
             cursor="hand2",
             command=self.handle_logout,
         )
         btn_logout.pack(side="right")
 
-        # 2. STATS CARDS BAR
-        self.stats_bar = tk.Frame(self.main_frame, bg=COLOR_BG_DARK, padx=22, pady=14)
+        # 2. STATS CARDS BAR (PUTIH BERSIH)
+        self.stats_bar = tk.Frame(self.main_frame, bg=COLOR_BG, padx=24, pady=16)
         self.stats_bar.pack(fill="x")
 
-        self.card_admins_val = self.create_stat_card(self.stats_bar, "TOTAL ADMIN", "0", COLOR_PRIMARY, 0)
-        self.card_logs_val = self.create_stat_card(self.stats_bar, "TOTAL RIWAYAT LOGIN", "0", COLOR_TEXT_PRIMARY, 1)
+        self.card_admins_val = self.create_stat_card(self.stats_bar, "TOTAL ADMIN", "0", COLOR_NAVY, 0)
+        self.card_logs_val = self.create_stat_card(self.stats_bar, "TOTAL RIWAYAT LOGIN", "0", COLOR_TEXT_MAIN, 1)
         self.card_success_val = self.create_stat_card(self.stats_bar, "LOGIN BERHASIL", "0", COLOR_SUCCESS, 2)
         self.card_failed_val = self.create_stat_card(self.stats_bar, "PERCOBAAN GAGAL", "0", COLOR_DANGER, 3)
 
         # 3. TABS CONTAINER
         self.notebook = ttk.Notebook(self.main_frame)
-        self.notebook.pack(fill="both", expand=True, padx=22, pady=(0, 16))
+        self.notebook.pack(fill="both", expand=True, padx=24, pady=(0, 18))
 
         # TAB 1: RIWAYAT LOGIN ADMIN
-        self.tab_logs = tk.Frame(self.notebook, bg=COLOR_BG_DARK)
+        self.tab_logs = tk.Frame(self.notebook, bg=COLOR_BG)
         self.notebook.add(self.tab_logs, text="  📋 Riwayat Login Admin  ")
         self.setup_logs_tab()
 
         # TAB 2: MANAJEMEN AKUN ADMIN
-        self.tab_admins = tk.Frame(self.notebook, bg=COLOR_BG_DARK)
+        self.tab_admins = tk.Frame(self.notebook, bg=COLOR_BG)
         self.notebook.add(self.tab_admins, text="  👥 Manajemen Akun Admin  ")
         self.setup_admins_tab()
 
-        # Muat Data Awal
         self.refresh_all_data()
 
     def create_stat_card(self, parent, title, initial_val, val_color, col):
         card = tk.Frame(
             parent,
-            bg=COLOR_BG_CARD,
-            padx=16,
-            pady=12,
+            bg=COLOR_CARD,
+            padx=18,
+            pady=14,
             highlightbackground=COLOR_BORDER,
             highlightthickness=1,
         )
-        card.grid(row=0, column=col, sticky="ew", padx=(0 if col == 0 else 10, 0))
+        card.grid(row=0, column=col, sticky="ew", padx=(0 if col == 0 else 12, 0))
         parent.grid_columnconfigure(col, weight=1)
 
         tk.Label(
@@ -663,48 +573,47 @@ class DeveloperPortalApp(tk.Tk):
             text=title,
             font=("Segoe UI", 8, "bold"),
             fg=COLOR_TEXT_MUTED,
-            bg=COLOR_BG_CARD,
+            bg=COLOR_CARD,
         ).pack(anchor="w")
 
         lbl_val = tk.Label(
             card,
             text=initial_val,
-            font=("Segoe UI", 18, "bold"),
+            font=("Segoe UI", 20, "bold"),
             fg=val_color,
-            bg=COLOR_BG_CARD,
+            bg=COLOR_CARD,
         )
-        lbl_val.pack(anchor="w", pady=(2, 0))
+        lbl_val.pack(anchor="w", pady=(3, 0))
         return lbl_val
 
     # -------------------------------------------------------------------------
     # TAB 1: RIWAYAT LOGIN ADMIN
     # -------------------------------------------------------------------------
     def setup_logs_tab(self):
-        toolbar = tk.Frame(self.tab_logs, bg=COLOR_BG_DARK, pady=10)
+        toolbar = tk.Frame(self.tab_logs, bg=COLOR_BG, pady=10)
         toolbar.pack(fill="x")
 
-        # Pencarian
-        tk.Label(toolbar, text="Cari:", font=FONT_BODY_BOLD, fg=COLOR_TEXT_PRIMARY, bg=COLOR_BG_DARK).pack(side="left", padx=(0, 6))
+        # Search Box
+        tk.Label(toolbar, text="Cari:", font=FONT_BODY_BOLD, fg=COLOR_TEXT_MAIN, bg=COLOR_BG).pack(side="left", padx=(0, 6))
 
         self.log_search_var = tk.StringVar()
         self.log_search_entry = tk.Entry(
             toolbar,
             textvariable=self.log_search_var,
             font=FONT_BODY,
-            bg=COLOR_BG_INPUT,
-            fg=COLOR_TEXT_PRIMARY,
-            insertbackground=COLOR_TEXT_PRIMARY,
+            bg=COLOR_INPUT_BG,
+            fg=COLOR_TEXT_MAIN,
             relief="flat",
             highlightthickness=1,
-            highlightbackground=COLOR_BORDER,
-            highlightcolor=COLOR_PRIMARY,
-            width=22,
+            highlightbackground=COLOR_INPUT_BORDER,
+            highlightcolor=COLOR_NAVY,
+            width=24,
         )
-        self.log_search_entry.pack(side="left", ipady=4, padx=(0, 10))
+        self.log_search_entry.pack(side="left", ipady=5, padx=(0, 10))
         self.log_search_entry.bind("<Return>", lambda e: self.fetch_logs())
 
         # Filter Status
-        tk.Label(toolbar, text="Status:", font=FONT_BODY_BOLD, fg=COLOR_TEXT_PRIMARY, bg=COLOR_BG_DARK).pack(side="left", padx=(6, 6))
+        tk.Label(toolbar, text="Status:", font=FONT_BODY_BOLD, fg=COLOR_TEXT_MAIN, bg=COLOR_BG).pack(side="left", padx=(6, 6))
 
         self.log_status_filter_var = tk.StringVar(value="Semua")
         status_dropdown = ttk.Combobox(
@@ -712,7 +621,7 @@ class DeveloperPortalApp(tk.Tk):
             textvariable=self.log_status_filter_var,
             values=["Semua", "success", "failed"],
             state="readonly",
-            width=10,
+            width=11,
             font=FONT_BODY,
         )
         status_dropdown.pack(side="left", padx=(0, 12))
@@ -722,25 +631,27 @@ class DeveloperPortalApp(tk.Tk):
             toolbar,
             text="🔍 Cari",
             font=FONT_SMALL,
-            bg=COLOR_BG_CARD_HOVER,
-            fg=COLOR_TEXT_PRIMARY,
+            bg=COLOR_CARD,
+            fg=COLOR_TEXT_MAIN,
             relief="flat",
-            padx=10,
-            pady=4,
+            padx=12,
+            pady=5,
             cursor="hand2",
+            highlightbackground=COLOR_BORDER,
+            highlightthickness=1,
             command=self.fetch_logs,
         )
         btn_filter.pack(side="left", padx=(0, 8))
 
         btn_refresh = tk.Button(
             toolbar,
-            text="🔄 Refresh Riwayat",
+            text="🔄 Refresh",
             font=FONT_SMALL,
-            bg=COLOR_PRIMARY,
+            bg=COLOR_NAVY,
             fg="#FFFFFF",
             relief="flat",
-            padx=12,
-            pady=4,
+            padx=14,
+            pady=5,
             cursor="hand2",
             command=self.fetch_logs,
         )
@@ -753,10 +664,9 @@ class DeveloperPortalApp(tk.Tk):
             variable=self.auto_refresh_var,
             command=self.toggle_auto_refresh,
             fg=COLOR_TEXT_MUTED,
-            bg=COLOR_BG_DARK,
-            selectcolor=COLOR_BG_CARD,
-            activebackground=COLOR_BG_DARK,
-            activeforeground=COLOR_TEXT_PRIMARY,
+            bg=COLOR_BG,
+            selectcolor=COLOR_CARD,
+            activebackground=COLOR_BG,
             font=FONT_SMALL,
         )
         chk_auto.pack(side="left", padx=(10, 0))
@@ -765,17 +675,19 @@ class DeveloperPortalApp(tk.Tk):
             toolbar,
             text="🗑️ Bersihkan Riwayat",
             font=FONT_SMALL,
-            bg=COLOR_BG_CARD,
+            bg=COLOR_CARD,
             fg=COLOR_DANGER,
             relief="flat",
             padx=12,
-            pady=4,
+            pady=5,
             cursor="hand2",
+            highlightbackground=COLOR_BORDER,
+            highlightthickness=1,
             command=self.handle_clear_logs,
         )
         btn_clear.pack(side="right")
 
-        table_frame = tk.Frame(self.tab_logs, bg=COLOR_BG_CARD, highlightbackground=COLOR_BORDER, highlightthickness=1)
+        table_frame = tk.Frame(self.tab_logs, bg=COLOR_CARD, highlightbackground=COLOR_BORDER, highlightthickness=1)
         table_frame.pack(fill="both", expand=True)
 
         columns = ("id", "waktu", "email", "admin_name", "status", "ip", "pesan")
@@ -792,10 +704,10 @@ class DeveloperPortalApp(tk.Tk):
         self.logs_tree.column("id", width=50, anchor="center")
         self.logs_tree.column("waktu", width=150, anchor="w")
         self.logs_tree.column("email", width=190, anchor="w")
-        self.logs_tree.column("admin_name", width=130, anchor="w")
-        self.logs_tree.column("status", width=90, anchor="center")
-        self.logs_tree.column("ip", width=120, anchor="w")
-        self.logs_tree.column("pesan", width=300, anchor="w")
+        self.logs_tree.column("admin_name", width=140, anchor="w")
+        self.logs_tree.column("status", width=95, anchor="center")
+        self.logs_tree.column("ip", width=125, anchor="w")
+        self.logs_tree.column("pesan", width=310, anchor="w")
 
         self.logs_tree.tag_configure("success_tag", foreground=COLOR_SUCCESS)
         self.logs_tree.tag_configure("failed_tag", foreground=COLOR_DANGER)
@@ -810,10 +722,10 @@ class DeveloperPortalApp(tk.Tk):
 
         footer_lbl = tk.Label(
             self.tab_logs,
-            text="💡 Tip: Klik ganda pada baris log untuk melihat rincian lengkap (User-Agent, Perangkat, dll).",
+            text="💡 Tip: Klik ganda pada salah satu baris log untuk melihat rincian lengkap perangkat & browser admin.",
             font=FONT_SMALL,
             fg=COLOR_TEXT_MUTED,
-            bg=COLOR_BG_DARK,
+            bg=COLOR_BG,
         )
         footer_lbl.pack(anchor="w", pady=(6, 0))
 
@@ -830,15 +742,14 @@ class DeveloperPortalApp(tk.Tk):
         dialog = tk.Toplevel(self)
         dialog.title(f"Detail Log #{raw.get('id')} - {raw.get('email')}")
         dialog.geometry("560x420")
-        dialog.minsize(500, 380)
-        dialog.configure(bg=COLOR_BG_DARK)
+        dialog.configure(bg=COLOR_BG)
         dialog.transient(self)
         dialog.grab_set()
 
-        card = tk.Frame(dialog, bg=COLOR_BG_CARD, padx=24, pady=20, highlightbackground=COLOR_BORDER, highlightthickness=1)
-        card.pack(fill="both", expand=True, padx=20, pady=20)
+        card = tk.Frame(dialog, bg=COLOR_CARD, padx=26, pady=22, highlightbackground=COLOR_BORDER, highlightthickness=1)
+        card.pack(fill="both", expand=True, padx=18, pady=18)
 
-        tk.Label(card, text=f"Detail Riwayat Login #{raw.get('id')}", font=FONT_HEADING, fg=COLOR_TEXT_PRIMARY, bg=COLOR_BG_CARD).pack(anchor="w", pady=(0, 14))
+        tk.Label(card, text=f"Detail Riwayat Login #{raw.get('id')}", font=FONT_HEADING, fg=COLOR_NAVY, bg=COLOR_CARD).pack(anchor="w", pady=(0, 14))
 
         fields = [
             ("Waktu Kejadian", raw.get("created_at")),
@@ -851,29 +762,29 @@ class DeveloperPortalApp(tk.Tk):
         ]
 
         for label, val in fields:
-            row = tk.Frame(card, bg=COLOR_BG_CARD, pady=3)
+            row = tk.Frame(card, bg=COLOR_CARD, pady=3)
             row.pack(fill="x")
-            tk.Label(row, text=f"{label}:", font=FONT_BODY_BOLD, fg=COLOR_TEXT_MUTED, bg=COLOR_BG_CARD, width=18, anchor="w").pack(side="left")
-            val_color = COLOR_SUCCESS if val == "BERHASIL (SUCCESS)" else (COLOR_DANGER if val == "GAGAL (FAILED)" else COLOR_TEXT_PRIMARY)
-            tk.Label(row, text=str(val or "-"), font=FONT_BODY, fg=val_color, bg=COLOR_BG_CARD, wraplength=320, justify="left").pack(side="left", fill="x", expand=True)
+            tk.Label(row, text=f"{label}:", font=FONT_BODY_BOLD, fg=COLOR_TEXT_MUTED, bg=COLOR_CARD, width=18, anchor="w").pack(side="left")
+            val_color = COLOR_SUCCESS if val == "BERHASIL (SUCCESS)" else (COLOR_DANGER if val == "GAGAL (FAILED)" else COLOR_TEXT_MAIN)
+            tk.Label(row, text=str(val or "-"), font=FONT_BODY, fg=val_color, bg=COLOR_CARD, wraplength=320, justify="left").pack(side="left", fill="x", expand=True)
 
-        tk.Button(card, text="Tutup", font=FONT_BODY, bg=COLOR_PRIMARY, fg="#FFFFFF", relief="flat", padx=16, pady=4, cursor="hand2", command=dialog.destroy).pack(anchor="e", pady=(20, 0))
+        tk.Button(card, text="Tutup", font=FONT_BODY, bg=COLOR_NAVY, fg="#FFFFFF", relief="flat", padx=16, pady=5, cursor="hand2", command=dialog.destroy).pack(anchor="e", pady=(20, 0))
 
     # -------------------------------------------------------------------------
     # TAB 2: MANAJEMEN AKUN ADMIN
     # -------------------------------------------------------------------------
     def setup_admins_tab(self):
-        toolbar = tk.Frame(self.tab_admins, bg=COLOR_BG_DARK, pady=10)
+        toolbar = tk.Frame(self.tab_admins, bg=COLOR_BG, pady=10)
         toolbar.pack(fill="x")
 
-        # Tombol Aksi Utama: Ganti / Reset Password Admin
+        # Tombol Aksi Utama: Ganti Password Admin
         btn_reset = tk.Button(
             toolbar,
             text="🔑 Ganti / Reset Password Admin",
             font=FONT_BODY_BOLD,
-            bg=COLOR_PRIMARY,
+            bg=COLOR_NAVY,
             fg="#FFFFFF",
-            activebackground=COLOR_PRIMARY_HOVER,
+            activebackground=COLOR_NAVY_HOVER,
             activeforeground="#FFFFFF",
             relief="flat",
             padx=14,
@@ -883,14 +794,15 @@ class DeveloperPortalApp(tk.Tk):
         )
         btn_reset.pack(side="left", padx=(0, 10))
 
-        # Tombol Tambah Admin
         btn_add = tk.Button(
             toolbar,
             text="➕ Tambah Admin Baru",
             font=FONT_BODY,
-            bg=COLOR_BG_CARD_HOVER,
-            fg=COLOR_TEXT_PRIMARY,
+            bg=COLOR_CARD,
+            fg=COLOR_TEXT_MAIN,
             relief="flat",
+            highlightbackground=COLOR_BORDER,
+            highlightthickness=1,
             padx=12,
             pady=6,
             cursor="hand2",
@@ -898,14 +810,15 @@ class DeveloperPortalApp(tk.Tk):
         )
         btn_add.pack(side="left", padx=(0, 10))
 
-        # Tombol Hapus Admin
         btn_delete = tk.Button(
             toolbar,
             text="🗑️ Hapus Admin Terpilih",
             font=FONT_BODY,
-            bg=COLOR_BG_CARD,
+            bg=COLOR_CARD,
             fg=COLOR_DANGER,
             relief="flat",
+            highlightbackground=COLOR_BORDER,
+            highlightthickness=1,
             padx=12,
             pady=6,
             cursor="hand2",
@@ -913,14 +826,15 @@ class DeveloperPortalApp(tk.Tk):
         )
         btn_delete.pack(side="left", padx=(0, 10))
 
-        # Tombol Refresh
         btn_refresh = tk.Button(
             toolbar,
-            text="🔄 Refresh Data Admin",
+            text="🔄 Refresh Data",
             font=FONT_SMALL,
-            bg=COLOR_BG_CARD,
-            fg=COLOR_TEXT_PRIMARY,
+            bg=COLOR_CARD,
+            fg=COLOR_TEXT_MAIN,
             relief="flat",
+            highlightbackground=COLOR_BORDER,
+            highlightthickness=1,
             padx=12,
             pady=6,
             cursor="hand2",
@@ -928,7 +842,7 @@ class DeveloperPortalApp(tk.Tk):
         )
         btn_refresh.pack(side="right")
 
-        table_frame = tk.Frame(self.tab_admins, bg=COLOR_BG_CARD, highlightbackground=COLOR_BORDER, highlightthickness=1)
+        table_frame = tk.Frame(self.tab_admins, bg=COLOR_CARD, highlightbackground=COLOR_BORDER, highlightthickness=1)
         table_frame.pack(fill="both", expand=True)
 
         columns = ("id", "name", "email", "created_at", "last_login", "last_ip")
@@ -954,16 +868,16 @@ class DeveloperPortalApp(tk.Tk):
         self.admins_tree.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
 
-        info_box = tk.Frame(self.tab_admins, bg=COLOR_BG_CARD, padx=16, pady=12, highlightbackground=COLOR_BORDER, highlightthickness=1)
+        info_box = tk.Frame(self.tab_admins, bg=COLOR_CARD, padx=18, pady=12, highlightbackground=COLOR_BORDER, highlightthickness=1)
         info_box.pack(fill="x", pady=(12, 0))
 
-        tk.Label(info_box, text="💡 Fitur Reset Password Admin:", font=FONT_BODY_BOLD, fg="#60A5FA", bg=COLOR_BG_CARD).pack(anchor="w")
+        tk.Label(info_box, text="💡 Fitur Reset Password Admin:", font=FONT_BODY_BOLD, fg=COLOR_NAVY, bg=COLOR_CARD).pack(anchor="w")
         tk.Label(
             info_box,
-            text="Jika ada admin yang lupa kata sandinya, pilih admin tersebut di tabel lalu klik tombol [🔑 Ganti / Reset Password Admin]. Anda bisa memasukkan kata sandi baru atau mengacak password yang kuat.",
+            text="Jika ada admin yang lupa kata sandi, klik nama admin di tabel lalu klik tombol [🔑 Ganti / Reset Password Admin]. Anda bisa memasukkan sandi baru atau menggunakan tombol acak sandi.",
             font=FONT_SMALL,
             fg=COLOR_TEXT_MUTED,
-            bg=COLOR_BG_CARD,
+            bg=COLOR_CARD,
             wraplength=850,
             justify="left",
         ).pack(anchor="w", pady=(2, 0))
@@ -985,32 +899,30 @@ class DeveloperPortalApp(tk.Tk):
 
         modal = tk.Toplevel(self)
         modal.title(f"Ganti Password Admin: {admin_name}")
-        modal.geometry("520x400")
-        modal.minsize(480, 370)
-        modal.configure(bg=COLOR_BG_DARK)
+        modal.geometry("520x390")
+        modal.configure(bg=COLOR_BG)
         modal.transient(self)
         modal.grab_set()
 
-        card = tk.Frame(modal, bg=COLOR_BG_CARD, padx=28, pady=24, highlightbackground=COLOR_BORDER, highlightthickness=1)
-        card.pack(fill="both", expand=True, padx=20, pady=20)
+        card = tk.Frame(modal, bg=COLOR_CARD, padx=28, pady=24, highlightbackground=COLOR_BORDER, highlightthickness=1)
+        card.pack(fill="both", expand=True, padx=18, pady=18)
 
-        tk.Label(card, text="🔑 Reset / Ganti Password Admin", font=FONT_TITLE, fg=COLOR_TEXT_PRIMARY, bg=COLOR_BG_CARD).pack(anchor="w")
-        tk.Label(card, text=f"Admin Target: {admin_name} ({admin_email})", font=FONT_BODY_BOLD, fg="#93C5FD", bg=COLOR_BG_CARD).pack(anchor="w", pady=(4, 16))
+        tk.Label(card, text="🔑 Reset / Ganti Password Admin", font=FONT_TITLE, fg=COLOR_NAVY, bg=COLOR_CARD).pack(anchor="w")
+        tk.Label(card, text=f"Admin Target: {admin_name} ({admin_email})", font=FONT_BODY_BOLD, fg=COLOR_BLUE, bg=COLOR_CARD).pack(anchor="w", pady=(4, 16))
 
-        tk.Label(card, text="PASSWORD BARU (Minimal 6 Karakter):", font=("Segoe UI", 8, "bold"), fg=COLOR_TEXT_MUTED, bg=COLOR_BG_CARD).pack(anchor="w", pady=(0, 4))
+        tk.Label(card, text="PASSWORD BARU (Minimal 6 Karakter):", font=("Segoe UI", 8, "bold"), fg=COLOR_TEXT_MUTED, bg=COLOR_CARD).pack(anchor="w", pady=(0, 4))
 
-        input_wrapper = tk.Frame(card, bg=COLOR_BG_CARD)
+        input_wrapper = tk.Frame(card, bg=COLOR_CARD)
         input_wrapper.pack(fill="x", pady=(0, 6))
 
-        pass_row = tk.Frame(input_wrapper, bg=COLOR_BG_INPUT, highlightbackground=COLOR_BORDER, highlightthickness=1)
+        pass_row = tk.Frame(input_wrapper, bg=COLOR_CARD, highlightbackground=COLOR_INPUT_BORDER, highlightthickness=1)
         pass_row.pack(side="left", fill="x", expand=True)
 
         new_pass_entry = tk.Entry(
             pass_row,
             font=FONT_BODY,
-            bg=COLOR_BG_INPUT,
-            fg=COLOR_TEXT_PRIMARY,
-            insertbackground=COLOR_TEXT_PRIMARY,
+            bg=COLOR_INPUT_BG,
+            fg=COLOR_TEXT_MAIN,
             relief="flat",
         )
         new_pass_entry.pack(side="left", fill="x", expand=True, ipady=6, padx=(8, 0))
@@ -1019,7 +931,7 @@ class DeveloperPortalApp(tk.Tk):
             pass_row,
             text="👁️",
             font=("Segoe UI Emoji", 10),
-            bg=COLOR_BG_INPUT,
+            bg=COLOR_CARD,
             fg=COLOR_TEXT_MUTED,
             relief="flat",
             bd=0,
@@ -1027,35 +939,34 @@ class DeveloperPortalApp(tk.Tk):
             padx=8,
             command=lambda: self.toggle_input_visibility(new_pass_entry, btn_eye_modal),
         )
-        btn_eye_modal.pack(side="right", padx=(0, 4))
+        btn_eye_modal.pack(side="right", padx=(0, 2))
 
         def generate_random_pwd():
             chars = string.ascii_letters + string.digits + "@#$!"
             pwd = "".join(secrets.choice(chars) for _ in range(12))
             new_pass_entry.delete(0, tk.END)
             new_pass_entry.insert(0, pwd)
-            # Pastikan terbuka terlihat saat diacak agar dev bisa baca
             new_pass_entry.config(show="")
-            btn_eye_modal.config(text="🔒", fg=COLOR_PRIMARY)
+            btn_eye_modal.config(text="🔒", fg=COLOR_NAVY)
 
         btn_random = tk.Button(
             input_wrapper,
             text="🎲 Acak Sandi",
             font=FONT_SMALL,
-            bg=COLOR_BG_CARD_HOVER,
-            fg=COLOR_TEXT_PRIMARY,
+            bg=COLOR_BG,
+            fg=COLOR_TEXT_MAIN,
             relief="flat",
-            padx=8,
+            padx=10,
             pady=5,
             cursor="hand2",
             command=generate_random_pwd,
         )
         btn_random.pack(side="left", padx=(8, 0))
 
-        status_lbl = tk.Label(card, text="", font=FONT_SMALL, fg=COLOR_DANGER, bg=COLOR_BG_CARD, wraplength=420)
+        status_lbl = tk.Label(card, text="", font=FONT_SMALL, fg=COLOR_DANGER, bg=COLOR_CARD, wraplength=420)
         status_lbl.pack(anchor="w", pady=(8, 12))
 
-        actions = tk.Frame(card, bg=COLOR_BG_CARD)
+        actions = tk.Frame(card, bg=COLOR_CARD)
         actions.pack(fill="x", pady=(10, 0))
 
         def submit_reset():
@@ -1079,7 +990,7 @@ class DeveloperPortalApp(tk.Tk):
                         f"/admins/{admin_id}/reset-password",
                         json={"new_password": new_pass},
                         headers=headers,
-                        timeout=12,
+                        timeout=14,
                     )
                     data = resp.json() if resp.headers.get("content-type", "").startswith("application/json") else {}
 
@@ -1104,10 +1015,10 @@ class DeveloperPortalApp(tk.Tk):
 
             threading.Thread(target=worker, daemon=True).start()
 
-        btn_save = tk.Button(actions, text="Simpan Password Baru", font=FONT_BODY_BOLD, bg=COLOR_PRIMARY, fg="#FFFFFF", relief="flat", padx=16, pady=8, cursor="hand2", command=submit_reset)
+        btn_save = tk.Button(actions, text="Simpan Password Baru", font=FONT_BODY_BOLD, bg=COLOR_NAVY, fg="#FFFFFF", relief="flat", padx=16, pady=8, cursor="hand2", command=submit_reset)
         btn_save.pack(side="left")
 
-        btn_cancel = tk.Button(actions, text="Batal", font=FONT_BODY, bg=COLOR_BG_CARD_HOVER, fg=COLOR_TEXT_PRIMARY, relief="flat", padx=14, pady=8, cursor="hand2", command=modal.destroy)
+        btn_cancel = tk.Button(actions, text="Batal", font=FONT_BODY, bg=COLOR_BG, fg=COLOR_TEXT_MAIN, relief="flat", padx=14, pady=8, cursor="hand2", command=modal.destroy)
         btn_cancel.pack(side="right")
 
     # -------------------------------------------------------------------------
@@ -1116,38 +1027,37 @@ class DeveloperPortalApp(tk.Tk):
     def open_add_admin_modal(self):
         modal = tk.Toplevel(self)
         modal.title("Tambah Akun Admin Baru")
-        modal.geometry("500x440")
-        modal.minsize(460, 400)
-        modal.configure(bg=COLOR_BG_DARK)
+        modal.geometry("500x430")
+        modal.configure(bg=COLOR_BG)
         modal.transient(self)
         modal.grab_set()
 
-        card = tk.Frame(modal, bg=COLOR_BG_CARD, padx=28, pady=24, highlightbackground=COLOR_BORDER, highlightthickness=1)
-        card.pack(fill="both", expand=True, padx=20, pady=20)
+        card = tk.Frame(modal, bg=COLOR_CARD, padx=28, pady=24, highlightbackground=COLOR_BORDER, highlightthickness=1)
+        card.pack(fill="both", expand=True, padx=18, pady=18)
 
-        tk.Label(card, text="➕ Tambah Admin Baru", font=FONT_TITLE, fg=COLOR_TEXT_PRIMARY, bg=COLOR_BG_CARD).pack(anchor="w", pady=(0, 16))
+        tk.Label(card, text="➕ Tambah Admin Baru", font=FONT_TITLE, fg=COLOR_NAVY, bg=COLOR_CARD).pack(anchor="w", pady=(0, 16))
 
-        tk.Label(card, text="NAMA LENGKAP ADMIN:", font=("Segoe UI", 8, "bold"), fg=COLOR_TEXT_MUTED, bg=COLOR_BG_CARD).pack(anchor="w", pady=(0, 4))
-        name_entry = tk.Entry(card, font=FONT_BODY, bg=COLOR_BG_INPUT, fg=COLOR_TEXT_PRIMARY, insertbackground=COLOR_TEXT_PRIMARY, relief="flat", highlightthickness=1, highlightbackground=COLOR_BORDER, highlightcolor=COLOR_PRIMARY)
-        name_entry.pack(fill="x", ipady=5, pady=(0, 12))
+        tk.Label(card, text="NAMA LENGKAP ADMIN:", font=("Segoe UI", 8, "bold"), fg=COLOR_TEXT_MUTED, bg=COLOR_CARD).pack(anchor="w", pady=(0, 4))
+        name_entry = tk.Entry(card, font=FONT_BODY, bg=COLOR_INPUT_BG, fg=COLOR_TEXT_MAIN, relief="flat", highlightthickness=1, highlightbackground=COLOR_INPUT_BORDER, highlightcolor=COLOR_NAVY)
+        name_entry.pack(fill="x", ipady=6, pady=(0, 12))
 
-        tk.Label(card, text="EMAIL ADMIN:", font=("Segoe UI", 8, "bold"), fg=COLOR_TEXT_MUTED, bg=COLOR_BG_CARD).pack(anchor="w", pady=(0, 4))
-        email_entry = tk.Entry(card, font=FONT_BODY, bg=COLOR_BG_INPUT, fg=COLOR_TEXT_PRIMARY, insertbackground=COLOR_TEXT_PRIMARY, relief="flat", highlightthickness=1, highlightbackground=COLOR_BORDER, highlightcolor=COLOR_PRIMARY)
-        email_entry.pack(fill="x", ipady=5, pady=(0, 12))
+        tk.Label(card, text="EMAIL ADMIN:", font=("Segoe UI", 8, "bold"), fg=COLOR_TEXT_MUTED, bg=COLOR_CARD).pack(anchor="w", pady=(0, 4))
+        email_entry = tk.Entry(card, font=FONT_BODY, bg=COLOR_INPUT_BG, fg=COLOR_TEXT_MAIN, relief="flat", highlightthickness=1, highlightbackground=COLOR_INPUT_BORDER, highlightcolor=COLOR_NAVY)
+        email_entry.pack(fill="x", ipady=6, pady=(0, 12))
 
-        tk.Label(card, text="PASSWORD AWAL (Minimal 6 Karakter):", font=("Segoe UI", 8, "bold"), fg=COLOR_TEXT_MUTED, bg=COLOR_BG_CARD).pack(anchor="w", pady=(0, 4))
+        tk.Label(card, text="PASSWORD AWAL (Minimal 6 Karakter):", font=("Segoe UI", 8, "bold"), fg=COLOR_TEXT_MUTED, bg=COLOR_CARD).pack(anchor="w", pady=(0, 4))
 
-        pwd_row = tk.Frame(card, bg=COLOR_BG_INPUT, highlightbackground=COLOR_BORDER, highlightthickness=1)
+        pwd_row = tk.Frame(card, bg=COLOR_CARD, highlightbackground=COLOR_INPUT_BORDER, highlightthickness=1)
         pwd_row.pack(fill="x", pady=(0, 14))
 
-        pwd_entry = tk.Entry(pwd_row, font=FONT_BODY, bg=COLOR_BG_INPUT, fg=COLOR_TEXT_PRIMARY, insertbackground=COLOR_TEXT_PRIMARY, relief="flat", show="•")
-        pwd_entry.pack(side="left", fill="x", expand=True, ipady=5, padx=(8, 0))
+        pwd_entry = tk.Entry(pwd_row, font=FONT_BODY, bg=COLOR_INPUT_BG, fg=COLOR_TEXT_MAIN, relief="flat", show="•")
+        pwd_entry.pack(side="left", fill="x", expand=True, ipady=6, padx=(8, 0))
 
         btn_eye_add = tk.Button(
             pwd_row,
             text="👁️",
             font=("Segoe UI Emoji", 10),
-            bg=COLOR_BG_INPUT,
+            bg=COLOR_CARD,
             fg=COLOR_TEXT_MUTED,
             relief="flat",
             bd=0,
@@ -1155,12 +1065,12 @@ class DeveloperPortalApp(tk.Tk):
             padx=8,
             command=lambda: self.toggle_input_visibility(pwd_entry, btn_eye_add),
         )
-        btn_eye_add.pack(side="right", padx=(0, 4))
+        btn_eye_add.pack(side="right", padx=(0, 2))
 
-        status_lbl = tk.Label(card, text="", font=FONT_SMALL, fg=COLOR_DANGER, bg=COLOR_BG_CARD, wraplength=420)
+        status_lbl = tk.Label(card, text="", font=FONT_SMALL, fg=COLOR_DANGER, bg=COLOR_CARD, wraplength=420)
         status_lbl.pack(anchor="w", pady=(0, 10))
 
-        actions = tk.Frame(card, bg=COLOR_BG_CARD)
+        actions = tk.Frame(card, bg=COLOR_CARD)
         actions.pack(fill="x")
 
         def submit():
@@ -1187,7 +1097,7 @@ class DeveloperPortalApp(tk.Tk):
                         "/admins",
                         json={"name": name, "email": email, "password": pwd},
                         headers=headers,
-                        timeout=12,
+                        timeout=14,
                     )
                     data = resp.json() if resp.headers.get("content-type", "").startswith("application/json") else {}
 
@@ -1209,7 +1119,7 @@ class DeveloperPortalApp(tk.Tk):
         btn_sub = tk.Button(actions, text="Simpan Admin", font=FONT_BODY_BOLD, bg=COLOR_SUCCESS, fg="#FFFFFF", relief="flat", padx=16, pady=7, cursor="hand2", command=submit)
         btn_sub.pack(side="left")
 
-        btn_can = tk.Button(actions, text="Batal", font=FONT_BODY, bg=COLOR_BG_CARD_HOVER, fg=COLOR_TEXT_PRIMARY, relief="flat", padx=14, pady=7, cursor="hand2", command=modal.destroy)
+        btn_can = tk.Button(actions, text="Batal", font=FONT_BODY, bg=COLOR_BG, fg=COLOR_TEXT_MAIN, relief="flat", padx=14, pady=7, cursor="hand2", command=modal.destroy)
         btn_can.pack(side="right")
 
     # -------------------------------------------------------------------------
@@ -1244,7 +1154,7 @@ class DeveloperPortalApp(tk.Tk):
                 "Authorization": f"Bearer {self.auth_token}",
             }
             try:
-                resp = self.api_request("DELETE", f"/admins/{admin_id}", headers=headers, timeout=12)
+                resp = self.api_request("DELETE", f"/admins/{admin_id}", headers=headers, timeout=14)
                 data = resp.json() if resp.headers.get("content-type", "").startswith("application/json") else {}
 
                 if resp.status_code == 200 and data.get("status") == "success":
@@ -1279,7 +1189,7 @@ class DeveloperPortalApp(tk.Tk):
                 "Authorization": f"Bearer {self.auth_token}",
             }
             try:
-                resp = self.api_request("DELETE", "/logs", headers=headers, timeout=12)
+                resp = self.api_request("DELETE", "/logs", headers=headers, timeout=14)
                 data = resp.json() if resp.headers.get("content-type", "").startswith("application/json") else {}
 
                 if resp.status_code == 200 and data.get("status") == "success":
@@ -1308,7 +1218,7 @@ class DeveloperPortalApp(tk.Tk):
         def worker():
             headers = {"Accept": "application/json", "Authorization": f"Bearer {self.auth_token}"}
             try:
-                resp = self.api_request("GET", "/stats", headers=headers, timeout=10)
+                resp = self.api_request("GET", "/stats", headers=headers, timeout=12)
                 if resp.status_code == 200:
                     d = resp.json().get("data", {})
                     self.after(0, lambda: [
@@ -1335,7 +1245,7 @@ class DeveloperPortalApp(tk.Tk):
 
             headers = {"Accept": "application/json", "Authorization": f"Bearer {self.auth_token}"}
             try:
-                resp = self.api_request("GET", "/logs", params=params, headers=headers, timeout=12)
+                resp = self.api_request("GET", "/logs", params=params, headers=headers, timeout=14)
                 if resp.status_code == 200:
                     logs = resp.json().get("data", [])
                     raw_map = {item["id"]: item for item in logs}
@@ -1374,7 +1284,7 @@ class DeveloperPortalApp(tk.Tk):
         def worker():
             headers = {"Accept": "application/json", "Authorization": f"Bearer {self.auth_token}"}
             try:
-                resp = self.api_request("GET", "/admins", headers=headers, timeout=12)
+                resp = self.api_request("GET", "/admins", headers=headers, timeout=14)
                 if resp.status_code == 200:
                     admins = resp.json().get("data", [])
 
