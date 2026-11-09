@@ -338,6 +338,49 @@ class BillboardController extends Controller
                     }
                 }
 
+                // Pola pencocokan alamat instan dari nama file (Fuzzy memory precheck)
+                if (!$found) {
+                    $combinedName = strtolower(str_replace(
+                        ['rachmat', 'jl.', 'jl ', 'jalan ', '_', '-', '.', ','],
+                        ['rahmat', '', '', '', ' ', ' ', ' ', ' '],
+                        $fname
+                    ));
+                    $bestScore = 0;
+                    $bestCand = null;
+
+                    foreach ($allBillboards as $cand) {
+                        $candAddr = strtolower(str_replace(
+                            ['rachmat', 'jl.', 'jl ', 'jalan ', '.', ',', '-'],
+                            ['rahmat', '', '', '', ' ', ' ', ' '],
+                            $cand->address
+                        ));
+
+                        $words = array_filter(explode(' ', preg_replace('/[^a-z0-9]/', ' ', $candAddr)), function ($w) {
+                            return strlen($w) >= 4 && !in_array($w, [
+                                'raya', 'nomor', 'surabaya', 'sidoarjo', 'gresik', 'timur', 'jawa', 'kecamatan', 'kabupaten', 'kelurahan', 'kota'
+                            ]);
+                        });
+
+                        if (!empty($words)) {
+                            $hits = 0;
+                            foreach ($words as $w) {
+                                if (str_contains($combinedName, $w)) {
+                                    $hits++;
+                                }
+                            }
+                            $score = $hits / count($words);
+                            if ($score > $bestScore && $score >= 0.45) {
+                                $bestScore = $score;
+                                $bestCand = $cand;
+                            }
+                        }
+                    }
+
+                    if ($bestCand) {
+                        $found = $bestCand;
+                    }
+                }
+
                 if ($found) {
                     if (!empty($found->simulation_path)) {
                         $results[$fname] = [
