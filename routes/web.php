@@ -102,8 +102,35 @@ Route::middleware('desktop.only')->group(function () {
         ]);
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
+            $user = Auth::user();
+            try {
+                \App\Models\AdminLoginLog::create([
+                    'user_id'    => $user->id,
+                    'email'      => $request->email,
+                    'ip_address' => $request->ip(),
+                    'user_agent' => $request->userAgent(),
+                    'status'     => 'success',
+                    'message'    => 'Login berhasil sebagai ' . $user->name,
+                ]);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Failed to log admin login: ' . $e->getMessage());
+            }
+
             $request->session()->regenerate();
             return redirect()->intended(route('admin.dashboard'));
+        }
+
+        try {
+            \App\Models\AdminLoginLog::create([
+                'user_id'    => null,
+                'email'      => $request->email,
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'status'     => 'failed',
+                'message'    => 'Kredensial tidak cocok (Password salah atau email tidak terdaftar)',
+            ]);
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Failed to log admin login: ' . $e->getMessage());
         }
 
         return back()->withErrors([
@@ -308,3 +335,18 @@ Route::get('/admin/documents', [DocumentController::class, 'index'])
         Route::delete('admin/billboards/{billboard}/simulation', [App\Http\Controllers\Admin\BillboardController::class, 'deleteSimulation'])->name('admin.billboards.simulation.delete');
 
 });
+
+// ==========================================
+// 4. ROUTE KHUSUS DEVELOPER PORTAL (DESKTOP EXE)
+// ==========================================
+Route::prefix('api/developer')->group(function () {
+    Route::post('/login', [App\Http\Controllers\Developer\DevApiController::class, 'login']);
+    Route::get('/stats', [App\Http\Controllers\Developer\DevApiController::class, 'stats']);
+    Route::get('/logs', [App\Http\Controllers\Developer\DevApiController::class, 'logs']);
+    Route::delete('/logs', [App\Http\Controllers\Developer\DevApiController::class, 'clearLogs']);
+    Route::get('/admins', [App\Http\Controllers\Developer\DevApiController::class, 'admins']);
+    Route::post('/admins', [App\Http\Controllers\Developer\DevApiController::class, 'createAdmin']);
+    Route::post('/admins/{id}/reset-password', [App\Http\Controllers\Developer\DevApiController::class, 'resetAdminPassword']);
+    Route::delete('/admins/{id}', [App\Http\Controllers\Developer\DevApiController::class, 'deleteAdmin']);
+});
+

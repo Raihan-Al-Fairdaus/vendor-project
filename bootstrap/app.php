@@ -26,6 +26,11 @@ return Application::configure(basePath: dirname(__DIR__))
             PreventBackHistory::class,
         ]);
 
+        // Kecualikan endpoint API Developer dari proteksi CSRF
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+        ]);
+
         // Middleware pembatas khusus PC/Laptop untuk area admin
         $middleware->alias([
             'desktop.only' => \App\Http\Middleware\EnsureDesktopOnly::class,

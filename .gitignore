@@ -21,3 +21,8 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+*.exe
+developer_portal/build/
+developer_portal/dist/
+*.spec
+
