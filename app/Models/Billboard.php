@@ -23,6 +23,7 @@ class Billboard extends Model
         'status',
         'simulation_path',
         'simulation_type',
+        'photo_path',
     ];
 
     const STATUS_TERSEDIA = 'tersedia';
@@ -158,6 +159,17 @@ class Billboard extends Model
         }
         if (file_exists(public_path("images/billboards/{$codeClean}.png"))) {
             return asset("images/billboards/{$codeClean}.png");
+        }
+        if (!empty($this->photo_path)) {
+            if (str_starts_with($this->photo_path, 'http://') || str_starts_with($this->photo_path, 'https://')) {
+                return $this->photo_path;
+            }
+            if (config('filesystems.disks.supabase.key')) {
+                try {
+                    return \Illuminate\Support\Facades\Storage::disk('supabase')->url($this->photo_path);
+                } catch (\Throwable $e) {}
+            }
+            return \Illuminate\Support\Facades\Storage::disk('public')->url($this->photo_path);
         }
         return null;
     }

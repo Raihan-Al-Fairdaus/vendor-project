@@ -279,6 +279,239 @@ class BillboardController extends Controller
         return Redirect::back()->with('success', 'Billboard berhasil dihapus.');
     }
 
+    /**
+     * Auto match simulation file with billboard in database and attach photo.
+     */
+    public function autoMatchSimulation(Request $request)
+    {
+        $request->validate([
+            'simulation_file' => 'required|file|max:51200',
+            'extracted_photo' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:10240',
+            'filename'        => 'nullable|string',
+            'extracted_text'  => 'nullable|string',
+        ]);
+
+        $file = $request->file('simulation_file');
+        $rawFilename = $request->input('filename') ?: $file->getClientOriginalName();
+        $ext = strtolower($file->getClientOriginalExtension());
+        $extractedText = $request->input('extracted_text', '');
+
+        // 1. Tentukan jenis simulasi
+        if (in_array($ext, ['mp4', 'mov', 'webm'])) {
+            $type = 'video';
+        } elseif ($ext === 'pdf') {
+            $type = 'pdf';
+        } else {
+            $type = 'image';
+        }
+
+        // 2. LOGIKA PENCOCOKAN BILLBOARD
+        $billboard = null;
+
+        // A. Coba cocokkan dengan Pola Kode Lengkap: misal 00182-SBY-I, 00148-SDA-I, 01360-SBY-I
+        if (preg_match('/\b(\d{4,5}-[A-Z]{3}-[I|V|X]+)\b/i', $rawFilename, $m)) {
+            $code = strtoupper($m[1]);
+            $billboard = Billboard::where('code', $code)
+                ->orWhere('code', '#' . $code)
+                ->first();
+        }
+
+        // B. Coba cocokkan jika ada nomor titik unik (3-5 digit) dalam nama file
+        if (!$billboard && preg_match('/\b0*(\d{3,5})\b/', $rawFilename, $m)) {
+            $num = $m[1];
+            $cityMatch = null;
+            if (stripos($rawFilename, 'surabaya') !== false || stripos($rawFilename, 'sby') !== false) {
+                $cityMatch = 'SURABAYA';
+            } elseif (stripos($rawFilename, 'sidoarjo') !== false || stripos($rawFilename, 'sda') !== false) {
+                $cityMatch = 'SIDOARJO';
+            } elseif (stripos($rawFilename, 'gresik') !== false || stripos($rawFilename, 'grk') !== false) {
+                $cityMatch = 'GRESIK';
+            }
+
+            $query = Billboard::query();
+            if ($cityMatch) {
+                $query->where('city', $cityMatch);
+            }
+            $query->where(function ($q) use ($num) {
+                $q->where('code', 'like', "%{$num}%")
+                  ->orWhere('name', 'like', "%{$num}%");
+            });
+            $billboard = $query->first();
+        }
+
+        // C. Coba cocokkan berdasarkan Nama Jalan / Alamat (Fuzzy matching)
+        if (!$billboard) {
+            $combinedText = strtolower($rawFilename . ' ' . $extractedText);
+            $combinedText = str_replace(
+                ['rachmat', 'jl.', 'jl ', 'jalan ', '_', '-', '.', ','],
+                ['rahmat', '', '', '', ' ', ' ', ' ', ' '],
+                $combinedText
+            );
+
+            $candidates = Billboard::all(['id', 'code', 'name', 'address', 'city']);
+            $bestScore = 0;
+            $bestCandidate = null;
+
+            foreach ($candidates as $cand) {
+                $candAddr = strtolower(str_replace(
+                    ['rachmat', 'jl.', 'jl ', 'jalan ', '.', ',', '-'],
+                    ['rahmat', '', '', '', ' ', ' ', ' '],
+                    $cand->address
+                ));
+
+                $words = array_filter(explode(' ', preg_replace('/[^a-z0-9]/', ' ', $candAddr)), function ($w) {
+                    return strlen($w) >= 4 && !in_array($w, [
+                        'raya', 'nomor', 'surabaya', 'sidoarjo', 'gresik', 'timur', 'jawa', 'kecamatan', 'kabupaten', 'kelurahan', 'kota'
+                    ]);
+                });
+
+                if (!empty($words)) {
+                    $matchedWords = 0;
+                    foreach ($words as $w) {
+                        if (str_contains($combinedText, $w)) {
+                            $matchedWords++;
+                        }
+                    }
+                    $score = $matchedWords / count($words);
+                    if ($score > $bestScore && $score >= 0.5) {
+                        $bestScore = $score;
+                        $bestCandidate = $cand;
+                    }
+                }
+            }
+
+            if ($bestCandidate) {
+                $billboard = $bestCandidate;
+            }
+        }
+
+        // Jika tidak ditemukan billboard yang cocok
+        if (!$billboard) {
+            return response()->json([
+                'status'   => 'unmatched',
+                'message'  => "Tidak ditemukan titik billboard yang cocok untuk file '{$rawFilename}'.",
+                'filename' => $rawFilename,
+            ], 200);
+        }
+
+        // 3. SIMPAN SIMULASI
+        if ($billboard->simulation_path) {
+            $this->removeSimulationFile($billboard->simulation_path);
+        }
+        $simPath = $this->storeSimulationFile($file);
+        $billboard->simulation_path = $simPath;
+        $billboard->simulation_type = $type;
+
+        // 4. SIMPAN FOTO COVER SIMULASI
+        $codeClean = ltrim($billboard->code, '#');
+        $photoSaved = false;
+
+        if ($request->hasFile('extracted_photo')) {
+            $photoFile = $request->file('extracted_photo');
+            $photoPath = null;
+            if (config('filesystems.disks.supabase.key')) {
+                try {
+                    $photoPath = Storage::disk('supabase')->putFileAs('billboards/photos', $photoFile, "{$codeClean}.jpg", 'public');
+                } catch (\Throwable $e) {}
+            }
+            if (!$photoPath) {
+                $photoPath = $photoFile->storeAs('billboards/photos', "{$codeClean}.jpg", 'public');
+            }
+
+            try {
+                $destDir = public_path('images/billboards');
+                if (!is_dir($destDir)) {
+                    @mkdir($destDir, 0777, true);
+                }
+                @copy($photoFile->getRealPath(), "{$destDir}/{$codeClean}.jpg");
+            } catch (\Throwable $e) {}
+
+            $billboard->photo_path = $photoPath;
+            $photoSaved = true;
+        } elseif ($type === 'image') {
+            $photoPath = null;
+            if (config('filesystems.disks.supabase.key')) {
+                try {
+                    $photoPath = Storage::disk('supabase')->putFileAs('billboards/photos', $file, "{$codeClean}.{$ext}", 'public');
+                } catch (\Throwable $e) {}
+            }
+            if (!$photoPath) {
+                $photoPath = $file->storeAs('billboards/photos', "{$codeClean}.{$ext}", 'public');
+            }
+            try {
+                $destDir = public_path('images/billboards');
+                if (!is_dir($destDir)) {
+                    @mkdir($destDir, 0777, true);
+                }
+                @copy($file->getRealPath(), "{$destDir}/{$codeClean}.{$ext}");
+            } catch (\Throwable $e) {}
+
+            $billboard->photo_path = $photoPath;
+            $photoSaved = true;
+        }
+
+        $billboard->save();
+
+        return response()->json([
+            'status'          => 'matched',
+            'message'         => "Berhasil dicocokkan ke Titik {$billboard->code}!",
+            'billboard_id'    => $billboard->id,
+            'code'            => $billboard->code,
+            'name'            => $billboard->name,
+            'city'            => $billboard->city,
+            'address'         => $billboard->address,
+            'simulation_type' => $type,
+            'has_photo'       => $photoSaved,
+            'filename'        => $rawFilename,
+        ]);
+    }
+
+    /**
+     * Delete / Reset all simulations from all billboards.
+     */
+    public function deleteAllSimulations(Request $request)
+    {
+        $count = Billboard::whereNotNull('simulation_path')
+            ->orWhereNotNull('photo_path')
+            ->count();
+
+        // Bersihkan file simulasi dari storage Supabase/local
+        $simulations = Billboard::whereNotNull('simulation_path')->pluck('simulation_path');
+        foreach ($simulations as $path) {
+            $this->removeSimulationFile($path);
+        }
+
+        // Hapus juga file foto yang disimpan di storage jika ada
+        $photos = Billboard::whereNotNull('photo_path')->pluck('photo_path');
+        foreach ($photos as $photoPath) {
+            if (config('filesystems.disks.supabase.key')) {
+                try {
+                    Storage::disk('supabase')->delete($photoPath);
+                } catch (\Throwable $e) {}
+            }
+            try {
+                Storage::disk('public')->delete($photoPath);
+            } catch (\Throwable $e) {}
+        }
+
+        // Kosongkan kolom di database
+        Billboard::query()->update([
+            'simulation_path' => null,
+            'simulation_type' => null,
+            'photo_path'      => null,
+        ]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'status'  => 'success',
+                'message' => "Berhasil menghapus seluruh simulasi dan foto dari {$count} titik billboard.",
+                'count'   => $count,
+            ]);
+        }
+
+        return Redirect::back()->with('success', "Berhasil menghapus seluruh data simulasi dari {$count} titik billboard.");
+    }
+
     public function import(Request $request)
     {
         $request->validate([

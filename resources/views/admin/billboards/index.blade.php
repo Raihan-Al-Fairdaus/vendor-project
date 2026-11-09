@@ -10,8 +10,14 @@
         <h1 style="color: #ffffff; font-size: 1.5rem; font-weight: 700; margin: 0 0 0.35rem 0; line-height: 1.2;">Billboards</h1>
         <p style="color: rgba(255,255,255,0.55); font-size: 0.85rem; margin: 0;">Kelola data billboard dan status ketersediaannya.</p>
     </div>
-    <div>
-        <a href="{{ route('admin.billboards.create') }}" style="background-color: #ffffff; color: #1e293b; text-decoration: none; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+    <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
+        <button type="button" onclick="openAutoMatchModal()" style="background-color: #10b981; color: #ffffff; border: none; padding: 0.55rem 1.15rem; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: flex; align-items: center; gap: 0.45rem; cursor: pointer; box-shadow: 0 2px 5px rgba(16,185,129,0.3); transition: all 0.2s;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Match Simulasi (Drag Folder)
+        </button>
+        <button type="button" onclick="handleDeleteAllSimulations()" style="background-color: rgba(239, 68, 68, 0.25); color: #fecaca; border: 1px solid rgba(239, 68, 68, 0.4); padding: 0.55rem 0.95rem; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer; transition: all 0.2s;">
+            <i class="fa-solid fa-trash-can"></i> Hapus All Simulasi
+        </button>
+        <a href="{{ route('admin.billboards.create') }}" style="background-color: #ffffff; color: #1e293b; text-decoration: none; border: none; padding: 0.55rem 1rem; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
             <i class="fa-solid fa-plus" style="color: #1e293b;"></i> Tambah Billboard
         </a>
     </div>
@@ -307,5 +313,449 @@
     </style>
     {{ $billboards->appends(request()->query())->links('admin.billboards.pagination') }}
 </div>
+
+{{-- MODAL AUTO-MATCH SIMULASI (DRAG FOLDER & BATCH UPLOAD) --}}
+<div id="autoMatchModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 1.5rem;">
+    <div style="background: #ffffff; border-radius: 14px; width: 100%; max-width: 820px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); overflow: hidden;">
+        
+        {{-- Header Modal --}}
+        <div style="background: #1b3a60; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; color: #ffffff;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div style="background: rgba(255,255,255,0.15); width: 36px; height: 36px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-size: 1.2rem;">⚡</div>
+                <div>
+                    <h3 style="margin: 0; font-size: 1.1rem; font-weight: 700; color: #ffffff;">Auto-Match &amp; Upload Simulasi Billboard</h3>
+                    <p style="margin: 0; font-size: 0.78rem; color: rgba(255,255,255,0.7);">Membaca lokasi simulasi otomatis, kompresi foto, dan pasangkan ke titik billboard</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeAutoMatchModal()" style="background: transparent; border: none; color: #ffffff; font-size: 1.4rem; cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 4px; line-height: 1;">&times;</button>
+        </div>
+
+        {{-- Body Modal --}}
+        <div style="padding: 1.5rem; overflow-y: auto; flex: 1;">
+            
+            {{-- Drop Zone --}}
+            <div id="matchDropZone" style="border: 2px dashed #94a3b8; border-radius: 12px; padding: 2.25rem 1.5rem; text-align: center; background: #f8fafc; cursor: pointer; transition: all 0.2s;">
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">📁</div>
+                <div style="font-size: 1.05rem; font-weight: 700; color: #1e293b; margin-bottom: 0.35rem;">
+                    Drag &amp; Drop 1 Folder Penuh ke Sini
+                </div>
+                <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.25rem;">
+                    Contoh: Tarik langsung folder <b>"simulasi billboard surabaya"</b> atau kumpulan file PDF / Gambar
+                </div>
+                <div style="display: inline-flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center;">
+                    <button type="button" onclick="event.stopPropagation(); document.getElementById('matchFolderInput').click();" style="background: #1b3a60; color: #ffffff; border: none; padding: 0.5rem 1.15rem; border-radius: 6px; font-weight: 600; font-size: 0.82rem; cursor: pointer;">
+                        📂 Pilih Folder dari Komputer
+                    </button>
+                    <button type="button" onclick="event.stopPropagation(); document.getElementById('matchFileInput').click();" style="background: #ffffff; color: #1b3a60; border: 1px solid #1b3a60; padding: 0.5rem 1.15rem; border-radius: 6px; font-weight: 600; font-size: 0.82rem; cursor: pointer;">
+                        📄 Pilih File Satuan
+                    </button>
+                </div>
+                <input type="file" id="matchFolderInput" webkitdirectory directory multiple style="display: none;">
+                <input type="file" id="matchFileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.webp,.mp4" style="display: none;">
+            </div>
+
+            {{-- Progress & Results Section --}}
+            <div id="matchProcessSection" style="display: none; margin-top: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                    <span id="matchStatusText" style="font-size: 0.88rem; font-weight: 700; color: #1e293b;">Mempersiapkan antrean file...</span>
+                    <span id="matchPercentText" style="font-size: 0.88rem; font-weight: 700; color: #2563eb;">0%</span>
+                </div>
+                <div style="background: #e2e8f0; border-radius: 999px; height: 10px; overflow: hidden; margin-bottom: 1rem;">
+                    <div id="matchProgressBar" style="background: linear-gradient(90deg, #10b981, #2563eb); height: 100%; width: 0%; transition: width 0.25s;"></div>
+                </div>
+
+                {{-- Status Pills --}}
+                <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 0.4rem 0.85rem; font-size: 0.82rem; color: #15803d; font-weight: 600;">
+                        🟢 Cocok &amp; Terpasang: <span id="statMatchedCount">0</span>
+                    </div>
+                    <div style="background: #fefce8; border: 1px solid #fef08a; border-radius: 6px; padding: 0.4rem 0.85rem; font-size: 0.82rem; color: #a16207; font-weight: 600;">
+                        🟡 Tidak Ditemukan: <span id="statUnmatchedCount">0</span>
+                    </div>
+                    <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 0.4rem 0.85rem; font-size: 0.82rem; color: #b91c1c; font-weight: 600;">
+                        🔴 Gagal Upload: <span id="statFailedCount">0</span>
+                    </div>
+                </div>
+
+                {{-- Live Log Table --}}
+                <div style="border: 1px solid #e2e8f0; border-radius: 8px; max-height: 250px; overflow-y: auto; background: #ffffff;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left;">
+                        <thead style="background: #f1f5f9; position: sticky; top: 0; border-bottom: 1px solid #e2e8f0;">
+                            <tr>
+                                <th style="padding: 0.55rem 0.75rem; color: #475569;">Nama File</th>
+                                <th style="padding: 0.55rem 0.75rem; color: #475569;">Titik Billboard Cocok</th>
+                                <th style="padding: 0.55rem 0.75rem; color: #475569;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="matchLogTbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        {{-- Footer Modal --}}
+        <div style="background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <button type="button" onclick="handleDeleteAllSimulations()" style="background: transparent; color: #ef4444; border: 1px solid #fecaca; padding: 0.45rem 0.85rem; border-radius: 6px; font-weight: 600; font-size: 0.78rem; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
+                    <i class="fa-solid fa-trash-can"></i> Hapus All Simulasi
+                </button>
+                <span style="font-size: 0.75rem; color: #64748b;">
+                    💡 Cover foto diekstrak &amp; dikompres otomatis di browser agar ringan.
+                </span>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <button type="button" id="btnMatchClose" onclick="closeAutoMatchModal()" style="background: #e2e8f0; color: #475569; border: none; padding: 0.5rem 1.15rem; border-radius: 6px; font-weight: 600; font-size: 0.82rem; cursor: pointer;">
+                    Tutup
+                </button>
+                <button type="button" id="btnMatchReload" onclick="window.location.reload()" style="display: none; background: #10b981; color: #ffffff; border: none; padding: 0.5rem 1.25rem; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">
+                    ✓ Selesai &amp; Refresh Halaman
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{-- Load PDF.js untuk ekstraksi cover & teks otomatis di browser --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    if (typeof pdfjsLib !== 'undefined') {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    const autoMatchModal = document.getElementById('autoMatchModal');
+    const matchDropZone = document.getElementById('matchDropZone');
+    const matchFolderInput = document.getElementById('matchFolderInput');
+    const matchFileInput = document.getElementById('matchFileInput');
+    const matchProcessSection = document.getElementById('matchProcessSection');
+    const matchStatusText = document.getElementById('matchStatusText');
+    const matchPercentText = document.getElementById('matchPercentText');
+    const matchProgressBar = document.getElementById('matchProgressBar');
+    const statMatchedCount = document.getElementById('statMatchedCount');
+    const statUnmatchedCount = document.getElementById('statUnmatchedCount');
+    const statFailedCount = document.getElementById('statFailedCount');
+    const matchLogTbody = document.getElementById('matchLogTbody');
+    const btnMatchReload = document.getElementById('btnMatchReload');
+    const btnMatchClose = document.getElementById('btnMatchClose');
+
+    let isProcessing = false;
+    let matchedTotal = 0;
+    let unmatchedTotal = 0;
+    let failedTotal = 0;
+
+    function openAutoMatchModal() {
+        autoMatchModal.style.display = 'flex';
+    }
+
+    function closeAutoMatchModal() {
+        if (isProcessing) {
+            if (!confirm('Proses upload & pencocokan sedang berlangsung. Yakin ingin menutup?')) {
+                return;
+            }
+        }
+        autoMatchModal.style.display = 'none';
+    }
+
+    // Drag and Drop Event Listeners
+    ['dragenter', 'dragover'].forEach(eventName => {
+        matchDropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            matchDropZone.style.borderColor = '#2563eb';
+            matchDropZone.style.background = '#eff6ff';
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        matchDropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            matchDropZone.style.borderColor = '#94a3b8';
+            matchDropZone.style.background = '#f8fafc';
+        }, false);
+    });
+
+    matchDropZone.addEventListener('drop', async (e) => {
+        const files = await getFilesFromDataTransfer(e.dataTransfer);
+        if (files.length > 0) {
+            handleSelectedFiles(files);
+        } else {
+            alert('Tidak ada file simulasi (PDF / Gambar) yang terdeteksi di dalam folder yang di-drop.');
+        }
+    });
+
+    matchFolderInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleSelectedFiles(Array.from(e.target.files));
+        }
+    });
+
+    matchFileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleSelectedFiles(Array.from(e.target.files));
+        }
+    });
+
+    // Helper: Recursive traverse folder from DataTransfer
+    async function getFilesFromDataTransfer(dataTransfer) {
+        const fileList = [];
+        const items = dataTransfer.items;
+
+        async function traverseEntry(entry) {
+            if (entry.isFile) {
+                const file = await new Promise((res, rej) => entry.file(res, rej));
+                fileList.push(file);
+            } else if (entry.isDirectory) {
+                const dirReader = entry.createReader();
+                const readEntries = () => new Promise((res) => dirReader.readEntries(res, () => res([])));
+                let batch = await readEntries();
+                while (batch.length > 0) {
+                    for (const sub of batch) {
+                        await traverseEntry(sub);
+                    }
+                    batch = await readEntries();
+                }
+            }
+        }
+
+        if (items && items.length > 0) {
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                if (item.webkitGetAsEntry) {
+                    const entry = item.webkitGetAsEntry();
+                    if (entry) await traverseEntry(entry);
+                } else if (item.kind === 'file') {
+                    const f = item.getAsFile();
+                    if (f) fileList.push(f);
+                }
+            }
+        } else if (dataTransfer.files) {
+            for (let i = 0; i < dataTransfer.files.length; i++) {
+                fileList.push(dataTransfer.files[i]);
+            }
+        }
+        return fileList;
+    }
+
+    // Ekstraksi & Kompresi Halaman 1 PDF menjadi Cover JPEG
+    async function extractCoverFromPdf(file) {
+        if (typeof pdfjsLib === 'undefined') {
+            return { photoBlob: null, text: '' };
+        }
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            const page = await pdf.getPage(1);
+
+            let extractedText = '';
+            try {
+                const tc = await page.getTextContent();
+                extractedText = tc.items.map(it => it.str).join(' ');
+            } catch(e) {}
+
+            const viewport = page.getViewport({ scale: 1.5 });
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            const ctx = canvas.getContext('2d');
+
+            await page.render({ canvasContext: ctx, viewport }).promise;
+
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.82));
+            return { photoBlob: blob, text: extractedText };
+        } catch(err) {
+            console.warn('PDF extraction notice:', err);
+            return { photoBlob: null, text: '' };
+        }
+    }
+
+    // Kompresi Gambar sebelum Upload
+    async function compressImage(file) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const maxDim = 1600;
+                    let w = img.width;
+                    let h = img.height;
+                    if (w > maxDim || h > maxDim) {
+                        if (w > h) {
+                            h = Math.round((h * maxDim) / w);
+                            w = maxDim;
+                        } else {
+                            w = Math.round((w * maxDim) / h);
+                            h = maxDim;
+                        }
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    canvas.toBlob(blob => resolve(blob || file), 'image/jpeg', 0.82);
+                };
+                img.onerror = () => resolve(file);
+                img.src = e.target.result;
+            };
+            reader.onerror = () => resolve(file);
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Handler Utama Memproses Daftar File
+    async function handleSelectedFiles(rawFiles) {
+        // Filter hanya ekstensi simulasi yang valid
+        const validExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'webp', 'mp4', 'mov', 'webm'];
+        const files = rawFiles.filter(f => {
+            const ext = f.name.split('.').pop().toLowerCase();
+            return validExtensions.includes(ext) && !f.name.startsWith('.');
+        });
+
+        if (files.length === 0) {
+            alert('Tidak ditemukan file simulasi yang valid (.pdf, .jpg, .png, .mp4) pada folder yang dipilih.');
+            return;
+        }
+
+        // Reset state & UI
+        isProcessing = true;
+        matchedTotal = 0;
+        unmatchedTotal = 0;
+        failedTotal = 0;
+
+        statMatchedCount.textContent = '0';
+        statUnmatchedCount.textContent = '0';
+        statFailedCount.textContent = '0';
+        matchLogTbody.innerHTML = '';
+
+        matchDropZone.style.display = 'none';
+        matchProcessSection.style.display = 'block';
+        btnMatchReload.style.display = 'none';
+        btnMatchClose.textContent = 'Batal';
+
+        const totalFiles = files.length;
+        const csrfToken = document.querySelector('meta[name="csrf-token"]') ? 
+                          document.querySelector('meta[name="csrf-token"]').getAttribute('content') : 
+                          '{{ csrf_token() }}';
+
+        for (let i = 0; i < totalFiles; i++) {
+            const file = files[i];
+            const currentNum = i + 1;
+            const percent = Math.round((currentNum / totalFiles) * 100);
+
+            matchStatusText.textContent = `Memproses file ${currentNum} dari ${totalFiles}: ${file.name}...`;
+            matchPercentText.textContent = `${percent}%`;
+            matchProgressBar.style.width = `${percent}%`;
+
+            const ext = file.name.split('.').pop().toLowerCase();
+            let photoBlob = null;
+            let extractedText = '';
+
+            try {
+                if (ext === 'pdf') {
+                    const extracted = await extractCoverFromPdf(file);
+                    photoBlob = extracted.photoBlob;
+                    extractedText = extracted.text;
+                } else if (['jpg', 'jpeg', 'png', 'webp'].includes(ext)) {
+                    photoBlob = await compressImage(file);
+                }
+
+                // Kirim FormData ke Backend
+                const formData = new FormData();
+                formData.append('simulation_file', file);
+                formData.append('filename', file.name);
+                if (photoBlob) {
+                    formData.append('extracted_photo', photoBlob, `${file.name}.jpg`);
+                }
+                if (extractedText) {
+                    formData.append('extracted_text', extractedText);
+                }
+
+                const response = await fetch("{{ route('admin.billboards.autoMatchSimulation') }}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.status === 'matched') {
+                    matchedTotal++;
+                    statMatchedCount.textContent = matchedTotal;
+                    appendLogRow(file.name, `${result.code} (${result.address})`, '🟢 Cocok &amp; Terpasang', '#15803d');
+                } else if (result.status === 'unmatched') {
+                    unmatchedTotal++;
+                    statUnmatchedCount.textContent = unmatchedTotal;
+                    appendLogRow(file.name, '-', '🟡 Titik Tidak Ditemukan', '#a16207');
+                } else {
+                    failedTotal++;
+                    statFailedCount.textContent = failedTotal;
+                    appendLogRow(file.name, '-', `🔴 ${result.message || 'Gagal'}`, '#b91c1c');
+                }
+
+            } catch (err) {
+                console.error(err);
+                failedTotal++;
+                statFailedCount.textContent = failedTotal;
+                appendLogRow(file.name, '-', '🔴 Koneksi Terputus / Error', '#b91c1c');
+            }
+        }
+
+        // Selesai
+        isProcessing = false;
+        matchStatusText.textContent = `Selesai! ${matchedTotal} dari ${totalFiles} file berhasil dipasangkan otomatis.`;
+        matchPercentText.textContent = '100%';
+        btnMatchReload.style.display = 'inline-block';
+        btnMatchClose.textContent = 'Tutup';
+    }
+
+    function appendLogRow(fileName, targetBillboard, statusHtml, color) {
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid #f1f5f9';
+        tr.innerHTML = `
+            <td style="padding: 0.5rem 0.75rem; color: #1e293b; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${fileName}">${fileName}</td>
+            <td style="padding: 0.5rem 0.75rem; color: #334155; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${targetBillboard}">${targetBillboard}</td>
+            <td style="padding: 0.5rem 0.75rem; font-weight: 600; color: ${color}; white-space: nowrap;">${statusHtml}</td>
+        `;
+        matchLogTbody.insertBefore(tr, matchLogTbody.firstChild);
+    }
+
+    async function handleDeleteAllSimulations() {
+        if (!confirm('⚠️ PERINGATAN KERAS:\n\nApakah Anda YAKIN ingin MENGHAPUS SEMUA file simulasi dan foto cover dari seluruh titik billboard di database?\n\nSemua billboard akan kembali bersih tanpa simulasi. Tindakan ini TIDAK DAPAT dibatalkan!')) {
+            return;
+        }
+
+        const confirmWord = prompt('Ketik "HAPUS" untuk mengonfirmasi penghapusan seluruh simulasi:');
+        if (confirmWord !== 'HAPUS') {
+            alert('Penghapusan dibatalkan (kata konfirmasi salah).');
+            return;
+        }
+
+        const csrfToken = document.querySelector('meta[name="csrf-token"]') ? 
+                          document.querySelector('meta[name="csrf-token"]').getAttribute('content') : 
+                          '{{ csrf_token() }}';
+
+        try {
+            const res = await fetch("{{ route('admin.billboards.deleteAllSimulations') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                }
+            });
+            const data = await res.json();
+            alert(data.message || 'Semua simulasi dan foto billboard berhasil dihapus!');
+            window.location.reload();
+        } catch (err) {
+            alert('Terjadi kesalahan saat menghapus simulasi: ' + err.message);
+        }
+    }
+</script>
+
 
 @endsection

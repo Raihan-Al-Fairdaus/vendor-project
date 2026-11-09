@@ -333,6 +333,8 @@ Route::get('/admin/documents', [DocumentController::class, 'index'])
         Route::post('admin/billboards/undo-import', [App\Http\Controllers\Admin\BillboardController::class, 'undoImport'])->name('admin.billboards.undoImport');
         Route::post('admin/billboards/{billboard}/simulation', [App\Http\Controllers\Admin\BillboardController::class, 'uploadSimulation'])->name('admin.billboards.simulation.upload');
         Route::delete('admin/billboards/{billboard}/simulation', [App\Http\Controllers\Admin\BillboardController::class, 'deleteSimulation'])->name('admin.billboards.simulation.delete');
+        Route::post('admin/billboards/auto-match-simulation', [App\Http\Controllers\Admin\BillboardController::class, 'autoMatchSimulation'])->name('admin.billboards.autoMatchSimulation');
+        Route::post('admin/billboards/delete-all-simulations', [App\Http\Controllers\Admin\BillboardController::class, 'deleteAllSimulations'])->name('admin.billboards.deleteAllSimulations');
 
 });
 
