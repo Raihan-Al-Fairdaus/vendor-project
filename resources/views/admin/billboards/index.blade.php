@@ -364,16 +364,19 @@
                     <div id="matchProgressBar" style="background: linear-gradient(90deg, #10b981, #2563eb); height: 100%; width: 0%; transition: width 0.25s;"></div>
                 </div>
 
-                {{-- Status Pills --}}
-                <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 0.4rem 0.85rem; font-size: 0.82rem; color: #15803d; font-weight: 600;">
+                {{-- Status Pills (4 Kategori Jelas & Akurat) --}}
+                <div style="display: flex; gap: 0.6rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 0.35rem 0.75rem; font-size: 0.8rem; color: #15803d; font-weight: 600;">
                         🟢 Cocok &amp; Terpasang: <span id="statMatchedCount">0</span>
                     </div>
-                    <div style="background: #fefce8; border: 1px solid #fef08a; border-radius: 6px; padding: 0.4rem 0.85rem; font-size: 0.82rem; color: #a16207; font-weight: 600;">
+                    <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0.35rem 0.75rem; font-size: 0.8rem; color: #475569; font-weight: 600;">
+                        ⚪ Sudah Ada (Dilewati): <span id="statSkippedCount">0</span>
+                    </div>
+                    <div style="background: #fefce8; border: 1px solid #fef08a; border-radius: 6px; padding: 0.35rem 0.75rem; font-size: 0.8rem; color: #a16207; font-weight: 600;">
                         🟡 Tidak Ditemukan: <span id="statUnmatchedCount">0</span>
                     </div>
-                    <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 0.4rem 0.85rem; font-size: 0.82rem; color: #b91c1c; font-weight: 600;">
-                        🔴 Gagal Upload: <span id="statFailedCount">0</span>
+                    <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 0.35rem 0.75rem; font-size: 0.8rem; color: #b91c1c; font-weight: 600;">
+                        🔴 Gagal Koneksi/Upload: <span id="statFailedCount">0</span>
                     </div>
                 </div>
 
@@ -405,7 +408,10 @@
                     💡 Cover foto diekstrak &amp; dikompres otomatis di browser agar ringan.
                 </span>
             </div>
-            <div style="display: flex; gap: 0.5rem;">
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button type="button" id="btnRetryFailed" onclick="retryFailedUploads()" style="display: none; background: #fef2f2; color: #b91c1c; border: 1px solid #fca5a5; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer; align-items: center; gap: 0.35rem;">
+                    <i class="fa-solid fa-rotate-right"></i> Coba Ulang yang Gagal (<span id="retryFailedCount">0</span>)
+                </button>
                 <button type="button" id="btnMatchClose" onclick="closeAutoMatchModal()" style="background: #e2e8f0; color: #475569; border: none; padding: 0.5rem 1.15rem; border-radius: 6px; font-weight: 600; font-size: 0.82rem; cursor: pointer;">
                     Tutup
                 </button>
@@ -434,16 +440,21 @@
     const matchPercentText = document.getElementById('matchPercentText');
     const matchProgressBar = document.getElementById('matchProgressBar');
     const statMatchedCount = document.getElementById('statMatchedCount');
+    const statSkippedCount = document.getElementById('statSkippedCount');
     const statUnmatchedCount = document.getElementById('statUnmatchedCount');
     const statFailedCount = document.getElementById('statFailedCount');
+    const btnRetryFailed = document.getElementById('btnRetryFailed');
+    const retryFailedCount = document.getElementById('retryFailedCount');
     const matchLogTbody = document.getElementById('matchLogTbody');
     const btnMatchReload = document.getElementById('btnMatchReload');
     const btnMatchClose = document.getElementById('btnMatchClose');
 
     let isProcessing = false;
     let matchedTotal = 0;
+    let skippedTotal = 0;
     let unmatchedTotal = 0;
     let failedTotal = 0;
+    let failedFilesList = [];
 
     function openAutoMatchModal() {
         autoMatchModal.style.display = 'flex';
@@ -539,7 +550,7 @@
         return fileList;
     }
 
-    // Ekstraksi & Kompresi Halaman 1 PDF menjadi Cover JPEG
+    // Ekstraksi & Kompresi Halaman 1 PDF menjadi Cover JPEG (Skala adaptif cepat)
     async function extractCoverFromPdf(file) {
         if (typeof pdfjsLib === 'undefined') {
             return { photoBlob: null, text: '' };
@@ -555,7 +566,12 @@
                 extractedText = tc.items.map(it => it.str).join(' ');
             } catch(e) {}
 
-            const viewport = page.getViewport({ scale: 1.5 });
+            // Skala adaptif max 1200px agar render canvas cepat & hemat RAM
+            const unscaledViewport = page.getViewport({ scale: 1 });
+            const targetWidth = Math.min(unscaledViewport.width, 1200);
+            const scale = targetWidth / unscaledViewport.width;
+            const viewport = page.getViewport({ scale: Math.max(scale, 0.4) });
+
             const canvas = document.createElement('canvas');
             canvas.width = viewport.width;
             canvas.height = viewport.height;
@@ -563,7 +579,7 @@
 
             await page.render({ canvasContext: ctx, viewport }).promise;
 
-            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.82));
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.80));
             return { photoBlob: blob, text: extractedText };
         } catch(err) {
             console.warn('PDF extraction notice:', err);
@@ -595,7 +611,7 @@
                     canvas.height = h;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, w, h);
-                    canvas.toBlob(blob => resolve(blob || file), 'image/jpeg', 0.82);
+                    canvas.toBlob(blob => resolve(blob || file), 'image/jpeg', 0.80);
                 };
                 img.onerror = () => resolve(file);
                 img.src = e.target.result;
@@ -605,9 +621,8 @@
         });
     }
 
-    // Handler Utama Memproses Daftar File
+    // Handler Utama Memproses Daftar File dengan Pre-check Kilat & Multi-Processing Paralel
     async function handleSelectedFiles(rawFiles) {
-        // Filter hanya ekstensi simulasi yang valid
         const validExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'webp', 'mp4', 'mov', 'webm'];
         const files = rawFiles.filter(f => {
             const ext = f.name.split('.').pop().toLowerCase();
@@ -622,10 +637,13 @@
         // Reset state & UI
         isProcessing = true;
         matchedTotal = 0;
+        skippedTotal = 0;
         unmatchedTotal = 0;
         failedTotal = 0;
+        failedFilesList = [];
 
         statMatchedCount.textContent = '0';
+        if (statSkippedCount) statSkippedCount.textContent = '0';
         statUnmatchedCount.textContent = '0';
         statFailedCount.textContent = '0';
         matchLogTbody.innerHTML = '';
@@ -633,6 +651,7 @@
         matchDropZone.style.display = 'none';
         matchProcessSection.style.display = 'block';
         btnMatchReload.style.display = 'none';
+        if (btnRetryFailed) btnRetryFailed.style.display = 'none';
         btnMatchClose.textContent = 'Batal';
 
         const totalFiles = files.length;
@@ -640,78 +659,168 @@
                           document.querySelector('meta[name="csrf-token"]').getAttribute('content') : 
                           '{{ csrf_token() }}';
 
-        for (let i = 0; i < totalFiles; i++) {
-            const file = files[i];
-            const currentNum = i + 1;
-            const percent = Math.round((currentNum / totalFiles) * 100);
+        // -----------------------------------------------------------------
+        // TAHAP 1: PRE-CHECK KILAT (10-30ms) - Cek instan mana yang sudah ada
+        // -----------------------------------------------------------------
+        matchStatusText.textContent = `Memeriksa ${totalFiles} file di database (Pre-check kilat)...`;
+        matchPercentText.textContent = '5%';
+        matchProgressBar.style.width = '5%';
 
-            matchStatusText.textContent = `Memproses file ${currentNum} dari ${totalFiles}: ${file.name}...`;
+        let filesToUpload = [];
+
+        try {
+            const precheckRes = await fetch("{{ route('admin.billboards.autoMatchSimulation') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    mode: 'batch_precheck',
+                    filenames: files.map(f => f.name)
+                })
+            });
+
+            if (precheckRes.ok) {
+                const data = await precheckRes.json();
+                const precheck = data.precheck || {};
+
+                for (const f of files) {
+                    const check = precheck[f.name];
+                    if (check && check.status === 'skipped') {
+                        skippedTotal++;
+                        if (statSkippedCount) statSkippedCount.textContent = skippedTotal;
+                        appendLogRow(f.name, `${check.code || '-'} (${check.address || '-'})`, '⚪ Sudah Ada (Dilewati)', '#64748b');
+                    } else {
+                        filesToUpload.push(f);
+                    }
+                }
+            } else {
+                filesToUpload = [...files];
+            }
+        } catch (e) {
+            console.warn('Pre-check notice:', e);
+            filesToUpload = [...files];
+        }
+
+        // Update progress awal setelah precheck
+        let processedFilesCount = skippedTotal;
+        const updateProgress = (activeName) => {
+            const percent = Math.min(100, Math.round((processedFilesCount / totalFiles) * 100));
             matchPercentText.textContent = `${percent}%`;
             matchProgressBar.style.width = `${percent}%`;
-
-            const ext = file.name.split('.').pop().toLowerCase();
-            let photoBlob = null;
-            let extractedText = '';
-
-            try {
-                if (ext === 'pdf') {
-                    const extracted = await extractCoverFromPdf(file);
-                    photoBlob = extracted.photoBlob;
-                    extractedText = extracted.text;
-                } else if (['jpg', 'jpeg', 'png', 'webp'].includes(ext)) {
-                    photoBlob = await compressImage(file);
-                }
-
-                // Kirim FormData ke Backend
-                const formData = new FormData();
-                formData.append('simulation_file', file);
-                formData.append('filename', file.name);
-                if (photoBlob) {
-                    formData.append('extracted_photo', photoBlob, `${file.name}.jpg`);
-                }
-                if (extractedText) {
-                    formData.append('extracted_text', extractedText);
-                }
-
-                const response = await fetch("{{ route('admin.billboards.autoMatchSimulation') }}", {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Accept': 'application/json'
-                    },
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (response.ok && result.status === 'matched') {
-                    matchedTotal++;
-                    statMatchedCount.textContent = matchedTotal;
-                    appendLogRow(file.name, `${result.code} (${result.address})`, '🟢 Cocok &amp; Terpasang', '#15803d');
-                } else if (result.status === 'unmatched') {
-                    unmatchedTotal++;
-                    statUnmatchedCount.textContent = unmatchedTotal;
-                    appendLogRow(file.name, '-', '🟡 Titik Tidak Ditemukan', '#a16207');
-                } else {
-                    failedTotal++;
-                    statFailedCount.textContent = failedTotal;
-                    appendLogRow(file.name, '-', `🔴 ${result.message || 'Gagal'}`, '#b91c1c');
-                }
-
-            } catch (err) {
-                console.error(err);
-                failedTotal++;
-                statFailedCount.textContent = failedTotal;
-                appendLogRow(file.name, '-', '🔴 Koneksi Terputus / Error', '#b91c1c');
+            if (activeName) {
+                matchStatusText.textContent = `Memproses: ${activeName} (${processedFilesCount}/${totalFiles})...`;
             }
+        };
+
+        updateProgress();
+
+        // -----------------------------------------------------------------
+        // TAHAP 2: PROSES PARALEL (3 FILE BERSAMAAN) UNTUK FILE BARU
+        // -----------------------------------------------------------------
+        if (filesToUpload.length > 0) {
+            let nextIndex = 0;
+            const CONCURRENCY = 3;
+
+            async function processWorker() {
+                while (nextIndex < filesToUpload.length && isProcessing) {
+                    const file = filesToUpload[nextIndex++];
+                    updateProgress(file.name);
+
+                    const ext = file.name.split('.').pop().toLowerCase();
+                    let photoBlob = null;
+                    let extractedText = '';
+
+                    try {
+                        if (ext === 'pdf') {
+                            const extracted = await extractCoverFromPdf(file);
+                            photoBlob = extracted.photoBlob;
+                            extractedText = extracted.text;
+                        } else if (['jpg', 'jpeg', 'png', 'webp'].includes(ext)) {
+                            photoBlob = await compressImage(file);
+                        }
+
+                        const formData = new FormData();
+                        formData.append('simulation_file', file);
+                        formData.append('filename', file.name);
+                        formData.append('skip_existing', '1');
+                        if (photoBlob) {
+                            formData.append('extracted_photo', photoBlob, `${file.name}.jpg`);
+                        }
+                        if (extractedText) {
+                            formData.append('extracted_text', extractedText);
+                        }
+
+                        const response = await fetch("{{ route('admin.billboards.autoMatchSimulation') }}", {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json'
+                            },
+                            body: formData
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok && result.status === 'matched') {
+                            matchedTotal++;
+                            statMatchedCount.textContent = matchedTotal;
+                            appendLogRow(file.name, `${result.code} (${result.address})`, '🟢 Cocok &amp; Terpasang', '#15803d');
+                        } else if (result.status === 'skipped') {
+                            skippedTotal++;
+                            if (statSkippedCount) statSkippedCount.textContent = skippedTotal;
+                            appendLogRow(file.name, `${result.code || '-'} (${result.address || '-'})`, '⚪ Sudah Ada (Dilewati)', '#64748b');
+                        } else if (result.status === 'unmatched') {
+                            unmatchedTotal++;
+                            statUnmatchedCount.textContent = unmatchedTotal;
+                            appendLogRow(file.name, '-', '🟡 Titik Tidak Ditemukan', '#a16207');
+                        } else {
+                            failedTotal++;
+                            statFailedCount.textContent = failedTotal;
+                            failedFilesList.push(file);
+                            appendLogRow(file.name, '-', `🔴 ${result.message || 'Gagal'}`, '#b91c1c');
+                        }
+
+                    } catch (err) {
+                        console.error('File process error:', err);
+                        failedTotal++;
+                        statFailedCount.textContent = failedTotal;
+                        failedFilesList.push(file);
+                        appendLogRow(file.name, '-', '🔴 Koneksi Terputus / Error', '#b91c1c');
+                    }
+
+                    processedFilesCount++;
+                    updateProgress();
+                }
+            }
+
+            const workerPromises = [];
+            for (let i = 0; i < Math.min(CONCURRENCY, filesToUpload.length); i++) {
+                workerPromises.push(processWorker());
+            }
+            await Promise.all(workerPromises);
         }
 
         // Selesai
         isProcessing = false;
-        matchStatusText.textContent = `Selesai! ${matchedTotal} dari ${totalFiles} file berhasil dipasangkan otomatis.`;
         matchPercentText.textContent = '100%';
+        matchProgressBar.style.width = '100%';
+        matchStatusText.textContent = `Selesai! ${matchedTotal} terpasang baru, ${skippedTotal} dilewati (sudah ada), ${unmatchedTotal} tidak cocok, ${failedTotal} gagal.`;
         btnMatchReload.style.display = 'inline-block';
         btnMatchClose.textContent = 'Tutup';
+
+        if (failedFilesList.length > 0 && btnRetryFailed) {
+            btnRetryFailed.style.display = 'inline-flex';
+            if (retryFailedCount) retryFailedCount.textContent = failedFilesList.length;
+        }
+    }
+
+    function retryFailedUploads() {
+        if (failedFilesList.length === 0) return;
+        const retryFiles = [...failedFilesList];
+        handleSelectedFiles(retryFiles);
     }
 
     function appendLogRow(fileName, targetBillboard, statusHtml, color) {

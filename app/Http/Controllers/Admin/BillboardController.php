@@ -284,6 +284,88 @@ class BillboardController extends Controller
      */
     public function autoMatchSimulation(Request $request)
     {
+        // 0. BATCH PRE-CHECK INSTAN (Cek kilat dalam hitungan milidetik tanpa kirim file fisik)
+        if ($request->input('mode') === 'batch_precheck') {
+            $filenames = (array) $request->input('filenames', []);
+            $results = [];
+
+            $allBillboards = Billboard::select('id', 'code', 'name', 'address', 'city', 'simulation_path')->get();
+            $byCode = [];
+            $byNum = [];
+
+            foreach ($allBillboards as $b) {
+                $codeClean = strtoupper(ltrim($b->code, '#'));
+                $byCode[$codeClean] = $b;
+                if (preg_match('/\b0*(\d{3,5})\b/', $b->code, $m)) {
+                    $byNum[$m[1]][] = $b;
+                }
+            }
+
+            foreach ($filenames as $fname) {
+                $found = null;
+                // Pola kode lengkap: misal 00182-SBY-I
+                if (preg_match('/\b(\d{4,5}-[A-Z]{3}-[I|V|X]+)\b/i', $fname, $m)) {
+                    $targetCode = strtoupper($m[1]);
+                    $found = $byCode[$targetCode] ?? null;
+                }
+                // Pola nomor titik unik (3-5 digit)
+                if (!$found && preg_match('/\b0*(\d{3,5})\b/', $fname, $m)) {
+                    $num = $m[1];
+                    if (isset($byNum[$num])) {
+                        if (count($byNum[$num]) === 1) {
+                            $found = $byNum[$num][0];
+                        } else {
+                            $cityMatch = null;
+                            if (stripos($fname, 'surabaya') !== false || stripos($fname, 'sby') !== false) {
+                                $cityMatch = 'SURABAYA';
+                            } elseif (stripos($fname, 'sidoarjo') !== false || stripos($fname, 'sda') !== false) {
+                                $cityMatch = 'SIDOARJO';
+                            } elseif (stripos($fname, 'gresik') !== false || stripos($fname, 'grk') !== false) {
+                                $cityMatch = 'GRESIK';
+                            }
+                            if ($cityMatch) {
+                                foreach ($byNum[$num] as $cand) {
+                                    if (strtoupper($cand->city) === $cityMatch) {
+                                        $found = $cand;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!$found) {
+                                $found = $byNum[$num][0];
+                            }
+                        }
+                    }
+                }
+
+                if ($found) {
+                    if (!empty($found->simulation_path)) {
+                        $results[$fname] = [
+                            'status'  => 'skipped',
+                            'message' => "Titik {$found->code} sudah memiliki simulasi (dilewati).",
+                            'code'    => $found->code,
+                            'address' => $found->address,
+                        ];
+                    } else {
+                        $results[$fname] = [
+                            'status'  => 'needs_upload',
+                            'code'    => $found->code,
+                            'address' => $found->address,
+                        ];
+                    }
+                } else {
+                    $results[$fname] = [
+                        'status' => 'unknown', // Perlu dibedah teks/foto untuk fuzzy matching
+                    ];
+                }
+            }
+
+            return response()->json([
+                'status'   => 'success',
+                'precheck' => $results,
+            ]);
+        }
+
         $request->validate([
             'simulation_file' => 'required|file|max:51200',
             'extracted_photo' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:10240',
@@ -392,6 +474,20 @@ class BillboardController extends Controller
                 'message'  => "Tidak ditemukan titik billboard yang cocok untuk file '{$rawFilename}'.",
                 'filename' => $rawFilename,
             ], 200);
+        }
+
+        // Cek opsi: Lewati jika billboard sudah memiliki simulasi (anti-tertimpa)
+        if ($request->boolean('skip_existing', true) && !empty($billboard->simulation_path)) {
+            return response()->json([
+                'status'          => 'skipped',
+                'message'         => "Titik {$billboard->code} sudah memiliki simulasi (dilewati).",
+                'billboard_id'    => $billboard->id,
+                'code'            => $billboard->code,
+                'name'            => $billboard->name,
+                'city'            => $billboard->city,
+                'address'         => $billboard->address,
+                'filename'        => $rawFilename,
+            ]);
         }
 
         // 3. SIMPAN SIMULASI
