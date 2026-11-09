@@ -339,7 +339,7 @@ Route::get('/admin/documents', [DocumentController::class, 'index'])
 // ==========================================
 // 4. ROUTE KHUSUS DEVELOPER PORTAL (DESKTOP EXE)
 // ==========================================
-Route::prefix('api/developer')->group(function () {
+$registerDevRoutes = function () {
     Route::post('/login', [App\Http\Controllers\Developer\DevApiController::class, 'login']);
     Route::get('/stats', [App\Http\Controllers\Developer\DevApiController::class, 'stats']);
     Route::get('/logs', [App\Http\Controllers\Developer\DevApiController::class, 'logs']);
@@ -348,5 +348,9 @@ Route::prefix('api/developer')->group(function () {
     Route::post('/admins', [App\Http\Controllers\Developer\DevApiController::class, 'createAdmin']);
     Route::post('/admins/{id}/reset-password', [App\Http\Controllers\Developer\DevApiController::class, 'resetAdminPassword']);
     Route::delete('/admins/{id}', [App\Http\Controllers\Developer\DevApiController::class, 'deleteAdmin']);
-});
+};
+
+Route::prefix('api/developer')->group($registerDevRoutes);
+Route::prefix('developer')->group($registerDevRoutes);
+
 

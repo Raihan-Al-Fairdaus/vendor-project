@@ -29,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Kecualikan endpoint API Developer dari proteksi CSRF
         $middleware->validateCsrfTokens(except: [
             'api/*',
+            'developer/*',
         ]);
 
         // Middleware pembatas khusus PC/Laptop untuk area admin
