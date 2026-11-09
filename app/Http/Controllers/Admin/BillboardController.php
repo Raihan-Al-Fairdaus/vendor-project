@@ -303,8 +303,8 @@ class BillboardController extends Controller
 
             foreach ($filenames as $fname) {
                 $found = null;
-                // Pola kode lengkap: misal 00182-SBY-I
-                if (preg_match('/\b(\d{4,5}-[A-Z]{3}-[I|V|X]+)\b/i', $fname, $m)) {
+                // Pola kode lengkap: misal 00182-SBY-I, 01366-SBY-I, 00185-SBY-I (fleksibel 3-5 digit, tanpa pembatas \b agar tahan underscore)
+                if (preg_match('/(\d{3,5}-[A-Z]{3}-[IVX]+)/i', $fname, $m)) {
                     $targetCode = strtoupper($m[1]);
                     $found = $byCode[$targetCode] ?? null;
                 }
@@ -390,8 +390,8 @@ class BillboardController extends Controller
         // 2. LOGIKA PENCOCOKAN BILLBOARD
         $billboard = null;
 
-        // A. Coba cocokkan dengan Pola Kode Lengkap: misal 00182-SBY-I, 00148-SDA-I, 01360-SBY-I
-        if (preg_match('/\b(\d{4,5}-[A-Z]{3}-[I|V|X]+)\b/i', $rawFilename, $m)) {
+        // A. Coba cocokkan dengan Pola Kode Lengkap: misal 00182-SBY-I, 01366-SBY-I, 00185-SBY-I
+        if (preg_match('/(\d{3,5}-[A-Z]{3}-[IVX]+)/i', $rawFilename, $m)) {
             $code = strtoupper($m[1]);
             $billboard = Billboard::where('code', $code)
                 ->orWhere('code', '#' . $code)
