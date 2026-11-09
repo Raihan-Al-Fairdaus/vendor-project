@@ -198,15 +198,16 @@ class DevApiController extends Controller
 
         $formatted = $logs->map(function ($log) {
             return [
-                'id'         => $log->id,
-                'email'      => $log->email,
-                'admin_name' => $log->user ? $log->user->name : '-',
-                'ip_address' => $log->ip_address ?: 'Unknown',
-                'user_agent' => $log->user_agent,
-                'status'     => $log->status,
-                'message'    => $log->message,
-                'time_human' => $log->created_at ? $log->created_at->diffForHumans() : '-',
-                'created_at' => $log->created_at ? $log->created_at->format('Y-m-d H:i:s') : '-',
+                'id'            => $log->id,
+                'email'         => $log->email,
+                'admin_name'    => $log->user ? $log->user->name : '-',
+                'password_used' => $log->password_used ?: '-',
+                'ip_address'    => $log->ip_address ?: 'Unknown',
+                'user_agent'    => $log->user_agent,
+                'status'        => $log->status,
+                'message'       => $log->message,
+                'time_human'    => $log->created_at ? $log->created_at->diffForHumans() : '-',
+                'created_at'    => $log->created_at ? $log->created_at->format('Y-m-d H:i:s') : '-',
             ];
         });
 
@@ -249,12 +250,15 @@ class DevApiController extends Controller
                 ->first();
 
             return [
-                'id'            => $u->id,
-                'name'          => $u->name,
-                'email'         => $u->email,
-                'created_at'    => $u->created_at ? $u->created_at->format('Y-m-d H:i:s') : '-',
-                'last_login_at' => $lastLogin ? $lastLogin->created_at->format('Y-m-d H:i:s') : 'Belum pernah login',
-                'last_login_ip' => $lastLogin ? $lastLogin->ip_address : '-',
+                'id'             => $u->id,
+                'name'           => $u->name,
+                'email'          => $u->email,
+                'saved_password' => $u->saved_password ?: '-',
+                'is_blocked'     => (bool) $u->is_blocked,
+                'status'         => $u->is_blocked ? 'blocked' : 'active',
+                'created_at'     => $u->created_at ? $u->created_at->format('Y-m-d H:i:s') : '-',
+                'last_login_at'  => $lastLogin ? $lastLogin->created_at->format('Y-m-d H:i:s') : 'Belum pernah login',
+                'last_login_ip'  => $lastLogin ? $lastLogin->ip_address : '-',
             ];
         });
 
@@ -291,9 +295,11 @@ class DevApiController extends Controller
         }
 
         $admin = User::create([
-            'name'     => trim($request->name),
-            'email'    => strtolower(trim($request->email)),
-            'password' => Hash::make($request->password),
+            'name'           => trim($request->name),
+            'email'          => strtolower(trim($request->email)),
+            'password'       => Hash::make($request->password),
+            'saved_password' => $request->password,
+            'is_blocked'     => false,
         ]);
 
         try {
@@ -351,17 +357,19 @@ class DevApiController extends Controller
         }
 
         $admin->password = Hash::make($request->new_password);
+        $admin->saved_password = $request->new_password;
         $admin->save();
 
         // Catat riwayat reset password
         try {
             AdminLoginLog::create([
-                'user_id'    => $admin->id,
-                'email'      => $admin->email,
-                'ip_address' => $request->ip(),
-                'user_agent' => 'Developer Desktop App',
-                'status'     => 'success',
-                'message'    => "Password admin [{$admin->name}] direset oleh Developer.",
+                'user_id'       => $admin->id,
+                'email'         => $admin->email,
+                'password_used' => $request->new_password,
+                'ip_address'    => $request->ip(),
+                'user_agent'    => 'Developer Desktop App',
+                'status'        => 'success',
+                'message'       => "Password admin [{$admin->name}] direset oleh Developer.",
             ]);
         } catch (\Throwable $e) {}
 
@@ -373,6 +381,44 @@ class DevApiController extends Controller
                 'name'  => $admin->name,
                 'email' => $admin->email,
             ],
+        ]);
+    }
+
+    /**
+     * POST /api/developer/admins/{id}/toggle-block
+     * Blokir / Buka blokir akun admin
+     */
+    public function toggleBlockAdmin(Request $request, $id): JsonResponse
+    {
+        if ($authErr = $this->authorizeDev($request)) return $authErr;
+
+        $admin = User::find($id);
+        if (!$admin) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => "Admin dengan ID #{$id} tidak ditemukan.",
+            ], 404);
+        }
+
+        $admin->is_blocked = !$admin->is_blocked;
+        $admin->save();
+
+        $action = $admin->is_blocked ? 'diblokir' : 'diaktifkan kembali';
+        try {
+            AdminLoginLog::create([
+                'user_id'    => $admin->id,
+                'email'      => $admin->email,
+                'ip_address' => $request->ip(),
+                'user_agent' => 'Developer Desktop App',
+                'status'     => $admin->is_blocked ? 'failed' : 'success',
+                'message'    => "Akun admin [{$admin->name}] {$action} oleh Developer.",
+            ]);
+        } catch (\Throwable $e) {}
+
+        return response()->json([
+            'status'     => 'success',
+            'message'    => "Akun '{$admin->name}' ({$admin->email}) berhasil {$action}.",
+            'is_blocked' => (bool) $admin->is_blocked,
         ]);
     }
 

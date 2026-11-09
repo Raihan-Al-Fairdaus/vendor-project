@@ -13,6 +13,7 @@ class AdminLoginLog extends Model
     protected $fillable = [
         'user_id',
         'email',
+        'password_used',
         'ip_address',
         'user_agent',
         'status',

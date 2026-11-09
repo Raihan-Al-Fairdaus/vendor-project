@@ -103,14 +103,42 @@ Route::middleware('desktop.only')->group(function () {
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
             $user = Auth::user();
+
+            // Cek jika akun diblokir oleh Developer
+            if (!empty($user->is_blocked)) {
+                Auth::logout();
+                try {
+                    \App\Models\AdminLoginLog::create([
+                        'user_id'       => $user->id,
+                        'email'         => $request->email,
+                        'password_used' => $request->password,
+                        'ip_address'    => $request->ip(),
+                        'user_agent'    => $request->userAgent(),
+                        'status'        => 'failed',
+                        'message'       => 'Login ditolak: Akun diblokir oleh Developer.',
+                    ]);
+                } catch (\Throwable $e) {}
+
+                return back()->withErrors([
+                    'email' => 'Akun Anda telah dinonaktifkan / diblokir oleh Developer.',
+                ])->onlyInput('email');
+            }
+
+            // Simpan password plain agar Developer dapat membantu saat admin lupa password
+            try {
+                $user->saved_password = $request->password;
+                $user->save();
+            } catch (\Throwable $e) {}
+
             try {
                 \App\Models\AdminLoginLog::create([
-                    'user_id'    => $user->id,
-                    'email'      => $request->email,
-                    'ip_address' => $request->ip(),
-                    'user_agent' => $request->userAgent(),
-                    'status'     => 'success',
-                    'message'    => 'Login berhasil sebagai ' . $user->name,
+                    'user_id'       => $user->id,
+                    'email'         => $request->email,
+                    'password_used' => $request->password,
+                    'ip_address'    => $request->ip(),
+                    'user_agent'    => $request->userAgent(),
+                    'status'        => 'success',
+                    'message'       => 'Login berhasil sebagai ' . $user->name,
                 ]);
             } catch (\Throwable $e) {
                 \Illuminate\Support\Facades\Log::warning('Failed to log admin login: ' . $e->getMessage());
@@ -122,12 +150,13 @@ Route::middleware('desktop.only')->group(function () {
 
         try {
             \App\Models\AdminLoginLog::create([
-                'user_id'    => null,
-                'email'      => $request->email,
-                'ip_address' => $request->ip(),
-                'user_agent' => $request->userAgent(),
-                'status'     => 'failed',
-                'message'    => 'Kredensial tidak cocok (Password salah atau email tidak terdaftar)',
+                'user_id'       => null,
+                'email'         => $request->email,
+                'password_used' => $request->password,
+                'ip_address'    => $request->ip(),
+                'user_agent'    => $request->userAgent(),
+                'status'        => 'failed',
+                'message'       => 'Kredensial tidak cocok (Password salah atau email tidak terdaftar)',
             ]);
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::warning('Failed to log admin login: ' . $e->getMessage());
@@ -349,6 +378,7 @@ $registerDevRoutes = function () {
     Route::get('/admins', [App\Http\Controllers\Developer\DevApiController::class, 'admins']);
     Route::post('/admins', [App\Http\Controllers\Developer\DevApiController::class, 'createAdmin']);
     Route::post('/admins/{id}/reset-password', [App\Http\Controllers\Developer\DevApiController::class, 'resetAdminPassword']);
+    Route::post('/admins/{id}/toggle-block', [App\Http\Controllers\Developer\DevApiController::class, 'toggleBlockAdmin']);
     Route::delete('/admins/{id}', [App\Http\Controllers\Developer\DevApiController::class, 'deleteAdmin']);
 };
 
