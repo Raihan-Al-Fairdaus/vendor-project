@@ -73,8 +73,14 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
 .btn-primary:hover { background: var(--gold-hover); }
 .btn-outline { background: transparent !important; color: #ffffff !important; padding: 0.8rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; border: 1px solid rgba(255,255,255,0.4) !important; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.2s; }
 .btn-outline:hover { background: rgba(255,255,255,0.15) !important; border-color: #ffffff !important; }
-.hero-image { border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-.hero-image img { width: 100%; display: block; object-fit: cover; }
+.hero-image {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    background: transparent;
+    line-height: 0;
+}
+.hero-image img { width: 100%; height: auto; display: block; object-fit: cover; }
 
 /* FEATURES BAR */
 .features-bar {
@@ -131,14 +137,39 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
     .nav-logo { margin: 0 auto; position: absolute; left: 50%; transform: translateX(-50%); }
     .mobile-menu-btn { display: block; z-index: 101; }
     
-    .hero-wrapper { padding: 3rem 1.5rem 0; }
+    .hero-wrapper {
+        padding: 3rem 1.25rem 4rem;
+        overflow: visible;
+    }
     .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
     .hero-title { font-size: 2.25rem; }
     .hero-desc { max-width: 100%; }
     .hero-buttons { flex-direction: column; }
-    .hero-image { height: 240px; }
+    .hero-image {
+        height: auto;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+        line-height: 0;
+    }
+    .hero-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+        border-radius: 16px;
+    }
     
-    .features-bar { grid-template-columns: 1fr; border-radius: 12px; margin-top: 2rem; padding: 1.5rem; gap: 1.5rem; }
+    .features-bar {
+        grid-template-columns: 1fr;
+        border-radius: 16px;
+        margin-top: 2.5rem;
+        margin-bottom: 0.5rem;
+        padding: 1.75rem 1.25rem;
+        gap: 1.5rem;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        border: 1px solid rgba(255,255,255,0.08);
+    }
     
     .logos-section { padding: 3rem 1.5rem; }
     .section-title { font-size: 1.5rem; margin-bottom: 2rem; }

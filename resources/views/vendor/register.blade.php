@@ -289,8 +289,17 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     .nav-links { display: none; }
     .mobile-menu-btn { display: none !important; }
     .btn-nav-contact { display: none !important; }
-    .hero-wrapper { padding: 6rem 5% 3rem; flex-direction: column; }
-    .hero-bg-image { width: 100%; opacity: 0.15; mask-image: none; -webkit-mask-image: none; background-position: center top; }
+    .hero-wrapper { padding: 5.5rem 1.25rem 3rem; flex-direction: column; position: relative; }
+    .hero-bg-image {
+        width: 100%;
+        height: 100%;
+        opacity: 0.22;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        background-position: center 25px;
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 75%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 75%, transparent 100%);
+    }
     .hero-features { flex-direction: column; gap: 1rem; }
     .hero-title { font-size: 2.25rem; }
     .form-layout { grid-template-columns: 1fr; padding: 0 1rem; }

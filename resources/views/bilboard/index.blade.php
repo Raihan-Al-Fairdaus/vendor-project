@@ -108,26 +108,38 @@
        HEADER SECTION — full-bleed billboard background
     ============================================================ */
     .bb-header {
-        padding: 95px 16px 80px;
+        padding: 85px 16px 70px;
         position: relative;
         color: #ffffff;
+        background-color: #162d4e;
         background-image:
-            linear-gradient(to right,
-                #162d4e 0%,
-                #1b3a60 30%,
-                rgba(27, 58, 96, 0.80) 52%,
-                rgba(27, 58, 96, 0.25) 72%,
-                rgba(27, 58, 96, 0.05) 100%
+            linear-gradient(to bottom,
+                rgba(22, 45, 78, 0.75) 0%,
+                rgba(27, 58, 96, 0.82) 40%,
+                rgba(27, 58, 96, 0.95) 75%,
+                #1b3a60 100%
             ),
             url('/images/billboard-header.webp');
-        background-size: cover;
-        background-position: right center;
+        background-size: 100% auto;
+        background-position: center 25px;
         background-repeat: no-repeat;
     }
 
     @media (min-width: 992px) {
         .bb-header {
             padding: 130px 24px 100px;
+            background-image:
+                linear-gradient(to right,
+                    #162d4e 0%,
+                    #1b3a60 30%,
+                    rgba(27, 58, 96, 0.80) 52%,
+                    rgba(27, 58, 96, 0.25) 72%,
+                    rgba(27, 58, 96, 0.05) 100%
+                ),
+                url('/images/billboard-header.webp');
+            background-size: cover;
+            background-position: right center;
+            background-repeat: no-repeat;
         }
     }
 
@@ -930,16 +942,81 @@
         background: rgba(239, 68, 68, 0.85);
     }
     .bb-sim-stage {
-        background: #f8fafc; /* Tema terang meja baca */
+        background: #0f172a; /* Latar kontras elegan */
         overflow: auto;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 1rem;
+        padding: 1.25rem;
         position: relative;
         box-sizing: border-box;
-        max-height: 430px;
-        min-height: 200px;
+        max-height: 55vh;
+        min-height: 220px;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-x pan-y;
+    }
+    .bb-sim-floating-zoom {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(15, 23, 42, 0.88);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+        border-radius: 30px;
+        padding: 4px 8px;
+        user-select: none;
+    }
+    .bb-sim-fzoom-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.16);
+        color: #ffffff;
+        border: none;
+        font-size: 1.2rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        line-height: 1;
+    }
+    .bb-sim-fzoom-btn:hover, .bb-sim-fzoom-btn:active {
+        background: #f59e0b;
+        color: #0f172a;
+        transform: scale(1.08);
+    }
+    .bb-sim-fzoom-label {
+        color: #ffffff;
+        font-size: 0.82rem;
+        font-weight: 700;
+        padding: 0 4px;
+        min-width: 44px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .bb-sim-fzoom-reset {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #f59e0b;
+        border-radius: 16px;
+        padding: 3px 8px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        cursor: pointer;
+        margin-left: 2px;
+        transition: all 0.15s;
+    }
+    .bb-sim-fzoom-reset:hover {
+        background: rgba(245, 158, 11, 0.2);
+        border-color: #f59e0b;
     }
     .bb-sim-canvas-paper {
         background: #ffffff;
@@ -1109,7 +1186,22 @@
             gap: 6px;
         }
         .bb-sim-zoom-controls {
-            display: none; /* Hide micro zoom buttons on phone so header doesn't overflow */
+            display: flex;
+            gap: 2px;
+            padding: 1px 4px;
+        }
+        .bb-sim-zoom-btn {
+            width: 22px;
+            height: 22px;
+            font-size: 0.85rem;
+        }
+        .bb-sim-zoom-label {
+            font-size: 0.72rem;
+            min-width: 32px;
+        }
+        .bb-sim-title {
+            font-size: 0.78rem;
+            max-width: 95px;
         }
         .bb-sim-page-badge {
             font-size: 0.75rem;
@@ -1520,6 +1612,13 @@
 
             {{-- Body (Bright Desk Stage) --}}
             <div class="bb-sim-stage" id="simStage">
+                {{-- FLOATING QUICK ZOOM CONTROLS --}}
+                <div class="bb-sim-floating-zoom" id="simFloatZoom">
+                    <button type="button" class="bb-sim-fzoom-btn" onclick="simZoomOut()" title="Perkecil">−</button>
+                    <span id="simFloatZoomLabel" class="bb-sim-fzoom-label" onclick="simResetZoom()" title="Reset Zoom (100%)">100%</span>
+                    <button type="button" class="bb-sim-fzoom-btn" onclick="simZoomIn()" title="Perbesar">+</button>
+                    <button type="button" class="bb-sim-fzoom-reset" onclick="simResetZoom()" title="Kembali ke Ukuran Pas">↺ Fit</button>
+                </div>
                 <canvas id="simCanvas" class="bb-sim-canvas-paper" style="display: none;"></canvas>
                 <div id="simMediaWrap" style="display: none;"></div>
                 <div id="simLoader" class="bb-sim-spinner-wrap" style="display: none;">
@@ -1798,12 +1897,12 @@
     }
 
     function simZoomIn() {
-        currentZoom = Math.min(2.5, Math.round((currentZoom + 0.2) * 10) / 10);
+        currentZoom = Math.min(3.0, Math.round((currentZoom + 0.25) * 100) / 100);
         applyZoom();
     }
 
     function simZoomOut() {
-        currentZoom = Math.max(0.5, Math.round((currentZoom - 0.2) * 10) / 10);
+        currentZoom = Math.max(0.5, Math.round((currentZoom - 0.25) * 100) / 100);
         applyZoom();
     }
 
@@ -1819,17 +1918,79 @@
         } else if (currentMediaKind === 'image') {
             var img = document.querySelector('#simMediaWrap img');
             if (img) {
-                img.style.transform = 'scale(' + currentZoom + ')';
+                if (currentZoom <= 1.0) {
+                    img.style.maxWidth = '100%';
+                    img.style.maxHeight = '48vh';
+                    img.style.width = 'auto';
+                } else {
+                    img.style.maxWidth = 'none';
+                    img.style.maxHeight = 'none';
+                    img.style.width = Math.round(100 * currentZoom) + '%';
+                }
+                img.style.transform = 'none';
             }
         }
     }
 
     function updateZoomDisplay() {
+        var text = Math.round(currentZoom * 100) + '%';
         var label = document.getElementById('simZoomLabel');
-        if (label) {
-            label.textContent = Math.round(currentZoom * 100) + '%';
-        }
+        if (label) label.textContent = text;
+        var fLabel = document.getElementById('simFloatZoomLabel');
+        if (fLabel) fLabel.textContent = text;
     }
+
+    // Touch pinch-to-zoom & double-tap to zoom support
+    (function initStageTouchZoom() {
+        var stage = document.getElementById('simStage');
+        if (!stage) return;
+        var initialDistance = 0;
+        var initialZoom = 1.0;
+        var lastTapTime = 0;
+
+        stage.addEventListener('touchstart', function(e) {
+            if (e.touches.length === 2) {
+                var dx = e.touches[0].clientX - e.touches[1].clientX;
+                var dy = e.touches[0].clientY - e.touches[1].clientY;
+                initialDistance = Math.hypot(dx, dy);
+                initialZoom = currentZoom;
+            }
+        }, { passive: true });
+
+        stage.addEventListener('touchmove', function(e) {
+            if (e.touches.length === 2 && initialDistance > 0) {
+                var dx = e.touches[0].clientX - e.touches[1].clientX;
+                var dy = e.touches[0].clientY - e.touches[1].clientY;
+                var dist = Math.hypot(dx, dy);
+                var factor = dist / initialDistance;
+                var targetZoom = Math.min(3.0, Math.max(0.5, Math.round(initialZoom * factor * 10) / 10));
+                if (Math.abs(targetZoom - currentZoom) >= 0.15) {
+                    currentZoom = targetZoom;
+                    applyZoom();
+                }
+            }
+        }, { passive: true });
+
+        stage.addEventListener('touchend', function(e) {
+            if (e.touches.length < 2) {
+                initialDistance = 0;
+            }
+            if (e.changedTouches.length === 1 && e.touches.length === 0) {
+                var now = Date.now();
+                if (now - lastTapTime < 320) {
+                    if (currentZoom > 1.1) {
+                        simResetZoom();
+                    } else {
+                        currentZoom = 1.75;
+                        applyZoom();
+                    }
+                    lastTapTime = 0;
+                } else {
+                    lastTapTime = now;
+                }
+            }
+        }, { passive: true });
+    })();
 
     function closeSimulationModal() {
         var modal = document.getElementById('simBackdrop');
