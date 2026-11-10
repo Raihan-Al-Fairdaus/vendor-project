@@ -271,64 +271,51 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 .btn-gold { background: var(--gold); color: var(--navy); padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: 0.2s; }
 .btn-gold:hover { background: var(--gold-hover); }
 
-/* MODAL MOU - FORMAT PROFESIONAL RESMI */
-.mou-modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); z-index: 9999; align-items: center; justify-content: center; padding: 1.5rem 1rem; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+/* MODAL MOU - FORMAT COMPACT & PROFESSIONAL */
+.mou-modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); z-index: 9999; align-items: center; justify-content: center; padding: 1rem 0.75rem; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
 .mou-modal.show { display: flex; }
-.mou-content { background: #ffffff; width: 100%; max-width: 820px; border-radius: 16px; display: flex; flex-direction: column; max-height: 92vh; position: relative; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); border: 1px solid rgba(255,255,255,0.2); }
-.mou-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 65%; height: 65%; background-image: url('{{ asset("images/logo.webp") }}'); background-repeat: no-repeat; background-position: center; background-size: contain; opacity: 0.04; pointer-events: none; z-index: 0; }
+.mou-content { background: #ffffff; width: 100%; max-width: 780px; border-radius: 14px; display: flex; flex-direction: column; max-height: 94vh; position: relative; overflow: hidden; box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.35); border: 1px solid rgba(255,255,255,0.2); }
+.mou-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 55%; height: 55%; background-image: url('{{ asset("images/logo.webp") }}'); background-repeat: no-repeat; background-position: center; background-size: contain; opacity: 0.035; pointer-events: none; z-index: 0; }
 
-.mou-header { padding: 1.25rem 1.75rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; background: #ffffff; }
+.mou-header { padding: 0.75rem 1.25rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; background: #ffffff; }
 .mou-header-title { width: 100%; text-align: center; }
-.mou-doc-badge { display: inline-block; background: rgba(27, 58, 96, 0.08); color: var(--navy); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 50px; margin-bottom: 4px; text-transform: uppercase; }
-.mou-header h3 { margin: 0; color: var(--navy); font-size: 1.2rem; font-weight: 800; letter-spacing: 0.02em; }
-.mou-sub { margin: 2px 0 0; font-size: 0.78rem; color: #64748b; font-weight: 600; }
-.mou-close { position: absolute; right: 1.25rem; top: 1.25rem; background: #f1f5f9; border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer; color: #64748b; transition: all 0.2s; }
+.mou-header h3 { margin: 0; color: var(--navy); font-size: 1.05rem; font-weight: 800; letter-spacing: 0.02em; }
+.mou-sub { margin: 2px 0 0; font-size: 0.72rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.mou-close { position: absolute; right: 0.85rem; top: 0.75rem; background: #f1f5f9; border: none; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; cursor: pointer; color: #64748b; transition: all 0.2s; line-height: 1; }
 .mou-close:hover { background: #fee2e2; color: #ef4444; }
 
-/* Reading Progress & Timer HUD */
-.mou-progress-strip { height: 4px; background: #e2e8f0; width: 100%; position: relative; z-index: 3; }
-.mou-progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(to right, #3b82f6, #10b981); transition: width 0.15s ease; }
-.mou-reading-hud { background: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 0.55rem 1.75rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 600; color: #475569; position: relative; z-index: 2; }
-.mou-hud-left { display: flex; align-items: center; gap: 0.4rem; color: var(--navy); }
-.mou-hud-right { display: flex; align-items: center; gap: 0.4rem; color: #d97706; }
+/* Reading Progress & Timer HUD (Super Compact 1 baris) */
+.mou-progress-strip { height: 3px; background: #e2e8f0; width: 100%; position: relative; z-index: 3; }
+.mou-progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(to right, #3b82f6, #10b981); transition: width 0.12s ease; }
+.mou-reading-hud { background: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 0.35rem 1.25rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.76rem; font-weight: 600; color: #475569; position: relative; z-index: 2; }
+.mou-hud-left { display: flex; align-items: center; gap: 0.35rem; color: var(--navy); }
+.mou-hud-right { display: flex; align-items: center; gap: 0.35rem; color: #d97706; }
 .mou-hud-right.complete { color: #10b981; }
 
-.mou-body { padding: 1.75rem 2rem; overflow-y: auto; color: #1e293b; font-size: 0.92rem; line-height: 1.7; position: relative; z-index: 1; text-align: justify; scroll-behavior: smooth; }
-.mou-body p { margin-bottom: 0.85rem; }
+.mou-body { padding: 1rem 1.35rem; overflow-y: auto; color: #1e293b; font-size: 0.88rem; line-height: 1.55; position: relative; z-index: 1; text-align: justify; scroll-behavior: smooth; }
+.mou-body p { margin-bottom: 0.5rem; }
 
-/* Artikel & Pasal Format Rapi (Tanpa background kotak aneh pada nomor) */
-.mou-article { margin-bottom: 2.2rem; padding-bottom: 1.75rem; border-bottom: 1px dashed #cbd5e1; }
+/* Artikel & Pasal Format Rapi & Rapat (No big boxes, compact spacing) */
+.mou-article { margin-bottom: 1.1rem; padding-bottom: 0.85rem; border-bottom: 1px solid #f1f5f9; }
 .mou-article:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-.mou-article-header { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.75rem; padding-bottom: 0.35rem; border-bottom: 2px solid rgba(27, 58, 96, 0.15); }
-.mou-article-label { color: var(--navy); font-weight: 800; font-size: 1.02rem; letter-spacing: 0.04em; }
+.mou-article-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; padding-bottom: 0.2rem; border-bottom: 1.5px solid rgba(27, 58, 96, 0.12); }
+.mou-article-label { color: var(--navy); font-weight: 800; font-size: 0.92rem; letter-spacing: 0.03em; }
 .mou-article-sep { color: #cbd5e1; font-weight: 300; }
-.mou-article-title { color: #0f172a; font-weight: 700; font-size: 1.02rem; margin: 0; text-transform: uppercase; letter-spacing: 0.02em; }
+.mou-article-title { color: #0f172a; font-weight: 700; font-size: 0.92rem; margin: 0; text-transform: uppercase; letter-spacing: 0.02em; }
 
-/* Callout Box: Inti Masalah & Gagasan Pokok */
-.mou-keypoint { background: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 0 10px 10px 0; padding: 0.85rem 1.15rem; margin: 1rem 0; font-size: 0.86rem; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
-.mou-keypoint.warning { background: #fffbeb; border-left-color: #f59e0b; }
-.mou-keypoint.danger { background: #fef2f2; border-left-color: #ef4444; }
-.mou-keypoint-head { display: flex; align-items: center; gap: 0.45rem; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.45rem; color: #1d4ed8; }
-.mou-keypoint.warning .mou-keypoint-head { color: #b45309; }
-.mou-keypoint.danger .mou-keypoint-head { color: #b91c1c; }
-.mou-keypoint-text { margin: 0 !important; color: #334155; line-height: 1.55; }
-.mou-keypoint-list { margin: 0; padding-left: 1.25rem; color: #334155; line-height: 1.6; }
-.mou-keypoint-list li { margin-bottom: 0.35rem; }
-.mou-keypoint-list li:last-child { margin-bottom: 0; }
+/* Highlight Warna Kalimat Penting Langsung di Teks */
+.mou-danger { color: #dc2626; font-weight: 700; background: rgba(239, 68, 68, 0.08); padding: 1px 4px; border-radius: 3px; }
+.mou-warning { color: #b45309; font-weight: 700; background: rgba(245, 158, 11, 0.1); padding: 1px 4px; border-radius: 3px; }
+.mou-primary { color: #1e40af; font-weight: 700; background: rgba(59, 130, 246, 0.08); padding: 1px 4px; border-radius: 3px; }
 
-.mou-footer { padding: 1.15rem 1.75rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 1rem; background: #f8fafc; position: relative; z-index: 2; flex-wrap: wrap; }
-.mou-footer-guide { font-size: 0.8rem; color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 0.4rem; }
+.mou-footer { padding: 0.65rem 1.25rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; align-items: center; gap: 0.75rem; background: #f8fafc; position: relative; z-index: 2; }
+.mou-footer .btn-draft { padding: 0.5rem 1rem; font-size: 0.84rem; }
 
 /* Tombol Persetujuan MOU Berstatus Dinamis */
-.btn-accept-mou { padding: 0.75rem 1.6rem; border-radius: 8px; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.5rem; border: none; cursor: pointer; transition: all 0.25s ease; }
+.btn-accept-mou { padding: 0.55rem 1.25rem; border-radius: 7px; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.45rem; border: none; cursor: pointer; transition: all 0.2s ease; }
 .btn-accept-mou.disabled { background: #94a3b8 !important; color: #ffffff !important; opacity: 0.65; cursor: not-allowed; pointer-events: auto; }
-.btn-accept-mou.unlocked { background: #10b981 !important; color: #ffffff !important; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); transform: scale(1.02); animation: pulseGreen 1.5s infinite; }
-.btn-accept-mou.unlocked:hover { background: #059669 !important; transform: translateY(-1px) scale(1.03); }
-@keyframes pulseGreen {
-    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
-    70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-}
+.btn-accept-mou.unlocked { background: #10b981 !important; color: #ffffff !important; box-shadow: 0 3px 10px rgba(16, 185, 129, 0.35); transform: scale(1.01); }
+.btn-accept-mou.unlocked:hover { background: #059669 !important; }
 
 /* Submit Form Locked State */
 .btn-submit.btn-locked { background: #94a3b8 !important; color: #ffffff !important; opacity: 0.65; cursor: not-allowed; box-shadow: none !important; }
@@ -868,24 +855,23 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     <div class="mou-content">
         <div class="mou-watermark"></div>
         
-        <!-- Header Dokumen -->
+        <!-- Header Dokumen Ringkas -->
         <div class="mou-header">
             <div class="mou-header-title">
-                <span class="mou-doc-badge">DOKUMEN RESMI KEMITRAAN</span>
                 <h3>MEMORANDUM OF UNDERSTANDING (MOU)</h3>
-                <p class="mou-sub">PERJANJIAN STANDAR KETENTUAN KERJA SAMA VENDOR &bull; PT. DNA JAYA GROUP</p>
+                <p class="mou-sub">STANDAR KETENTUAN KERJA SAMA KEMITRAAN VENDOR &bull; PT. DNA JAYA GROUP</p>
             </div>
             <button type="button" class="mou-close" onclick="closeMou()" title="Tutup Modal">&times;</button>
         </div>
 
-        <!-- Progress Bar & Reading Status HUD -->
+        <!-- Progress Bar & Reading Status HUD (Compact) -->
         <div class="mou-progress-strip">
             <div class="mou-progress-bar-fill" id="mouProgressFill"></div>
         </div>
         <div class="mou-reading-hud">
             <div class="mou-hud-left">
                 <i class="fa-solid fa-book-open"></i>
-                <span id="mouScrollStatus">Gulir untuk membaca (0%)</span>
+                <span id="mouScrollStatus">Progres: 0%</span>
             </div>
             <div class="mou-hud-right" id="mouTimerHud">
                 <i class="fa-regular fa-clock"></i>
@@ -893,7 +879,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
             </div>
         </div>
 
-        <!-- Isi Naskah MOU -->
+        <!-- Isi Naskah MOU Rapi, Rapat, dengan Penekanan Warna pada Teks Penting -->
         <div class="mou-body" id="mouBody">
             
             <!-- PASAL 1 -->
@@ -903,16 +889,8 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                     <span class="mou-article-sep">—</span>
                     <h4 class="mou-article-title">KETENTUAN UMUM</h4>
                 </div>
-                <p>(1) Memorandum Of Understanding (MOU) ini merupakan dasar dan ketentuan umum kerja sama antara <strong style="color:var(--navy)">PT. DNA JAYA GROUP</strong> (selanjutnya disebut <strong>PIHAK PERTAMA</strong>) dengan pihak vendor yang mendaftarkan dan menyatakan kesediaannya untuk menjadi rekanan/vendor resmi (selanjutnya disebut <strong>PIHAK KEDUA</strong>).</p>
-                <p>(2) MOU ini dibuat sebagai bentuk kesepahaman mengenai hak, kewajiban, tanggung jawab, serta ketentuan yang wajib dipatuhi oleh PIHAK KEDUA selama menjalankan kerja sama kemitraan.</p>
-                
-                <div class="mou-keypoint">
-                    <div class="mou-keypoint-head">
-                        <i class="fa-solid fa-handshake"></i>
-                        <span>GAGASAN POKOK & HUBUNGAN HUKUM:</span>
-                    </div>
-                    <p class="mou-keypoint-text">Pendaftaran dan persetujuan melalui website ini secara hukum mengikat PIHAK KEDUA (Vendor) pada seluruh ketentuan teknis, etika, dan operasional PT. DNA JAYA GROUP.</p>
-                </div>
+                <p>(1) Memorandum Of Understanding (MOU) ini merupakan dasar dan ketentuan umum kerja sama antara <span class="mou-primary">PT. DNA JAYA GROUP</span> (selanjutnya disebut <strong>PIHAK PERTAMA</strong>) dengan pihak vendor yang mendaftarkan diri menjadi rekanan resmi (selanjutnya disebut <strong>PIHAK KEDUA</strong>).</p>
+                <p>(2) MOU ini dibuat sebagai bentuk kesepahaman mengenai hak, kewajiban, tanggung jawab, serta ketentuan yang <span class="mou-primary">wajib dipatuhi dan mengikat secara hukum</span> oleh PIHAK KEDUA selama menjalankan kerja sama dengan PIHAK PERTAMA.</p>
             </div>
 
             <!-- PASAL 2 -->
@@ -920,23 +898,12 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                 <div class="mou-article-header">
                     <span class="mou-article-label">PASAL 2</span>
                     <span class="mou-article-sep">—</span>
-                    <h4 class="mou-article-title">RUANG LINGKUP PEKERJAAN & PROSEDUR KERJA</h4>
+                    <h4 class="mou-article-title">RUANG LINGKUP PEKERJAAN & SPK</h4>
                 </div>
-                <p>(1) PIHAK PERTAMA memberikan pekerjaan terkait Advertising dan periklanan sesuai dengan spesifikasi dan lokasi yang tercantum dalam <strong>Surat Perintah Kerja (SPK)</strong> resmi yang diterbitkan kepada PIHAK KEDUA, dan PIHAK KEDUA menyatakan telah sepakat untuk menerima dan melaksanakan pekerjaan tersebut.</p>
-                <p>(2) <strong>Masa Sanggah 1 x 24 Jam:</strong> Apabila PIHAK KEDUA merasa keberatan atau tidak mampu mengerjakan Surat Perintah Kerja yang turun dari PIHAK PERTAMA, maka PIHAK KEDUA diberikan waktu maksimal <strong>1 x 24 Jam</strong> Masa Sanggah untuk membatalkan atau mengajukan revisi resmi. Lewat dari 24 jam, SPK dianggap diterima penuh dan wajib diselesaikan.</p>
-                <p>(3) PIHAK KEDUA menyatakan sanggup untuk menyediakan bahan baku bermutu tinggi dan jasa pemasangan sesuai standar kualitas terbaik.</p>
-                <p>(4) Pekerjaan lainnya yang menurut sifatnya menjadi tanggung jawab PIHAK KEDUA wajib diserahkan tepat waktu sesuai kuantitas dan kualitas yang ditetapkan.</p>
-
-                <div class="mou-keypoint warning">
-                    <div class="mou-keypoint-head">
-                        <i class="fa-solid fa-clock"></i>
-                        <span>GAGASAN POKOK & BATAS WAKTU KRITIS:</span>
-                    </div>
-                    <ul class="mou-keypoint-list">
-                        <li><strong>Pedoman Resmi:</strong> Setiap pekerjaan wajib berdasar pada SPK resmi.</li>
-                        <li><strong>Masa Sanggah 1 x 24 Jam:</strong> Pembatalan atau revisi SPK <strong>wajib</strong> diajukan maksimal 1x24 jam sejak SPK terbit. Jika lewat 24 jam tanpa sanggahan, pekerjaan wajib dikerjakan dan tidak boleh ditinggalkan atau dibatalkan sepihak.</li>
-                    </ul>
-                </div>
+                <p>(1) PIHAK PERTAMA memberikan pekerjaan advertising/periklanan sesuai spesifikasi dan lokasi yang tercantum dalam <span class="mou-primary">Surat Perintah Kerja (SPK) resmi</span> yang diterbitkan kepada PIHAK KEDUA, dan PIHAK KEDUA menyatakan telah sepakat untuk melaksanakan pekerjaan tersebut.</p>
+                <p>(2) <span class="mou-warning">Masa Sanggah 1 x 24 Jam:</span> Apabila PIHAK KEDUA merasa keberatan atau tidak mampu mengerjakan SPK yang turun dari PIHAK PERTAMA, maka PIHAK KEDUA diberikan waktu <span class="mou-warning">maksimal 1 x 24 Jam Masa Sanggah</span> untuk membatalkan atau merevisi SPK. Lewat dari 24 jam, SPK dianggap disetujui penuh dan <span class="mou-danger">dilarang membatalkan atau meninggalkan pekerjaan secara sepihak</span>.</p>
+                <p>(3) PIHAK KEDUA menyatakan sanggup untuk menyediakan bahan baku bermutu standar tinggi dan jasa pemasangan yang rapi dan profesional.</p>
+                <p>(4) Seluruh pekerjaan menjadi tanggung jawab PIHAK KEDUA dan wajib diserahkan tepat waktu sesuai kuantitas, kualitas, serta tenggat waktu (deadline) yang ditetapkan.</p>
             </div>
 
             <!-- PASAL 3 -->
@@ -944,25 +911,13 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                 <div class="mou-article-header">
                     <span class="mou-article-label">PASAL 3</span>
                     <span class="mou-article-sep">—</span>
-                    <h4 class="mou-article-title">KESELAMATAN DAN KESEHATAN KERJA (K3)</h4>
+                    <h4 class="mou-article-title">KESELAMATAN & KESEHATAN KERJA (K3)</h4>
                 </div>
-                <p>(1) PIHAK KEDUA berkewajiban mutlak untuk melaksanakan pekerjaan dengan mematuhi dan mengutamakan aturan <strong>Keselamatan dan Kesehatan Kerja (K3)</strong>.</p>
-                <p>(2) PIHAK KEDUA wajib menugaskan tenaga kerja ahli yang kompeten dan berpengalaman sesuai jenis pekerjaan dari PIHAK PERTAMA.</p>
-                <p>(3) <strong>Pelepasan Tanggung Jawab atas Kelalaian K3:</strong> Jika PIHAK KEDUA atau pekerjanya mengalami kecelakaan kerja akibat tidak dipatuhinya SOP K3, maka PIHAK PERTAMA <strong>TIDAK BERTANGGUNG JAWAB</strong> atas segala kerugian yang timbul. Seluruh akibat hukum dan biaya menjadi beban PIHAK KEDUA sepenuhnya.</p>
-                <p>(4) Di lokasi pekerjaan <strong>wajib ada wakil PIHAK KEDUA</strong> yang ditunjuk sebagai Pimpinan Pelaksana dengan kewenangan penuh menangani dan memutuskan urusan lapangan serta penanganan risiko keselamatan kerja.</p>
+                <p>(1) PIHAK KEDUA berkewajiban mutlak untuk melaksanakan pekerjaan dengan mematuhi aturan <span class="mou-primary">Keselamatan dan Kesehatan Kerja (K3)</span>.</p>
+                <p>(2) PIHAK KEDUA wajib menugaskan tenaga kerja ahli yang kompeten dan berpengalaman sesuai jenis pekerjaan.</p>
+                <p>(3) <span class="mou-danger">Pelepasan Tanggung Jawab atas Kelalaian K3:</span> Jika terjadi kecelakaan kerja akibat ketidakpatuhan PIHAK KEDUA terhadap aturan K3, maka <span class="mou-danger">PIHAK PERTAMA TIDAK BERTANGGUNG JAWAB</span> atas segala kerugian yang timbul. Seluruh akibat hukum dan biaya perawatan menjadi beban dan tanggung jawab PIHAK KEDUA sepenuhnya.</p>
+                <p>(4) Di lokasi pekerjaan <span class="mou-primary">wajib ada perwakilan PIHAK KEDUA yang ditunjuk sebagai Pimpinan Pelaksana</span> dengan wewenang penuh mengambil tindakan di lapangan termasuk penanganan risiko keselamatan kerja.</p>
                 <p>(5) Semua persoalan dan tuntutan tenaga kerja sepenuhnya menjadi beban dan tanggung jawab PIHAK KEDUA, baik di dalam maupun di luar pengadilan.</p>
-
-                <div class="mou-keypoint danger">
-                    <div class="mou-keypoint-head">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        <span>GAGASAN POKOK & DISIPLIN K3 (PERHATIAN KERAS):</span>
-                    </div>
-                    <ul class="mou-keypoint-list">
-                        <li><strong>Kepatuhan SOP K3 Mutlak:</strong> Vendor bertanggung jawab penuh atas keselamatan seluruh pekerjanya di lapangan.</li>
-                        <li><strong>Pelepasan Tanggung Jawab:</strong> PT. DNA JAYA GROUP bebas dari segala tuntutan ganti rugi atas kecelakaan kerja yang diakibatkan oleh kelalaian atau pelanggaran SOP K3 oleh vendor.</li>
-                        <li><strong>Pimpinan Lapangan:</strong> Wajib menunjuk pimpinan pelaksana yang selalu bersiaga di lokasi kerja.</li>
-                    </ul>
-                </div>
             </div>
 
             <!-- PASAL 4 -->
@@ -970,32 +925,20 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                 <div class="mou-article-header">
                     <span class="mou-article-label">PASAL 4</span>
                     <span class="mou-article-sep">—</span>
-                    <h4 class="mou-article-title">KEWAJIBAN, STANDAR APD & GARANSI HASIL KERJA</h4>
+                    <h4 class="mou-article-title">KEWAJIBAN, STANDAR APD & GARANSI</h4>
                 </div>
-                <p>(1) PIHAK KEDUA wajib melaksanakan pekerjaan dengan penuh tanggung jawab, memperhatikan ketentuan hukum yang berlaku, dan menjaga kelestarian lingkungan.</p>
-                <p>(2) <strong>Wajib BPJS Ketenagakerjaan:</strong> Setiap pekerja PIHAK KEDUA wajib didaftarkan dan memiliki kepesertaan aktif BPJS Ketenagakerjaan oleh PIHAK KEDUA.</p>
-                <p>(3) <strong>Standar APD Wajib Ketinggian:</strong> Pekerja wajib menggunakan Alat Pelindung Diri lengkap meliputi: <strong>Sepatu Safety, Full Body Harness, Helm Pengaman, dan Sarung Tangan</strong>. Dilarang merusak konstruksi reklame kecuali dalam keadaan darurat resmi.</p>
-                <p>(4) Apabila PIHAK KEDUA belum memiliki alat pelindung di atas, dapat meminjam kepada PIHAK PERTAMA dan wajib mengembalikannya dalam kondisi utuh seperti semula.</p>
-                <p>(5) <strong>Jam Kerja Lapangan:</strong> Wajib mematuhi jam kerja operasional, yaitu dimulai dari <strong>Pukul 07.00 s/d maksimal Pukul 17.00 waktu setempat</strong>.</p>
-                <p>(6) PIHAK KEDUA bertanggung jawab penuh terhadap barang dan material yang ada di lokasi pekerjaan.</p>
-                <p>(7) Apabila terjadi cuaca ekstrem (hujan deras, angin kencang) atau kendala kabel listrik PLN berisiko tinggi, PIHAK KEDUA wajib segera menghentikan pekerjaan dan melapor kepada PIHAK PERTAMA.</p>
-                <p>(8) <strong>Masa Garansi Konstruksi Resmi:</strong> PIHAK KEDUA wajib memberikan jaminan garansi hasil pekerjaan:</p>
-                <ul style="margin-left: 1.5rem; margin-bottom: 0.85rem;">
-                    <li><strong>Pekerjaan Permanen:</strong> Masa garansi konstruksi <strong>1 (Satu) Tahun</strong> sejak pengiriman bukti foto selesai pekerjaan kepada PIHAK PERTAMA.</li>
-                    <li><strong>Pekerjaan Insidentil:</strong> Masa garansi konstruksi <strong>7 (Tujuh) Hari</strong> sejak pengiriman foto kepada PIHAK PERTAMA (kecuali penertiban dinas resmi atau force majeure).</li>
+                <p>(1) PIHAK KEDUA berkewajiban melaksanakan pekerjaan dengan penuh tanggung jawab teknis, mematuhi hukum yang berlaku, dan menjaga kelestarian lingkungan hidup.</p>
+                <p>(2) <span class="mou-primary">Wajib BPJS Ketenagakerjaan:</span> Setiap pekerja PIHAK KEDUA <span class="mou-primary">wajib didaftarkan menjadi peserta aktif BPJS Ketenagakerjaan</span> oleh PIHAK KEDUA.</p>
+                <p>(3) <span class="mou-primary">Standar APD Wajib Ketinggian:</span> Setiap pekerja wajib mengenakan <span class="mou-primary">Sepatu Safety, Full Body Harness, Helm Pengaman, dan Sarung Tangan Kerja</span>. Dilarang keras merusak konstruksi reklame kecuali dalam keadaan darurat resmi.</p>
+                <p>(4) Apabila PIHAK KEDUA belum memiliki alat pelindung di atas, dapat meminjam kepada PIHAK PERTAMA dan wajib mengembalikannya sesuai kondisi semula.</p>
+                <p>(5) <span class="mou-warning">Batas Jam Operasional:</span> PIHAK KEDUA wajib mematuhi jam kerja operasional di lapangan yaitu <span class="mou-warning">dimulai Jam 07.00 dan selambat-lambatnya selesai Jam 17.00 Waktu Setempat</span>.</p>
+                <p>(6) Dalam kondisi hujan lebat, angin kencang, atau potensi bahaya kabel listrik PLN, pekerjaan wajib segera dihentikan dan dilaporkan kepada PIHAK PERTAMA.</p>
+                <p>(7) <span class="mou-warning">Masa Garansi Konstruksi:</span> PIHAK KEDUA wajib memberikan garansi hasil pekerjaan yang telah selesai:</p>
+                <ul style="margin: 0 0 0.5rem 1.25rem; padding-left: 0; line-height: 1.5;">
+                    <li>Pekerjaan <strong>Permanen</strong>: Masa garansi konstruksi minimal <span class="mou-warning">1 (Satu) Tahun</span> sejak pengiriman foto selesai pekerjaan.</li>
+                    <li>Pekerjaan <strong>Insidentil</strong>: Masa garansi konstruksi minimal <span class="mou-warning">7 (Tujuh) Hari</span> sejak pengiriman foto selesai pekerjaan (kecuali penertiban dinas atau force majeure).</li>
                 </ul>
-
-                <div class="mou-keypoint warning">
-                    <div class="mou-keypoint-head">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        <span>GAGASAN POKOK & KEWAJIBAN MUTLAK VENDOR:</span>
-                    </div>
-                    <ul class="mou-keypoint-list">
-                        <li><strong>Wajib BPJS & APD Lengkap:</strong> Tidak ada toleransi untuk pekerja tanpa Harness, Helm, dan Sepatu Safety.</li>
-                        <li><strong>Disiplin Jam Kerja:</strong> Wajib selesai maksimal jam <strong>17.00</strong> demi ketertiban dan keselamatan.</li>
-                        <li><strong>Kewajiban Garansi:</strong> Garansi konstruksi <strong>1 Tahun (Permanen)</strong> dan <strong>7 Hari (Insidentil)</strong>. Jika terjadi kerusakan/cacat pasang dalam masa garansi, vendor wajib memperbaiki tanpa pungutan biaya tambahan.</li>
-                    </ul>
-                </div>
+                <p>Kerusakan fisik dalam masa garansi <span class="mou-danger">wajib diperbaiki kembali oleh PIHAK KEDUA tanpa memungut biaya tambahan</span>.</p>
             </div>
 
             <!-- PASAL 5 -->
@@ -1003,22 +946,11 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                 <div class="mou-article-header">
                     <span class="mou-article-label">PASAL 5</span>
                     <span class="mou-article-sep">—</span>
-                    <h4 class="mou-article-title">KETENTUAN HARGA & TATA CARA PEMBAYARAN</h4>
+                    <h4 class="mou-article-title">TATA CARA PEMBAYARAN & PAJAK</h4>
                 </div>
-                <p>(1) Pembayaran harga pekerjaan dilaksanakan oleh PIHAK PERTAMA kepada PIHAK KEDUA sesuai dengan nominal dan termin yang disepakati dalam Surat Perintah Kerja (SPK).</p>
-                <p>(2) <strong>Pemotongan Pajak PPh:</strong> PIHAK PERTAMA berhak untuk memotong langsung pembayaran Pajak Penghasilan (PPh) sesuai dengan peraturan perpajakan yang berlaku di Republik Indonesia.</p>
-                <p>(3) Seluruh pembayaran dilakukan secara nontunai melalui <strong>Transfer Bank</strong> resmi ke nomor rekening PIHAK KEDUA yang telah divalidasi pada saat registrasi.</p>
-
-                <div class="mou-keypoint">
-                    <div class="mou-keypoint-head">
-                        <i class="fa-solid fa-receipt"></i>
-                        <span>GAGASAN POKOK & PEMBAYARAN:</span>
-                    </div>
-                    <ul class="mou-keypoint-list">
-                        <li><strong>Dasar Pembayaran:</strong> Berdasarkan SPK dan Berita Acara Serah Terima (BAST) pekerjaan yang valid.</li>
-                        <li><strong>Pajak & Rekening:</strong> Dipotong pajak PPh resmi dan hanya ditransfer ke rekening bank perusahaan yang terdaftar.</li>
-                    </ul>
-                </div>
+                <p>(1) Pembayaran harga pekerjaan dilakukan oleh PIHAK PERTAMA kepada PIHAK KEDUA sesuai nominal dan termin pada Surat Perintah Kerja (SPK) serta Berita Acara Serah Terima (BAST).</p>
+                <p>(2) <span class="mou-primary">Pemotongan Pajak PPh:</span> PIHAK PERTAMA berhak <span class="mou-primary">memotong pembayaran Pajak Penghasilan (PPh)</span> sesuai peraturan perundang-undangan perpajakan yang berlaku.</p>
+                <p>(3) Pembayaran dicairkan secara nontunai melalui <span class="mou-primary">Transfer Bank resmi</span> ke rekening PIHAK KEDUA yang telah divalidasi pada sistem.</p>
             </div>
 
             <!-- PASAL 6 -->
@@ -1026,11 +958,10 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                 <div class="mou-article-header">
                     <span class="mou-article-label">PASAL 6</span>
                     <span class="mou-article-sep">—</span>
-                    <h4 class="mou-article-title">JANGKA WAKTU PERJANJIAN & PENGAKHIRAN</h4>
+                    <h4 class="mou-article-title">JANGKA WAKTU PERJANJIAN</h4>
                 </div>
-                <p>(1) Jangka waktu perjanjian kerja sama ini berlaku sejak tanggal disetujui melalui sistem website dan berlangsung terus selama kedua belah pihak menjalin kemitraan aktif.</p>
-                <p>(2) Apabila kerja sama tidak lagi dilanjutkan, PIHAK PERTAMA berhak mengakhiri kerja sama dengan menyampaikan surat pemberitahuan tertulis kepada PIHAK KEDUA.</p>
-                <p>(3) PIHAK PERTAMA berhak memutus kemitraan sepihak seketika apabila PIHAK KEDUA melakukan wanprestasi, pemalsuan data, atau pelanggaran berat terhadap SOP keselamatan kerja.</p>
+                <p>(1) Jangka waktu perjanjian kerja sama ini berlaku sejak disetujui melalui sistem website dan berlaku seterusnya selama kedua belah pihak menjalin kemitraan.</p>
+                <p>(2) PIHAK PERTAMA berhak mengakhiri kerja sama sepihak seketika apabila PIHAK KEDUA melakukan wanprestasi, pemalsuan data, atau pelanggaran berat terhadap SOP keselamatan kerja.</p>
             </div>
 
             <!-- PASAL 7 -->
@@ -1040,17 +971,8 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                     <span class="mou-article-sep">—</span>
                     <h4 class="mou-article-title">KEADAAN MEMAKSA (FORCE MAJEURE)</h4>
                 </div>
-                <p>(1) Meliputi bencana alam gempa bumi, banjir bandang, peperangan, huru-hara, dan pemogokan massal yang berada di luar kendali PARA PIHAK.</p>
-                <p>(2) <strong>Batas Lapor Tertulis 3 Hari Kalender:</strong> Pihak yang terdampak keadaan memaksa <strong>wajib memberitahukan secara tertulis selambat-lambatnya 3 (tiga) hari kalender</strong> sejak kejadian. Kelalaian melapor dalam batas 3 hari menyebabkan force majeure gugur dan kewajiban tetap berjalan.</p>
-                <p>(3) Jika laporan diterima tepat waktu, PARA PIHAK akan merundingkan penjadwalan ulang secara musyawarah untuk mufakat.</p>
-
-                <div class="mou-keypoint warning">
-                    <div class="mou-keypoint-head">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        <span>GAGASAN POKOK & BATAS LAPOR 3 HARI:</span>
-                    </div>
-                    <p class="mou-keypoint-text">Kendala bencana alam / force majeure <strong>wajib dilaporkan tertulis maksimal 3 hari kalender</strong> agar hak perlindungan hukum dapat diakui.</p>
-                </div>
+                <p>(1) Meliputi bencana alam, gempa bumi, banjir bandang, peperangan, huru-hara, dan pemogokan massal di luar kekuasaan PARA PIHAK.</p>
+                <p>(2) Pihak terdampak <span class="mou-warning">wajib memberitahukan secara tertulis selambat-lambatnya 3 (tiga) hari kalender</span> setelah kejadian. Kelalaian melapor dalam batas 3 hari kalender menyebabkan keadaan memaksa dianggap gugur dan pekerjaan tetap wajib diselesaikan.</p>
             </div>
 
             <!-- PASAL 8 -->
@@ -1058,18 +980,10 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                 <div class="mou-article-header">
                     <span class="mou-article-label">PASAL 8</span>
                     <span class="mou-article-sep">—</span>
-                    <h4 class="mou-article-title">PENYELESAIAN PERSELISIHAN & DOMISILI HUKUM</h4>
+                    <h4 class="mou-article-title">PENYELESAIAN PERSELISIHAN</h4>
                 </div>
-                <p>(1) Setiap perbedaan pendapat atau perselisihan yang timbul akan diselesaikan terlebih dahulu melalui musyawarah mufakat.</p>
-                <p>(2) Apabila tidak tercapai mufakat, maka PARA PIHAK sepakat memilih domisili hukum yang tetap dan tidak berubah di <strong>Pengadilan Negeri Sidoarjo</strong>.</p>
-
-                <div class="mou-keypoint">
-                    <div class="mou-keypoint-head">
-                        <i class="fa-solid fa-gavel"></i>
-                        <span>GAGASAN POKOK & YURISDIKSI HUKUM:</span>
-                    </div>
-                    <p class="mou-keypoint-text">Penyelesaian sengketa hukum final berkedudukan resmi di Pengadilan Negeri Sidoarjo, Jawa Timur.</p>
-                </div>
+                <p>(1) Setiap perselisihan diselesaikan terlebih dahulu secara musyawarah untuk mencapai mufakat.</p>
+                <p>(2) Apabila penyelesaian musyawarah tidak tercapai, PARA PIHAK sepakat memilih domisili hukum yang tetap di <span class="mou-primary">Pengadilan Negeri Sidoarjo</span>.</p>
             </div>
 
             <!-- PASAL 9 -->
@@ -1080,7 +994,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                     <h4 class="mou-article-title">KETENTUAN LAIN-LAIN</h4>
                 </div>
                 <p>(1) Apabila terjadi perbedaan penafsiran antara Perjanjian ini dengan lampirannya, maka yang diberlakukan adalah ketentuan utama dalam Perjanjian ini.</p>
-                <p>(2) Ketentuan teknis detail setiap proyek diatur terpisah dalam SPK yang merupakan satu kesatuan mengikat dan tidak terpisahkan dari MOU ini.</p>
+                <p>(2) Ketentuan teknis detail setiap proyek diatur terpisah dalam SPK yang merupakan satu kesatuan mengikat dari MOU ini.</p>
             </div>
 
             <!-- PASAL 10 -->
@@ -1088,20 +1002,11 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                 <div class="mou-article-header">
                     <span class="mou-article-label">PASAL 10</span>
                     <span class="mou-article-sep">—</span>
-                    <h4 class="mou-article-title">KEABSAHAN PERSETUJUAN SISTEM DIGITAL</h4>
+                    <h4 class="mou-article-title">KEABSAHAN PERSETUJUAN WEBSITE</h4>
                 </div>
-                <p>(1) PIHAK KEDUA menyatakan telah membaca dengan teliti, memahami, dan menyetujui seluruh ketentuan dalam MOU ini sebelum memberikan persetujuan.</p>
-                <p>(2) Dengan mencentang persetujuan dan mengirimkan formulir pada website, PIHAK KEDUA menyatakan secara sadar bersedia menjadi Vendor resmi PT. DNA JAYA GROUP.</p>
-                <p>(3) Persetujuan digital melalui sistem ini sah, berkekuatan hukum tetap, dan mengikat PARA PIHAK secara perdata.</p>
-                <p>(4) PIHAK KEDUA bertanggung jawab penuh secara hukum atas kebenaran seluruh dokumen legalitas (KTP, NPWP, Buku Rekening, Foto Kantor) yang diunggah.</p>
-
-                <div class="mou-keypoint">
-                    <div class="mou-keypoint-head">
-                        <i class="fa-solid fa-signature"></i>
-                        <span>GAGASAN POKOK & LEGALITAS DIGITAL:</span>
-                    </div>
-                    <p class="mou-keypoint-text">Persetujuan digital pada sistem ini sah, berkekuatan hukum penuh, dan mengikat vendor tanpa memerlukan tanda tangan basah di atas kertas.</p>
-                </div>
+                <p>(1) PIHAK KEDUA menyatakan telah membaca dengan teliti dan memahami seluruh isi MOU ini sebelum memberikan persetujuan.</p>
+                <p>(2) Persetujuan digital melalui sistem ini <span class="mou-primary">sah, berkekuatan hukum penuh, dan mengikat setara tanda tangan basah di atas meterai</span>.</p>
+                <p>(3) PIHAK KEDUA <span class="mou-danger">bertanggung jawab penuh secara hukum</span> atas kebenaran seluruh dokumen legalitas (KTP, NPWP, Buku Rekening, Foto Kantor) yang disampaikan.</p>
             </div>
 
             <!-- PASAL 11 -->
@@ -1111,15 +1016,12 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                     <span class="mou-article-sep">—</span>
                     <h4 class="mou-article-title">PENUTUP</h4>
                 </div>
-                <p>MOU ini berlaku sebagai pedoman operasional dan ketentuan umum kemitraan vendor sejak persetujuan dilakukan melalui sistem pendaftaran website <strong>PT. DNA JAYA GROUP</strong>.</p>
-                <p style="text-align: center; margin-top: 1.5rem; color: #64748b; font-size: 0.82rem; font-weight: 600;">
-                    &mdash; DOKUMEN RESMI INI DILINDUNGI SISTEM KEAMANAN DNA VENDOR PORTAL &mdash;
-                </p>
+                <p>MOU ini berlaku sebagai ketentuan umum kerja sama kemitraan vendor sejak persetujuan dilakukan melalui sistem pendaftaran website <strong>PT. DNA JAYA GROUP</strong>.</p>
             </div>
             
         </div>
 
-        <!-- Footer Modal dengan Sistem Verifikasi Baca Ketat -->
+        <!-- Footer Modal Ringkas -->
         <div class="mou-footer">
             <button type="button" class="btn-draft" onclick="closeMou()">
                 <span class="lang-id">Tutup Dulu</span>
@@ -1343,9 +1245,9 @@ function initMouReadingTracking() {
             if (progressBar) progressBar.style.width = percent + '%';
             if (scrollStatus) {
                 if (percent >= 95) {
-                    scrollStatus.innerHTML = '<i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Dokumen Dibaca Penuh (100%)';
+                    scrollStatus.innerHTML = '<i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Selesai (100%)';
                 } else {
-                    scrollStatus.innerHTML = '<i class="fa-solid fa-book-open"></i> Progres Membaca: ' + percent + '%';
+                    scrollStatus.innerHTML = '<i class="fa-solid fa-book-open"></i> Progres: ' + percent + '%';
                 }
             }
 
@@ -1372,7 +1274,7 @@ function initMouReadingTracking() {
                 mouTimer = null;
                 if (timerHud) timerHud.classList.add('complete');
                 if (timeRemaining) {
-                    timeRemaining.innerHTML = '<i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Waktu Baca Terpenuhi';
+                    timeRemaining.innerHTML = '<i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Waktu Terpenuhi';
                 }
                 updateMouButtonState();
             }
