@@ -25,8 +25,6 @@ use App\Http\Controllers\Admin\VendorManagementController;
 // 1. ROUTE PUBLIC & VENDOR
 // ==========================================
 Route::get('/', [VendorController::class, 'index'])->name('home');
-Route::get('/bilboard', [App\Http\Controllers\BillboardController::class, 'index'])->name('bilboard.index');
-Route::get('/bilboard/{billboard}/simulation-file', [App\Http\Controllers\BillboardController::class, 'simulationFile'])->name('bilboard.simulation.file');
 
 Route::get('/run-migrations', function () {
     // Keamanan: Tolak akses publik tanpa verifikasi token internal rahasia
@@ -348,22 +346,6 @@ Route::get('/admin/documents', [DocumentController::class, 'index'])
         return redirect()->route('admin.login');
     })->name('admin.logout');
 
-    // ------------------------------------------
-    // Billboards Admin Management
-    // ------------------------------------------
-        // Billboards Admin Management
-        Route::get('admin/billboards', [App\Http\Controllers\Admin\BillboardController::class, 'index'])->name('admin.billboards.index');
-        Route::get('admin/billboards/create', [App\Http\Controllers\Admin\BillboardController::class, 'create'])->name('admin.billboards.create');
-        Route::post('admin/billboards', [App\Http\Controllers\Admin\BillboardController::class, 'store'])->name('admin.billboards.store');
-        Route::get('admin/billboards/{billboard}/edit', [App\Http\Controllers\Admin\BillboardController::class, 'edit'])->name('admin.billboards.edit');
-        Route::put('admin/billboards/{billboard}', [App\Http\Controllers\Admin\BillboardController::class, 'update'])->name('admin.billboards.update');
-        Route::delete('admin/billboards/{billboard}', [App\Http\Controllers\Admin\BillboardController::class, 'destroy'])->name('admin.billboards.destroy');
-        Route::post('admin/billboards/import', [App\Http\Controllers\Admin\BillboardController::class, 'import'])->name('admin.billboards.import');
-        Route::post('admin/billboards/undo-import', [App\Http\Controllers\Admin\BillboardController::class, 'undoImport'])->name('admin.billboards.undoImport');
-        Route::post('admin/billboards/{billboard}/simulation', [App\Http\Controllers\Admin\BillboardController::class, 'uploadSimulation'])->name('admin.billboards.simulation.upload');
-        Route::delete('admin/billboards/{billboard}/simulation', [App\Http\Controllers\Admin\BillboardController::class, 'deleteSimulation'])->name('admin.billboards.simulation.delete');
-        Route::post('admin/billboards/auto-match-simulation', [App\Http\Controllers\Admin\BillboardController::class, 'autoMatchSimulation'])->name('admin.billboards.autoMatchSimulation');
-        Route::post('admin/billboards/delete-all-simulations', [App\Http\Controllers\Admin\BillboardController::class, 'deleteAllSimulations'])->name('admin.billboards.deleteAllSimulations');
 
 });
 

@@ -404,10 +404,6 @@
                     <span>Vendors</span>
                 </a>
 
-                <a href="{{ route('admin.billboards.index') }}" class="nav-item {{ request()->routeIs('admin.billboards.*') ? 'active' : '' }}">
-                    <span class="nav-item-icon"><i class="fa-solid fa-map-pin"></i></span>
-                    <span>Billboards</span>
-                </a>
 
                 <div class="nav-section-label">TOOLS</div>
 
