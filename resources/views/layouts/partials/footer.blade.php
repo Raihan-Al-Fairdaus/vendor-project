@@ -103,11 +103,11 @@
                 <i class="fa-regular fa-clock"></i>
                 <div>Senin - Jumat<br>08:00 - 17:00 WIB</div>
             </div>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Informasi%20Kemitraan%20Vendor%20DNA" target="_blank" rel="noopener noreferrer" onclick="event.preventDefault(); window.open('https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Informasi%20Kemitraan%20Vendor%20DNA', '_blank');" class="contact-item contact-link" title="Buka Gmail untuk Tulis Pesan ke workshop@dnajayagroup.co.id">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Permohonan%20Informasi%20Kemitraan%20Vendor%20-%20PT.%20DNA%20Jaya%20Group&body=Kepada%20Yth.%0ATim%20Pengadaan%20%26%20Kemitraan%20Vendor%0APT.%20DNA%20Jaya%20Group%0A%0ADengan%20hormat%2C%0A%0ASehubungan%20dengan%20proses%20pendaftaran%20rekanan%20pada%20DNA%20Vendor%20Portal%2C%20kami%20bermaksud%20untuk%20mengajukan%20pertanyaan%20dan%20berkonsultasi%20terkait%20kemitraan%20vendor.%0A%0ABerikut%20informasi%20perusahaan%20kami%3A%0A-%20Nama%20Perusahaan%3A%20%0A-%20Nama%20PIC%2FKontak%3A%20%0A-%20Nomor%20Telepon%2FWA%3A%20%0A-%20Perihal%2FKendala%3A%20%0A%0AMohon%20petunjuk%20dan%20arahan%20lebih%20lanjut.%20Terima%20kasih.%0A%0AHormat%20kami%2C" target="_blank" rel="noopener noreferrer" onclick="event.preventDefault(); window.open(this.href, '_blank');" class="contact-item contact-link" title="Tulis Pesan via Gmail ke workshop@dnajayagroup.co.id">
                 <i class="fa-solid fa-envelope"></i>
                 <div>workshop@dnajayagroup.co.id</div>
             </a>
-            <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20informasi%20terkait%20vendor%20portal." target="_blank" class="contact-item contact-link" title="Chat WhatsApp / Telepon 0882-2100-2100">
+            <a href="https://wa.me/6288221002100?text=Yth.%20Tim%20Kemitraan%20PT.%20DNA%20Jaya%20Group%2C%0A%0ASaya%20ingin%20berkonsultasi%20mengenai%20pendaftaran%20dan%20verifikasi%20rekanan%20vendor%20pada%20DNA%20Vendor%20Portal.%0A%0AMohon%20informasi%20dan%20bantuan%20lebih%20lanjut.%20Terima%20kasih." target="_blank" class="contact-item contact-link" title="Chat WhatsApp Resmi DNA Advertising (0882-2100-2100)">
                 <i class="fa-solid fa-phone"></i>
                 <div>0882-2100-2100</div>
             </a>

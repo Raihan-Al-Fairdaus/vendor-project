@@ -211,7 +211,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
         <a href="#why-partner">Why Partner With Us</a>
         <a href="{{ route('faq') }}">FAQ</a>
     </div>
-    <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-nav-contact"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>
+    <a href="https://wa.me/6288221002100?text=Yth.%20Tim%20Kemitraan%20PT.%20DNA%20Jaya%20Group%2C%0A%0ASaya%20ingin%20berkonsultasi%20mengenai%20pendaftaran%20dan%20verifikasi%20rekanan%20vendor%20pada%20DNA%20Vendor%20Portal.%0A%0AMohon%20informasi%20dan%20bantuan%20lebih%20lanjut.%20Terima%20kasih." target="_blank" class="btn-nav-contact"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>
 </nav>
 
 <!-- HERO SECTION -->
@@ -307,10 +307,10 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
             <div class="cta-icon"><i class="fa-solid fa-headset"></i></div>
             <div class="cta-text">
                 <h3>Butuh Bantuan?</h3>
-                <p>Mengalami kesulitan saat mendaftarkan perusahaan Anda? Hubungi tim kami via Telepon/WA <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" style="color:#ffffff; font-weight:700; text-decoration:underline;">0882-2100-2100</a> atau Email ke <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Bantuan%20Pendaftaran%20Vendor%20DNA" target="_blank" rel="noopener noreferrer" onclick="event.preventDefault(); window.open(this.href, '_blank');" style="color:#ffffff; font-weight:700; text-decoration:underline;">workshop@dnajayagroup.co.id</a>. Kami siap membantu proses registrasi Anda.</p>
+                <p>Mengalami kesulitan saat mendaftarkan perusahaan Anda? Hubungi tim kami via Telepon/WA <a href="https://wa.me/6288221002100?text=Yth.%20Tim%20Kemitraan%20PT.%20DNA%20Jaya%20Group%2C%0A%0ASaya%20ingin%20berkonsultasi%20mengenai%20pendaftaran%20dan%20verifikasi%20rekanan%20vendor%20pada%20DNA%20Vendor%20Portal.%0A%0AMohon%20informasi%20dan%20bantuan%20lebih%20lanjut.%20Terima%20kasih." target="_blank" style="color:#ffffff; font-weight:700; text-decoration:underline;">0882-2100-2100</a> atau Email ke <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Permohonan%20Informasi%20Kemitraan%20Vendor%20-%20PT.%20DNA%20Jaya%20Group&body=Kepada%20Yth.%0ATim%20Pengadaan%20%26%20Kemitraan%20Vendor%0APT.%20DNA%20Jaya%20Group%0A%0ADengan%20hormat%2C%0A%0ASehubungan%20dengan%20proses%20pendaftaran%20rekanan%20pada%20DNA%20Vendor%20Portal%2C%20kami%20bermaksud%20untuk%20mengajukan%20pertanyaan%20dan%20berkonsultasi%20terkait%20kemitraan%20vendor.%0A%0ABerikut%20informasi%20perusahaan%20kami%3A%0A-%20Nama%20Perusahaan%3A%20%0A-%20Nama%20PIC%2FKontak%3A%20%0A-%20Nomor%20Telepon%2FWA%3A%20%0A-%20Perihal%2FKendala%3A%20%0A%0AMohon%20petunjuk%20dan%20arahan%20lebih%20lanjut.%20Terima%20kasih.%0A%0AHormat%20kami%2C" target="_blank" rel="noopener noreferrer" onclick="event.preventDefault(); window.open(this.href, '_blank');" style="color:#ffffff; font-weight:700; text-decoration:underline;">workshop@dnajayagroup.co.id</a>. Kami siap membantu proses registrasi Anda.</p>
             </div>
         </div>
-        <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-white"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>
+        <a href="https://wa.me/6288221002100?text=Yth.%20Tim%20Kemitraan%20PT.%20DNA%20Jaya%20Group%2C%0A%0ASaya%20ingin%20berkonsultasi%20mengenai%20pendaftaran%20dan%20verifikasi%20rekanan%20vendor%20pada%20DNA%20Vendor%20Portal.%0A%0AMohon%20informasi%20dan%20bantuan%20lebih%20lanjut.%20Terima%20kasih." target="_blank" class="btn-white"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>
     </div>
 </section>
 
