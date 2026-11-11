@@ -307,7 +307,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
             <div class="cta-icon"><i class="fa-solid fa-headset"></i></div>
             <div class="cta-text">
                 <h3>Butuh Bantuan?</h3>
-                <p>Mengalami kesulitan saat mendaftarkan perusahaan Anda? Hubungi tim kami via Telepon/WA <strong>0882-2100-2100</strong> atau Email ke <strong>workshop@dnajayagroup.co.id</strong>. Kami siap membantu proses registrasi Anda.</p>
+                <p>Mengalami kesulitan saat mendaftarkan perusahaan Anda? Hubungi tim kami via Telepon/WA <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" style="color:#ffffff; font-weight:700; text-decoration:underline;">0882-2100-2100</a> atau Email ke <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Bantuan%20Pendaftaran%20Vendor%20DNA" target="_blank" style="color:#ffffff; font-weight:700; text-decoration:underline;">workshop@dnajayagroup.co.id</a>. Kami siap membantu proses registrasi Anda.</p>
             </div>
         </div>
         <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-white"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>

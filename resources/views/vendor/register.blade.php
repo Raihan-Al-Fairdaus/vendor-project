@@ -191,11 +191,13 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 }
 .help-contact-link:hover {
     background: #eff6ff;
-    color: #2563eb !important;
-    border-color: #bfdbfe;
-    transform: translateX(3px);
+    color: #1d4ed8 !important;
+    border-color: #93c5fd;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
 }
-.help-contact-link i { color: #2563eb; font-size: 0.85rem; flex-shrink: 0; }
+.help-contact-link i { color: #2563eb; font-size: 0.85rem; flex-shrink: 0; transition: transform 0.2s ease, color 0.2s ease; }
+.help-contact-link:hover i { transform: scale(1.2); color: #1d4ed8; }
 .btn-help { background: var(--navy) !important; color: #ffffff !important; padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
 .btn-help:hover { background: var(--navy-dark) !important; }
 
@@ -546,7 +548,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                         <i class="fa-solid fa-phone"></i>
                         <span>0882-2100-2100</span>
                     </a>
-                    <a href="mailto:workshop@dnajayagroup.co.id" class="help-contact-link" title="Kirim Email ke workshop@dnajayagroup.co.id">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Bantuan%20Pendaftaran%20Vendor%20DNA" target="_blank" class="help-contact-link" title="Tulis Pesan via Gmail ke workshop@dnajayagroup.co.id">
                         <i class="fa-solid fa-envelope"></i>
                         <span>workshop@dnajayagroup.co.id</span>
                     </a>
@@ -877,7 +879,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                         <i class="fa-solid fa-phone"></i>
                         <span>0882-2100-2100</span>
                     </a>
-                    <a href="mailto:workshop@dnajayagroup.co.id" class="help-contact-link" title="Kirim Email ke workshop@dnajayagroup.co.id">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Bantuan%20Pendaftaran%20Vendor%20DNA" target="_blank" class="help-contact-link" title="Tulis Pesan via Gmail ke workshop@dnajayagroup.co.id">
                         <i class="fa-solid fa-envelope"></i>
                         <span>workshop@dnajayagroup.co.id</span>
                     </a>
