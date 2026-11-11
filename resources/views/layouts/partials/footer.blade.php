@@ -81,6 +81,7 @@
             <div class="social-links">
                 <a href="https://wa.me/6288221002100" target="_blank" title="WhatsApp 0882-2100-2100"><i class="fa-brands fa-whatsapp"></i></a>
                 <a href="https://www.instagram.com/dna.advofficial" target="_blank" title="Instagram @dna.advofficial"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@dnajayagroup?is_from_webapp=1&sender_device=pc" target="_blank" title="TikTok @dnajayagroup"><i class="fa-brands fa-tiktok"></i></a>
             </div>
         </div>
         <div class="footer-col">
