@@ -17,6 +17,10 @@
 .custom-footer .footer-links a:hover { color: #f59e0b; }
 .custom-footer .contact-item { display: flex; gap: 1rem; margin-bottom: 1rem; color: rgba(255,255,255,0.7); font-size: 0.9rem; }
 .custom-footer .contact-item i { margin-top: 0.2rem; }
+.custom-footer .contact-link { text-decoration: none; cursor: pointer; transition: all 0.2s ease; }
+.custom-footer .contact-link:hover { color: #f59e0b !important; transform: translateX(4px); }
+.custom-footer .contact-link:hover i { color: #f59e0b; }
+.custom-footer .contact-link:hover div { color: #f59e0b; }
 .custom-footer .footer-bottom { max-width: 1200px; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
 
 .custom-footer .btn-primary { background: #f59e0b; color: #0a1628; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
@@ -79,14 +83,14 @@
                 <i class="fa-regular fa-clock"></i>
                 <div>Senin - Jumat<br>08:00 - 17:00 WIB</div>
             </div>
-            <div class="contact-item">
+            <a href="mailto:workshop@dnajayagroup.co.id" class="contact-item contact-link" title="Kirim Email ke workshop@dnajayagroup.co.id">
                 <i class="fa-solid fa-envelope"></i>
-                <div><a href="mailto:workshop@dnajayagroup.co.id" style="color:inherit;text-decoration:none;">workshop@dnajayagroup.co.id</a></div>
-            </div>
-            <div class="contact-item">
+                <div>workshop@dnajayagroup.co.id</div>
+            </a>
+            <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20informasi%20terkait%20vendor%20portal." target="_blank" class="contact-item contact-link" title="Hubungi Telepon / WhatsApp 0882-2100-2100">
                 <i class="fa-solid fa-phone"></i>
-                <div><a href="tel:088221002100" style="color:inherit;text-decoration:none;">0882-2100-2100</a></div>
-            </div>
+                <div>0882-2100-2100</div>
+            </a>
         </div>
         <div class="footer-col">
             <h4>Siap untuk Memulai?</h4>

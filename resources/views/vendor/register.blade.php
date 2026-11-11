@@ -173,6 +173,29 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 .help-box .icon { font-size: 1.5rem; color: var(--navy) !important; margin-bottom: -0.5rem; }
 .help-box h4 { color: var(--navy) !important; margin: 0; font-size: 0.95rem; font-weight: 600; }
 .help-box p { color: #64748b !important; font-size: 0.8rem; margin: 0; line-height: 1.5; }
+.help-contacts { display: flex; flex-direction: column; gap: 0.45rem; margin: 0.1rem 0 0.35rem; }
+.help-contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--navy) !important;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.45rem 0.65rem;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+    word-break: break-all;
+}
+.help-contact-link:hover {
+    background: #eff6ff;
+    color: #2563eb !important;
+    border-color: #bfdbfe;
+    transform: translateX(3px);
+}
+.help-contact-link i { color: #2563eb; font-size: 0.85rem; flex-shrink: 0; }
 .btn-help { background: var(--navy) !important; color: #ffffff !important; padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
 .btn-help:hover { background: var(--navy-dark) !important; }
 
@@ -518,9 +541,15 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                     <span class="lang-id">Tim kami siap membantu Anda selama proses pendaftaran.</span>
                     <span class="lang-en">Our team is ready to assist you during the registration process.</span>
                 </p>
-                <div style="font-size: 0.8rem; margin: 0.6rem 0 0.8rem; opacity: 0.95; line-height: 1.6; text-align: left;">
-                    <div><i class="fa-solid fa-phone" style="width: 16px;"></i> <strong>0882-2100-2100</strong></div>
-                    <div style="word-break: break-all;"><i class="fa-solid fa-envelope" style="width: 16px;"></i> <strong>workshop@dnajayagroup.co.id</strong></div>
+                <div class="help-contacts">
+                    <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="help-contact-link" title="Hubungi Telepon / WhatsApp 0882-2100-2100">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>0882-2100-2100</span>
+                    </a>
+                    <a href="mailto:workshop@dnajayagroup.co.id" class="help-contact-link" title="Kirim Email ke workshop@dnajayagroup.co.id">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>workshop@dnajayagroup.co.id</span>
+                    </a>
                 </div>
                 <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-help">
                     <i class="fa-brands fa-whatsapp"></i> 
@@ -843,9 +872,15 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                     <span class="lang-id">Tim kami siap membantu Anda selama proses pendaftaran.</span>
                     <span class="lang-en">Our team is ready to assist you during the registration process.</span>
                 </p>
-                <div style="font-size: 0.8rem; margin: 0.6rem 0 0.8rem; opacity: 0.95; line-height: 1.6; text-align: left;">
-                    <div><i class="fa-solid fa-phone" style="width: 16px;"></i> <strong>0882-2100-2100</strong></div>
-                    <div style="word-break: break-all;"><i class="fa-solid fa-envelope" style="width: 16px;"></i> <strong>workshop@dnajayagroup.co.id</strong></div>
+                <div class="help-contacts">
+                    <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="help-contact-link" title="Hubungi Telepon / WhatsApp 0882-2100-2100">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>0882-2100-2100</span>
+                    </a>
+                    <a href="mailto:workshop@dnajayagroup.co.id" class="help-contact-link" title="Kirim Email ke workshop@dnajayagroup.co.id">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>workshop@dnajayagroup.co.id</span>
+                    </a>
                 </div>
                 <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-help">
                     <i class="fa-brands fa-whatsapp"></i> 
