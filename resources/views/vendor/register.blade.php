@@ -180,24 +180,17 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
     gap: 0.6rem;
     color: var(--navy) !important;
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 600;
-    padding: 0.45rem 0.65rem;
-    border-radius: 8px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    transition: all 0.2s ease;
+    padding: 0.2rem 0;
+    transition: color 0.2s ease;
     word-break: break-all;
 }
 .help-contact-link:hover {
-    background: #eff6ff;
-    color: #1d4ed8 !important;
-    border-color: #93c5fd;
-    transform: translateX(4px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+    color: #f59e0b !important;
 }
-.help-contact-link i { color: #2563eb; font-size: 0.85rem; flex-shrink: 0; transition: transform 0.2s ease, color 0.2s ease; }
-.help-contact-link:hover i { transform: scale(1.2); color: #1d4ed8; }
+.help-contact-link i { color: #2563eb; font-size: 0.85rem; flex-shrink: 0; transition: color 0.2s ease; }
+.help-contact-link:hover i { color: #f59e0b; }
 .btn-help { background: var(--navy) !important; color: #ffffff !important; padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
 .btn-help:hover { background: var(--navy-dark) !important; }
 

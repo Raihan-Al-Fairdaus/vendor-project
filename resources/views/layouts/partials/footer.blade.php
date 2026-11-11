@@ -18,45 +18,28 @@
 .custom-footer .contact-item { 
     display: flex; 
     align-items: flex-start;
-    gap: 0.85rem; 
-    margin-bottom: 0.85rem; 
-    color: rgba(255,255,255,0.75); 
+    gap: 1rem; 
+    margin-bottom: 1rem; 
+    color: rgba(255,255,255,0.7); 
     font-size: 0.9rem; 
     line-height: 1.5;
-    padding: 0.45rem 0.65rem;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .custom-footer .contact-item i { 
     margin-top: 0.2rem; 
     font-size: 0.95rem;
-    color: rgba(255,255,255,0.6);
-    transition: all 0.25s ease;
+    transition: color 0.2s ease;
     flex-shrink: 0;
 }
 .custom-footer .contact-link { 
     text-decoration: none; 
     cursor: pointer; 
-    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255,255,255,0.7);
+    transition: color 0.2s ease;
 }
-.custom-footer .contact-link:hover { 
-    color: #ffffff !important; 
-    background: rgba(245, 158, 11, 0.12);
-    border-color: rgba(245, 158, 11, 0.4);
-    transform: translateX(6px); 
-    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
-}
+.custom-footer .contact-link:hover,
+.custom-footer .contact-link:hover div,
 .custom-footer .contact-link:hover i { 
-    color: #f59e0b; 
-    transform: scale(1.25); 
-}
-.custom-footer .contact-link:hover div { 
-    color: #f59e0b; 
-    font-weight: 600;
-}
-.custom-footer .contact-link:active {
-    transform: translateX(3px) scale(0.98);
+    color: #f59e0b !important; 
 }
 .custom-footer .footer-bottom { max-width: 1200px; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
 
