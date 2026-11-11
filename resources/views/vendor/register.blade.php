@@ -231,6 +231,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 .form-control:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
 .help-text { display: block; font-size: 0.75rem; color: #64748b; margin-top: 0.5rem; line-height: 1.5; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.upload-docs-grid { row-gap: 2.25rem !important; margin-bottom: 2rem; }
 
 /* File Upload specific styles */
 .file-upload-box {
@@ -293,7 +294,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
 .mou-modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); z-index: 9999; align-items: center; justify-content: center; padding: 1rem 0.75rem; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
 .mou-modal.show { display: flex; }
 .mou-content { background: #ffffff; width: 100%; max-width: 780px; border-radius: 14px; display: flex; flex-direction: column; max-height: 94vh; position: relative; overflow: hidden; box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.35); border: 1px solid rgba(255,255,255,0.2); }
-.mou-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 55%; height: 55%; background-image: url('{{ asset("images/logo.webp") }}'); background-repeat: no-repeat; background-position: center; background-size: contain; opacity: 0.035; pointer-events: none; z-index: 0; }
+.mou-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 68%; height: 68%; background-image: url('{{ asset("images/logo.webp") }}'); background-repeat: no-repeat; background-position: center; background-size: contain; opacity: 0.12; pointer-events: none; z-index: 0; }
 
 .mou-header { padding: 0.75rem 1.25rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; background: #ffffff; }
 .mou-header-title { width: 100%; text-align: center; }
@@ -659,10 +660,6 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                     </div>
                     
                     <div class="form-actions">
-                        <button type="button" class="btn-draft">
-                            <span class="lang-id">Simpan Draf</span>
-                            <span class="lang-en">Save Draft</span>
-                        </button>
                         <button type="button" class="btn-next" onclick="goToStep(2)">
                             <span class="lang-id">Selanjutnya</span>
                             <span class="lang-en">Next Step</span> 
@@ -711,8 +708,8 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                     
                     <hr style="border:0; border-top: 1px solid #e2e8f0; margin: 2rem 0;">
                     
-                    <div class="grid-2">
-                        <div class="form-group">
+                    <div class="grid-2 upload-docs-grid">
+                        <div class="form-group" style="margin-bottom: 0;">
                             <label class="form-label">
                                 <span class="lang-id">Upload KTP</span>
                                 <span class="lang-en">Upload ID Card (KTP)</span> 
@@ -729,7 +726,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                                 <input type="file" name="id_card" id="idCardInput" accept=".jpg,.jpeg,.png,.pdf" required onchange="handleFile(this, 'box-ktp', 'ind-ktp')">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="margin-bottom: 0;">
                             <label class="form-label">
                                 <span class="lang-id">Upload NPWP</span>
                                 <span class="lang-en">Upload Tax ID (NPWP)</span> 
@@ -746,10 +743,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                                 <input type="file" name="npwp_file" id="npwpInput" accept=".jpg,.jpeg,.png,.pdf" required onchange="handleFile(this, 'box-npwp', 'ind-npwp')">
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="grid-2">
-                        <div class="form-group">
+                        <div class="form-group" style="margin-bottom: 0;">
                             <label class="form-label">
                                 <span class="lang-id">Upload Buku Rekening</span>
                                 <span class="lang-en">Upload Bank Book</span> 
@@ -770,7 +764,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                             </div>
                         </div>
                         
-                        <div class="form-group">
+                        <div class="form-group" style="margin-bottom: 0;">
                             <label class="form-label">
                                 <span class="lang-id">Upload Foto Kantor</span>
                                 <span class="lang-en">Upload Office Photos</span> 
