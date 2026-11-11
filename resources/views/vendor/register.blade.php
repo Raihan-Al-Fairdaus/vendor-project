@@ -548,7 +548,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                         <i class="fa-solid fa-phone"></i>
                         <span>0882-2100-2100</span>
                     </a>
-                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Bantuan%20Pendaftaran%20Vendor%20DNA" target="_blank" class="help-contact-link" title="Tulis Pesan via Gmail ke workshop@dnajayagroup.co.id">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Bantuan%20Pendaftaran%20Vendor%20DNA" target="_blank" rel="noopener noreferrer" onclick="event.preventDefault(); window.open(this.href, '_blank');" class="help-contact-link" title="Buka Gmail untuk Tulis Pesan ke workshop@dnajayagroup.co.id">
                         <i class="fa-solid fa-envelope"></i>
                         <span>workshop@dnajayagroup.co.id</span>
                     </a>
@@ -879,7 +879,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                         <i class="fa-solid fa-phone"></i>
                         <span>0882-2100-2100</span>
                     </a>
-                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Bantuan%20Pendaftaran%20Vendor%20DNA" target="_blank" class="help-contact-link" title="Tulis Pesan via Gmail ke workshop@dnajayagroup.co.id">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Bantuan%20Pendaftaran%20Vendor%20DNA" target="_blank" rel="noopener noreferrer" onclick="event.preventDefault(); window.open(this.href, '_blank');" class="help-contact-link" title="Buka Gmail untuk Tulis Pesan ke workshop@dnajayagroup.co.id">
                         <i class="fa-solid fa-envelope"></i>
                         <span>workshop@dnajayagroup.co.id</span>
                     </a>

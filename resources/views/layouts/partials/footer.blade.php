@@ -119,7 +119,7 @@
                 <i class="fa-regular fa-clock"></i>
                 <div>Senin - Jumat<br>08:00 - 17:00 WIB</div>
             </div>
-            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Informasi%20Kemitraan%20Vendor%20DNA" target="_blank" class="contact-item contact-link" title="Tulis Pesan via Gmail ke workshop@dnajayagroup.co.id">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Informasi%20Kemitraan%20Vendor%20DNA" target="_blank" rel="noopener noreferrer" onclick="event.preventDefault(); window.open('https://mail.google.com/mail/?view=cm&fs=1&to=workshop@dnajayagroup.co.id&su=Informasi%20Kemitraan%20Vendor%20DNA', '_blank');" class="contact-item contact-link" title="Buka Gmail untuk Tulis Pesan ke workshop@dnajayagroup.co.id">
                 <i class="fa-solid fa-envelope"></i>
                 <div>workshop@dnajayagroup.co.id</div>
             </a>
