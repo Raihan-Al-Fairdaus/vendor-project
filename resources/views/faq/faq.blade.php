@@ -410,7 +410,7 @@ main{
                     <span>+</span>
                 </button>
                 <div class="faq-answer">
-                    Silakan menghubungi tim DNA Advertising melalui kontak yang tersedia pada website untuk mendapatkan bantuan lebih lanjut.
+                    Silakan menghubungi tim DNA Advertising melalui Telepon / WhatsApp di <strong>0882-2100-2100</strong> atau via email ke <strong>workshop@dnajayagroup.co.id</strong> untuk mendapatkan bantuan lebih lanjut.
                 </div>
             </div>
 

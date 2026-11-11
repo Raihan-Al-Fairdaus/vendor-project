@@ -105,7 +105,7 @@
                 <p>Jika Anda memiliki pertanyaan lebih lanjut, jangan ragu untuk membalas email ini.</p>
             @endif
 
-            <p style="margin-top: 30px;">Hormat kami,<br><strong>Tim Kemitraan DNA Advertising</strong></p>
+            <p style="margin-top: 30px;">Hormat kami,<br><strong>Tim Kemitraan DNA Advertising</strong><br><span style="color:#64748b; font-size:13px;">Email: workshop@dnajayagroup.co.id &bull; Telp/WA: 0882-2100-2100</span></p>
         </div>
         <div class="footer">
             &copy; {{ date('Y') }} DNA Advertising Network. Hak cipta dilindungi undang-undang.<br>

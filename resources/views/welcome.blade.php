@@ -211,7 +211,7 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
         <a href="#why-partner">Why Partner With Us</a>
         <a href="{{ route('faq') }}">FAQ</a>
     </div>
-    <a href="https://wa.me/6281228358630?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-nav-contact"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>
+    <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-nav-contact"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>
 </nav>
 
 <!-- HERO SECTION -->
@@ -307,10 +307,10 @@ html, body { background-color: #f8fafc !important; font-family: 'Inter', sans-se
             <div class="cta-icon"><i class="fa-solid fa-headset"></i></div>
             <div class="cta-text">
                 <h3>Butuh Bantuan?</h3>
-                <p>Mengalami kesulitan saat mendaftarkan perusahaan Anda? Jangan ragu untuk menghubungi tim kami selama jam kerja. Kami siap membantu proses registrasi Anda.</p>
+                <p>Mengalami kesulitan saat mendaftarkan perusahaan Anda? Hubungi tim kami via Telepon/WA <strong>0882-2100-2100</strong> atau Email ke <strong>workshop@dnajayagroup.co.id</strong>. Kami siap membantu proses registrasi Anda.</p>
             </div>
         </div>
-        <a href="https://wa.me/6281228358630?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-white"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>
+        <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-white"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>
     </div>
 </section>
 

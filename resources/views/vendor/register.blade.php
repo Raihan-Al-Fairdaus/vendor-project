@@ -393,7 +393,7 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
             <button class="lang-btn" onclick="switchLang('en')">EN</button>
         </div>
 
-        <a href="https://wa.me/6281228358630" target="_blank" class="btn-nav-contact">
+        <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-nav-contact">
             <i class="fa-regular fa-user"></i> 
             <span class="lang-id">Hubungi Kami</span>
             <span class="lang-en">Contact Us</span>
@@ -518,10 +518,14 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                     <span class="lang-id">Tim kami siap membantu Anda selama proses pendaftaran.</span>
                     <span class="lang-en">Our team is ready to assist you during the registration process.</span>
                 </p>
-                <a href="https://wa.me/6281228358630" target="_blank" class="btn-help">
-                    <i class="fa-regular fa-user"></i> 
-                    <span class="lang-id">Hubungi Kami</span>
-                    <span class="lang-en">Contact Us</span>
+                <div style="font-size: 0.8rem; margin: 0.6rem 0 0.8rem; opacity: 0.95; line-height: 1.6; text-align: left;">
+                    <div><i class="fa-solid fa-phone" style="width: 16px;"></i> <strong>0882-2100-2100</strong></div>
+                    <div style="word-break: break-all;"><i class="fa-solid fa-envelope" style="width: 16px;"></i> <strong>workshop@dnajayagroup.co.id</strong></div>
+                </div>
+                <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-help">
+                    <i class="fa-brands fa-whatsapp"></i> 
+                    <span class="lang-id">Hubungi via WhatsApp</span>
+                    <span class="lang-en">Contact via WhatsApp</span>
                 </a>
             </div>
         </div>
@@ -839,10 +843,14 @@ body.lang-en-active div.lang-en, body.lang-en-active p.lang-en, body.lang-en-act
                     <span class="lang-id">Tim kami siap membantu Anda selama proses pendaftaran.</span>
                     <span class="lang-en">Our team is ready to assist you during the registration process.</span>
                 </p>
-                <a href="https://wa.me/6281228358630" target="_blank" class="btn-help">
-                    <i class="fa-regular fa-user"></i> 
-                    <span class="lang-id">Hubungi Kami</span>
-                    <span class="lang-en">Contact Us</span>
+                <div style="font-size: 0.8rem; margin: 0.6rem 0 0.8rem; opacity: 0.95; line-height: 1.6; text-align: left;">
+                    <div><i class="fa-solid fa-phone" style="width: 16px;"></i> <strong>0882-2100-2100</strong></div>
+                    <div style="word-break: break-all;"><i class="fa-solid fa-envelope" style="width: 16px;"></i> <strong>workshop@dnajayagroup.co.id</strong></div>
+                </div>
+                <a href="https://wa.me/6288221002100?text=Halo%20Admin,%20saya%20butuh%20bantuan%20terkait%20registrasi%20vendor." target="_blank" class="btn-help">
+                    <i class="fa-brands fa-whatsapp"></i> 
+                    <span class="lang-id">Hubungi via WhatsApp</span>
+                    <span class="lang-en">Contact via WhatsApp</span>
                 </a>
             </div>
             

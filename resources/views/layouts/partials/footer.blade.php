@@ -56,7 +56,7 @@
             <p>Platform registrasi vendor yang aman untuk kemitraan bisnis terpercaya dengan DNA Advertising.</p>
             <div class="social-links">
                 <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="https://wa.me/6281228358630" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://wa.me/6288221002100" target="_blank" title="WhatsApp 0882-2100-2100"><i class="fa-brands fa-whatsapp"></i></a>
                 <a href="https://www.instagram.com/dna.advofficial" target="_blank"><i class="fa-brands fa-instagram"></i></a>
             </div>
         </div>
@@ -81,11 +81,11 @@
             </div>
             <div class="contact-item">
                 <i class="fa-solid fa-envelope"></i>
-                <div>Email Segera Hadir</div>
+                <div><a href="mailto:workshop@dnajayagroup.co.id" style="color:inherit;text-decoration:none;">workshop@dnajayagroup.co.id</a></div>
             </div>
             <div class="contact-item">
                 <i class="fa-solid fa-phone"></i>
-                <div>Telepon Segera Hadir</div>
+                <div><a href="tel:088221002100" style="color:inherit;text-decoration:none;">0882-2100-2100</a></div>
             </div>
         </div>
         <div class="footer-col">
