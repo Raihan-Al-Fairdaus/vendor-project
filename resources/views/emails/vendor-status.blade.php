@@ -87,7 +87,7 @@
                     Status: DISETUJUI (APPROVED)
                 </div>
 
-                <p>Tim kami akan segera menghubungi Anda melalui nomor kontak yang terdaftar ({{ $vendor->company_phone }}) untuk langkah selanjutnya mengenai kerjasama penyewaan billboard.</p>
+                <p>Tim kami akan segera menghubungi Anda melalui nomor kontak yang terdaftar ({{ $vendor->company_phone }}) untuk langkah selanjutnya mengenai proses kemitraan vendor.</p>
                 
                 <p>Terima kasih telah bergabung menjadi bagian dari jaringan DNA Advertising.</p>
 
@@ -100,9 +100,9 @@
                     Status: DITOLAK (REJECTED)
                 </div>
 
-                <p>Hal ini dapat disebabkan oleh kelengkapan dokumen yang kurang sesuai, spesifikasi titik billboard yang belum memenuhi kriteria kami saat ini, atau hal lainnya.</p>
+                <p>Hal ini dapat disebabkan oleh kelengkapan dokumen yang kurang sesuai, kualifikasi yang belum memenuhi kriteria kemitraan kami saat ini, atau hal lainnya.</p>
                 
-                <p>Jika Anda memiliki pertanyaan lebih lanjut, jangan ragu untuk membalas email ini.</p>
+                <p>Jika Anda memiliki pertanyaan lebih lanjut, silakan hubungi tim kami melalui email <strong>workshop@dnajayagroup.co.id</strong> atau WhatsApp <strong>0882-2100-2100</strong>.</p>
             @endif
 
             <p style="margin-top: 30px;">Hormat kami,<br><strong>Tim Kemitraan DNA Advertising</strong><br><span style="color:#64748b; font-size:13px;">Email: workshop@dnajayagroup.co.id &bull; Telp/WA: 0882-2100-2100</span></p>
