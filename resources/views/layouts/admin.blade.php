@@ -439,17 +439,17 @@
 
         <main class="main-content">
             @if(session('success'))
-                <div id="flash-message-success" style="position: fixed; top: 2rem; left: 50%; transform: translateX(-50%); z-index: 9999; background:#ffffff; border-left: 4px solid #10b981; border-radius:8px; padding:1rem 1.5rem; color:#0f172a; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2); display:flex; align-items:center; gap:0.75rem; font-weight: 500; min-width: 300px; transition: opacity 0.5s ease;">
+                <div id="flash-message-success" style="position: fixed; top: 2rem; left: 50%; transform: translateX(-50%); z-index: 9999; background:#ffffff; border-left: 4px solid #10b981; border-radius:8px; padding:1rem 1.5rem; color:#15803d; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2); display:flex; align-items:center; gap:0.75rem; font-weight: 600; min-width: 300px; transition: opacity 0.5s ease;">
                     <div style="background: #dcfce7; color: #16a34a; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fa-solid fa-check" style="font-size: 0.8rem;"></i></div>
-                    {{ session('success') }}
+                    <span>{{ session('success') }}</span>
                 </div>
                 <script>setTimeout(() => { let el = document.getElementById('flash-message-success'); if(el) { el.style.opacity = '0'; setTimeout(()=>el.remove(), 500); } }, 4000);</script>
             @endif
 
             @if(session('error'))
-                <div id="flash-message-error" style="position: fixed; top: 2rem; left: 50%; transform: translateX(-50%); z-index: 9999; background:#ffffff; border-left: 4px solid #ef4444; border-radius:8px; padding:1rem 1.5rem; color:#0f172a; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2); display:flex; align-items:center; gap:0.75rem; font-weight: 500; min-width: 300px; transition: opacity 0.5s ease;">
+                <div id="flash-message-error" style="position: fixed; top: 2rem; left: 50%; transform: translateX(-50%); z-index: 9999; background:#ffffff; border-left: 4px solid #ef4444; border-radius:8px; padding:1rem 1.5rem; color:#b91c1c; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2); display:flex; align-items:center; gap:0.75rem; font-weight: 600; min-width: 300px; transition: opacity 0.5s ease;">
                     <div style="background: #fee2e2; color: #dc2626; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fa-solid fa-xmark" style="font-size: 0.8rem;"></i></div>
-                    {{ session('error') }}
+                    <span>{{ session('error') }}</span>
                 </div>
                 <script>setTimeout(() => { let el = document.getElementById('flash-message-error'); if(el) { el.style.opacity = '0'; setTimeout(()=>el.remove(), 500); } }, 4000);</script>
             @endif
